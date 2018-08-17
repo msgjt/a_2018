@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <form (ngSubmit)="signUpForm()"
+          #formControl="ngForm"
+          #formElement>
+      <div class="form-group">
+        <label for="firstNameInput">First name:</label>
+        <input type="text"
+               name="firstName"
+               minlength="3"
+               pattern="[a-zA-Z]+"
+               id="firstNameInput"
+               class="form-control"
+               required
+               [(ngModel)] = "userModel.firstName">
+      </div>
+      <div class="form-group">
+        <label for="lastNameInput">Last name:</label>
+        <input type="text"
+               name="lastName"
+               minlength="3"
+               pattern="[a-zA-Z]+"
+               id="lastNameInput"
+               class="form-control"
+               required
+               [(ngModel)] = "userModel.lastName">
+      </div>
+      <div class="form-group">
+        <label for="mobileNumberInput">Mobile number:</label>
+        <input type="text"
+               name="mobileNumber"
+               minlength="10"
+               pattern="[+0-9]+"
+               id="mobileNumberInput"
+               class="form-control"
+               required
+               [(ngModel)] = "userModel.mobileNumber">
+      </div>
+      <div class="form-group">
+        <label for="emailInput">Email:</label>
+        <input type="text"
+               name="email"
+               minlength="5"
+               pattern="^[a-zA-Z]*@msggroup.com$"
+               id="emailInput"
+               class="form-control"
+               required
+               [(ngModel)] = "userModel.email">
+      </div>
+     <!-- <div class="form-group">
+        <label for="usernameInput">Username</label>
+        <input type="text"
+               name="username"
+               minlength="3"
+               pattern="[a-z]+"
+               id="usernameInput"
+               class="form-control"
+               required
+               [(ngModel)] = "userModel.username">
+      </div>-->
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="password"
+               name="password"
+               id="passwordInput"
+               class="form-control"
+               required
+               [(ngModel)]="userModel.password">
+      </div>
+      <button type="submit"
+              class="btn btn-primary">Submit!
+      </button>
+    </form>
+
+  </div>
+</div>
