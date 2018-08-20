@@ -1,17 +1,16 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.batch.runtime.context.StepContext;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 
 import java.util.List;
 

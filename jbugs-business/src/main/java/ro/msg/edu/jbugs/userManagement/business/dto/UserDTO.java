@@ -6,6 +6,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String email;
+    private boolean isActive;
     private String phoneNumber;
 
 
@@ -57,6 +58,14 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -65,6 +74,7 @@ public class UserDTO {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", isActive=" + isActive +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
