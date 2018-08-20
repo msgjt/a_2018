@@ -4,13 +4,11 @@ package resources;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/users")
@@ -34,18 +32,9 @@ public class UserResource {
                     .build();
         }
         catch (BusinessException be){
-            throw new RuntimeException("User could not be created " + be.toString());
-        }
-    }
-    @PUT
-    public Response updateUser(UserDTO userDTO){
-        try {
-            return Response.status(Response.Status.OK)
-                    .entity(userManagement.updateUser(userDTO))
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(be.getMessage())
                     .build();
-        }
-        catch (BusinessException be){
-            throw new RuntimeException("User could not be updated");
         }
     }
 

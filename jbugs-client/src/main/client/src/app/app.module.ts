@@ -9,9 +9,13 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
-import { RoleContentComponent } from './role-management/role-content/role-content.component';
+import { ErrorComponent } from './error/error.component';
+import {PopupModule} from "ng2-opd-popup";
 
 const appRoutes: Routes = [
+  {
+    path: '', pathMatch: 'full', redirectTo: '/login'
+  },
   {
     path: 'sign-up', component: SignUpComponent
   },
@@ -19,11 +23,10 @@ const appRoutes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'content', component: ContentComponent
+    path: 'content', component: ContentComponent,  canActivate: [AuthenticatedGuard]
   },
-  {
-    path: 'roles', component: RoleContentComponent
-  }
+  {path: 'error', component: ErrorComponent},
+  {path: '**', component: ErrorComponent}
 ];
 
 @NgModule({
@@ -32,13 +35,14 @@ const appRoutes: Routes = [
     SignUpComponent,
     LoginComponent,
     ContentComponent,
-    RoleContentComponent
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    PopupModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,6 +7,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String email;
+    private boolean isActive;
     private String phoneNumber;
 
     public long getId() {
@@ -65,6 +66,16 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+<<<<<<< HEAD
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+=======
+>>>>>>> fc54ddc27b835f3d3c4ae615b0396c4ec22ee740
 
     @Override
     public String toString() {
@@ -75,6 +86,7 @@ public class UserDTO {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", isActive=" + isActive +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
