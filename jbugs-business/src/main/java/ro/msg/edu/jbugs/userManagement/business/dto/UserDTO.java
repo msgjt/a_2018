@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 public class UserDTO {
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
@@ -9,6 +10,13 @@ public class UserDTO {
     private boolean isActive;
     private String phoneNumber;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -58,6 +66,7 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+<<<<<<< HEAD
     public boolean getIsActive() {
         return isActive;
     }
@@ -65,11 +74,14 @@ public class UserDTO {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
+=======
+>>>>>>> fc54ddc27b835f3d3c4ae615b0396c4ec22ee740
 
     @Override
     public String toString() {
         return "UserDTO{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
