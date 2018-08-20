@@ -11,7 +11,7 @@ public class History extends BaseEntity<Long> {
 
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 40;
+    private final static int MAX_STRING_LENGTH = 127;
 
 
     public History() {

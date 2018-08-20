@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Bug extends BaseEntity<Long> {
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 40;
+    private final static int MAX_STRING_LENGTH = 127;
     public static final String GET_ALL_BUGS = "get_All_Bugs";
     public static final String GET_BUG_BY_TITLE= "get_Bug_By_Title";
 

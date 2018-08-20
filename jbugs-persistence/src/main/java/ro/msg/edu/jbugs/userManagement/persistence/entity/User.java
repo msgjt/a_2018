@@ -18,7 +18,7 @@ import java.util.Objects;
 public class User extends BaseEntity<Long> {
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 255;
+    private final static int MAX_STRING_LENGTH = 127;
     public static final String GET_ALL_USERS = "getAllUsers";
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
@@ -33,11 +33,9 @@ public class User extends BaseEntity<Long> {
     @Column(name = "phoneNumber", length = MAX_STRING_LENGTH, nullable = false)
     private String phoneNumber;
 
-    //TODO CONSTRAINT PE FORMAT
     @Column(name = "email", length = MAX_STRING_LENGTH, nullable = false, unique = true)
     private String email;
 
-    //TODO GENERAT AUTOMAT
     @Column(name = "username", length = MAX_STRING_LENGTH, nullable = false, unique = true)
     private String username;
 
@@ -52,7 +50,6 @@ public class User extends BaseEntity<Long> {
 
     public User() {
     }
-
 
     public String getFirstName() {
         return firstName;
