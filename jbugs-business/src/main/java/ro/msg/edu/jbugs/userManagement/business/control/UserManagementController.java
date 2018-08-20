@@ -11,12 +11,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.batch.runtime.context.StepContext;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,6 +26,7 @@ public class UserManagementController implements UserManagement {
     private final static int MAX_LAST_NAME_LENGTH = 5;
     private final static int MIN_USERNAME_LENGTH = 6;
     private static final Logger logger = LogManager.getLogger(UserManagementController.class);
+    private static Map<String,Integer> failedCounter= new HashMap<String,Integer>();
 
     @EJB
     private UserPersistenceManager userPersistenceManager;
@@ -205,16 +205,36 @@ public class UserManagementController implements UserManagement {
      * @return a user DTO if it succeeds.
      * @throws BusinessException
      */
+
+    // Check the user credentials received fro a Http Post
     @Override
     public UserDTO login(String username, String password) throws BusinessException {
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
+        //check if the username exist in the database otherwise the login method throw an Exception Code
         if (!userOptional.isPresent()) {
             throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
         }
+        //check if the password match with the one found in the database
         if (!Encryptor.encrypt(password).equals(userOptional.get().getPassword())) {
+            // if the password don#t match with the one in te database check if the user tried before to login without success
+            if(!isInFailedCounter(userOptional.get().getUsername())){
+                // if thee user add the password wrong for the first time is added in a map where is stored a counter assigned to his/her username
+                failedCounter.put(userOptional.get().getUsername(),0);
+            }else {
+                //if the user tried before to login with a false password, the counter assigden to his/her username is increased with 1
+                failedCounter.put(userOptional.get().getUsername(),failedCounter.get(userOptional.get().getUsername())+1);
+                //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
+                if(failedCounter.get(userOptional.get().getUsername())>=4){
+                    deactivateUser(userOptional.get().getUsername());
+                }
+            }
             throw new BusinessException(ExceptionCode.PASSWORD_NOT_VALID);
         }
-
+        //in case the user login with success the username is reoved from the map
+        if(isInFailedCounter(userOptional.get().getUsername())){
+            System.out.println("Username:  "+userOptional.get().getUsername()+"tried wrong password:   "+failedCounter.get(userOptional.get().getUsername()));
+            failedCounter.remove(userOptional.get().getUsername());
+        }
         return UserDTOHelper.fromEntity(userOptional.get());
     }
 
@@ -232,4 +252,16 @@ public class UserManagementController implements UserManagement {
         Matcher matcher = VALID_PHONE_ADDRESS_REGEX.matcher(phonenumber);
         return matcher.find();
     }
+
+    // check if a specific user already exist in the failedCounter map
+    private boolean isInFailedCounter(String username){
+        if(failedCounter.containsKey(username)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
 }
