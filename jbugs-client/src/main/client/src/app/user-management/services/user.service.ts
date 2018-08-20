@@ -44,6 +44,18 @@ export class UserService {
     return this.http.get<User[]>(this.baseURL + '/users');
   }
 
+  updateUser( firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+    let body = {
+      'firstName': firstname,
+      'lastName': lastname,
+      'email': email,
+      'phoneNumber': mobileNumber,
+      'username': username,
+      'password': password
+    };
+    return this.http.put<boolean>(this.baseURL + '/users', body);
+  }
+
   validateUserCredentials(username: string, password: string): Observable<any> {
 
     let body = {

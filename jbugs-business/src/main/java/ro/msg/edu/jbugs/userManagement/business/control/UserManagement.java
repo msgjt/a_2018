@@ -1,7 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ public interface UserManagement {
     /**
      * Method is used for persisting an user from an userDTO.
      * It generates the username and does the validations.
+     *
      * @param userDTO user information
      * @return the newly created entity as a userDTO
      */
@@ -17,12 +18,14 @@ public interface UserManagement {
 
     /**
      * Deactivates a user, restricting the access of said user to the app.
+     *
      * @param username
      */
     void deactivateUser(String username) throws BusinessException;
 
     /**
      * Activates a deactivated user.
+     *
      * @param username
      */
     void activateUser(String username) throws BusinessException;
@@ -36,6 +39,7 @@ public interface UserManagement {
 
     /**
      * Tries to log in a user.
+     *
      * @param username
      * @param password
      * @return UserDTO of said user
@@ -43,9 +47,7 @@ public interface UserManagement {
      */
     UserDTO login(String username, String password) throws BusinessException;
 
-
-
-
+    UserDTO updateUser(UserDTO userDTO) throws BusinessException;
 
 
 }
