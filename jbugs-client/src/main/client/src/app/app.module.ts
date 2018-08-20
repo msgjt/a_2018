@@ -9,6 +9,8 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
+import { ProfileComponent } from './user-management/profile/profile.component';
+import { DataTablesModule } from 'angular-datatables';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +21,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'content', component: ContentComponent,  canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
   }
 ];
 
@@ -27,13 +32,15 @@ const appRoutes: Routes = [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    ContentComponent
+    ContentComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
