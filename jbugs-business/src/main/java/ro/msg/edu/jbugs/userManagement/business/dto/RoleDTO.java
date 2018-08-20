@@ -4,6 +4,7 @@ import java.util.List;
 
 public class RoleDTO {
 
+    private int id;
     private String type;
     private List<PermissionDTO> permissions;
 

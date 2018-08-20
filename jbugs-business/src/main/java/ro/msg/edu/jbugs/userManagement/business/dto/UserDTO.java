@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 public class UserDTO {
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
@@ -8,6 +9,13 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -57,10 +65,12 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+
     @Override
     public String toString() {
         return "UserDTO{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

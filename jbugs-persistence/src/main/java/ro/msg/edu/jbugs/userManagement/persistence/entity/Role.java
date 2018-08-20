@@ -60,7 +60,7 @@ public class Role extends BaseEntity<Long> {
         if (!super.equals(o)) return false;
         Role role = (Role) o;
         return Objects.equals(type, role.type) &&
-                Objects.equals(id, role.type);
+                Objects.equals(id, role.getId());
     }
 
     @Override
