@@ -34,7 +34,9 @@ public class UserResource {
                     .build();
         }
         catch (BusinessException be){
-            throw new RuntimeException("User could not be created");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(be.getMessage())
+                    .build();
         }
     }
 

@@ -39,10 +39,14 @@ public class Authorization  {
                         .build();
             }
             else {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("No user with specified username and password")
+                        .build();
             }
         } catch (BusinessException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage())
+                    .build();
         }
     }
 
