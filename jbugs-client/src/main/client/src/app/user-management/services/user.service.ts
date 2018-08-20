@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
+import {Router} from "@angular/router";
+import {catchError, map} from "rxjs/operators";
 
 export interface User {
   firstName: string;
@@ -23,7 +25,7 @@ export class UserService {
 
   baseURL = 'http://localhost:8080/jbugs/rest';
 
-  constructor(private http: HttpClient) {
+  constructor(private router: Router,private http: HttpClient) {
   }
 
   addUser(firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
