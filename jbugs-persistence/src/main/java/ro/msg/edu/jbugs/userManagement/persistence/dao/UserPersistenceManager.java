@@ -92,8 +92,7 @@ public class UserPersistenceManager {
      * @return : returns the updated role entity
      */
     public Role updateRole(Role role) {
-        em.merge(role);
-        return role;
+        return em.merge(role);
     }
 
     /**

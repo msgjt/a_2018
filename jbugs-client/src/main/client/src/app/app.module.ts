@@ -10,6 +10,7 @@ import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
 import { UpdateComponent } from './user-management/update/update.component';
+import { RoleContentComponent } from './role-management/role-content/role-content.component';
 
 const appRoutes: Routes = [
   {
@@ -23,6 +24,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'update', component: UpdateComponent
+  },
+  {
+    path: 'roles', component: RoleContentComponent
   }
 ];
 
@@ -32,7 +36,8 @@ const appRoutes: Routes = [
     SignUpComponent,
     LoginComponent,
     ContentComponent,
-    UpdateComponent
+    UpdateComponent,
+    RoleContentComponent
   ],
   imports: [
     BrowserModule,

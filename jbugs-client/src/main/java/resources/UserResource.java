@@ -34,7 +34,7 @@ public class UserResource {
                     .build();
         }
         catch (BusinessException be){
-            throw new RuntimeException("User could not be created");
+            throw new RuntimeException("User could not be created " + be.toString());
         }
     }
     @PUT
