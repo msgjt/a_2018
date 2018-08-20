@@ -1,4 +1,5 @@
 import resources.Authorization;
+import resources.RoleResource;
 import resources.UserResource;
 
 import javax.ws.rs.ApplicationPath;
@@ -12,6 +13,7 @@ public class UserManagementApplication extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
         classes.add(UserResource.class);
+        classes.add(RoleResource.class);
         classes.add(Authorization.class);
         return classes;
     }

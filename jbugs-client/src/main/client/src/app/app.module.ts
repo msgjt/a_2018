@@ -9,6 +9,7 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
+import { RoleContentComponent } from './role-management/role-content/role-content.component';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +20,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'content', component: ContentComponent,  canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'roles', component: RoleContentComponent
   }
 ];
 
@@ -27,7 +31,8 @@ const appRoutes: Routes = [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    ContentComponent
+    ContentComponent,
+    RoleContentComponent
   ],
   imports: [
     BrowserModule,
