@@ -17,7 +17,7 @@ import java.util.Objects;
 public class User extends BaseEntity<Long> {
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 40;
+    private final static int MAX_STRING_LENGTH = 255;
     public static final String GET_ALL_USERS = "get_All_Users";
     public static final String GET_USER_BY_USERNAME = "get_User_By_Username";
     public static final String GET_USER_BY_EMAIL = "get_User_By_Email";

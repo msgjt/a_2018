@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Permission extends BaseEntity<Long>{
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 20;
+    private final static int MAX_STRING_LENGTH = 255;
 
     @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true)
     private String type;

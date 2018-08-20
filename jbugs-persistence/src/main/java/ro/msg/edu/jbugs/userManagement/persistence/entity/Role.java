@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Role extends BaseEntity<Long> {
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 20;
+    private final static int MAX_STRING_LENGTH = 255;
     public static final String GET_ALL_ROLES = "get_all_roles";
 
     @Column(name = "type", length = MAX_STRING_LENGTH)
