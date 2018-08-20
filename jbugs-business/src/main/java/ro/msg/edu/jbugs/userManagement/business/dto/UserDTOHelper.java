@@ -8,6 +8,7 @@ public class UserDTOHelper {
     public static UserDTO fromEntity(User user){
         UserDTO userDTO = new UserDTO();
 
+        userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
 

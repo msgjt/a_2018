@@ -1,7 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 public class UserDTO {
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -9,11 +9,11 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
