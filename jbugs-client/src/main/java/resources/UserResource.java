@@ -37,5 +37,16 @@ public class UserResource {
             throw new RuntimeException("User could not be created");
         }
     }
+    @PUT
+    public Response updateUser(UserDTO userDTO){
+        try {
+            return Response.status(Response.Status.OK)
+                    .entity(userManagement.updateUser(userDTO))
+                    .build();
+        }
+        catch (BusinessException be){
+            throw new RuntimeException("User could not be updated");
+        }
+    }
 
 }

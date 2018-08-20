@@ -9,12 +9,33 @@ import {User, UserService} from "../services/user.service";
 export class ContentComponent implements OnInit {
 
   userList: User[];
-
-  constructor(userService: UserService) {
-    userService.getAllUsers().subscribe((user) => {
-      console.log(user);
-      this.userList = user;
+  userModel: User;
+  constructor(private userService: UserService) {
+    userService.getAllUsers().subscribe((users) => {
+      console.log(users);
+      this.userList = users;
     });
+
+    this.userModel = {
+      firstName: '',
+      lastName: '',
+      isActive: 0,
+      mobileNumber: '',
+      email: '',
+      roles: '',
+      username: '',
+      password: ''
+    };
+
+  }
+
+  updateUser(firstname:string,lastname:string,email:string,mobile:string,username:string,password:string) {
+    this.userService.updateUser(firstname,lastname,email,mobile,username,password)
+      .subscribe(
+        (response) => {
+          console.log('response ' + JSON.stringify(response));
+        }
+      );
   }
 
   ngOnInit() {

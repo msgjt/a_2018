@@ -9,6 +9,7 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
+import { UpdateComponent } from './user-management/update/update.component';
 
 const appRoutes: Routes = [
   {
@@ -18,7 +19,10 @@ const appRoutes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'content', component: ContentComponent,  canActivate: [AuthenticatedGuard]
+    path: 'content', component: ContentComponent
+  },
+  {
+    path: 'update', component: UpdateComponent
   }
 ];
 
@@ -27,7 +31,8 @@ const appRoutes: Routes = [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    ContentComponent
+    ContentComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,
