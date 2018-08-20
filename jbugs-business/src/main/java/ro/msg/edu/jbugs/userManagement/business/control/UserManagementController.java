@@ -1,15 +1,27 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+<<<<<<< HEAD
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+=======
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+>>>>>>> fc54ddc27b835f3d3c4ae615b0396c4ec22ee740
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+<<<<<<< HEAD
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+=======
+>>>>>>> fc54ddc27b835f3d3c4ae615b0396c4ec22ee740
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
