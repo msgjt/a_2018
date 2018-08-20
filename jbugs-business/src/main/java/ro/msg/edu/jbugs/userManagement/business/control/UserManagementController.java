@@ -254,7 +254,7 @@ public class UserManagementController implements UserManagement {
      */
     @Override
     public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
-        Optional<User> oldUser = userPersistenceManager.getUserByUsername(userDTO.getUsername());
+        Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
         if (!isValidForCreation(userDTO)) {
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
         }

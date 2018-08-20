@@ -14,6 +14,7 @@ public class RoleDTOHelper {
         List<PermissionDTO> permissions = new ArrayList<>();
         role.getPermissions().forEach(p -> permissions.add(PermissionDTOHelper.fromEntity(p)));
 
+        roleDTO.setId(role.getId());
         roleDTO.setType(role.getType());
         roleDTO.setPermissions(permissions);
 
@@ -26,6 +27,7 @@ public class RoleDTOHelper {
         List<Permission> permissions = new ArrayList<>();
         roleDTO.getPermissions().forEach(p -> permissions.add(PermissionDTOHelper.toEntity(p)));
 
+        role.setId(roleDTO.getId());
         role.setType(roleDTO.getType());
         role.setPermissions(permissions);
 

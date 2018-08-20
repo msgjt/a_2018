@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private userService: UserService) {
     this.userModel = {
+      id: 0,
       firstName: '',
       lastName: '',
       isActive: 0,

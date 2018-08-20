@@ -22,6 +22,7 @@ public class UserDTOHelper {
     public static User toEntity(UserDTO userDTO){
         User user = new User();
 
+        user.setId(userDTO.getId());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());

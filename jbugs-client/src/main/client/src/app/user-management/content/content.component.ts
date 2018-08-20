@@ -17,6 +17,7 @@ export class ContentComponent implements OnInit {
     });
 
     this.userModel = {
+      id: 0,
       firstName: '',
       lastName: '',
       isActive: 0,
@@ -29,8 +30,8 @@ export class ContentComponent implements OnInit {
 
   }
 
-  updateUser(firstname:string,lastname:string,email:string,mobile:string,username:string,password:string) {
-    this.userService.updateUser(firstname,lastname,email,mobile,username,password)
+  updateUser(id:number, firstname:string,lastname:string,email:string,mobile:string,username:string,password:string) {
+    this.userService.updateUser(id, firstname,lastname,email,mobile,username,password)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));

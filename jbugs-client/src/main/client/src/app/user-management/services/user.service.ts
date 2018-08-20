@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {catchError, map} from "rxjs/operators";
 
 export interface User {
+  id: number;
   firstName: string;
   lastName: string;
   isActive: number;
@@ -44,8 +45,9 @@ export class UserService {
     return this.http.get<User[]>(this.baseURL + '/users');
   }
 
-  updateUser( firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+  updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
     let body = {
+      'id': id,
       'firstName': firstname,
       'lastName': lastname,
       'email': email,

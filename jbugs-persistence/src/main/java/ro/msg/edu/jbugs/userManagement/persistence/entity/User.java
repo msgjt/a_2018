@@ -12,15 +12,17 @@ import java.util.Objects;
                 @NamedQuery(name = User.GET_ALL_USERS, query = "SELECT u FROM User u"),
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
                 @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
+                @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id")
         }
 )
 public class User extends BaseEntity<Long> {
 
     @Transient
     private final static int MAX_STRING_LENGTH = 255;
-    public static final String GET_ALL_USERS = "get_All_Users";
-    public static final String GET_USER_BY_USERNAME = "get_User_By_Username";
-    public static final String GET_USER_BY_EMAIL = "get_User_By_Email";
+    public static final String GET_ALL_USERS = "getAllUsers";
+    public static final String GET_USER_BY_USERNAME = "getUserByUsername";
+    public static final String GET_USER_BY_EMAIL = "getUserByEmail";
+    public static final String GET_USER_BY_ID = "getUserById";
 
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;

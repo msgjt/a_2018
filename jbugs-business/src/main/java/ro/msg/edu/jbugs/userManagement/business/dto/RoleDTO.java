@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RoleDTO {
 
-    private int id;
+    private long id;
     private String type;
     private List<PermissionDTO> permissions;
 
@@ -22,6 +22,14 @@ public class RoleDTO {
 
     public void setPermissions(List<PermissionDTO> permissions) {
         this.permissions = permissions;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
