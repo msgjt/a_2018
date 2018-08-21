@@ -11,6 +11,7 @@ import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
 import {PopupModule} from "ng2-opd-popup";
+import {RoleContentComponent} from "./role-management/role-content/role-content.component";
 
 const appRoutes: Routes = [
   {
@@ -25,6 +26,9 @@ const appRoutes: Routes = [
   {
     path: 'content', component: ContentComponent,  canActivate: [AuthenticatedGuard]
   },
+  {
+    path: 'roles', component: RoleContentComponent
+  },
   {path: 'error', component: ErrorComponent},
   {path: '**', component: ErrorComponent}
 ];
@@ -35,6 +39,7 @@ const appRoutes: Routes = [
     SignUpComponent,
     LoginComponent,
     ContentComponent,
+    RoleContentComponent,
     ErrorComponent
   ],
   imports: [
