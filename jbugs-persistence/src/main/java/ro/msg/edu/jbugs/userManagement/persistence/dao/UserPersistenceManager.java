@@ -2,6 +2,7 @@ package ro.msg.edu.jbugs.userManagement.persistence.dao;
 
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+import ro.msg.edu.jbugs.utils.CustomLogger;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -27,8 +28,12 @@ public class UserPersistenceManager {
      * @return : inserted user entity from database
      */
     public User createUser(@NotNull User user) {
+        CustomLogger.logEnter(this.getClass(),"createUser",user.toString());
+
         em.persist(user);
         em.flush();
+
+        CustomLogger.logExit(this.getClass(),"createUser",user.toString());
         return user;
     }
 
@@ -38,8 +43,12 @@ public class UserPersistenceManager {
      * @return : updated user entity from database
      */
     public User updateUser(@NotNull User user) {
+        CustomLogger.logEnter(this.getClass(),"updateUser",user.toString());
 
-        return em.merge(user);
+        User result = em.merge(user);
+
+        CustomLogger.logExit(this.getClass(),"updateUser",result.toString());
+        return result;
     }
 
     /**
@@ -47,8 +56,13 @@ public class UserPersistenceManager {
      * @return : ResultList, empty if there are no users in the database.
      */
     public List<User> getAllUsers() {
-        return em.createNamedQuery(User.GET_ALL_USERS, User.class)
+        CustomLogger.logEnter(this.getClass(),"getAllUsers","");
+
+        List<User> result = em.createNamedQuery(User.GET_ALL_USERS, User.class)
                 .getResultList();
+
+        CustomLogger.logExit(this.getClass(),"getAllUsers",result.toString());
+        return result;
     }
 
 
@@ -59,25 +73,39 @@ public class UserPersistenceManager {
      * @return : Optional, containing a user entity.
      */
     public Optional<User> getUserByUsername(@NotNull String username) {
+        CustomLogger.logEnter(this.getClass(),"getUserByUsername",username);
+
         TypedQuery<User> q = em.createNamedQuery(User.GET_USER_BY_USERNAME,User.class)
                 .setParameter("username",username);
+        Optional<User> result;
+
         try {
-            return Optional.of(q.getSingleResult());
+            result = Optional.of(q.getSingleResult());
         } catch (NoResultException ex) {
-            return Optional.empty();
+            result =Optional.empty();
         }
+
+        CustomLogger.logExit(this.getClass(),"getUserByUsername",result.toString());
+        return result;
 
     }
 
 
     public Optional<User> getUserById(@NotNull Long id) {
+        CustomLogger.logEnter(this.getClass(),"getUserById",String.valueOf(id));
+
         TypedQuery<User> q = em.createNamedQuery(User.GET_USER_BY_ID,User.class)
                 .setParameter("id",id);
+
+        Optional<User> result;
         try {
-            return Optional.of(q.getSingleResult());
+            result = Optional.of(q.getSingleResult());
         } catch (NoResultException ex) {
-            return Optional.empty();
+            result = Optional.empty();
         }
+
+        CustomLogger.logEnter(this.getClass(),"getUserById",result.toString());
+        return result;
     }
 
 
@@ -85,8 +113,14 @@ public class UserPersistenceManager {
      * Persists a user in the database.
      * @param role : role entity to be created, should not be null
      */
-    public void createRole(@NotNull Role role) {
+    public Role createRole(@NotNull Role role) {
+        CustomLogger.logEnter(this.getClass(),"createRole",role.toString());
+
         em.persist(role);
+        em.flush();
+
+        CustomLogger.logExit(this.getClass(),"createRole",role.toString());
+        return role;
     }
 
     /**
@@ -94,8 +128,12 @@ public class UserPersistenceManager {
      * @param role : role entity to be removed, should not be null
      */
     public void removeRole(Role role) {
-        em.remove(role);
+        CustomLogger.logEnter(this.getClass(),"removeRole",role.toString());
 
+        em.remove(role);
+        em.flush();
+
+        CustomLogger.logExit(this.getClass(),"removeRole",role.toString());
     }
 
     /**
@@ -104,7 +142,12 @@ public class UserPersistenceManager {
      * @return : returns the updated role entity
      */
     public Role updateRole(Role role) {
-        return em.merge(role);
+        CustomLogger.logEnter(this.getClass(),"updateRole",role.toString());
+
+        Role result = em.merge(role);
+
+        CustomLogger.logExit(this.getClass(),"updateRole",result.toString());
+        return result;
     }
 
     /**
@@ -114,8 +157,13 @@ public class UserPersistenceManager {
      * @return : Role entity
      */
     public Role getRoleForId(long id) {
+        CustomLogger.logEnter(this.getClass(),"getRoleForId",String.valueOf(id));
+
         Query q = em.createQuery("SELECT r FROM Role r WHERE r.id=" + id);
-        return (Role) q.getSingleResult();
+        Role result = (Role) q.getSingleResult();
+
+        CustomLogger.logExit(this.getClass(),"getRoleForId",result.toString());
+        return result;
     }
 
     /**
@@ -123,8 +171,13 @@ public class UserPersistenceManager {
      * @return : List of Roles, empty if there are no roles in the database.
      */
     public List<Role> getAllRoles() {
+        CustomLogger.logEnter(this.getClass(),"getAllRoles","");
+
         TypedQuery<Role> q = em.createNamedQuery(Role.GET_ALL_ROLES,Role.class);
-        return q.getResultList();
+        List<Role> result = q.getResultList();
+
+        CustomLogger.logExit(this.getClass(),"getAllRoles",result.toString());
+        return result;
     }
 
 
@@ -135,13 +188,19 @@ public class UserPersistenceManager {
      * @return : Optional, containing a user entity.
      */
     public Optional<User> getUserByEmail(@NotNull String email) {
+        CustomLogger.logEnter(this.getClass(),"getUserByEmail",email);
+
         TypedQuery<User> q = em.createNamedQuery(User.GET_USER_BY_EMAIL, User.class)
                 .setParameter("email",email);
+        Optional<User> result;
         try {
-            return Optional.of(q.getSingleResult());
+            result = Optional.of(q.getSingleResult());
         } catch (NoResultException ex) {
-            return Optional.empty();
+            result =Optional.empty();
         }
+
+        CustomLogger.logExit(this.getClass(),"getUserByEmail",result.toString());
+        return result;
     }
 
     /**
@@ -150,8 +209,13 @@ public class UserPersistenceManager {
      * @return
      */
     public List<String> getUsernamesLike(String username) {
+        CustomLogger.logEnter(this.getClass(),"getUsernameLike",username);
+
         Query q = em.createQuery("select u.username from User u where u.username like '" + username + "%'");
-        return q.getResultList();
+        List<String> result = q.getResultList();
+
+        CustomLogger.logExit(this.getClass(),"getUsernameLike",result.toString());
+        return result;
     }
 
     /**

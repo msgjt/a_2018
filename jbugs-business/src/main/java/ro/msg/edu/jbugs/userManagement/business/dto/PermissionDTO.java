@@ -1,15 +1,15 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 public class PermissionDTO {
-    private long id;
+    private Long id;
     private String type;
     private String description;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
