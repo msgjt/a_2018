@@ -1,7 +1,5 @@
 package ro.msg.edu.jbugs.userManagement.business.exceptions;
 
-import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
-
 public class BusinessException extends Exception {
 
     ExceptionCode exceptionCode;
@@ -9,6 +7,7 @@ public class BusinessException extends Exception {
     public BusinessException() {
     }
     public BusinessException(ExceptionCode exceptionCode) {
+        super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
     }
     public BusinessException(String message,ExceptionCode exceptionCode ) {

@@ -38,6 +38,7 @@ public class UserPersistenceManager {
      * @return : updated user entity from database
      */
     public User updateUser(@NotNull User user) {
+
         return em.merge(user);
     }
 
@@ -69,6 +70,17 @@ public class UserPersistenceManager {
     }
 
 
+    public Optional<User> getUserById(@NotNull Long id) {
+        TypedQuery<User> q = em.createNamedQuery(User.GET_USER_BY_ID,User.class)
+                .setParameter("id",id);
+        try {
+            return Optional.of(q.getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
+    }
+
+
     /**
      * Persists a user in the database.
      * @param role : role entity to be created, should not be null
@@ -92,8 +104,7 @@ public class UserPersistenceManager {
      * @return : returns the updated role entity
      */
     public Role updateRole(Role role) {
-        em.merge(role);
-        return role;
+        return em.merge(role);
     }
 
     /**

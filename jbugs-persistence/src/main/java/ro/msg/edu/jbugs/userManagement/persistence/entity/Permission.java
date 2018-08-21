@@ -9,24 +9,13 @@ import java.util.Objects;
 public class Permission extends BaseEntity<Long>{
 
     @Transient
-    private final static int MAX_STRING_LENGTH = 255;
+    private final static int MAX_STRING_LENGTH = 127;
 
     @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true)
     private String type;
 
     @Column(name = "description")
     private String description;
-
-//
-//    @ManyToMany(cascade = CascadeType.ALL)
-////    @JoinTable(name = "roles_permissions", joinColumns = @JoinColumn(name = "pid"),
-////            inverseJoinColumns = { @JoinColumn(name = "rid")})
-//    private List<Role> roles;
-
-    public Permission() {
-    }
-
-
 
     public String getType() {
         return type;
@@ -43,8 +32,6 @@ public class Permission extends BaseEntity<Long>{
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -71,6 +58,5 @@ public class Permission extends BaseEntity<Long>{
                 ", description='" + description + '\'' +
                 '}';
     }
-
 
 }

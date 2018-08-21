@@ -44,7 +44,10 @@
 </div>
 -->
 
-
+<popup #popup>
+  <p>{{errorMessage}}</p>
+  <button class="btn btn-default" (click)="popup.hide()">OK</button>
+</popup>
 <body class="text-center">
 <form class="form-signin"
       (ngSubmit)="submitForm()"

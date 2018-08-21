@@ -1,19 +1,17 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
+import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
-import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.batch.runtime.context.StepContext;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.soap.SOAPBinding;
@@ -22,6 +20,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode.USER_VALIDATION_EXCEPTION;
 
 @Stateless
 public class UserManagementController implements UserManagement {
@@ -37,6 +37,7 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Creates a user entity using a user DTO.
+     *
      * @param userDTO user information
      * @return : the user DTO of the created entity
      * @throws BusinessException
@@ -49,7 +50,7 @@ public class UserManagementController implements UserManagement {
         normalizeUserDTO(userDTO);
         validateUserForCreation(userDTO);
         User user = UserDTOHelper.toEntity(userDTO);
-        user.setUsername(generateFullUsername(userDTO.getFirstName(),userDTO.getLastName()));
+        user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
         user.setIsActive(true);
         user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
         userPersistenceManager.createUser(user);
@@ -60,12 +61,13 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Validates the DTO. To use before sending it further.
+     *
      * @param userDTO
      * @throws BusinessException
      */
     private void validateUserForCreation(UserDTO userDTO) throws BusinessException {
         if (!isValidForCreation(userDTO)) {
-            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
+            throw new BusinessException(USER_VALIDATION_EXCEPTION);
         }
         //validate if email already exists
         if (userPersistenceManager.getUserByEmail(userDTO.getEmail()).isPresent()) {
@@ -89,6 +91,7 @@ public class UserManagementController implements UserManagement {
      * Creates a suffix for the username, if the username already exists. The suffix consists
      * of a number.
      * TODO : Change this. Probably won't be needed.
+     *
      * @param username
      * @return
      */
@@ -126,7 +129,7 @@ public class UserManagementController implements UserManagement {
      * If the user's last name is not long enough it will try
      * to add the first name's letters to the username until it has 6 characters.
      * If the username already exists it will append a number to the username.
-     *
+     * <p>
      * TODO : Change the algorithm.
      *
      * @param firstName
@@ -157,17 +160,17 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Deactivates a user, removing them the ability to login, but keeping their bugs, comments, etc.
+     *
      * @param username
      */
     @Override
     public void deactivateUser(String username) throws BusinessException {
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             User user = userPersistenceManager.getUserByUsername(username).get();
             user.setIsActive(false);
             userPersistenceManager.updateUser(user);
-        }
-        else{
+        } else {
             throw (new BusinessException(ExceptionCode.USERNAME_NOT_VALID));
         }
 
@@ -175,22 +178,24 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Activates a user, granting them the ability to login. asdf
+     *
      * @param username
      */
     @Override
     public void activateUser(String username) throws BusinessException {
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setIsActive(true);
             userPersistenceManager.updateUser(user);
-        } else{
+        } else {
             throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
         }
     }
 
     /**
      * Get a list of all Users that are registered.
+     *
      * @return
      */
     @Override
@@ -204,6 +209,7 @@ public class UserManagementController implements UserManagement {
     /**
      * Takes the username and password of a user and if they are correct, it returns the
      * corresponding DTO. Otherwise it will throw an exception.
+     *
      * @param username
      * @param password
      * @return a user DTO if it succeeds.
@@ -221,22 +227,22 @@ public class UserManagementController implements UserManagement {
         //check if the password match with the one found in the database
         if (!Encryptor.encrypt(password).equals(userOptional.get().getPassword())) {
             // if the password don#t match with the one in te database check if the user tried before to login without success
-            if(!isInFailedCounter(userOptional.get().getUsername())){
+            if (!isInFailedCounter(userOptional.get().getUsername())) {
                 // if thee user add the password wrong for the first time is added in a map where is stored a counter assigned to his/her username
-                failedCounter.put(userOptional.get().getUsername(),0);
-            }else {
+                failedCounter.put(userOptional.get().getUsername(), 0);
+            } else {
                 //if the user tried before to login with a false password, the counter assigden to his/her username is increased with 1
-                failedCounter.put(userOptional.get().getUsername(),failedCounter.get(userOptional.get().getUsername())+1);
+                failedCounter.put(userOptional.get().getUsername(), failedCounter.get(userOptional.get().getUsername()) + 1);
                 //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
-                if(failedCounter.get(userOptional.get().getUsername())>=4){
+                if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
                     deactivateUser(userOptional.get().getUsername());
                 }
             }
             throw new BusinessException(ExceptionCode.PASSWORD_NOT_VALID);
         }
         //in case the user login with success the username is reoved from the map
-        if(isInFailedCounter(userOptional.get().getUsername())){
-            System.out.println("Username:  "+userOptional.get().getUsername()+"tried wrong password:   "+failedCounter.get(userOptional.get().getUsername()));
+        if (isInFailedCounter(userOptional.get().getUsername())) {
+            System.out.println("Username:  " + userOptional.get().getUsername() + "tried wrong password:   " + failedCounter.get(userOptional.get().getUsername()));
             failedCounter.remove(userOptional.get().getUsername());
         }
 
@@ -249,13 +255,37 @@ public class UserManagementController implements UserManagement {
         return UserDTOHelper.fromEntity(userOptional.get());
     }
 
-    private String generateFullUsername(String firstName, String lastName){
-        String prefix = generateUsername(firstName,lastName);
-        String suffix = createSuffix(prefix);
-        return prefix+suffix;
+    /**
+     * Updates a user with new attributes received from a Http Put.
+     * It returns the corresponding DTO. Otherwise it will throw an exception.
+     *
+     * @param userDTO
+     * @return a user DTO if it succeeds.
+     * @throws BusinessException
+     */
+    @Override
+    public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
+        Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
+        if (!isValidForCreation(userDTO)) {
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
+        }
+        User user=oldUser.get();
+
+        user.setEmail(userDTO.getEmail().trim());
+        user.setFirstName(userDTO.getFirstName().trim());
+        user.setLastName(userDTO.getLastName().trim());
+        user.setPassword(userDTO.getPassword().trim());
+        user.setPhoneNumber(userDTO.getPhoneNumber().trim());
+        return UserDTOHelper.fromEntity(user);
     }
 
-    private boolean isValidPhoneNumber(String phonenumber){
+    private String generateFullUsername(String firstName, String lastName) {
+        String prefix = generateUsername(firstName, lastName);
+        String suffix = createSuffix(prefix);
+        return prefix + suffix;
+    }
+
+    private boolean isValidPhoneNumber(String phonenumber) {
         //TODO Nu merge
         final Pattern VALID_PHONE_ADDRESS_REGEX =
                 Pattern.compile("(^\\+49)|(^01[5-7][1-9])", Pattern.CASE_INSENSITIVE);
@@ -265,11 +295,10 @@ public class UserManagementController implements UserManagement {
     }
 
     // check if a specific user already exist in the failedCounter map
-    private boolean isInFailedCounter(String username){
-        if(failedCounter.containsKey(username)){
+    private boolean isInFailedCounter(String username) {
+        if (failedCounter.containsKey(username)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
