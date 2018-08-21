@@ -23,8 +23,11 @@ public class Authorization  {
         try {
             UserDTO returnedUserDTO = userManagement.login(userDTO.getUsername(),userDTO.getPassword());
             if(returnedUserDTO != null) {
+                String token= JwtManager.getInstance().createToken(userDTO.getUsername());
+                String tokenComposed= "{ \"token\": \"" + token + "\" }";
+                userManagement.addInLoggedUsers(userDTO.getUsername(),token);
                 return Response.status(Response.Status.OK)
-                        .entity("{ \"token\": \"" + JwtManager.getInstance().createToken(userDTO.getUsername()) + "\" }")
+                        .entity(tokenComposed)
                         .build();
             }
             else {
