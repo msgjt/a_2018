@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './user-management/sign-up/sign-up.component';
 import {FormsModule} from "@angular/forms";
@@ -12,13 +11,16 @@ import {AuthenticatedGuard} from "./user-management/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
 import {PopupModule} from "ng2-opd-popup";
 import {RoleContentComponent} from "./role-management/role-content/role-content.component";
+import { ProfileComponent } from './user-management/profile/profile.component';
+import {MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const appRoutes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: '/login'
   },
   {
-    path: 'sign-up', component: SignUpComponent
+    path: 'register', component: SignUpComponent
   },
   {
     path: 'login', component: LoginComponent
@@ -29,8 +31,15 @@ const appRoutes: Routes = [
   {
     path: 'roles', component: RoleContentComponent
   },
-  {path: 'error', component: ErrorComponent},
-  {path: '**', component: ErrorComponent}
+  {
+    path: 'error', component: ErrorComponent
+  },
+  {
+    path: '**', component: ErrorComponent
+  },
+  {
+    path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+  }
 ];
 
 @NgModule({
@@ -40,14 +49,17 @@ const appRoutes: Routes = [
     LoginComponent,
     ContentComponent,
     RoleContentComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    PopupModule.forRoot()
+    PopupModule.forRoot(),
+    MatTableModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

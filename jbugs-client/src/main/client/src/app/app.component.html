@@ -1,20 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!--<div style="text-align:center">
-  <h1>
-    {{ title }}!
-  </h1>
-</div>
-<div class="btn-group" role="group" aria-label="Basic example">
-  <button type="button" routerLink="sign-up"
-          routerLinkActive="btn-danger" class="btn btn-secondary">Sign up</button>
-  <button type="button" routerLink="login"
-          routerLinkActive="btn-danger" class="btn btn-secondary">Login</button>
-</div>
-<router-outlet></router-outlet>-->
-
-
-
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
   <a class="navbar-brand" routerLink="/">JBugs</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -22,20 +6,17 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="content">Home</a>
+      <li class="nav-item pull-right">
+        <a class="nav-link" routerLink="content"><i class="material-icons">home</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="sign-up">Sign-up</a>
+        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()"><i class="material-icons"></i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login">Login</a>
+        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()"><i class="material-icons"></i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="update">Update</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="roles">Roles</a>
+        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons">account_circle</i></a>
       </li>
     </ul>
   </div>
@@ -45,11 +26,11 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer">
+<footer class="footer" style="background-color: #202020;">
   <div class="container">
     <div class="row justify-content-between">
       <div class="col text-center">
-        <span class="text-muted">Team A</span>
+        <span class="text-light">Team A</span>
       </div>
       <div class="col centerImage">
         <img src="../assets/msglogo.svg" class="msg">

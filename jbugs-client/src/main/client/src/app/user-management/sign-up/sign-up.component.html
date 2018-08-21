@@ -2,13 +2,17 @@
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
 </popup>
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+<body class="text-center">
+<div class="column justify-content-center">
+    <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
+    <h1 class="h3 mb-3 font-weight-normal">Sign up here</h1>
 <div class="row justify-content-center">
-  <div class="col-md-4">
     <form (ngSubmit)="signUpForm()"
           #formControl="ngForm"
-          #formElement>
-      <div class="form-group">
-        <label for="firstNameInput">First name:</label>
+          #formElement
+          class="form-signin">
+      <span class="form-group has-float-label">
         <input type="text"
                name="firstName"
                minlength="3"
@@ -16,10 +20,11 @@
                id="firstNameInput"
                class="form-control"
                required
-               [(ngModel)] = "userModel.firstName">
-      </div>
-      <div class="form-group">
-        <label for="lastNameInput">Last name:</label>
+               [(ngModel)] = "userModel.firstName"
+               placeholder=" ">
+        <label for="firstNameInput">First name</label>
+      </span>
+      <span class="form-group has-float-label">
         <input type="text"
                name="lastName"
                minlength="3"
@@ -27,10 +32,11 @@
                id="lastNameInput"
                class="form-control"
                required
-               [(ngModel)] = "userModel.lastName">
-      </div>
-      <div class="form-group">
-        <label for="mobileNumberInput">Mobile number:</label>
+               [(ngModel)] = "userModel.lastName"
+               placeholder=" ">
+        <label for="lastNameInput">Last name</label>
+      </span>
+      <span class="form-group has-float-label">
         <input type="text"
                name="mobileNumber"
                minlength="10"
@@ -38,10 +44,11 @@
                id="mobileNumberInput"
                class="form-control"
                required
-               [(ngModel)] = "userModel.mobileNumber">
-      </div>
-      <div class="form-group">
-        <label for="emailInput">Email:</label>
+               [(ngModel)] = "userModel.mobileNumber"
+               placeholder=" ">
+        <label for="mobileNumberInput">Phone number</label>
+      </span>
+      <span class="form-group has-float-label">
         <input type="text"
                name="email"
                minlength="5"
@@ -49,32 +56,24 @@
                id="emailInput"
                class="form-control"
                required
-               [(ngModel)] = "userModel.email">
-      </div>
-     <!-- <div class="form-group">
-        <label for="usernameInput">Username</label>
-        <input type="text"
-               name="username"
-               minlength="3"
-               pattern="[a-z]+"
-               id="usernameInput"
-               class="form-control"
-               required
-               [(ngModel)] = "userModel.username">
-      </div>-->
-      <div class="form-group">
-        <label for="passwordInput">Password</label>
+               [(ngModel)] = "userModel.email"
+               placeholder=" ">
+        <label for="emailInput">E-mail</label>
+      </span>
+      <span class="form-group has-float-label">
         <input type="password"
                name="password"
                id="passwordInput"
                class="form-control"
                required
-               [(ngModel)]="userModel.password">
-      </div>
+               [(ngModel)]="userModel.password"
+               placeholder=" ">
+        <label for="passwordInput">Password</label>
+      </span>
       <button type="submit"
               class="btn btn-primary">Submit!
       </button>
     </form>
-
   </div>
 </div>
+</body>

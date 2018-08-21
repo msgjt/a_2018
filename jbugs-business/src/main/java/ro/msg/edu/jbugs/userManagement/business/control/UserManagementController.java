@@ -6,11 +6,14 @@ import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 import ro.msg.edu.jbugs.utils.CustomLogger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.soap.SOAPBinding;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -25,6 +28,7 @@ public class UserManagementController implements UserManagement {
     private final static int MAX_LAST_NAME_LENGTH = 5;
     private final static int MIN_USERNAME_LENGTH = 6;
     private static Map<String, Integer> failedCounter = new HashMap<String, Integer>();
+    private static Map<String,String> loggedUsers= new HashMap<String,String>();
 
     @EJB
     private UserPersistenceManager userPersistenceManager;
@@ -353,6 +357,46 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(),"isInFailedCounter",String.valueOf(result));
         return result;
+    }
+
+    //add the username and the token in a map to have the list with the logged users.
+    public void addInLoggedUsers(String username, String token){
+        loggedUsers.put(username,token);
+    }
+
+    // check if an user is logged in
+    public boolean checkLoggedUser(String username, String token){
+       if(loggedUsers.containsKey(username)){
+           if(loggedUsers.get(username).equals(token))
+               return true;
+           else return false;
+       }
+       return  false;
+    }
+
+    public void removeUserInLogged(String username){
+        if (loggedUsers.containsKey(username)){
+            loggedUsers.remove(username);
+        }
+    }
+
+    //get all permissions assigned to an user
+    public List<Permission> getAllUserPermission(String username){
+    Optional<User> user= userPersistenceManager.getUserByUsername(username);
+    Set<Permission> allPermisssion = new HashSet<>();
+    List<Permission> allPermisionsForAnUser= new ArrayList<>();
+    if(user.isPresent()){
+        List<Role> roles= user.get().getRoles();
+        for(Role role : roles){
+            List<Permission> allPermisionsInRole= new ArrayList<>();
+            allPermisionsInRole= role.getPermissions();
+            for (Permission p: allPermisionsInRole){
+                allPermisssion.add(p);
+            }
+        }
+    }
+    allPermisionsForAnUser.addAll(allPermisssion);
+    return allPermisionsForAnUser;
     }
 
 

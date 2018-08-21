@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
+import {Router} from "@angular/router";
 import {Popup} from "ng2-opd-popup";
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('popup') popup: Popup;
   errorMessage: string;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -47,7 +48,6 @@ export class LoginComponent implements OnInit {
     };
   }
 
-
   submitForm() {
     console.log('Form was submitted with the following data:' +
       JSON.stringify(this.userModel));
@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
         this.loggedIn = true;
         this.wrongCredentials = false;
         this.login(response.token);
+        this.router.navigate(['./profile']);
       } else {
         this.wrongCredentials = true;
         this.loggedIn = false;
@@ -76,14 +77,4 @@ export class LoginComponent implements OnInit {
     localStorage.setItem(TOKENKEY, token);
     this.loggedIn = true;
   }
-
-  logout() {
-    if (localStorage.getItem(LSKEY)) {
-      localStorage.removeItem(LSKEY);
-      localStorage.removeItem(TOKENKEY);
-      this.loggedIn = false;
-    }
-  }
-
-
 }

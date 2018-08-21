@@ -1,5 +1,6 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import org.junit.Before;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
@@ -30,6 +31,7 @@ public class UserPersistenceManagerBeanTest {
 
     @Mock
     private UserPersistenceManager userPersistenceManager;
+
 
     @Test
     public void generateUsername_expectedMarini() {

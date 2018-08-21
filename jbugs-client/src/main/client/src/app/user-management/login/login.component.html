@@ -1,49 +1,4 @@
-<!--
-<div class="row justify-content-center">
-  <div class="col-md-4">
-    <form (ngSubmit)="submitForm()"
-          *ngIf="!loggedIn"
-          #formControl="ngForm"
-          #formElement>
-      <div class="form-group">
-        <label for="usernameInput">username</label>
-        <input type="text"
-               #usernameElement
-               #usernameControl="ngModel"
-               name="username"
-               minlength="3"
-               pattern="[a-z]+"
-               id="usernameInput"
-               class="form-control"
-               required
-               [(ngModel)]="userModel.username">
-      </div>
-      <div class="form-group">
-        <label for="passwordInput">password</label>
-        <input type="password"
-               #passwordElement
-               name="password"
-               id="passwordInput"
-               class="form-control"
-               required
-               [(ngModel)]="userModel.password">
-      </div>
-      <button type="submit"
-              [disabled]="formControl.invalid"
-              class="btn btn-primary">Submit!
-      </button>
-      <p *ngIf="wrongCredentials ">Wrong credentials</p>
-    </form>
-    <form *ngIf="loggedIn">
-      <h2>You are logged in as: {{userModel.username}}</h2>
-      <app-content></app-content>
-      <button class="btn btn-danger form-control"
-              (click)="logout()">Logout</button>
-    </form>
-  </div>
-</div>
--->
-
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 <popup #popup>
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
@@ -55,27 +10,28 @@
       #formControl="ngForm">
   <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-  <label for="inputUsername" class="sr-only">Username</label>
-  <input type="text" id="inputUsername" class="form-control" placeholder="Username"
-         name="username"
-         minlength="3"
-         pattern="[a-z0-9]+"
-         required
-         [(ngModel)]="userModel.username">
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-         name="password"
-         required
-         [(ngModel)]="userModel.password">
-  <button class="btn btn-lg btn-primary btn-block" type="submit"
+  <span class="form-group has-float-label">
+    <input type="text" id="inputUsername" class="form-control"
+           name="username"
+           minlength="3"
+           pattern="[a-z0-9]+"
+           required
+           [(ngModel)]="userModel.username"
+           placeholder=" ">
+    <label for="inputUsername">Username</label>
+  </span>
+  <span class="form-group has-float-label">
+    <input type="password" id="inputPassword" class="form-control"
+           name="password"
+           required
+           [(ngModel)]="userModel.password"
+           placeholder=" ">
+    <label for="inputPassword">Password</label>
+  </span>
+  <button class="btn btn-lg btn-block" type="submit"
           [disabled]="formControl.invalid"
-        >Sign in</button>
+  >Sign in
+  </button>
   <p *ngIf="wrongCredentials ">Wrong credentials</p>
-</form>
-<form *ngIf="loggedIn">
-  <h2>You are logged in as: {{userModel.username}}</h2>
-  <app-content></app-content>
-  <button class="btn btn-danger form-control"
-          (click)="logout()">Logout</button>
 </form>
 </body>
