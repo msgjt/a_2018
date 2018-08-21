@@ -1,5 +1,8 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDTO {
     private long id;
     private String firstName;
@@ -9,6 +12,7 @@ public class UserDTO {
     private String email;
     private boolean isActive;
     private String phoneNumber;
+    private List<RoleDTO> roleDTOS;
 
     public long getId() {
         return id;
@@ -72,6 +76,22 @@ public class UserDTO {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public List<RoleDTO> getRoleDTOS() {
+        return roleDTOS;
+    }
+
+    public void setRoleDTOS(List<RoleDTO> roleDTOS) {
+        this.roleDTOS = roleDTOS;
     }
 
     @Override

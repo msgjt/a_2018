@@ -153,4 +153,14 @@ public class UserPersistenceManager {
         Query q = em.createQuery("select u.username from User u where u.username like '" + username + "%'");
         return q.getResultList();
     }
+
+    /**
+     * Get the role having a specific type
+     * @param type
+     * @return
+     */
+    public Role getRoleByType(String type) {
+        Query q = em.createQuery("SELECT r FROM Role r WHERE r.type='" + type + "'");
+        return (Role) q.getSingleResult();
+    }
 }

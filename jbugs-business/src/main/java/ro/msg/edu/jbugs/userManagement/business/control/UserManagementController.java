@@ -1,5 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +50,11 @@ public class UserManagementController implements UserManagement {
         logger.log(Level.INFO, "In createUser method");
 
         normalizeUserDTO(userDTO);
+        if (userDTO.getRoleDTOS() == null || userDTO.getRoleDTOS().isEmpty()){
+            userDTO.setRoleDTOS(new ArrayList<>());
+            Role devRole = userPersistenceManager.getRoleByType("DEV");
+            userDTO.getRoleDTOS().add(RoleDTOHelper.fromEntity(devRole));
+        }
         validateUserForCreation(userDTO);
         User user = UserDTOHelper.toEntity(userDTO);
         user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
@@ -111,7 +118,10 @@ public class UserManagementController implements UserManagement {
                 && user.getLastName() != null
                 && user.getEmail() != null
                 && user.getPassword() != null
-                && isValidEmail(user.getEmail());
+                && user.getPhoneNumber() != null
+                && isValidEmail(user.getEmail())
+                && isValidPhoneNumber(user.getPhoneNumber())
+                && checkRoles(user);
     }
 
     private boolean isValidEmail(String email) {
@@ -285,13 +295,21 @@ public class UserManagementController implements UserManagement {
         return prefix + suffix;
     }
 
-    private boolean isValidPhoneNumber(String phonenumber) {
-        //TODO Nu merge
-        final Pattern VALID_PHONE_ADDRESS_REGEX =
-                Pattern.compile("(^\\+49)|(^01[5-7][1-9])", Pattern.CASE_INSENSITIVE);
+    /**
+     * Checks if the given number is a valid german or romanian phone number
+     * @param phoneNumber
+     * @return true if valid, false if not
+     */
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        final Pattern VALID_PHONE_ADDRESS_REGEX_GERMANY =
+                Pattern.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$", Pattern.CASE_INSENSITIVE);
 
-        Matcher matcher = VALID_PHONE_ADDRESS_REGEX.matcher(phonenumber);
-        return matcher.find();
+        Matcher matcher_ger = VALID_PHONE_ADDRESS_REGEX_GERMANY.matcher(phoneNumber);
+        final Pattern VALID_PHONE_ADDRESS_REGEX_ROMANIA =
+                Pattern.compile("^(\\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\\s|\\.|\\-)?([0-9]{3}(\\s|\\.|\\-|)){2}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher_ro = VALID_PHONE_ADDRESS_REGEX_ROMANIA.matcher(phoneNumber);
+
+        return matcher_ger.find() || matcher_ro.find();
     }
 
     // check if a specific user already exist in the failedCounter map
@@ -343,5 +361,18 @@ public class UserManagementController implements UserManagement {
     return allPermisionsForAnUser;
     }
 
-
+    @Override
+    public boolean checkRoles(UserDTO userDTO) {
+        List<Role> recievedRoles = userDTO.getRoleDTOS()
+                .stream()
+                .map(RoleDTOHelper::toEntity)
+                .collect(Collectors.toList());
+        List<Role> possibleRoles = userPersistenceManager.getAllRoles();
+        for (Role r : recievedRoles){
+            if (!possibleRoles.contains(r)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
