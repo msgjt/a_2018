@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   wrongCredentials = false;
   loggedIn = false;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     this.userModel = {
       firstName: '',
       lastName: '',
@@ -29,7 +30,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-
   submitForm() {
     console.log('Form was submitted with the following data:' +
       JSON.stringify(this.userModel));
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         this.loggedIn = true;
         this.wrongCredentials = false;
         this.login(response.token);
+        this.router.navigate(['./profile']);
       } else {
         this.wrongCredentials = true;
         this.loggedIn = false;
@@ -53,14 +54,4 @@ export class LoginComponent implements OnInit {
     localStorage.setItem(TOKENKEY, token);
     this.loggedIn = true;
   }
-
-  logout() {
-    if (localStorage.getItem(LSKEY)) {
-      localStorage.removeItem(LSKEY);
-      localStorage.removeItem(TOKENKEY);
-      this.loggedIn = false;
-    }
-  }
-
-
 }

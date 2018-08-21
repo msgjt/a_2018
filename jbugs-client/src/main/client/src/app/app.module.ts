@@ -10,7 +10,9 @@ import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
 import { ProfileComponent } from './user-management/profile/profile.component';
-import { DataTablesModule } from 'angular-datatables';
+import {PopupModule} from "ng2-opd-popup";
+import {MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const appRoutes: Routes = [
   {
@@ -40,7 +42,9 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    DataTablesModule
+    PopupModule.forRoot(),
+    MatTableModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -16,6 +16,9 @@ body {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #f5f5f5;
+  -webkit-box-shadow: 0 8px 6px -6px #000;
+  -moz-box-shadow: 0 8px 6px -6px #000;
+  box-shadow: 0 8px 6px -6px #000;
 }
 
 .form-signin {
@@ -29,8 +32,8 @@ body {
   position: relative;
   box-sizing: border-box;
   height: auto;
-  padding: 10px;
   font-size: 16px;
+  margin-top: 2em;
 }
 .form-signin .form-control:focus {
   z-index: 2;
@@ -44,4 +47,59 @@ body {
   margin-bottom: 1em;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+button {
+  background-color: darkred;
+  color: white;
+}
+
+button:hover {
+  background-color: #951717;
+  color: white;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-control-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 0.5;
+}
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 75%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+
+input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 1px solid #8b0000;
+}
+
+input[type=text]:focus {
+  box-shadow: 0 0 5px #8b0000;
+}
+
+input[type=password] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 1px solid #8b0000;
+}
+
+input[type=password]:focus {
+  box-shadow: 0 0 5px #8b0000;
 }
