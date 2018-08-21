@@ -3,6 +3,8 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
@@ -14,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import javax.batch.runtime.context.StepContext;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jws.soap.SOAPBinding;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -27,6 +30,7 @@ public class UserManagementController implements UserManagement {
     private final static int MIN_USERNAME_LENGTH = 6;
     private static final Logger logger = LogManager.getLogger(UserManagementController.class);
     private static Map<String,Integer> failedCounter= new HashMap<String,Integer>();
+    private static Map<String,String> loggedUsers= new HashMap<String,String>();
 
     @EJB
     private UserPersistenceManager userPersistenceManager;
@@ -235,6 +239,13 @@ public class UserManagementController implements UserManagement {
             System.out.println("Username:  "+userOptional.get().getUsername()+"tried wrong password:   "+failedCounter.get(userOptional.get().getUsername()));
             failedCounter.remove(userOptional.get().getUsername());
         }
+
+        /*List<Permission> permissions= new ArrayList<>();
+        permissions= getAllUserPermission("ioani");
+        for(Permission p : permissions ){
+            System.out.println("----------------------------"+p.getType());
+        }*/
+
         return UserDTOHelper.fromEntity(userOptional.get());
     }
 
@@ -261,6 +272,46 @@ public class UserManagementController implements UserManagement {
         else {
             return false;
         }
+    }
+
+    //add the username and the token in a map to have the list with the logged users.
+    public void addInLoggedUsers(String username, String token){
+        loggedUsers.put(username,token);
+    }
+
+    // check if an user is logged in
+    public boolean checkLoggedUser(String username, String token){
+       if(loggedUsers.containsKey(username)){
+           if(loggedUsers.get(username).equals(token))
+               return true;
+           else return false;
+       }
+       return  false;
+    }
+
+    public void removeUserInLogged(String username){
+        if (loggedUsers.containsKey(username)){
+            loggedUsers.remove(username);
+        }
+    }
+
+    //get all permissions assigned to an user
+    public List<Permission> getAllUserPermission(String username){
+    Optional<User> user= userPersistenceManager.getUserByUsername(username);
+    Set<Permission> allPermisssion = new HashSet<>();
+    List<Permission> allPermisionsForAnUser= new ArrayList<>();
+    if(user.isPresent()){
+        List<Role> roles= user.get().getRoles();
+        for(Role role : roles){
+            List<Permission> allPermisionsInRole= new ArrayList<>();
+            allPermisionsInRole= role.getPermissions();
+            for (Permission p: allPermisionsInRole){
+                allPermisssion.add(p);
+            }
+        }
+    }
+    allPermisionsForAnUser.addAll(allPermisssion);
+    return allPermisionsForAnUser;
     }
 
 

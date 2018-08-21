@@ -33,10 +33,6 @@ public class Role extends BaseEntity<Long> {
     public Role() {
     }
 
-
-
-
-
     public String getType() {
         return type;
     }

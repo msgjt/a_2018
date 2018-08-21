@@ -2,6 +2,7 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 
 import java.util.List;
 
@@ -42,6 +43,12 @@ public interface UserManagement {
      * @throws BusinessException in case the user is not found or the password is wrong.
      */
     UserDTO login(String username, String password) throws BusinessException;
+
+    void addInLoggedUsers(String username, String token);
+    boolean checkLoggedUser(String username, String token);
+    void removeUserInLogged(String username);
+    List<Permission> getAllUserPermission(String username);
+
 
 
 
