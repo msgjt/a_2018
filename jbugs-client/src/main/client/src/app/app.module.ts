@@ -9,12 +9,16 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ContentComponent } from './user-management/content/content.component';
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
-import { ProfileComponent } from './user-management/profile/profile.component';
+import { ErrorComponent } from './error/error.component';
 import {PopupModule} from "ng2-opd-popup";
+import { ProfileComponent } from './user-management/profile/profile.component';
 import {MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const appRoutes: Routes = [
+  {
+    path: '', pathMatch: 'full', redirectTo: '/login'
+  },
   {
     path: 'sign-up', component: SignUpComponent
   },
@@ -26,6 +30,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'error', component: ErrorComponent
+  },
+  {
+    path: '**', component: ErrorComponent
   }
 ];
 
@@ -35,6 +45,7 @@ const appRoutes: Routes = [
     SignUpComponent,
     LoginComponent,
     ContentComponent,
+    ErrorComponent,
     ProfileComponent
   ],
   imports: [

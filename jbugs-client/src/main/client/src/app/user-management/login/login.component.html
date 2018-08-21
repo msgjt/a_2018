@@ -1,4 +1,8 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+<popup #popup>
+  <p>{{errorMessage}}</p>
+  <button class="btn btn-default" (click)="popup.hide()">OK</button>
+</popup>
 <body class="text-center">
 <form class="form-signin"
       (ngSubmit)="submitForm()"

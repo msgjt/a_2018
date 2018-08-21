@@ -8,14 +8,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @MappedSuperclass
-public class BaseEntity<T> implements Serializable {
+public class BaseEntity<T extends Serializable> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected T id;
-
-    public BaseEntity() {
-    }
 
     public T getId() {
         return id;

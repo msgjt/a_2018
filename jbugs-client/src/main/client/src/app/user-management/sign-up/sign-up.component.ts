@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../services/user.service";
+import {Popup} from "ng2-opd-popup";
 
 @Component({
   selector: 'app-sign-up',
@@ -9,9 +10,12 @@ import {User, UserService} from "../services/user.service";
 export class SignUpComponent implements OnInit {
 
   userModel: User;
+  @ViewChild('popup') popup: Popup;
+  errorMessage: string;
 
   constructor(private userService: UserService) {
     this.userModel = {
+      id: 0,
       firstName: '',
       lastName: '',
       isActive: 0,
@@ -21,9 +25,23 @@ export class SignUpComponent implements OnInit {
       username: '',
       password: ''
     };
+    this.popup = new Popup();
   }
 
   ngOnInit() {
+    //configure the pop-up layout
+    this.popup.options = {
+      header: 'Error occurred',
+      color: 'red', // red, blue....
+      widthProsentage: 40, // The with of the popou measured by browser width
+      animationDuration: 1, // in seconds, 0 = no animation
+      showButtons: false, // You can hide this in case you want to use custom buttons
+      confirmBtnContent: 'OK', // The text on your confirm button
+      cancleBtnContent: 'Cancel', // the text on your cancel button
+      confirmBtnClass: 'btn btn-danger', // your class for styling the confirm button
+      cancleBtnClass: 'btn btn-danger', // you class for styling the cancel button
+      animation: 'fadeInDown' // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
+    };
   }
 
 
@@ -32,13 +50,11 @@ export class SignUpComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+        },
+        (error) => {
+          this.errorMessage = error['error'];
+          this.popup.show(this.popup.options);
         }
       );
-  }
-
-  getAll() {
-    this.userService.getAllUsers().subscribe((user) => {
-      console.log(user);
-    });
   }
 }

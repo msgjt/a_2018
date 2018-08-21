@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -10,16 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
+import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 @WebServlet(urlPatterns = {"/TestServlet"})
 public class TestServlet extends HttpServlet {
 
-
     @EJB
-    private UserManagement userManagement;
+    private BugManagement bugManagement;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,30 +44,36 @@ public class TestServlet extends HttpServlet {
         userDTO.setEmail("doreldorel@msggroup.com");
         userDTO.setPassword("Password");
         userDTO.setPhoneNumber("1234567890");
+        userDTO.setUsername("username");
         UserDTO persistentUserDTO = null;
 
-        UserDTO userDTO2 = new UserDTO();
-        userDTO2.setFirstName("dorel");
-        userDTO2.setLastName("dorel");
-        userDTO2.setEmail("dordorel@msggroup.com");
-        userDTO2.setPassword("Password");
-        userDTO2.setPhoneNumber("1234567890");
-//        try {
-            //persistentUserDTO = userManagement.createUser(userDTO);
-            //persistentUserDTO = userManagement.createUser(userDTO2);
+        UserDTOHelper userDTOHelper = new UserDTOHelper();
+        User user = userDTOHelper.toEntity(userDTO);
+
+        BugDTO bug = new BugDTO();
+        bug.setTitle("title");
+        bug.setDescription("descript");
+        bug.setVersion("vers");
+        bug.setTargetDate("2020-05-11");
+        bug.setStatus("1");
+        bug.setFixedVersion("fVers");
+        bug.setSeverity(Severity.LVL2);
+        bug.setCreatedBy(user);
+        bug.setAssignedTo(user);
+
+        PrintWriter out = response.getWriter();
+
+
         try {
-            userManagement.deactivateUser("doreld");
+            bugManagement.createBug(bug);
+            List<BugDTO> bugs = bugManagement.getAllBugs();
+            for (BugDTO b:bugs){
+                out.println(b);
+            }
         } catch (BusinessException e) {
             e.printStackTrace();
         }
 
-//        } catch (BusinessException e) {
-//            e.printStackTrace();
-//        }
-      /*  response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println(persistentUserDTO.toString());
-        }*/
 
     }
 
