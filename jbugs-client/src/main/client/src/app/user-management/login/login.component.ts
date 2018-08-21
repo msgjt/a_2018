@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     //configure the pop-up layout
     this.popup.options = {
       header: 'Error occurred',
-      color: 'red', // red, blue....
+      color: 'darkred', // red, blue....
       widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons

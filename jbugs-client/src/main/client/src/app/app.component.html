@@ -1,19 +1,19 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-  <a class="navbar-brand" routerLink="/">JBugs</a>
+  <a class="navbar-brand" routerLink="/" style="font-size: 36px;">JBugs</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item pull-right">
+    <ul class="navbar-nav nav navbar-right">
+      <li class="nav-item">
         <a class="nav-link" routerLink="content"><i class="material-icons">home</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()"><i class="material-icons"></i></a>
+        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()">Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()"><i class="material-icons"></i></a>
+        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()">Login</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons">account_circle</i></a>

@@ -35,10 +35,10 @@ const appRoutes: Routes = [
     path: 'error', component: ErrorComponent
   },
   {
-    path: '**', component: ErrorComponent
+    path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
-    path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+    path: '**', component: ErrorComponent
   }
 ];
 
