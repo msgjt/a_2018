@@ -1,14 +1,13 @@
-<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 <popup #popup>
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
 </popup>
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 <body class="text-center">
 <div class="column justify-content-center">
     <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
     <h1 class="h3 mb-3 font-weight-normal">Sign up here</h1>
 <div class="row justify-content-center">
-  <div class="col-md-4">
     <form (ngSubmit)="signUpForm()"
           #formControl="ngForm"
           #formElement
@@ -75,7 +74,6 @@
               class="btn btn-primary">Submit!
       </button>
     </form>
-  </div>
   </div>
 </div>
 </body>
