@@ -2,16 +2,14 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {Popup} from "ng2-opd-popup";
 
-@Component({
-  selector: 'app-bugs-view',
-  templateUrl: './bugs-view.component.html',
-  styleUrls: ['./bugs-view.component.css']
-})
+
 export class BugsViewComponent implements OnInit {
 
   columnsToDisplay = ['title', 'description','version','fixedVersion','status', 'severity','targetDate', 'assignedTo', 'createdBy'];
   bugList: Bug[];
   message:string;
+
+
   @ViewChild('popup') popup: Popup;
   constructor(private bugService: BugService) {
     this.bugService.getAllBugs().subscribe((bug) => {
