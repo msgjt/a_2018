@@ -57,12 +57,14 @@ export class RolesComponent implements OnInit {
 
   removePermission(permission: Permission): void {
     this.selectedRole.permissions = this.selectedRole.permissions.filter(x => x.type !== permission.type);
+    this.roleService.updateRole(this.selectedRole).subscribe(() => {});
   }
 
 
   addPermission(permission: Permission): void {
     this.selectedRole.permissions.push(permission);
     this.selectedRole.permissions = this.selectedRole.permissions.slice();
+    this.roleService.updateRole(this.selectedRole).subscribe(() => {});
   }
 
   addPermissions(): void {
