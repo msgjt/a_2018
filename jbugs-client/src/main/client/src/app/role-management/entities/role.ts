@@ -1,6 +1,7 @@
 import {Permission} from "./permission";
 
 export class Role{
-  type: string;
+  id: number;
   permissions: Permission[];
+  type: string;
 }

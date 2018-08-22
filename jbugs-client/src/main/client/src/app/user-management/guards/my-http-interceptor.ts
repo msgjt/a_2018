@@ -1,6 +1,6 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {TOKENKEY} from "./services/user.service";
+import {TOKENKEY} from "../services/user.service";
 
 export class MyHttpInterceptor implements HttpInterceptor{
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

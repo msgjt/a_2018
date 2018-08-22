@@ -21,7 +21,7 @@ body {
 
 .form-signin {
   width: 100%;
-  max-width: 330px;
+  max-width: 500px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -40,11 +40,14 @@ body {
   margin-bottom: .5em;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+  width: 400px;
 }
 
 button {
   background-color: darkred;
   color: white;
+  display: block;
+  width: 400px;
 }
 
 button:hover {
@@ -58,6 +61,7 @@ input[type=text] {
   -o-transition: all 0.30s ease-in-out;
   outline: none;
   border: 1px solid #8b0000;
+
 }
 
 input[type=text]:focus {
@@ -70,6 +74,7 @@ input[type=password] {
   -o-transition: all 0.30s ease-in-out;
   outline: none;
   border: 1px solid #8b0000;
+  width: 400px;
 }
 
 input[type=password]:focus {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../services/user.service";
 import {Popup} from "ng2-opd-popup";
 
@@ -12,6 +12,8 @@ export class SignUpComponent implements OnInit {
   userModel: User;
   @ViewChild('popup') popup: Popup;
   errorMessage: string;
+  @ViewChild('infoDiv') infoDiv: ElementRef;
+  showInfoDiv: boolean = false;
 
   constructor(private userService: UserService) {
     this.userModel = {
@@ -56,5 +58,13 @@ export class SignUpComponent implements OnInit {
           this.popup.show(this.popup.options);
         }
       );
+  }
+
+  showInfo() {
+    this.showInfoDiv = true;
+  }
+
+  hideInfo() {
+    this.showInfoDiv = false;
   }
 }

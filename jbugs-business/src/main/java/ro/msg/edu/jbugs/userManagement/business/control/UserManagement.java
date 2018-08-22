@@ -55,5 +55,6 @@ public interface UserManagement {
     Set<String> getAllUserPermission(String username);
     UserDTO updateUser(UserDTO userDTO) throws BusinessException;
 
+    boolean checkRoles(UserDTO userDTO);
 
 }
