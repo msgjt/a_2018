@@ -8,7 +8,17 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "comments")
+@NamedQueries(
+        {
+                @NamedQuery(name = Comment.GET_BUG_COMMENTS, query = "SELECT c FROM Comment c WHERE c.bug.title=:title"),
+                @NamedQuery(name = Comment.GET_USER_COMMENTS, query = "SELECT c FROM Comment c WHERE c.bug.title=:title"),
+        }
+)
 public class Comment extends BaseEntity<Long> {
+
+    public static final String GET_BUG_COMMENTS = "get_Bug_Comments";
+    public static final String GET_USER_COMMENTS = "get_User_Comments";
+
 
     @JoinColumn(name = "userId", nullable = false)
     @ManyToOne(cascade = CascadeType.ALL)
@@ -19,7 +29,7 @@ public class Comment extends BaseEntity<Long> {
     @Column(name = "text", length = 400, nullable = false)
     private String text;
     @Column(name = "date", nullable = false)
-    private Date date;
+    private String date;
 
     public Comment() {
     }
@@ -48,11 +58,11 @@ public class Comment extends BaseEntity<Long> {
         this.text = text;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

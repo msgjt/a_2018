@@ -263,6 +263,16 @@ public class UserManagementController implements UserManagement {
         return result;
     }
 
+    @Override
+    public UserDTO getUserById(Long id) {
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserById(id).get());
+    }
+
+    @Override
+    public UserDTO getUserByUsername(String username) {
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserByUsername(username).get());
+    }
+
     /**
      * Takes the username and password of a user and if they are correct, it returns the
      * corresponding DTO. Otherwise it will throw an exception.

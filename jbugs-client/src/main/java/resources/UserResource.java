@@ -1,7 +1,10 @@
 package resources;
 
 
+import com.sun.org.glassfish.gmbal.ParameterNames;
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 
@@ -18,6 +21,7 @@ public class UserResource {
 
     @EJB
     private UserManagement userManagement;
+
 
     @GET
     public List<UserDTO> getUsers(){
@@ -37,5 +41,16 @@ public class UserResource {
                     .build();
         }
     }
+
+    @Path("/{id}")
+    @GET
+    public UserDTO getUserById(@PathParam("id") Long id){
+
+        return userManagement.getUserById(id);
+    }
+
+
+
+
 
 }

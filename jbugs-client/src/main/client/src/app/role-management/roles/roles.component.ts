@@ -24,6 +24,10 @@ export class RolesComponent implements OnInit {
   pressedEdit: boolean = false;
 
   constructor(private roleService: RoleService, private router: Router) {
+
+  }
+
+  ngOnInit() {
     this.roleService.getAllRoles().subscribe((roles) => {
       this.roleList = roles;
     });
@@ -31,10 +35,6 @@ export class RolesComponent implements OnInit {
       this.permissionsList = permissions;
     });
     this.selectedRole = new Role();
-  }
-
-  ngOnInit() {
-
   }
 
   logout() {
@@ -50,23 +50,28 @@ export class RolesComponent implements OnInit {
   contains(permission: Permission): boolean {
     if( ! this.selectedRole.permissions )
       return false;
-    return this.selectedRole.permissions.findIndex(p => p === permission) != -1;
+    let result = this.selectedRole.permissions.findIndex(p => p.type == permission.type) != -1;
+
+    return result;
   }
 
   removePermission(permission: Permission): void {
     this.selectedRole.permissions = this.selectedRole.permissions.filter(x => x.type !== permission.type);
+    this.roleService.updateRole(this.selectedRole).subscribe(() => {});
   }
 
 
   addPermission(permission: Permission): void {
-
+    this.selectedRole.permissions.push(permission);
+    this.selectedRole.permissions = this.selectedRole.permissions.slice();
+    this.roleService.updateRole(this.selectedRole).subscribe(() => {});
   }
 
   addPermissions(): void {
     this.permissionPopup.options = {
       header: "Role info",
       color: "darkred", // red, blue....
-      widthProsentage: 50, // The with of the popou measured by browser width
+      widthPercentage: 50, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
@@ -81,7 +86,7 @@ export class RolesComponent implements OnInit {
     this.popup.options = {
       header: "Role info",
       color: "darkred", // red, blue....
-      widthProsentage: 50, // The with of the popou measured by browser width
+      widthPercentage: 50, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
@@ -99,11 +104,12 @@ export class RolesComponent implements OnInit {
   }
 
   submitAddPermissionsForm() {
-
+    this.permissionPopup.hide();
+    this.popup.show();
   }
 
   submitRoleForm() {
-
+    console.log('done');
   }
 
   hidePopup() {

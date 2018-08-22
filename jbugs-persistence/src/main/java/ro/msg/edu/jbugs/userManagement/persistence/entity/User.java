@@ -13,6 +13,7 @@ import java.util.Objects;
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
                 @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
                 @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id")
+
         }
 )
 public class User extends BaseEntity<Long> {
