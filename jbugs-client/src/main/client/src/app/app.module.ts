@@ -9,7 +9,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/guards/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
 import {PopupModule} from "ng2-opd-popup";
-import {RoleContentComponent} from "./role-management/role-content/role-content.component";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -17,6 +16,7 @@ import {RECAPTCHA_LANGUAGE, RecaptchaModule} from "ng-recaptcha";
 import { RecaptchaFormsModule } from "ng-recaptcha/forms";
 import { HomeComponent } from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
+import { RolesComponent } from './role-management/roles/roles.component';
 
 const appRoutes: Routes = [
   {
@@ -32,7 +32,7 @@ const appRoutes: Routes = [
     path: 'home', component: HomeComponent,  canActivate: [AuthenticatedGuard]
   },
   {
-    path: 'roles', component: RoleContentComponent
+    path: 'roles', component: RolesComponent
   },
   {
     path: 'error', component: ErrorComponent
@@ -50,11 +50,10 @@ const appRoutes: Routes = [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    HomeComponent,
-    RoleContentComponent,
     ErrorComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,

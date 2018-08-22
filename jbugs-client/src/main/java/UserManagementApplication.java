@@ -15,6 +15,7 @@ public class UserManagementApplication extends Application {
         classes.add(RoleResource.class);
         classes.add(Authorization.class);
         classes.add(CaptchaResource.class);
+        classes.add(PermissionsResource.class);
         return classes;
     }
 
