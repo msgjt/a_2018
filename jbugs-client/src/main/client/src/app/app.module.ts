@@ -9,11 +9,11 @@ import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
 import {PopupModule} from "ng2-opd-popup";
-import {RoleContentComponent} from "./role-management/role-content/role-content.component";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HomeComponent } from './common/home/home.component';
+import { RolesComponent } from './role-management/roles/roles.component';
 
 const appRoutes: Routes = [
   {
@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'roles', component: RoleContentComponent
+    path: 'roles', component: RolesComponent
   },
   {
     path: 'error', component: ErrorComponent
@@ -47,10 +47,10 @@ const appRoutes: Routes = [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    RoleContentComponent,
     ErrorComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,
