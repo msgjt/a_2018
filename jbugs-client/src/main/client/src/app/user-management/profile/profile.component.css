@@ -16,7 +16,6 @@ body {
 
 td {
   color: white;
-  cursor: pointer;
 }
 
 th {
@@ -29,3 +28,60 @@ table {
   text-align: center;
 }
 
+form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 75%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+
+input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 0;
+  margin-bottom: 2em;
+  padding-top: 1.5em;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+}
+
+input[type=text]:focus {
+  box-shadow:  0 4px 2px -2px  #8b0000;
+}
+
+input[type=password] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 0;
+  margin-bottom: 2em;
+  outline: 0;
+  padding-top: 1.5em;
+  background: transparent;
+  border-bottom: 1px solid black;
+}
+
+input[type=password]:focus {
+  box-shadow:  0 4px 2px -2px  #8b0000;
+}
+
+.has-float-label .form-control:placeholder-shown:not(:focus)+* {
+  font-size: 100%;
+  opacity: .5;
+  top: .3em;
+  font-weight: 400;
+}
+
+i {
+  cursor: pointer;
+  margin-right: 1em;
+}

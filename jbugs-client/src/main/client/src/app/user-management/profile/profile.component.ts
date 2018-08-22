@@ -24,7 +24,6 @@ export class ProfileComponent implements OnInit {
   roles: Role[];
   @ViewChild('popup') errorPopup: Popup;
 
-
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
@@ -43,14 +42,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.errorPopup.options = {
-      header: "Error",
-      color: "darkred", // red, blue....
-      widthProsentage: 30, // The with of the popou measured by browser width
-      animationDuration: 1, // in seconds, 0 = no animation
-      showButtons: false, // You can hide this in case you want to use custom buttons
-      animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-    };
+
   }
 
   logout() {
@@ -62,28 +54,12 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  someClickHandler(info: any,  id: number, activeState: boolean): void {
-    this.message = 'You have clicked on the row containing: \n' + 'Username: ' + info.username + ', First name: ' + info.firstName
-      + ', Last name: ' + info.lastName + ', E-mail: ' + info.email;
-    this.popup.options = {
-      header: "User info",
-      color: "darkred", // red, blue....
-      widthProsentage: 30, // The with of the popou measured by browser width
-      animationDuration: 1, // in seconds, 0 = no animation
-      showButtons: false, // You can hide this in case you want to use custom buttons
-      animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-    };
-    this.userModel.id = id;
-    this.activeUser = activeState;
-    this.popup.show(this.popup.options);
-  }
-
   showEditPopup() {
     this.pressedEdit = true;
   }
 
-  disableUser() {
-    this.userService.deactivateUser(this.userModel.id).subscribe(
+  disableUser(user: any) {
+    this.userService.deactivateUser(user.id).subscribe(
       (response) => {
         console.log('response ' + JSON.stringify(response));
       },
@@ -92,13 +68,12 @@ export class ProfileComponent implements OnInit {
         this.popup.show(this.popup.options);
       }
     );
-    this.userList[this.userModel.id - 1].isActive = false;
+    this.userList[user.id - 1].isActive = false;
     this.activeUser = false;
-
   }
 
-  enableUser() {
-    this.userService.activateUser(this.userModel.id).subscribe(
+  enableUser(user: any) {
+    this.userService.activateUser(user.id).subscribe(
       (response) => {
         console.log('response ' + JSON.stringify(response));
       },
@@ -107,9 +82,8 @@ export class ProfileComponent implements OnInit {
         this.popup.show(this.popup.options);
       }
     );
-    this.userList[this.userModel.id - 1].isActive = true;
+    this.userList[user.id - 1].isActive = true;
     this.activeUser = true;
-
   }
 
   submitEditForm() {
@@ -126,11 +100,6 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  hidePopup() {
-    this.popup.hide();
-    this.pressedEdit = false;
-  }
-
   passDataToModal(user: User) {
     this.message = 'You have clicked on the row containing: \n' + 'Username: ' + user.username + ', First name: ' + user.firstName
       + ', Last name: ' + user.lastName + 'Phone number: ' + user.phoneNumber +', E-mail: ' + user.email;
@@ -138,15 +107,6 @@ export class ProfileComponent implements OnInit {
 
   showAddPopup(){
     this.pressedAdd = true;
-    this.addUserPopup.options = {
-      header: "Add user",
-      color: "darkred", // red, blue....
-      widthProsentage: 30, // The with of the popou measured by browser width
-      animationDuration: 1, // in seconds, 0 = no animation
-      showButtons: false, // You can hide this in case you want to use custom buttons
-      animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-    };
-    this.addUserPopup.show(this.addUserPopup.options);
     this.userService.getAllRoles().subscribe(
       (roles) => {this.roles = roles;}
     );
@@ -170,14 +130,5 @@ export class ProfileComponent implements OnInit {
           this.errorPopup.show(this.errorPopup.options);
         }
       );
-    this.hideAddPopup();
-  }
-
-  hideAddPopup(){
-    this.addUserPopup.hide();
-  }
-
-  hideErrorPopup(){
-    this.errorPopup.hide();
   }
 }

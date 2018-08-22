@@ -1,48 +1,161 @@
-<popup #errorPopup>
-  {{message}}
-  <button (click)="hideErrorPopup()">OK</button>
-</popup>
-<button (click)="showAddPopup()">Add user</button>
-<popup #addUserPopup>
-  <form class="form-signin text-center"
-        (ngSubmit)="submitAddForm()"
-        *ngIf="pressedAdd"
-        #formControl="ngForm">
-     <span class="form-group has-float-label">
-              <span class="help-block"
-                    *ngIf="firstName.errors?.required && firstName.touched">First name is required.</span>
-              <span class="help-block"
-                    *ngIf="firstName.errors?.minlength && firstName.touched">First name is invalid.</span>
-              <input type="text"
-                     name="firstName"
-                     minlength="2"
-                     pattern="[a-zA-Z]+"
-                     id="firstNameInput"
-                     #firstName="ngModel"
-                     class="form-control"
-                     required
-                     [(ngModel)]="userModel.firstName"
-                     placeholder=" ">
-              <label for="firstNameInput">First name</label>
-            </span>
-    <span class="form-group has-float-label">
-              <span class="help-block"
-                    *ngIf="lastName.errors?.required && lastName.touched">Last name is required.</span>
-              <span class="help-block"
-                    *ngIf="lastName.errors?.minlength && lastName.touched">Last name is invalid.</span>
-              <input type="text"
-                     name="lastName"
-                     minlength="2"
-                     pattern="[a-zA-Z]+"
-                     id="lastNameInput"
-                     #lastName="ngModel"
-                     class="form-control"
-                     required
-                     [(ngModel)]="userModel.lastName"
-                     placeholder=" ">
-              <label for="lastNameInput">Last name</label>
-            </span>
-    <span class="form-group has-float-label">
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+
+<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal">
+  Add user
+</button>
+
+<div class="column justify-content-center">
+
+    <div *ngIf="userList">
+      <div class="table-responsive">
+        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+          <thead style="background-color: darkred; border-color: darkred;" >
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Phone number</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Active</th>
+            <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of userList" #row>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.isActive }}</td>
+            <td>
+              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+                <button type="button" class="btn btn-default" style="background-color: darkred; color: white;" (click)="disableUser(user)" *ngIf="user.isActive">Disable</button>
+                <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;" (click)="enableUser(user)" *ngIf="!user.isActive">Enable</button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalTitle">Manage user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="pressedEdit=false;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-signin text-center"
+              (ngSubmit)="submitEditForm()"
+              #formControl="ngForm">
+          <h1 class="h1 mb-3 font-weight-normal">Edit a user</h1><br>
+          <span class="form-group has-float-label">
+            <input type="text" id="inputFirstName" class="form-control"
+                   name="firstname"
+                   minlength="2"
+                   pattern="[a-zA-Z]+"
+                   required
+                   placeholder=" ">
+            <label for="inputFirstName">First name</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text" id="inputLastName" class="form-control"
+                   name="lastname"
+                   minlength="2"
+                   pattern="[a-zA-Z]+"
+                   required
+                   placeholder=" ">
+            <label for="inputLastName">Last name</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text" id="inputPhoneNumber" class="form-control"
+                   name="phonenumber"
+                   minlength="10"
+                   pattern="[0-9]+"
+                   required
+                   placeholder=" ">
+            <label for="inputPhoneNumber">Phone number</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text" id="inputEmail" class="form-control"
+                   name="email"
+                   pattern="^[a-zA-Z]*@msggroup.com$"
+                   required
+                   placeholder=" ">
+            <label for="inputEmail">E-mail</label>
+          </span>
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;"
+                  [disabled]="formControl.invalid"
+          >Edit
+          </button>
+        </form>
+        <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>
+      </div>
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalTitle">Add user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="pressedEdit=false;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-signin text-center"
+              (ngSubmit)="submitAddForm()"
+              *ngIf="pressedAdd"
+              #formControl="ngForm">
+              <span class="form-group has-float-label">
+                  <span class="help-block"
+                        *ngIf="firstName.errors?.required && firstName.touched">First name is required.</span>
+                  <span class="help-block"
+                        *ngIf="firstName.errors?.minlength && firstName.touched">First name is invalid.</span>
+                  <input type="text"
+                         name="firstName"
+                         minlength="2"
+                         pattern="[a-zA-Z]+"
+                         id="firstNameInput"
+                         #firstName="ngModel"
+                         class="form-control"
+                         required
+                         [(ngModel)]="userModel.firstName"
+                         placeholder=" ">
+                  <label for="firstNameInput">First name</label>
+              </span>
+              <span class="form-group has-float-label">
+                <span class="help-block"
+                      *ngIf="lastName.errors?.required && lastName.touched">Last name is required.</span>
+                <span class="help-block"
+                      *ngIf="lastName.errors?.minlength && lastName.touched">Last name is invalid.</span>
+                <input type="text"
+                       name="lastName"
+                       minlength="2"
+                       pattern="[a-zA-Z]+"
+                       id="lastNameInput"
+                       #lastName="ngModel"
+                       class="form-control"
+                       required
+                       [(ngModel)]="userModel.lastName"
+                       placeholder=" ">
+                <label for="lastNameInput">Last name</label>
+              </span>
+          <span class="form-group has-float-label">
               <span class="help-block" *ngIf="phone.errors?.required && phone.touched">Phone number is required.</span>
               <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched">Phone number is invalid.</span>
               <input type="text"
@@ -57,7 +170,7 @@
                      placeholder=" ">
               <label for="mobileNumberInput">Phone number</label>
             </span>
-    <span class="form-group has-float-label">
+          <span class="form-group has-float-label">
               <span class="help-block" *ngIf="email.errors?.required && email.touched">E-mail is required.</span>
               <span class="help-block" *ngIf="email.errors?.pattern && email.touched">E-mail is invalid.</span>
               <input type="text"
@@ -72,7 +185,7 @@
                      placeholder=" ">
               <label for="emailInput">E-mail</label>
             </span>
-    <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
+          <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
               <span class="help-block"
                     *ngIf="password.errors?.required && password.touched">Password is required.</span>
               <span class="help-block" *ngIf="password.errors?.pattern && password.touched">Password is invalid.</span>
@@ -87,161 +200,20 @@
                      placeholder=" ">
               <label for="passwordInput">Password</label>
             </span>
-    <ul *ngFor="let role of roles">
-      <div class="checkbox">
-        <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
+          <ul *ngFor="let role of roles">
+            <div class="checkbox">
+              <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
+            </div>
+          </ul>
+          <button class="btn btn-lg btn-block" type="submit"
+                  [disabled]="formControl.invalid">Submit
+          </button>
+        </form>
       </div>
-    </ul>
-    <button class="btn btn-lg btn-block" type="submit"
-            [disabled]="formControl.invalid">Submit
-    </button>
-  </form>
-</popup>
-<div class="column justify-content-center">
-  <div class="mat-elevation-z6 data-table">
-    <div *ngIf="userList">
-      <div class="table-responsive">
-        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-          <thead style="background-color: darkred; border-color: darkred;" >
-          <tr>
-            <th scope="col">Username</th>
-            <th scope="col">First name</th>
-            <th scope="col">Last name</th>
-            <th scope="col">Phone number</th>
-            <th scope="col">E-mail</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of userList" data-toggle="modal" #row data-target="#exampleModal" (click)="passDataToModal(user)">
-            <td>{{ user.username }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.phoneNumber }}</td>
-            <td>{{ user.email }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
     </div>
   </div>
-  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
 </div>
-
-<popup #popup style="background: black;">
-  <p>{{message}}</p>
-  <form class="form-signin text-center"
-        (ngSubmit)="submitEditForm()"
-        *ngIf="pressedEdit"
-        #formControl="ngForm">
-    <h1 class="h3 mb-3 font-weight-normal">Edit a user</h1>
-    <span class="form-group has-float-label">
-        <input type="text" id="inputFirstName" class="form-control"
-               name="firstNameToUpdate"
-               minlength="3"
-               pattern="[a-z0-9]+"
-               required
-               [(ngModel)]="userModel.firstName"
-               placeholder=" ">
-        <label for="inputFirstName">First name</label>
-      </span>
-
-    <span class="form-group has-float-label">
-        <input type="text" id="inputLastName" class="form-control"
-               name="lastNameToUpdate"
-               required
-               [(ngModel)]="userModel.lastName"
-               placeholder=" ">
-        <label for="inputLastName">Last name</label>
-      </span>
-    <span class="form-group has-float-label">
-        <input type="text" id="inputPhoneNumber" class="form-control"
-               name="phoneNumberToUpdate"
-               required
-               [(ngModel)]="userModel.phoneNumber"
-               placeholder=" ">
-        <label for="inputPhoneNumber">Phone number</label>
-      </span>
-    <span class="form-group has-float-label">
-        <input type="text" id="inputEmail" class="form-control"
-               name="emailToUpdate"
-               required
-               [(ngModel)]="userModel.email"
-               placeholder=" ">
-        <label for="inputEmail">E-mail</label>
-      </span>
-    <button class="btn btn-lg btn-block" type="submit"
-            [disabled]="formControl.invalid"
-    >Edit
-    </button>
-  </form>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit">Edit</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()"  *ngIf="!pressedEdit && activeUser == true">Disable</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="enableUser()"  *ngIf="!pressedEdit && activeUser == false">Enable</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit">Cancel</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>
-
-</popup>
-
-<!--Modal
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-  <!--<div class="modal-dialog modal-dialog-centered" role="document">-->
-    <!--<div class="modal-content">-->
-      <!--<div class="modal-header">-->
-        <!--<h5 class="modal-title" id="exampleModalLabel">Manage user</h5>-->
-        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="pressedEdit=false;">-->
-          <!--<span aria-hidden="true">&times;</span>-->
-        <!--</button>-->
-      <!--</div>-->
-      <!--<div class="modal-body">-->
-        <!--<p>{{message}}</p>-->
-        <!--<form class="form-signin text-center"-->
-              <!--(ngSubmit)="submitEditForm()"-->
-              <!--*ngIf="pressedEdit"-->
-              <!--#formControl="ngForm">-->
-          <!--<h1 class="h3 mb-3 font-weight-normal">Edit a user</h1>-->
-          <!--<span class="form-group has-float-label">-->
-            <!--<input type="text" id="inputFirstName" class="form-control"-->
-                   <!--name="username"-->
-                   <!--minlength="3"-->
-                   <!--pattern="[a-z0-9]+"-->
-                   <!--required-->
-                   <!--placeholder=" ">-->
-            <!--<label for="inputFirstName">First name</label>-->
-          <!--</span>-->
-          <!--<span class="form-group has-float-label">-->
-            <!--<input type="password" id="inputLastName" class="form-control"-->
-                   <!--name="password"-->
-                   <!--required-->
-                   <!--placeholder=" ">-->
-            <!--<label for="inputLastName">Last name</label>-->
-          <!--</span>-->
-          <!--<span class="form-group has-float-label">-->
-            <!--<input type="password" id="inputPhoneNumber" class="form-control"-->
-                   <!--name="password"-->
-                   <!--required-->
-                   <!--placeholder=" ">-->
-            <!--<label for="inputPhoneNumber">Phone number</label>-->
-          <!--</span>-->
-          <!--<span class="form-group has-float-label">-->
-            <!--<input type="password" id="inputEmail" class="form-control"-->
-                   <!--name="password"-->
-                   <!--required-->
-                   <!--placeholder=" ">-->
-            <!--<label for="inputEmail">E-mail</label>-->
-          <!--</span>-->
-          <!--<button class="btn btn-lg btn-block" type="submit"-->
-                  <!--[disabled]="formControl.invalid"-->
-          <!--&gt;Edit-->
-          <!--</button>-->
-        <!--</form>-->
-        <!--<button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit">Edit</button>-->
-        <!--<button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()" *ngIf="!pressedEdit">Disable</button>-->
-        <!--<button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>-->
-      <!--</div>-->
-      <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
-      <!--&lt;!&ndash;<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>&ndash;&gt;-->
-      <!--&lt;!&ndash;<button type="button" class="btn btn-primary">Save changes</button>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->

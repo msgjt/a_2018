@@ -17,7 +17,7 @@ export class RolesComponent implements OnInit {
   roleList: Role[];
   formControlList: FormControl[];
   permissionsList: Permission[];
-  columnsToDisplay = ['type','permissionTypes'];
+  columnsToDisplay = ['type', 'permissionTypes'];
   isDone = false;
 
   constructor(private roleService: RoleService, private router: Router) {
@@ -35,12 +35,12 @@ export class RolesComponent implements OnInit {
     this.formControlList = [];
     this.roleService.getAllRoles().subscribe((roles) => {
       this.roleList = roles;
-      this.roleService.getAllPermissions().subscribe( (permissions) => {
+      this.roleService.getAllPermissions().subscribe((permissions) => {
         this.permissionsList = permissions;
-        this.roleList.forEach( (role) => {
+        this.roleList.forEach((role) => {
           let valid = [];
-          this.permissionsList.forEach( perm => {
-            if( role.permissions.findIndex( p => p.type == perm.type ) != -1 ){
+          this.permissionsList.forEach(perm => {
+            if (role.permissions.findIndex(p => p.type == perm.type) != -1) {
               valid.push(perm);
             }
           });
@@ -62,5 +62,7 @@ export class RolesComponent implements OnInit {
 
   updateRole(role: Role) {
     role.permissions = this.getFormControlForRole(role).value;
-    this.roleService.updateRole(role).subscribe(() => {});
+    this.roleService.updateRole(role).subscribe(() => {
+    });
   }
+}
