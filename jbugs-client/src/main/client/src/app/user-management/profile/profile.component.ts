@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
-import { Popup } from  'ng2-opd-popup';
+import {Popup} from 'ng2-opd-popup';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -12,34 +13,31 @@ export class ProfileComponent implements OnInit {
   loggedIn = true;
   message = '';
   userList: User[];
-  @ViewChild('popup') popup: Popup;
-  columnsToDisplay = ['userName', 'firstName', 'lastName', 'email'];
-  pressedEdit: boolean = false;
-  @ViewChild('addUserPopup') addUserPopup: Popup;
-  pressedAdd: boolean = false;
   userModel: User;
+  @ViewChild('popup') popup: Popup;
+  columnsToDisplay = ['userName', 'firstName', 'lastName', 'email', 'mobileNumber','isActive'];
+  pressedEdit: boolean = false;
+  activeUser: boolean;
   errorMessage: string;
-
 
   constructor(private userService: UserService, private router: Router) {
 
-    this.userService.getAllUsers().subscribe((user) => {
-      this.userList = user;
-    });
+  }
+
+  ngOnInit() {
+    this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+
     this.userModel = {
       id: 0,
       firstName: '',
       lastName: '',
-      isActive: 0,
+      isActive: false,
       mobileNumber: '',
       email: '',
       roles: '',
       username: '',
       password: ''
     };
-  }
-
-  ngOnInit() {
 
   }
 
@@ -52,9 +50,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  someClickHandler(info: any): void {
+  someClickHandler(info: any, id: number, activeState: boolean): void {
     this.message = 'You have clicked on the row containing: \n' + 'Username: ' + info.username + ', First name: ' + info.firstName
-    + ', Last name: ' + info.lastName + ', E-mail: ' + info.email;
+      + ', Last name: ' + info.lastName + ', E-mail: ' + info.email;
     this.popup.options = {
       header: "User info",
       color: "darkred", // red, blue....
@@ -63,45 +61,52 @@ export class ProfileComponent implements OnInit {
       showButtons: false, // You can hide this in case you want to use custom buttons
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
     };
-
+    this.userModel.id = id;
+    this.activeUser = activeState;
     this.popup.show(this.popup.options);
   }
 
   showEditPopup() {
+
     this.pressedEdit = true;
   }
 
   disableUser() {
+    this.userService.deactivateUser(this.userModel.id).subscribe(
+      (response) => {
+        console.log('response ' + JSON.stringify(response));
+      },
+      (error) => {
+        this.errorMessage = error['error'];
+        this.popup.show(this.popup.options);
+      }
+    );
+    this.userList[this.userModel.id - 1].isActive = false;
+    this.activeUser = false;
+
+  }
+
+  enableUser() {
+    this.userService.activateUser(this.userModel.id).subscribe(
+      (response) => {
+        console.log('response ' + JSON.stringify(response));
+      },
+      (error) => {
+        this.errorMessage = error['error'];
+        this.popup.show(this.popup.options);
+      }
+    );
+    this.userList[this.userModel.id - 1].isActive = true;
+    this.activeUser = true;
 
   }
 
   submitEditForm() {
 
-  }
-
-  hidePopup() {
-    this.popup.hide();
-    this.pressedEdit = false;
-  }
-
-  showAddPopup(){
-    this.pressedAdd = true;
-    this.addUserPopup.options = {
-      header: "Add user",
-      color: "darkred", // red, blue....
-      widthProsentage: 30, // The with of the popou measured by browser width
-      animationDuration: 1, // in seconds, 0 = no animation
-      showButtons: false, // You can hide this in case you want to use custom buttons
-      animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-    };
-    this.addUserPopup.show(this.addUserPopup.options);
-
-  }
-
-  submitAddForm(){
-    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password)
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.mobileNumber)
       .subscribe(
         (response) => {
+          this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           console.log('response ' + JSON.stringify(response));
         },
         (error) => {
@@ -109,5 +114,13 @@ export class ProfileComponent implements OnInit {
           this.popup.show(this.popup.options);
         }
       );
+
+  }
+
+
+  hidePopup() {
+    this.popup.hide();
+    this.pressedEdit = false;
+
   }
 }

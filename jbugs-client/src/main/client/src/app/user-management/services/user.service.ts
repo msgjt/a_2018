@@ -7,7 +7,7 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
-  isActive: number;
+  isActive: boolean;
   mobileNumber: string;
   email: string;
   roles: string;
@@ -29,7 +29,7 @@ export class UserService {
   constructor(private router: Router,private http: HttpClient) {
   }
 
-  addUser(firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+  addUser(firstname: string, lastname: string, email: string, mobileNumber:string, username: string, password: string) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");
     let headers = new HttpHeaders(
@@ -55,7 +55,7 @@ export class UserService {
     return this.http.get<User[]>(this.baseURL + '/users',{headers});
   }
 
-  updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+  updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");
     let headers = new HttpHeaders(
@@ -67,10 +67,21 @@ export class UserService {
       'lastName': lastname,
       'email': email,
       'phoneNumber': mobileNumber,
-      'username': username,
-      'password': password
     };
     return this.http.put<boolean>(this.baseURL + '/users', body,{headers});
+  }
+
+
+  deactivateUser(id: number){
+    let body = {
+      'id': id};
+    return this.http.put<boolean>(this.baseURL + '/users/deactivate', body);
+  }
+
+  activateUser(id: number){
+    let body = {
+      'id': id};
+    return this.http.put<boolean>(this.baseURL + '/users/activate', body);
   }
 
   validateUserCredentials(username: string, password: string): Observable<any> {
