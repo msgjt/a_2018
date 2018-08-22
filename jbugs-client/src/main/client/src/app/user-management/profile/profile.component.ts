@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     this.popup.options = {
       header: "User info",
       color: "darkred", // red, blue....
-      widthPercentage: 30, // The with of the popou measured by browser width
+      widthProsentage: 30, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'

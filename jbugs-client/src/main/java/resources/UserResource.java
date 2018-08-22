@@ -1,7 +1,5 @@
 package resources;
 
-
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
