@@ -1,8 +1,6 @@
 package resources;
 
-import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
-import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 
@@ -20,20 +18,18 @@ public class UserResource {
     @EJB
     private UserManagement userManagement;
 
-
     @GET
-    public List<UserDTO> getUsers(){
+    public List<UserDTO> getUsers() {
         return userManagement.getAllUsers();
     }
 
     @POST
-    public Response createUser(UserDTO userDTO){
+    public Response createUser(UserDTO userDTO) {
         try {
             return Response.status(Response.Status.CREATED)
                     .entity(userManagement.createUser(userDTO))
                     .build();
-        }
-        catch (BusinessException be){
+        } catch (BusinessException be) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(be.getMessage())
                     .build();
@@ -42,13 +38,56 @@ public class UserResource {
 
     @Path("/{id}")
     @GET
-    public UserDTO getUserById(@PathParam("id") Long id){
+    public UserDTO getUserById(@PathParam("id") Long id) {
 
         return userManagement.getUserById(id);
     }
 
 
+    @PUT
+    public Response updateUser(UserDTO userDTO) {
+        try {
+            return Response.status(Response.Status.OK)
+                    .entity(userManagement.updateUser(userDTO))
+                    .build();
 
 
+        } catch (BusinessException be) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(be.getMessage())
+                    .build();
+        }
+    }
+
+    @Path("/deactivate")
+    @PUT
+    public Response deactivateUser(UserDTO userDTO) {
+        try {
+            return Response.status(Response.Status.OK)
+                    .entity(userManagement.deactivateUser(userDTO.getId()))
+                    .build();
+        } catch (BusinessException be) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(be.getMessage())
+                    .build();
+        }
+    }
+
+    @Path("/activate")
+    @PUT
+    public Response activateUser(UserDTO userDTO) {
+        try {
+            return Response.status(Response.Status.OK)
+                    .entity(userManagement.activateUser(userDTO.getId()))
+                    .build();
+        } catch (BusinessException be) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(be.getMessage())
+                    .build();
+        }
+    }
 
 }
+
+
+

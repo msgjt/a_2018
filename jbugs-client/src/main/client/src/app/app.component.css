@@ -3,3 +3,17 @@ nav {
   -moz-box-shadow: 0 8px 6px -6px #000;
   box-shadow: 0 8px 6px -6px #000;
 }
+.topnav-right {
+  float: right;
+}
+.footer {
+  position: relative;
+  margin-top: 20px;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+}
+
+
+
+
