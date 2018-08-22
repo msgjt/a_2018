@@ -23,7 +23,7 @@ export class SignUpComponent implements OnInit {
       isActive: false,
       mobileNumber: '',
       email: '',
-      roles: '',
+      roles: [],
       username: '',
       password: ''
     };
@@ -48,7 +48,7 @@ export class SignUpComponent implements OnInit {
 
 
   signUpForm() {
-    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password)
+    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password, this.userModel.roles)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));

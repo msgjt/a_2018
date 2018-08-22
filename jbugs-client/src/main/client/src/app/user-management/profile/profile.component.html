@@ -1,3 +1,102 @@
+<popup #errorPopup>
+  {{message}}
+  <button (click)="hideErrorPopup()">OK</button>
+</popup>
+<button (click)="showAddPopup()">Add user</button>
+<popup #addUserPopup>
+  <form class="form-signin text-center"
+        (ngSubmit)="submitAddForm()"
+        *ngIf="pressedAdd"
+        #formControl="ngForm">
+     <span class="form-group has-float-label">
+              <span class="help-block"
+                    *ngIf="firstName.errors?.required && firstName.touched">First name is required.</span>
+              <span class="help-block"
+                    *ngIf="firstName.errors?.minlength && firstName.touched">First name is invalid.</span>
+              <input type="text"
+                     name="firstName"
+                     minlength="2"
+                     pattern="[a-zA-Z]+"
+                     id="firstNameInput"
+                     #firstName="ngModel"
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.firstName"
+                     placeholder=" ">
+              <label for="firstNameInput">First name</label>
+            </span>
+    <span class="form-group has-float-label">
+              <span class="help-block"
+                    *ngIf="lastName.errors?.required && lastName.touched">Last name is required.</span>
+              <span class="help-block"
+                    *ngIf="lastName.errors?.minlength && lastName.touched">Last name is invalid.</span>
+              <input type="text"
+                     name="lastName"
+                     minlength="2"
+                     pattern="[a-zA-Z]+"
+                     id="lastNameInput"
+                     #lastName="ngModel"
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.lastName"
+                     placeholder=" ">
+              <label for="lastNameInput">Last name</label>
+            </span>
+    <span class="form-group has-float-label">
+              <span class="help-block" *ngIf="phone.errors?.required && phone.touched">Phone number is required.</span>
+              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched">Phone number is invalid.</span>
+              <input type="text"
+                     name="mobileNumber"
+                     minlength="10"
+                     pattern="[+0-9]+"
+                     id="mobileNumberInput"
+                     #phone="ngModel"
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.mobileNumber"
+                     placeholder=" ">
+              <label for="mobileNumberInput">Phone number</label>
+            </span>
+    <span class="form-group has-float-label">
+              <span class="help-block" *ngIf="email.errors?.required && email.touched">E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched">E-mail is invalid.</span>
+              <input type="text"
+                     name="email"
+                     minlength="5"
+                     pattern="^[a-zA-Z]*@msggroup.com$"
+                     id="emailInput"
+                     #email="ngModel"
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.email"
+                     placeholder=" ">
+              <label for="emailInput">E-mail</label>
+            </span>
+    <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
+              <span class="help-block"
+                    *ngIf="password.errors?.required && password.touched">Password is required.</span>
+              <span class="help-block" *ngIf="password.errors?.pattern && password.touched">Password is invalid.</span>
+              <input type="password"
+                     name="password"
+                     id="passwordInput"
+                     #password="ngModel"
+                     class="form-control"
+                     required
+                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
+                     [(ngModel)]="userModel.password"
+                     placeholder=" ">
+              <label for="passwordInput">Password</label>
+            </span>
+    <ul *ngFor="let role of roles">
+      <div class="checkbox">
+        <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
+      </div>
+    </ul>
+    <button class="btn btn-lg btn-block" type="submit"
+            [disabled]="formControl.invalid">Submit
+    </button>
+  </form>
+</popup>
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
     <div *ngIf="userList">
