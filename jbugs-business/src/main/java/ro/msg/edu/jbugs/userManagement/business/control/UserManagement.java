@@ -5,6 +5,7 @@ import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserManagement {
 
@@ -51,7 +52,7 @@ public interface UserManagement {
     void addInLoggedUsers(String username, String token);
     boolean checkLoggedUser(String username, String token);
     void removeUserInLogged(String username);
-    List<Permission> getAllUserPermission(String username);
+    Set<String> getAllUserPermission(String username);
     UserDTO updateUser(UserDTO userDTO) throws BusinessException;
 
 

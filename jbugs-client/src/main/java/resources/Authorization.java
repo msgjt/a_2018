@@ -24,8 +24,9 @@ public class Authorization  {
             UserDTO returnedUserDTO = userManagement.login(userDTO.getUsername(),userDTO.getPassword());
             if(returnedUserDTO != null) {
                 String token= JwtManager.getInstance().createToken(userDTO.getUsername());
+                String username= userDTO.getUsername();
                 String tokenComposed= "{ \"token\": \"" + token + "\" }";
-                userManagement.addInLoggedUsers(userDTO.getUsername(),token);
+                userManagement.addInLoggedUsers(username,token);
                 return Response.status(Response.Status.OK)
                         .entity(tokenComposed)
                         .build();

@@ -13,6 +13,7 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 import javax.ejb.EJB;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.jws.soap.SOAPBinding;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode.USER_VALIDATION_EXCEPTION;
 
+@Singleton
 @Stateless
 public class UserManagementController implements UserManagement {
     //TODO rename;
@@ -306,6 +308,7 @@ public class UserManagementController implements UserManagement {
     //add the username and the token in a map to have the list with the logged users.
     public void addInLoggedUsers(String username, String token){
         loggedUsers.put(username,token);
+        System.out.println("++++++++++-------------++++++++++++++++++"+loggedUsers.get(username)+"+++++++++++");
     }
 
     // check if an user is logged in
@@ -325,7 +328,7 @@ public class UserManagementController implements UserManagement {
     }
 
     //get all permissions assigned to an user
-    public List<Permission> getAllUserPermission(String username){
+    public Set<String> getAllUserPermission(String username){
     Optional<User> user= userPersistenceManager.getUserByUsername(username);
     Set<Permission> allPermisssion = new HashSet<>();
     List<Permission> allPermisionsForAnUser= new ArrayList<>();
@@ -339,8 +342,11 @@ public class UserManagementController implements UserManagement {
             }
         }
     }
+    Set<String> permisionString= new HashSet<>();
     allPermisionsForAnUser.addAll(allPermisssion);
-    return allPermisionsForAnUser;
+    for(Permission p : allPermisionsForAnUser)
+    {permisionString.add(p.getType());}
+    return permisionString;
     }
 
 

@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   columnsToDisplay = ['userName', 'firstName', 'lastName', 'email'];
 
   constructor(private userService: UserService, private router: Router) {
+
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });

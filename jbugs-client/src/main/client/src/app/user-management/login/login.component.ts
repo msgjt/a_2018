@@ -56,9 +56,10 @@ export class LoginComponent implements OnInit {
         (response) => {
       console.log('credentials are valid is : ' + response);
       if (response) {
+        localStorage.setItem(LSKEY, this.userModel.username);
+        localStorage.setItem(TOKENKEY, response.token);
         this.loggedIn = true;
         this.wrongCredentials = false;
-        this.login(response.token);
         this.router.navigate(['./profile']);
       } else {
         this.wrongCredentials = true;
