@@ -396,6 +396,7 @@ public class UserManagementController implements UserManagement {
     }
 
     //get all permissions assigned to an user
+    //comm
     public List<Permission> getAllUserPermission(String username){
     Optional<User> user= userPersistenceManager.getUserByUsername(username);
     Set<Permission> allPermisssion = new HashSet<>();
