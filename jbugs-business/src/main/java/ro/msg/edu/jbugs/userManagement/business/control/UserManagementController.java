@@ -138,6 +138,7 @@ public class UserManagementController implements UserManagement {
                 && isValidPhoneNumber(user.getPhoneNumber())
                 && checkRoles(user);
 
+
         CustomLogger.logExit(this.getClass(),"isValidForCreation",String.valueOf(result));
         return result;
     }
