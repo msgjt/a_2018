@@ -1,7 +1,5 @@
-import resources.Authorization;
-import resources.BugResource;
-import resources.RoleResource;
-import resources.UserResource;
+import resources.*;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -16,6 +14,7 @@ public class UserManagementApplication extends Application {
         classes.add(BugResource.class);
         classes.add(RoleResource.class);
         classes.add(Authorization.class);
+        classes.add(CaptchaResource.class);
         return classes;
     }
 

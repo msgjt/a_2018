@@ -19,6 +19,7 @@ body {
   -webkit-box-shadow: 0 8px 6px -6px #000;
   -moz-box-shadow: 0 8px 6px -6px #000;
   box-shadow: 0 8px 6px -6px #000;
+  overflow-y: auto;
 }
 
 .form-signin {
