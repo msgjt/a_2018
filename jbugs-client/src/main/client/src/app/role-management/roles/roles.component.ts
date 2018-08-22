@@ -64,3 +64,4 @@ export class RolesComponent implements OnInit {
     role.permissions = this.getFormControlForRole(role).value;
     this.roleService.updateRole(role).subscribe(() => {});
   }
+}

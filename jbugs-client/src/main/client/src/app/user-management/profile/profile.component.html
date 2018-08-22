@@ -2,7 +2,7 @@
   {{message}}
   <button (click)="hideErrorPopup()">OK</button>
 </popup>
-<button (click)="showAddPopup()">Add user</button>
+<button (click)="showAddPopup()" translate>demo.Add user</button>
 <popup #addUserPopup>
   <form class="form-signin text-center"
         (ngSubmit)="submitAddForm()"
@@ -10,9 +10,9 @@
         #formControl="ngForm">
      <span class="form-group has-float-label">
               <span class="help-block"
-                    *ngIf="firstName.errors?.required && firstName.touched">First name is required.</span>
+                    *ngIf="firstName.errors?.required && firstName.touched"translate>demo.First name is required.</span>
               <span class="help-block"
-                    *ngIf="firstName.errors?.minlength && firstName.touched">First name is invalid.</span>
+                    *ngIf="firstName.errors?.minlength && firstName.touched"translate>demo.First name is invalid.</span>
               <input type="text"
                      name="firstName"
                      minlength="2"
@@ -23,13 +23,13 @@
                      required
                      [(ngModel)]="userModel.firstName"
                      placeholder=" ">
-              <label for="firstNameInput">First name</label>
+              <label for="firstNameInput"translate>demo.First name</label>
             </span>
     <span class="form-group has-float-label">
               <span class="help-block"
-                    *ngIf="lastName.errors?.required && lastName.touched">Last name is required.</span>
+                    *ngIf="lastName.errors?.required && lastName.touched"translate>demo.Last name is required.</span>
               <span class="help-block"
-                    *ngIf="lastName.errors?.minlength && lastName.touched">Last name is invalid.</span>
+                    *ngIf="lastName.errors?.minlength && lastName.touched"translate>demo.Last name is invalid.</span>
               <input type="text"
                      name="lastName"
                      minlength="2"
@@ -40,11 +40,11 @@
                      required
                      [(ngModel)]="userModel.lastName"
                      placeholder=" ">
-              <label for="lastNameInput">Last name</label>
+              <label for="lastNameInput"translate>demo.Last name</label>
             </span>
     <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="phone.errors?.required && phone.touched">Phone number is required.</span>
-              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched">Phone number is invalid.</span>
+              <span class="help-block" *ngIf="phone.errors?.required && phone.touched"translate>demo.Phone number is required.</span>
+              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched"translate>demo.Phone number is invalid.</span>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
@@ -55,11 +55,11 @@
                      required
                      [(ngModel)]="userModel.phoneNumber"
                      placeholder=" ">
-              <label for="mobileNumberInput">Phone number</label>
+              <label for="mobileNumberInput"translate>demo.Phone number</label>
             </span>
     <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="email.errors?.required && email.touched">E-mail is required.</span>
-              <span class="help-block" *ngIf="email.errors?.pattern && email.touched">E-mail is invalid.</span>
+              <span class="help-block" *ngIf="email.errors?.required && email.touched"translate>demo.E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched"translate>demo.E-mail is invalid.</span>
               <input type="text"
                      name="email"
                      minlength="5"
@@ -70,12 +70,12 @@
                      required
                      [(ngModel)]="userModel.email"
                      placeholder=" ">
-              <label for="emailInput">E-mail</label>
+              <label for="emailInput" >E-mail</label>
             </span>
     <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
               <span class="help-block"
-                    *ngIf="password.errors?.required && password.touched">Password is required.</span>
-              <span class="help-block" *ngIf="password.errors?.pattern && password.touched">Password is invalid.</span>
+                    *ngIf="password.errors?.required && password.touched"translate>demo.Password is required.</span>
+              <span class="help-block" *ngIf="password.errors?.pattern && password.touched"translate>demo.Password is invalid.</span>
               <input type="password"
                      name="password"
                      id="passwordInput"
@@ -85,7 +85,7 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="userModel.password"
                      placeholder=" ">
-              <label for="passwordInput">Password</label>
+              <label for="passwordInput"translate>demo.Password</label>
             </span>
     <ul *ngFor="let role of roles">
       <div class="checkbox">
@@ -93,7 +93,7 @@
       </div>
     </ul>
     <button class="btn btn-lg btn-block" type="submit"
-            [disabled]="formControl.invalid">Submit
+            [disabled]="formControl.invalid"translate>demo.Submit
     </button>
   </form>
 </popup>
@@ -104,10 +104,10 @@
         <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
           <thead style="background-color: darkred; border-color: darkred;" >
           <tr>
-            <th scope="col">Username</th>
-            <th scope="col">First name</th>
-            <th scope="col">Last name</th>
-            <th scope="col">Phone number</th>
+            <th scope="col"translate>demo.Username</th>
+            <th scope="col"translate>demo.First name</th>
+            <th scope="col"translate>demo.Last name</th>
+            <th scope="col"translate>demo.Phone number</th>
             <th scope="col">E-mail</th>
           </tr>
           </thead>
@@ -124,7 +124,7 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
+  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()"translate>demo.Logout</button>
 </div>
 
 <popup #popup style="background: black;">
@@ -133,7 +133,7 @@
         (ngSubmit)="submitEditForm()"
         *ngIf="pressedEdit"
         #formControl="ngForm">
-    <h1 class="h3 mb-3 font-weight-normal">Edit a user</h1>
+    <h1 class="h3 mb-3 font-weight-normal"translate>demo.Edit a user</h1>
     <span class="form-group has-float-label">
         <input type="text" id="inputFirstName" class="form-control"
                name="firstNameToUpdate"
@@ -142,7 +142,7 @@
                required
                [(ngModel)]="userModel.firstName"
                placeholder=" ">
-        <label for="inputFirstName">First name</label>
+        <label for="inputFirstName"translate>demo.First name</label>
       </span>
 
     <span class="form-group has-float-label">
@@ -151,7 +151,7 @@
                required
                [(ngModel)]="userModel.lastName"
                placeholder=" ">
-        <label for="inputLastName">Last name</label>
+        <label for="inputLastName"translate>demo.Last name</label>
       </span>
     <span class="form-group has-float-label">
         <input type="text" id="inputPhoneNumber" class="form-control"
@@ -159,7 +159,7 @@
                required
                [(ngModel)]="userModel.phoneNumber"
                placeholder=" ">
-        <label for="inputPhoneNumber">Phone number</label>
+        <label for="inputPhoneNumber"translate>demo.Phone number</label>
       </span>
     <span class="form-group has-float-label">
         <input type="text" id="inputEmail" class="form-control"
@@ -171,14 +171,14 @@
       </span>
     <button class="btn btn-lg btn-block" type="submit"
             [disabled]="formControl.invalid"
-    >Edit
+   translate >demo.Edit
     </button>
   </form>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit">Edit</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()"  *ngIf="!pressedEdit && activeUser == true">Disable</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="enableUser()"  *ngIf="!pressedEdit && activeUser == false">Enable</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit">Cancel</button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit"translate>demo.Edit</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()"  *ngIf="!pressedEdit && activeUser == true"translate>demo.Disable</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="enableUser()"  *ngIf="!pressedEdit && activeUser == false"translate>demo.Enable</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit"translate>demo.Cancel</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit"translate>demo.Back</button>
 
 </popup>
 
