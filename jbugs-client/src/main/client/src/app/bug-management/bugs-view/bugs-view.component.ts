@@ -12,6 +12,8 @@ export class BugsViewComponent implements OnInit {
   columnsToDisplay = ['title', 'description','version','fixedVersion','status', 'severity','targetDate', 'assignedTo', 'createdBy'];
   bugList: Bug[];
   message:string;
+
+
   @ViewChild('popup') popup: Popup;
   constructor(private bugService: BugService) {
     this.bugService.getAllBugs().subscribe((bug) => {

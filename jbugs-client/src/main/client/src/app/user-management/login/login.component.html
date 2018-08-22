@@ -3,6 +3,7 @@
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
 </popup>
+
 <body class="text-center" *ngIf="!loggedIn">
 <form class="form-signin"
       (ngSubmit)="submitForm()"
@@ -30,7 +31,7 @@
   </span>
   <re-captcha [(ngModel)]="recaptchaResponse"
               name="captcha"
-              required
+
               (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"></re-captcha><br>
   <button class="btn btn-lg btn-block" type="submit"
           [disabled]="formControl.invalid"

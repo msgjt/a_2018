@@ -20,7 +20,7 @@ export class SignUpComponent implements OnInit {
       id: 0,
       firstName: '',
       lastName: '',
-      isActive: 0,
+      isActive: false,
       mobileNumber: '',
       email: '',
       roles: [],

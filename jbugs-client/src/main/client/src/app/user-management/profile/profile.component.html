@@ -99,28 +99,36 @@
 </popup>
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
-    <table mat-table [dataSource]="userList" style="position: sticky; width: 100%;"
-           class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width">
-      <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef> Username</th>
-        <td mat-cell *matCellDef="let user"> {{user.username}}</td>
-      </ng-container>
-      <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef> First name</th>
-        <td mat-cell *matCellDef="let user"> {{user.firstName}}</td>
-      </ng-container>
-      <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef> Last name</th>
-        <td mat-cell *matCellDef="let user"> {{user.lastName}}</td>
-      </ng-container>
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> E-mail</th>
-        <td mat-cell *matCellDef="let user"> {{user.email}}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay" (click)="someClickHandler(myRowData)"></tr>
-    </table>
+    <div *ngIf="userList">
+      <table mat-table [dataSource]="userList" style="position: sticky; width: 100%;" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width">
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef> Username </th>
+          <td mat-cell *matCellDef="let user"  > {{user.username}} </td>
+        </ng-container>
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef> First name </th>
+          <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef> Last name </th>
+          <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> E-mail</th>
+          <td mat-cell *matCellDef="let user"> {{user.email}}</td>
+        </ng-container>
+        <ng-container matColumnDef="mobileNumber">
+          <th mat-header-cell *matHeaderCellDef>Mobile Number </th>
+          <td mat-cell *matCellDef="let user"> {{user.phoneNumber}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef>Active </th>
+          <td mat-cell *matCellDef="let user"> {{user.isActive}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData;let user; columns: columnsToDisplay ;" (click)="someClickHandler(myRowData,user.id,user.isActive)"></tr>
+      </table>
+    </div>
   </div>
   <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
 </div>
@@ -134,31 +142,36 @@
     <h1 class="h3 mb-3 font-weight-normal">Edit a user</h1>
     <span class="form-group has-float-label">
         <input type="text" id="inputFirstName" class="form-control"
-               name="username"
+               name="firstNameToUpdate"
                minlength="3"
                pattern="[a-z0-9]+"
                required
+               [(ngModel)]="userModel.firstName"
                placeholder=" ">
         <label for="inputFirstName">First name</label>
       </span>
+
     <span class="form-group has-float-label">
-        <input type="password" id="inputLastName" class="form-control"
-               name="password"
+        <input type="text" id="inputLastName" class="form-control"
+               name="lastNameToUpdate"
                required
+               [(ngModel)]="userModel.lastName"
                placeholder=" ">
         <label for="inputLastName">Last name</label>
       </span>
     <span class="form-group has-float-label">
-        <input type="password" id="inputPhoneNumber" class="form-control"
-               name="password"
+        <input type="text" id="inputPhoneNumber" class="form-control"
+               name="phoneNumberToUpdate"
                required
+               [(ngModel)]="userModel.mobileNumber"
                placeholder=" ">
         <label for="inputPhoneNumber">Phone number</label>
       </span>
     <span class="form-group has-float-label">
-        <input type="password" id="inputEmail" class="form-control"
-               name="password"
+        <input type="text" id="inputEmail" class="form-control"
+               name="emailToUpdate"
                required
+               [(ngModel)]="userModel.email"
                placeholder=" ">
         <label for="inputEmail">E-mail</label>
       </span>
@@ -167,17 +180,10 @@
     >Edit
     </button>
   </form>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()"
-          *ngIf="!pressedEdit">Edit
-  </button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()" *ngIf="!pressedEdit">
-    Disable
-  </button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit">
-    Cancel
-  </button>
-  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;"
-          *ngIf="pressedEdit">Back
-  </button>
-</popup>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit">Edit</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()"  *ngIf="!pressedEdit && activeUser == true">Disable</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="enableUser()"  *ngIf="!pressedEdit && activeUser == false">Enable</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit">Cancel</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>
 
+</popup>
