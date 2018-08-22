@@ -11,12 +11,12 @@ INSERT INTO ROLES (type) VALUES ('TEST');
 
 -- permisions
 
-INSERT  INTO permissions (type, description) VALUE ('PERMISSION_MANAGEMENT','test');
-INSERT  INTO permissions (type, description) VALUE ('USER_MANAGEMENT','test');
-INSERT  INTO permissions (type, description) VALUE ('BUG_MANAGEMENT','test');
-INSERT  INTO permissions (type, description) VALUE ('BUG_CLOSE','test');
-INSERT  INTO permissions (type, description) VALUE ('BUG_EXPORT_PDF','test');
-INSERT  INTO permissions (type, description) VALUE ('ADRESSED_USER','test');
+-- INSERT  INTO permissions (type, description) VALUE ('PERMISSION_MANAGEMENT','test');
+-- INSERT  INTO permissions (type, description) VALUE ('USER_MANAGEMENT','test');
+-- INSERT  INTO permissions (type, description) VALUE ('BUG_MANAGEMENT','test');
+-- INSERT  INTO permissions (type, description) VALUE ('BUG_CLOSE','test');
+-- INSERT  INTO permissions (type, description) VALUE ('BUG_EXPORT_PDF','test');
+-- INSERT  INTO permissions (type, description) VALUE ('ADRESSED_USER','test');
 INSERT  INTO permissions (type, description) VALUES ('PERMISSION_MANAGEMENT','test');
 INSERT  INTO permissions (type, description) VALUES ('USER_MANAGEMENT','test');
 INSERT  INTO permissions (type, description) VALUES ('BUG_MANAGEMENT','test');

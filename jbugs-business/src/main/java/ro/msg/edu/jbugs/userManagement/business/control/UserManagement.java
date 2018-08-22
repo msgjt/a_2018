@@ -3,6 +3,8 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.List;
 
@@ -36,6 +38,9 @@ public interface UserManagement {
      * @return a list of DTOs containing information about users.
      */
     List<UserDTO> getAllUsers();
+
+    UserDTO getUserById(Long id);
+    UserDTO getUserByUsername(String username);
 
 
     /**

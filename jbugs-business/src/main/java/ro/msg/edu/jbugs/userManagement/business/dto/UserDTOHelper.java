@@ -15,6 +15,7 @@ public class UserDTOHelper {
         userDTO.setUsername(user.getUsername());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setIsActive(user.getIsActive());
+        userDTO.setRoles(user.getRoles());
 
         return userDTO;
     }
@@ -30,6 +31,7 @@ public class UserDTOHelper {
         user.setUsername(userDTO.getUsername());
         user.setIsActive(userDTO.getIsActive());
         user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setRoles(userDTO.getRoles());
         return user;
 
     }

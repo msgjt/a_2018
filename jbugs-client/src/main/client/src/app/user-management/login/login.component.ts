@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.popup.options = {
       header: 'Error occurred',
       color: 'red', // red, blue....
-      widthProsentage: 40, // The with of the popou measured by browser width
+      widthPercentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       confirmBtnContent: 'OK', // The text on your confirm button

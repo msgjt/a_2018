@@ -38,5 +38,13 @@ public class BugResource {
 
     }
 
+    @Path("/{id}")
+    @GET
+    public BugDTO getBugById(@PathParam("id") Long id){
+
+        return bugManagement.getBugById(id);
+    }
+
+
 
 }

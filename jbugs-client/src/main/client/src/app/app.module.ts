@@ -14,6 +14,8 @@ import {PopupModule} from "ng2-opd-popup";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
+
 
 const appRoutes: Routes = [
   {
@@ -32,6 +34,9 @@ const appRoutes: Routes = [
     path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
+    path: 'bugs', component: BugsViewComponent, canActivate: [AuthenticatedGuard]
+  },
+  {
     path: 'error', component: ErrorComponent
   },
   {
@@ -46,7 +51,10 @@ const appRoutes: Routes = [
     LoginComponent,
     ContentComponent,
     ErrorComponent,
-    ProfileComponent
+    ProfileComponent,
+    BugsViewComponent,
+
+
   ],
   imports: [
     BrowserModule,

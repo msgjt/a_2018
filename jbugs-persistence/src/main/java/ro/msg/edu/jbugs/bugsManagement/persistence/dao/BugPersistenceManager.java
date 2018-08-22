@@ -44,4 +44,14 @@ public class BugPersistenceManager {
                 return Optional.empty();
             }
         }
+
+        public Optional<Bug> getBugById(@NotNull Long id){
+            TypedQuery<Bug> q = em.createNamedQuery(Bug.GET_BUG_BY_ID, Bug.class)
+                    .setParameter("id",id);
+            try {
+                return Optional.of(q.getSingleResult());
+            } catch (NoResultException ex) {
+                return Optional.empty();
+            }
+        }
 }
