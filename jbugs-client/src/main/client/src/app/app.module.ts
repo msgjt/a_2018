@@ -12,12 +12,14 @@ import {PopupModule} from "ng2-opd-popup";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
-
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {RECAPTCHA_LANGUAGE, RecaptchaModule} from "ng-recaptcha";
 import { RecaptchaFormsModule } from "ng-recaptcha/forms";
 import { HomeComponent } from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
+import {HttpClient} from '@angular/common/http';
 
 import {
   MatAutocompleteModule,
@@ -154,14 +156,26 @@ export class MaterialModule {}
     RecaptchaFormsModule,
     MaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     {
       provide: RECAPTCHA_LANGUAGE,
-      useValue: 'en'
+      useValue: 'ro'
     }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

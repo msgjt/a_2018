@@ -6,13 +6,11 @@
 <body class="text-center">
   <div class="column justify-content-center">
       <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
-      <h1 class="h3 mb-3 font-weight-normal">Sign up here</h1>
+      <h1 class="h3 mb-3 font-weight-normal"translate>demo.Sign up here</h1>
       <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;">info</i>
       <div #infoDiv class="alert alert-warning" style="width: 50%; margin: 0 auto;" [hidden]="!showInfoDiv">
-        <strong>Keep in mind!</strong> First name and last name should be at least 2 characters long,
-        the phone number should be 10 character long and valid,
-        the e-mail should be valid (from the msggroup.com domain)
-        and the password should contain at least one uppercase and lowercase letter, at least one digit and at least one special character.
+        <strong translate>demo.Keep in mind!</strong>
+        <p translate>demo.KeepInMindMessage</p>
       </div>
       <div class="row justify-content-center">
           <form (ngSubmit)="signUpForm()"
@@ -20,8 +18,8 @@
                 #formElement
                 class="form-signin">
             <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="firstName.errors?.required && firstName.touched">First name is required.</span>
-              <span class="help-block" *ngIf="firstName.errors?.minlength && firstName.touched">First name is invalid.</span>
+              <span class="help-block" *ngIf="firstName.errors?.required && firstName.touched" translate>demo.First name is required.</span>
+              <span class="help-block" *ngIf="firstName.errors?.minlength && firstName.touched"translate>demo.First name is invalid.</span>
               <input type="text"
                      name="firstName"
                      minlength="2"
@@ -31,12 +29,12 @@
                      class="form-control"
                      required
                      [(ngModel)] = "userModel.firstName"
-                     placeholder=" ">
-              <label for="firstNameInput">First name</label>
+                     placeholder="{{ 'demo.First name' | translate }} ">
+              <label for="firstNameInput"translate>demo.First name</label>
             </span>
             <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="lastName.errors?.required && lastName.touched">Last name is required.</span>
-              <span class="help-block" *ngIf="lastName.errors?.minlength && lastName.touched">Last name is invalid.</span>
+              <span class="help-block" *ngIf="lastName.errors?.required && lastName.touched"translate>demo.Last name is required.</span>
+              <span class="help-block" *ngIf="lastName.errors?.minlength && lastName.touched"translate>demo.Last name is invalid.</span>
               <input type="text"
                      name="lastName"
                      minlength="2"
@@ -46,12 +44,12 @@
                      class="form-control"
                      required
                      [(ngModel)] = "userModel.lastName"
-                     placeholder=" ">
-              <label for="lastNameInput">Last name</label>
+                     placeholder="{{ 'demo.Last name' | translate }} ">
+              <label for="lastNameInput"translate>demo.Last name</label>
             </span>
             <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="phone.errors?.required && phone.touched">Phone number is required.</span>
-              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched">Phone number is invalid.</span>
+              <span class="help-block" *ngIf="phone.errors?.required && phone.touched"translate>demo.Phone number is required.</span>
+              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched"translate>demo.Phone number is invalid.</span>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
@@ -61,12 +59,12 @@
                      class="form-control"
                      required
                      [(ngModel)] = "userModel.mobileNumber"
-                     placeholder=" ">
-              <label for="mobileNumberInput">Phone number</label>
+                     placeholder="{{ 'demo.Phone number' | translate }} ">
+              <label for="mobileNumberInput"translate>demo.Phone number</label>
             </span>
             <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="email.errors?.required && email.touched">E-mail is required.</span>
-              <span class="help-block" *ngIf="email.errors?.pattern && email.touched">E-mail is invalid.</span>
+              <span class="help-block" *ngIf="email.errors?.required && email.touched"translate>demo.E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched"translate>demo.E-mail is invalid.</span>
               <input type="text"
                      name="email"
                      minlength="5"
@@ -80,8 +78,8 @@
               <label for="emailInput">E-mail</label>
             </span>
             <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
-              <span class="help-block" *ngIf="password.errors?.required && password.touched">Password is required.</span>
-              <span class="help-block" *ngIf="password.errors?.pattern && password.touched">Password is invalid.</span>
+              <span class="help-block" *ngIf="password.errors?.required && password.touched"translate>demo.Password is required.</span>
+              <span class="help-block" *ngIf="password.errors?.pattern && password.touched"translate>demo.Password is invalid.</span>
               <input type="password"
                      name="password"
                      id="passwordInput"
@@ -90,12 +88,12 @@
                      required
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="userModel.password"
-                     placeholder=" ">
-              <label for="passwordInput">Password</label>
+                     placeholder="{{ 'demo.Password' | translate }} ">
+              <label for="passwordInput"translate>demo.Password</label>
             </span>
             <button type="submit"
                     class="btn btn-default"
-                    [disabled]="formControl.invalid">Submit
+                    [disabled]="formControl.invalid">{{ 'demo.Submit' | translate }}
             </button>
           </form>
       </div>

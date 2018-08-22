@@ -9,7 +9,7 @@
       (ngSubmit)="submitForm()"
       #formControl="ngForm">
   <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
-  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <h1 class="h3 mb-3 font-weight-normal"translate>demo.Please sign in</h1>
   <span class="form-group has-float-label">
     <input type="text" id="inputUsername" class="form-control"
            name="username"
@@ -17,8 +17,8 @@
            pattern="[a-z0-9]+"
            required
            [(ngModel)]="userModel.username"
-           placeholder=" ">
-    <label for="inputUsername">Username</label>
+           placeholder=" {{ 'demo.Username' | translate }}">
+    <label for="inputUsername"translate>demo.Username</label>
   </span>
   <span class="form-group has-float-label">
     <input type="password" id="inputPassword" class="form-control"
@@ -26,8 +26,8 @@
            minlength="4"
            required
            [(ngModel)]="userModel.password"
-           placeholder=" ">
-    <label for="inputPassword">Password</label>
+           placeholder="{{ 'demo.Password' | translate }}">
+    <label for="inputPassword"translate>demo.Password</label>
   </span>
   <re-captcha [(ngModel)]="recaptchaResponse"
               name="captcha"
@@ -35,8 +35,8 @@
               (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"></re-captcha><br>
   <button class="btn btn-lg btn-block" type="submit"
           [disabled]="formControl.invalid"
-  >Sign in
+  >{{ 'demo.Sign in' | translate }}
   </button>
-  <p *ngIf="wrongCredentials ">Wrong credentials</p>
+  <p *ngIf="wrongCredentials "translate>demo.Wrong credentials</p>
 </form>
 </body>
