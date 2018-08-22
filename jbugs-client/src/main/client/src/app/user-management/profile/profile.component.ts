@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   pressedEdit: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });

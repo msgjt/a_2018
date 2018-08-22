@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {Popup} from "ng2-opd-popup";
+import {HttpClient} from "../../../../node_modules/@angular/common/http";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +17,10 @@ export class LoginComponent implements OnInit {
   loggedIn = false;
   @ViewChild('popup') popup: Popup;
   errorMessage: string;
+  baseURL = 'http://localhost:8080/jbugs/rest';
+  recaptchaResponse: any;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -49,26 +53,32 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm() {
-    console.log('Form was submitted with the following data:' +
-      JSON.stringify(this.userModel));
-    this.userService.validateUserCredentials(this.userModel.username,
-      this.userModel.password).subscribe(
-        (response) => {
-      console.log('credentials are valid is : ' + response);
-      if (response) {
-        this.loggedIn = true;
-        this.wrongCredentials = false;
-        this.login(response.token);
-        this.router.navigate(['./profile']);
-      } else {
-        this.wrongCredentials = true;
-        this.loggedIn = false;
+    this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
+      console.log(response);
+      if(response['success'] == true) {
+        console.log('Form was submitted with the following data:' +
+          JSON.stringify(this.userModel));
+        this.userService.validateUserCredentials(this.userModel.username,
+          this.userModel.password).subscribe(
+          (response) => {
+            console.log('credentials are valid is : ' + response);
+            if (response) {
+              this.loggedIn = true;
+              this.wrongCredentials = false;
+              this.login(response.token);
+              this.router.navigate(['./profile']);
+            } else {
+              this.wrongCredentials = true;
+              this.loggedIn = false;
+            }
+          },
+          (error) => {
+            this.errorMessage = error['error'];
+            this.popup.show(this.popup.options);
+          });
       }
-    },
-      (error) => {
-        this.errorMessage = error['error'];
-        this.popup.show(this.popup.options);
-      });
+    });
+
   }
 
   login(token: string) {
@@ -76,5 +86,9 @@ export class LoginComponent implements OnInit {
     console.log('saving token: ' + token);
     localStorage.setItem(TOKENKEY, token);
     this.loggedIn = true;
+  }
+
+  resolved(captchaResponse: string) {
+    this.recaptchaResponse = captchaResponse;
   }
 }

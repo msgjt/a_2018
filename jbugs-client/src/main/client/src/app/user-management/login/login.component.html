@@ -3,17 +3,16 @@
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
 </popup>
-<body class="text-center">
+<body class="text-center" *ngIf="!loggedIn">
 <form class="form-signin"
       (ngSubmit)="submitForm()"
-      *ngIf="!loggedIn"
       #formControl="ngForm">
   <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <span class="form-group has-float-label">
     <input type="text" id="inputUsername" class="form-control"
            name="username"
-           minlength="3"
+           minlength="5"
            pattern="[a-z0-9]+"
            required
            [(ngModel)]="userModel.username"
@@ -23,11 +22,16 @@
   <span class="form-group has-float-label">
     <input type="password" id="inputPassword" class="form-control"
            name="password"
+           minlength="4"
            required
            [(ngModel)]="userModel.password"
            placeholder=" ">
     <label for="inputPassword">Password</label>
   </span>
+  <re-captcha [(ngModel)]="recaptchaResponse"
+              name="captcha"
+              required
+              (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"></re-captcha><br>
   <button class="btn btn-lg btn-block" type="submit"
           [disabled]="formControl.invalid"
   >Sign in

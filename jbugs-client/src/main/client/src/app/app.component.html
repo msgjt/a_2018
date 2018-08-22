@@ -5,21 +5,29 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav nav navbar-right">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="home"><i class="material-icons">home</i></a>
+    <ul class="nav navbar-nav navbar-right" style="margin-top: .5em;">
+      <li>
+        <a class="nav-link" routerLink="home"><i class="material-icons" style="font-size: 36px;">home</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()">Register</a>
+        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()" style="font-size: 24px;">Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()">Login</a>
+        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px;">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">account_circle</i></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()">Roles</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons">account_circle</i></a>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <img src="../assets/romaniaFlag.png" height="36px" style="margin-right: 1em; cursor: pointer;">
+      </li>
+      <li>
+        <img src="../assets/usFlag.png" height="36px" style="cursor: pointer;">
       </li>
     </ul>
   </div>

@@ -1,6 +1,11 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
@@ -10,8 +15,8 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 import ro.msg.edu.jbugs.utils.CustomLogger;
-
 import javax.ejb.EJB;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.jws.soap.SOAPBinding;
 import javax.validation.constraints.NotNull;
@@ -22,12 +27,14 @@ import java.util.stream.Collectors;
 
 import static ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode.*;
 
+@Singleton
 @Stateless
 public class UserManagementController implements UserManagement {
     //TODO rename;
     private final static int MAX_LAST_NAME_LENGTH = 5;
     private final static int MIN_USERNAME_LENGTH = 6;
-    private static Map<String, Integer> failedCounter = new HashMap<String, Integer>();
+    private static final Logger logger = LogManager.getLogger(UserManagementController.class);
+    private static Map<String,Integer> failedCounter= new HashMap<String,Integer>();
     private static Map<String,String> loggedUsers= new HashMap<String,String>();
 
     @EJB
@@ -45,6 +52,11 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
 
         normalizeUserDTO(userDTO);
+        if (userDTO.getRoleDTOS() == null || userDTO.getRoleDTOS().isEmpty()){
+            userDTO.setRoleDTOS(new ArrayList<>());
+            Role devRole = userPersistenceManager.getRoleByType("DEV");
+            userDTO.getRoleDTOS().add(RoleDTOHelper.fromEntity(devRole));
+        }
         validateUserForCreation(userDTO);
         User user = UserDTOHelper.toEntity(userDTO);
         user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
@@ -126,7 +138,11 @@ public class UserManagementController implements UserManagement {
                 && user.getLastName() != null
                 && user.getEmail() != null
                 && user.getPassword() != null
-                && isValidEmail(user.getEmail());
+                && user.getPhoneNumber() != null
+                && isValidEmail(user.getEmail())
+                && isValidPhoneNumber(user.getPhoneNumber())
+                && checkRoles(user);
+
 
         CustomLogger.logExit(this.getClass(),"isValidForCreation",String.valueOf(result));
         return result;
@@ -163,6 +179,7 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(),"generateUsername",firstName,lastName);
 
         StringBuilder username = new StringBuilder();
+
 
         if (lastName.length() >= MAX_LAST_NAME_LENGTH) {
             username.append(lastName.substring(0, MAX_LAST_NAME_LENGTH) + firstName.charAt(0));
@@ -286,6 +303,7 @@ public class UserManagementController implements UserManagement {
         }
         //in case the user login with success the username is reoved from the map
         if (isInFailedCounter(userOptional.get().getUsername())) {
+            System.out.println("Username:  " + userOptional.get().getUsername() + "tried wrong password:   " + failedCounter.get(userOptional.get().getUsername()));
             failedCounter.remove(userOptional.get().getUsername());
         }
         UserDTO result = UserDTOHelper.fromEntity(userOptional.get());
@@ -336,17 +354,21 @@ public class UserManagementController implements UserManagement {
         return result;
     }
 
-    private boolean isValidPhoneNumber(String phonenumber) {
-        CustomLogger.logEnter(this.getClass(),"isValidPhoneNumber",phonenumber);
+    /**
+     * Checks if the given number is a valid german or romanian phone number
+     * @param phoneNumber
+     * @return true if valid, false if not
+     */
+    public boolean isValidPhoneNumber(String phoneNumber) {
+        final Pattern VALID_PHONE_ADDRESS_REGEX_GERMANY =
+                Pattern.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$", Pattern.CASE_INSENSITIVE);
 
-        //TODO Nu merge
-        final Pattern VALID_PHONE_ADDRESS_REGEX =
-                Pattern.compile("(^\\+49)|(^01[5-7][1-9])", Pattern.CASE_INSENSITIVE);
+        Matcher matcher_ger = VALID_PHONE_ADDRESS_REGEX_GERMANY.matcher(phoneNumber);
+        final Pattern VALID_PHONE_ADDRESS_REGEX_ROMANIA =
+                Pattern.compile("^(\\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\\s|\\.|\\-)?([0-9]{3}(\\s|\\.|\\-|)){2}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher_ro = VALID_PHONE_ADDRESS_REGEX_ROMANIA.matcher(phoneNumber);
 
-        Matcher matcher = VALID_PHONE_ADDRESS_REGEX.matcher(phonenumber);
-        boolean result = matcher.find();
-        CustomLogger.logExit(this.getClass(),"isValidPhoneNumber",String.valueOf(result));
-        return result;
+        return matcher_ger.find() || matcher_ro.find();
     }
 
     // check if a specific user already exist in the failedCounter map
@@ -381,7 +403,7 @@ public class UserManagementController implements UserManagement {
     }
 
     //get all permissions assigned to an user
-    public List<Permission> getAllUserPermission(String username){
+    public Set<String> getAllUserPermission(String username){
     Optional<User> user= userPersistenceManager.getUserByUsername(username);
     Set<Permission> allPermisssion = new HashSet<>();
     List<Permission> allPermisionsForAnUser= new ArrayList<>();
@@ -395,9 +417,25 @@ public class UserManagementController implements UserManagement {
             }
         }
     }
+    Set<String> permisionString= new HashSet<>();
     allPermisionsForAnUser.addAll(allPermisssion);
-    return allPermisionsForAnUser;
+    for(Permission p : allPermisionsForAnUser)
+    {permisionString.add(p.getType());}
+    return permisionString;
     }
 
-
+    @Override
+    public boolean checkRoles(UserDTO userDTO) {
+        List<Role> recievedRoles = userDTO.getRoleDTOS()
+                .stream()
+                .map(RoleDTOHelper::toEntity)
+                .collect(Collectors.toList());
+        List<Role> possibleRoles = userPersistenceManager.getAllRoles();
+        for (Role r : recievedRoles){
+            if (!possibleRoles.contains(r)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

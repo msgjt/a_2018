@@ -217,4 +217,14 @@ public class UserPersistenceManager {
         CustomLogger.logExit(this.getClass(),"getUsernameLike",result.toString());
         return result;
     }
+
+    /**
+     * Get the role having a specific type
+     * @param type
+     * @return
+     */
+    public Role getRoleByType(String type) {
+        Query q = em.createQuery("SELECT r FROM Role r WHERE r.type='" + type + "'");
+        return (Role) q.getSingleResult();
+    }
 }

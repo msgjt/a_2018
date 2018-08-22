@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
-import {catchError, map} from "rxjs/operators";
 
 export interface User {
   id: number;
@@ -26,10 +25,16 @@ export class UserService {
 
   baseURL = 'http://localhost:8080/jbugs/rest';
 
+
   constructor(private router: Router,private http: HttpClient) {
   }
 
   addUser(firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'firstName': firstname,
       'lastName': lastname,
@@ -38,14 +43,24 @@ export class UserService {
       'username': username,
       'password': password
     };
-    return this.http.post<boolean>(this.baseURL + '/users', body);
+    return this.http.post<boolean>(this.baseURL + '/users', body,{headers});
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseURL + '/users');
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.get<User[]>(this.baseURL + '/users',{headers});
   }
 
   updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, username: string, password: string) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'id': id,
       'firstName': firstname,
@@ -55,11 +70,10 @@ export class UserService {
       'username': username,
       'password': password
     };
-    return this.http.put<boolean>(this.baseURL + '/users', body);
+    return this.http.put<boolean>(this.baseURL + '/users', body,{headers});
   }
 
   validateUserCredentials(username: string, password: string): Observable<any> {
-
     let body = {
       'username': username,
       'password': password
@@ -70,5 +84,9 @@ export class UserService {
   isLoggedIn() {
     let username = localStorage.getItem(LSKEY);
     return username ? true : false;
+  }
+
+  logout(username: String){
+    
   }
 }

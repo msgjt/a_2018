@@ -4,6 +4,7 @@ import org.junit.Before;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
@@ -13,7 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -144,15 +148,24 @@ public class UserPersistenceManagerBeanTest {
 
     @Test
     public void testCreateUser_Success(){
+        Role role = new Role();
+        role.setId(1L);
+        role.setType("DEV");
+        role.setPermissions(new ArrayList<>());
+        List<Role> dbRoles = new ArrayList<>();
+        dbRoles.add(role);
         when(userPersistenceManager.getUserByEmail(any(String.class)))
                 .thenReturn(Optional.empty());
-
+        when(userPersistenceManager.getRoleByType(any(String.class)))
+                .thenReturn(role);
+        when(userPersistenceManager.getAllRoles())
+                .thenReturn(dbRoles);
 
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName("Cristi");
         userDTO.setLastName("Borcea");
         userDTO.setEmail("dinamo@msggroup.com");
-        userDTO.setPhoneNumber("1234456667");
+        userDTO.setPhoneNumber("0720512346");
         userDTO.setPassword("IloveSteaua");
         try{
         UserDTO createdUser = userManagementController.createUser(userDTO);
@@ -164,4 +177,31 @@ public class UserPersistenceManagerBeanTest {
             fail("Should not reach this point");
         }
     }
+
+    @Test
+    public void testIsValidPhoneNumber_Success(){
+        assertEquals(userManagementController.isValidPhoneNumber("123-456-7890"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("(123) 456-7890"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("123 456 7890"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("+91 (123) 456-7890"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("123.456.7890"),true);
+
+
+        assertEquals(userManagementController.isValidPhoneNumber("0720512346"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("+40213.564.864"),true);
+        assertEquals(userManagementController.isValidPhoneNumber("+40213 564 864"),true);
+
+    }
+
+    @Test
+    public void testIsValidPhoneNumber_Fail(){
+        assertEquals(userManagementController.isValidPhoneNumber("0213/564/864"),false);
+        assertEquals(userManagementController.isValidPhoneNumber("0413564864"),false);
+        assertEquals(userManagementController.isValidPhoneNumber("0790512346"),false);
+        assertEquals(userManagementController.isValidPhoneNumber(""),false);
+        assertEquals(userManagementController.isValidPhoneNumber("abc"),false);
+
+
+    }
+
 }
