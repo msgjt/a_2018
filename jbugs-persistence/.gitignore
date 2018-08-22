@@ -24,8 +24,7 @@
 # Maven 
 target/
 
-# IntelliJ project files 
-*.iml
+# IntelliJ project files
 *.iws
 *.ipr
 .idea/
