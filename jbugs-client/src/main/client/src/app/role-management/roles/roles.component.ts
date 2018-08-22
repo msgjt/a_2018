@@ -24,6 +24,10 @@ export class RolesComponent implements OnInit {
   pressedEdit: boolean = false;
 
   constructor(private roleService: RoleService, private router: Router) {
+
+  }
+
+  ngOnInit() {
     this.roleService.getAllRoles().subscribe((roles) => {
       this.roleList = roles;
     });
@@ -31,10 +35,6 @@ export class RolesComponent implements OnInit {
       this.permissionsList = permissions;
     });
     this.selectedRole = new Role();
-  }
-
-  ngOnInit() {
-
   }
 
   logout() {
@@ -50,7 +50,9 @@ export class RolesComponent implements OnInit {
   contains(permission: Permission): boolean {
     if( ! this.selectedRole.permissions )
       return false;
-    return this.selectedRole.permissions.findIndex(p => p === permission) != -1;
+    let result = this.selectedRole.permissions.findIndex(p => p.type == permission.type) != -1;
+
+    return result;
   }
 
   removePermission(permission: Permission): void {
@@ -59,7 +61,8 @@ export class RolesComponent implements OnInit {
 
 
   addPermission(permission: Permission): void {
-
+    this.selectedRole.permissions.push(permission);
+    this.selectedRole.permissions = this.selectedRole.permissions.slice();
   }
 
   addPermissions(): void {
@@ -99,11 +102,12 @@ export class RolesComponent implements OnInit {
   }
 
   submitAddPermissionsForm() {
-
+    this.permissionPopup.hide();
+    this.popup.show();
   }
 
   submitRoleForm() {
-
+    console.log('done');
   }
 
   hidePopup() {
