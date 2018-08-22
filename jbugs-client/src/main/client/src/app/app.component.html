@@ -28,11 +28,14 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()"style="font-size: 24px; ">Bugs</a>
       </li>
+
+
     </ul>
 
     <ul class="navbar nav ml-auto" >
-      <li><a class="btn btn-default" style="margin: 0em 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-      <div class="dropdown">
+      <li class="nav-item">
+        <a class="nav-link" class="btn btn-default" style="margin: 0em 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+      <div class="dropdown" >
         <a data-target="#" href="page.html" data-toggle="dropdown" class="dropdown-toggle" style="margin: 0em 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" ><span class="glyphicon glyphicon-globe"></span>Language <b class="caret"></b></a>
         <ul class="dropdown-menu" style="background-color: #404040">
           <li><img src="../assets/romaniaFlag.png" height="36px" style="cursor: pointer;"></li>
