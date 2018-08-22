@@ -14,7 +14,7 @@
             <th scope="col" translate>demo.First name</th>
             <th scope="col" translate>demo.Last name</th>
             <th scope="col" translate>demo.Phone number</th>
-            <th scope="col" translate>demo.E-mail</th>
+            <th scope="col" translate>E-mail</th>
             <th scope="col" translate>demo.Active</th>
             <th scope="col" translate>demo.Actions</th>
           </tr>
@@ -89,7 +89,7 @@
                    pattern="^[a-zA-Z]*@msggroup.com$"
                    required
                    placeholder=" ">
-            <label for="inputEmail" translate>demo.E-mail</label>
+            <label for="inputEmail" translate>E-mail</label>
           </span>
           <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;"
                   [disabled]="formControl.invalid" translate
@@ -170,8 +170,8 @@
               <label for="mobileNumberInput" translate>demo.Phone number</label>
             </span>
     <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate>demo.E-mail is required.</span>
-              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate>demo.E-mail is invalid.</span>
+              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate>E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate>E-mail is invalid.</span>
               <input type="text"
                      name="email"
                      minlength="5"
