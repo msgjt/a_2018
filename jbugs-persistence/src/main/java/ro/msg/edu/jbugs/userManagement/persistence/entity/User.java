@@ -46,7 +46,7 @@ public class User extends BaseEntity<Long> {
     @Column(name = "isActive", length = MAX_STRING_LENGTH, nullable = false)
     private Boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Role> roles;
 
     public User() {

@@ -14,8 +14,10 @@ export class ProfileComponent implements OnInit {
   userList: User[];
   @ViewChild('popup') popup: Popup;
   columnsToDisplay = ['userName', 'firstName', 'lastName', 'email'];
+  pressedEdit: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });
@@ -40,13 +42,29 @@ export class ProfileComponent implements OnInit {
     this.popup.options = {
       header: "User info",
       color: "darkred", // red, blue....
-      widthPercentage: 40, // The with of the popou measured by browser width
+      widthProsentage: 30, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-
     };
 
     this.popup.show(this.popup.options);
+  }
+
+  showEditPopup() {
+    this.pressedEdit = true;
+  }
+
+  disableUser() {
+
+  }
+
+  submitEditForm() {
+
+  }
+
+  hidePopup() {
+    this.popup.hide();
+    this.pressedEdit = false;
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {User} from "../../user-management/services/user.service";
 import {Role} from "../entities/role";
+import {Permission} from "../entities/permission";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,10 @@ export class RoleService {
 
   public updateRole(role: Role): Observable<Role> {
     return this.http.post<Role>(this.baseURL + '/roles',role);
+  }
+
+  public getAllPermissions(): Observable<Permission[]> {
+    return this.http.get<Permission[]>(this.baseURL + '/permissions');
   }
 
 }

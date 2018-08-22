@@ -1,11 +1,10 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -13,13 +12,13 @@ public class UserDTO {
     private String email;
     private boolean isActive;
     private String phoneNumber;
-    private List<Role> roles;
+    private List<RoleDTO> roleDTOS;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -87,12 +86,12 @@ public class UserDTO {
         isActive = active;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<RoleDTO> getRoleDTOS() {
+        return roleDTOS;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoleDTOS(List<RoleDTO> roleDTOS) {
+        this.roleDTOS = roleDTOS;
     }
 
     @Override

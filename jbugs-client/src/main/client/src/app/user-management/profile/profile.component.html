@@ -1,11 +1,4 @@
-<popup #popup>
-    <p>{{message}}</p>
-    <button class="btn btn-default" style="margin-right: 1em;">Edit</button>
-    <button class="btn btn-default" style="margin-right: 1em;">Disable</button>
-    <button class="btn btn-default" (click)="popup.hide()">Cancel</button>
-</popup>
-
-  <div class="column justify-content-center">
+<div class="column justify-content-center">
     <div class="mat-elevation-z6 data-table">
     <table mat-table [dataSource]="userList" style="position: sticky; width: 100%;" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width">
       <ng-container matColumnDef="userName">
@@ -32,3 +25,50 @@
     <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
   </div>
 
+<popup #popup style="background: black;">
+  <p>{{message}}</p>
+  <form class="form-signin text-center"
+        (ngSubmit)="submitEditForm()"
+        *ngIf="pressedEdit"
+        #formControl="ngForm">
+    <h1 class="h3 mb-3 font-weight-normal">Edit a user</h1>
+    <span class="form-group has-float-label">
+        <input type="text" id="inputFirstName" class="form-control"
+               name="username"
+               minlength="3"
+               pattern="[a-z0-9]+"
+               required
+               placeholder=" ">
+        <label for="inputFirstName">First name</label>
+      </span>
+    <span class="form-group has-float-label">
+        <input type="password" id="inputLastName" class="form-control"
+               name="password"
+               required
+               placeholder=" ">
+        <label for="inputLastName">Last name</label>
+      </span>
+    <span class="form-group has-float-label">
+        <input type="password" id="inputPhoneNumber" class="form-control"
+               name="password"
+               required
+               placeholder=" ">
+        <label for="inputPhoneNumber">Phone number</label>
+      </span>
+    <span class="form-group has-float-label">
+        <input type="password" id="inputEmail" class="form-control"
+               name="password"
+               required
+               placeholder=" ">
+        <label for="inputEmail">E-mail</label>
+      </span>
+    <button class="btn btn-lg btn-block" type="submit"
+            [disabled]="formControl.invalid"
+    >Edit
+    </button>
+  </form>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="showEditPopup()" *ngIf="!pressedEdit">Edit</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="disableUser()" *ngIf="!pressedEdit">Disable</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="hidePopup()" *ngIf="!pressedEdit">Cancel</button>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit">Back</button>
+</popup>
