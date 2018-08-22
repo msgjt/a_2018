@@ -19,6 +19,7 @@ import { RecaptchaFormsModule } from "ng-recaptcha/forms";
 import { HomeComponent } from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
+import {DataTablesModule} from "angular-datatables";
 
 const appRoutes: Routes = [
   {
@@ -68,9 +69,10 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     PopupModule.forRoot(),
     MatTableModule,
+    DataTablesModule,
     BrowserAnimationsModule,
     RecaptchaModule.forRoot(),
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
   ],
   providers: [
     {

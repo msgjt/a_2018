@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
       firstName: '',
       lastName: '',
       isActive: 0,
-      mobileNumber: '',
+      phoneNumber: '',
       email: '',
       roles: '',
       username: '',
@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit {
     this.popup.options = {
       header: 'Error occurred',
       color: 'red', // red, blue....
-      widthPercentage: 40, // The with of the popou measured by browser width
+      widthProsentage: 40, // The with of the popou measured by browser width
       animationDuration: 1, // in seconds, 0 = no animation
       showButtons: false, // You can hide this in case you want to use custom buttons
       confirmBtnContent: 'OK', // The text on your confirm button
@@ -48,7 +48,7 @@ export class SignUpComponent implements OnInit {
 
 
   signUpForm() {
-    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password)
+    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.phoneNumber,this.userModel.username, this.userModel.password)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));

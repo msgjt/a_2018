@@ -19,7 +19,7 @@
         <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">account_circle</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()">Roles</a>
+        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()" style="font-size: 24px;">Roles</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -30,7 +30,7 @@
         <img src="../assets/usFlag.png" height="36px" style="cursor: pointer;">
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()">Bugs</a>
+        <a class="nav-link" routerLink="bugs"  *ngIf="isUserLoggedIn()" style="font-size: 24px;">Bugs</a>
       </li>
     </ul>
   </div>
