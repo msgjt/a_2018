@@ -2,14 +2,14 @@
 
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
-    <table mat-table [dataSource]="roleList" style="position: sticky; width: 100%;"
-           class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width">
+    <div *ngIf="roleList">
+      <table mat-table [dataSource]="roleList" style="position: sticky; width: 100%;" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width">
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> Roles </th>
         <td mat-cell *matCellDef="let role"> {{role.type}}</td>
       </ng-container>
       <ng-container matColumnDef="permissionTypes">
-        <th mat-header-cell *matHeaderCellDef> Permissions </th>
+        <th mat-header-cell *matHeaderCellDef>  <h1 class="h3 mb-3 font-weight-normal"> Permissions </h1></th>
         <td mat-cell *matCellDef="let role">
           <mat-form-field *ngIf="isDone">
             <mat-select [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
@@ -29,5 +29,5 @@
       <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
     </table>
   </div>
-  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()">Logout</button>
+</div>
 </div>
