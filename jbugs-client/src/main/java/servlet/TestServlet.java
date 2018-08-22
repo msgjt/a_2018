@@ -44,7 +44,7 @@ public class TestServlet extends HttpServlet {
         userDTO.setEmail("doreldorel@msggroup.com");
         userDTO.setPassword("Password");
         userDTO.setPhoneNumber("1234567890");
-        userDTO.setUsername("username");
+        userDTO.setUsername("Dorelut");
         UserDTO persistentUserDTO = null;
 
         UserDTOHelper userDTOHelper = new UserDTOHelper();
@@ -52,7 +52,7 @@ public class TestServlet extends HttpServlet {
 
         BugDTO bug = new BugDTO();
         bug.setTitle("title");
-        bug.setDescription("descript");
+        bug.setDescription("descriptioooooooooooooo");
         bug.setVersion("vers");
         bug.setTargetDate("2020-05-11");
         bug.setStatus("1");

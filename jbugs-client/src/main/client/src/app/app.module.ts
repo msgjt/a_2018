@@ -12,6 +12,8 @@ import {PopupModule} from "ng2-opd-popup";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
+
 import {RECAPTCHA_LANGUAGE, RecaptchaModule} from "ng-recaptcha";
 import { RecaptchaFormsModule } from "ng-recaptcha/forms";
 import { HomeComponent } from './home/home.component';
@@ -35,6 +37,9 @@ const appRoutes: Routes = [
     path: 'roles', component: RolesComponent
   },
   {
+    path: 'bugs', component: BugsViewComponent, canActivate: [AuthenticatedGuard]
+  },
+  {
     path: 'error', component: ErrorComponent
   },
   {
@@ -52,6 +57,7 @@ const appRoutes: Routes = [
     LoginComponent,
     ErrorComponent,
     ProfileComponent,
+    BugsViewComponent,
     HomeComponent,
     RolesComponent
   ],
