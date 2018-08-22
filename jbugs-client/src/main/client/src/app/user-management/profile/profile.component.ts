@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
+import {Role} from "../../role-management/entities/role";
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +20,9 @@ export class ProfileComponent implements OnInit {
   pressedAdd: boolean = false;
   userModel: User;
   errorMessage: string;
+  roles: Role[];
+  @ViewChild('popup') errorPopup: Popup;
+
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -33,14 +37,21 @@ export class ProfileComponent implements OnInit {
       isActive: 0,
       mobileNumber: '',
       email: '',
-      roles: '',
+      roles: [],
       username: '',
       password: ''
     };
   }
 
   ngOnInit() {
-
+    this.errorPopup.options = {
+      header: "Error",
+      color: "darkred", // red, blue....
+      widthProsentage: 30, // The with of the popou measured by browser width
+      animationDuration: 1, // in seconds, 0 = no animation
+      showButtons: false, // You can hide this in case you want to use custom buttons
+      animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
+    };
   }
 
   logout() {
@@ -95,19 +106,37 @@ export class ProfileComponent implements OnInit {
       animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
     };
     this.addUserPopup.show(this.addUserPopup.options);
-
+    this.userService.getAllRoles().subscribe(
+      (roles) => {this.roles = roles;}
+    );
   }
 
   submitAddForm(){
-    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password)
+    this.roles.forEach(role =>
+    {
+      if (role.selected){
+        role.selected = false;
+        this.userModel.roles.push(role);
+      }
+    });
+    this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.mobileNumber,this.userModel.username, this.userModel.password, this.userModel.roles)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.popup.show(this.popup.options);
+          this.errorPopup.show(this.errorPopup.options);
         }
       );
+    this.hideAddPopup();
+  }
+
+  hideAddPopup(){
+    this.addUserPopup.hide();
+  }
+
+  hideErrorPopup(){
+    this.errorPopup.hide();
   }
 }

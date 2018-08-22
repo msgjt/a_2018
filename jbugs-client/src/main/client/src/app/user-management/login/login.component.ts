@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       isActive: 0,
       mobileNumber: '',
       email: '',
-      roles: '',
+      roles: [],
       username: '',
       password: ''
     };

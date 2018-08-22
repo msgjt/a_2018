@@ -1,3 +1,7 @@
+<popup #errorPopup>
+  {{message}}
+  <button (click)="hideErrorPopup()">OK</button>
+</popup>
 <button (click)="showAddPopup()">Add user</button>
 <popup #addUserPopup>
   <form class="form-signin text-center"
@@ -83,6 +87,11 @@
                      placeholder=" ">
               <label for="passwordInput">Password</label>
             </span>
+    <ul *ngFor="let role of roles">
+      <div class="checkbox">
+        <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
+      </div>
+    </ul>
     <button class="btn btn-lg btn-block" type="submit"
             [disabled]="formControl.invalid">Submit
     </button>
