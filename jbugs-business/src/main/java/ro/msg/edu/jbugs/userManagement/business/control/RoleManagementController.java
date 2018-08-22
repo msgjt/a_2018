@@ -17,6 +17,7 @@ public class RoleManagementController implements RoleManagement{
     @EJB
     private UserPersistenceManager userPersistenceManager;
 
+
     @Override
     public List<RoleDTO> getAllRoles() {
         CustomLogger.logEnter(this.getClass(),"getAllRoles","");
@@ -38,4 +39,5 @@ public class RoleManagementController implements RoleManagement{
         CustomLogger.logExit(this.getClass(),"updateRole",result.toString());
         return result;
     }
+
 }
