@@ -1,11 +1,15 @@
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
   <a class="navbar-brand" routerLink="/" style="font-size: 36px;">JBugs</a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="nav navbar-nav navbar-right" style="margin-top: .5em;">
+  <div class="collapse navbar-collapse " id="navbarsExampleDefault">
+    <ul class="nav navbar-nav " style="margin-top: .5em;">
       <li>
         <a class="nav-link" routerLink="home"><i class="material-icons" style="font-size: 36px;">home</i></a>
       </li>
@@ -19,20 +23,25 @@
         <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">account_circle</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()">Roles</a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        <img src="../assets/romaniaFlag.png" height="36px" style="margin-right: 1em; cursor: pointer;">
-      </li>
-      <li>
-        <img src="../assets/usFlag.png" height="36px" style="cursor: pointer;">
+        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()" style="font-size: 24px;">Roles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()">Bugs</a>
+        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()"style="font-size: 24px; ">Bugs</a>
       </li>
     </ul>
+
+    <ul class="navbar nav ml-auto" >
+      <li><a class="btn btn-default" style="margin: 0em 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+      <li><a class="dropdown" style="margin: 0em 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" ><span class="glyphicon glyphicon-globe"></span>Language</a></li>
+
+      <!--<li>-->
+        <!--<img src="../assets/romaniaFlag.png" height="36px" style="margin-right: 1em; cursor: pointer;">-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<img src="../assets/usFlag.png" height="36px" style="cursor: pointer;">-->
+      <!--</li>-->
+    </ul>
+
   </div>
 </nav>
 
@@ -40,7 +49,8 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer" style="background-color: #202020;">
+<footer class="footer " style="background-color: #202020;">
+
   <div class="container">
     <div class="row justify-content-between">
       <div class="col text-center">

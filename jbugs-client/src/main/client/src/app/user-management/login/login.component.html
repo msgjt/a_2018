@@ -3,6 +3,7 @@
   <p>{{errorMessage}}</p>
   <button class="btn btn-default" (click)="popup.hide()">OK</button>
 </popup>
+
 <body class="text-center" *ngIf="!loggedIn">
 <form class="form-signin"
       (ngSubmit)="submitForm()"
