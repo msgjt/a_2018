@@ -60,12 +60,14 @@ input[type=text] {
   -moz-transition: all 0.30s ease-in-out;
   -o-transition: all 0.30s ease-in-out;
   outline: none;
-  border: 1px solid #8b0000;
-
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
 }
 
 input[type=text]:focus {
-  box-shadow: 0 0 5px #8b0000;
+  box-shadow:  0 4px 2px -2px  #8b0000;
 }
 
 input[type=password] {
@@ -73,10 +75,12 @@ input[type=password] {
   -moz-transition: all 0.30s ease-in-out;
   -o-transition: all 0.30s ease-in-out;
   outline: none;
-  border: 1px solid #8b0000;
-  width: 400px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;  width: 400px;
 }
 
 input[type=password]:focus {
-  box-shadow: 0 0 5px #8b0000;
+  box-shadow:  0 4px 2px -2px  #8b0000;
 }

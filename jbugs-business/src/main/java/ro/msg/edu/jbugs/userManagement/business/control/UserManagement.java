@@ -2,9 +2,6 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.List;
 import java.util.Set;
@@ -20,19 +17,11 @@ public interface UserManagement {
      */
     UserDTO createUser(UserDTO userDTO) throws BusinessException;
 
-    /**
-     * Deactivates a user, restricting the access of said user to the app.
-     *
-     * @param username
-     */
-    void deactivateUser(String username) throws BusinessException;
 
-    /**
-     * Activates a deactivated user.
-     *
-     * @param username
-     */
-    void activateUser(String username) throws BusinessException;
+    UserDTO deactivateUser(Long id) throws BusinessException;
+
+
+    UserDTO activateUser(Long id) throws BusinessException;
 
 
     /**
