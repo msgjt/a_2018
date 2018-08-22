@@ -11,7 +11,7 @@ public interface UserManagement {
 
     /**
      * Method is used for persisting an user from an userDTO.
-     * It generates the username and does the validations.
+     * It generates the username and does the validations..
      *
      * @param userDTO user information
      * @return the newly created entity as a userDTO
