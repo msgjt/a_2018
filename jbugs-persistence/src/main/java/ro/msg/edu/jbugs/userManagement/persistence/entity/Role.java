@@ -21,7 +21,7 @@ public class Role extends BaseEntity<Long> {
     @Column(name = "type", length = MAX_STRING_LENGTH)
     private String type;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     private List<Permission> permissions;
 
     public String getType() {
