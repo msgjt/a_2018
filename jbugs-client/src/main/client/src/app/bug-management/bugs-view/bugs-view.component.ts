@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {Popup} from "ng2-opd-popup";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-bugs-view',
@@ -9,35 +10,50 @@ import {Popup} from "ng2-opd-popup";
 })
 export class BugsViewComponent implements OnInit {
 
-  columnsToDisplay = ['title', 'description','version','fixedVersion','status', 'severity','targetDate', 'assignedTo', 'createdBy'];
   bugList: Bug[];
-  message:string;
-
+  bugListAll: Bug[];
+  pagesFormControl : FormControl;
+  bugsAmount: number = 3;
+  currentPage: number = 1;
+  maxPage: number;
 
   @ViewChild('popup') popup: Popup;
   constructor(private bugService: BugService) {
+    this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
-      this.bugList = bug;
+      this.bugListAll = bug;
+      if(this.bugListAll.length % this.bugsAmount == 0) {
+        this.maxPage = this.bugListAll.length / this.bugsAmount;
+      } else {
+        this.maxPage = Math.floor(this.bugListAll.length / this.bugsAmount) + 1;
+      }
+      this.updateTable();
     });
   }
 
   ngOnInit() {
+    this.pagesFormControl = new FormControl(0);
   }
 
-  viewDescription(description: string){
-    this.message = description;
-
-    this.popup.options = {
-      header: "Bug description",
-      color: "darkred", // red, blue....
-      widthProsentage: 40, // The with of the popou measured by browser width
-      animationDuration: 1, // in seconds, 0 = no animation
-      showButtons: false, // You can hide this in case you want to use custom buttons
-      animation: "fadeInDown", // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-    };
-
-    this.popup.show(this.popup.options);
+  previousPage() {
+    if(this.currentPage > 1) {
+      this.currentPage = this.currentPage - 1;
+    }
+    this.updateTable();
   }
 
+  nextPage() {
+    if(this.currentPage < this.maxPage) {
+      this.currentPage = this.currentPage + 1;
+    }
+    this.updateTable();
+  }
 
+  updateTable() {
+    if(this.currentPage == this.maxPage) {
+      this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1));
+    } else {
+      this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1), this.bugsAmount);
+    }
+  }
 }

@@ -11,7 +11,6 @@ import {Role} from "../../role-management/entities/role";
 })
 export class ProfileComponent implements OnInit {
   loggedIn = true;
-  message = '';
   userList: User[];
   @ViewChild('popup') popup: Popup;
   pressedEdit: boolean = false;
@@ -101,8 +100,7 @@ export class ProfileComponent implements OnInit {
   }
 
   passDataToModal(user: User) {
-    this.message = 'You have clicked on the row containing: \n' + 'Username: ' + user.username + ', First name: ' + user.firstName
-      + ', Last name: ' + user.lastName + 'Phone number: ' + user.phoneNumber +', E-mail: ' + user.email;
+    this.userModel = user;
   }
 
   showAddPopup(){
