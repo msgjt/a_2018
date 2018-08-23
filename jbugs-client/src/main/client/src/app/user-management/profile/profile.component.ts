@@ -25,6 +25,10 @@ export class ProfileComponent implements OnInit {
   @ViewChild('popup') errorPopup: Popup;
 
   constructor(private userService: UserService, private router: Router) {
+
+  }
+
+  ngOnInit() {
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });
@@ -38,12 +42,9 @@ export class ProfileComponent implements OnInit {
       roles: [],
       username: '',
       password: ''
-    };
-  }
+    };}
 
-  ngOnInit() {
 
-  }
 
   logout() {
     if (localStorage.getItem(LSKEY)) {

@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+<h3 >Welcome back {{userModel.username}}</h3>
+<div class="modal-body">
+  <form class="form-signin text-center"
+        (ngSubmit)="submitEditForm()"
+        #formControl="ngForm">
+    <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit</h1><br>
+    <span class="form-group has-float-label">
+            <input type="text" id="inputFirstName" class="form-control"
+                   name="firstname"
+                   minlength="2"
+                   pattern="[a-zA-Z]+"
+                   required
+                   [(ngModel)]="userModel.firstName"
+                   placeholder=" ">
+            <label for="inputFirstName" translate>demo.First name</label>
+          </span>
+    <span class="form-group has-float-label">
+            <input type="text" id="inputLastName" class="form-control"
+                   name="lastname"
+                   minlength="2"
+                   pattern="[a-zA-Z]+"
+                   required
+                   [(ngModel)]="userModel.lastName"
+                   placeholder=" ">
+            <label for="inputLastName" translate>demo.Last name</label>
+          </span>
+    <span class="form-group has-float-label">
+            <input type="text" id="inputPhoneNumber" class="form-control"
+                   name="phonenumber"
+                   minlength="10"
+                   pattern="[0-9]+"
+                   required
+                   [(ngModel)]="userModel.phoneNumber"
+                   placeholder=" ">
+            <label for="inputPhoneNumber" translate>demo.Phone number</label>
+          </span>
+    <span class="form-group has-float-label">
+            <input type="text" id="inputEmail" class="form-control"
+                   name="email"
+                   pattern="^[a-zA-Z]*@msggroup.com$"
+                   required
+                   [(ngModel)]="userModel.email"
+                   placeholder=" ">
+            <label for="inputEmail" translate>E-mail</label>
+          </span>
+    <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;">
+           <!-- [disabled]="formControl.invalid"-->
+    {{ 'demo.Edit' | translate }}
+    </button>
+  </form>
+  <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
+</div>
+<!--<div class="modal-footer">-->
+<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--<button type="button" class="btn btn-primary">Save changes</button>-->
+<!--</div>-->
