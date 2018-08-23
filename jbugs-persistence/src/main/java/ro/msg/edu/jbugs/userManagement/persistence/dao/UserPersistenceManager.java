@@ -29,7 +29,6 @@ public class UserPersistenceManager {
      */
     public User createUser(@NotNull User user) {
         CustomLogger.logEnter(this.getClass(),"createUser",user.toString());
-        em.lock(user,LockModeType.PESSIMISTIC_WRITE);
         em.persist(user);
         em.flush();
 
