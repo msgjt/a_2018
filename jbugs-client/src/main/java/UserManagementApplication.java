@@ -17,6 +17,7 @@ public class UserManagementApplication extends Application {
         classes.add(CaptchaResource.class);
         classes.add(PermissionsResource.class);
         classes.add(BusinessExceptionMapper.class);
+        classes.add(Logout.class);
         return classes;
     }
 

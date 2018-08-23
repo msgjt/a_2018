@@ -51,10 +51,11 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     if (localStorage.getItem(LSKEY)) {
-      this.router.navigate(['./login']);
+      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response=>console.log(response.toString()));
       localStorage.removeItem(LSKEY);
       localStorage.removeItem(TOKENKEY);
       this.loggedIn = false;
+      this.router.navigate(['./login']);
     }
   }
 
