@@ -48,6 +48,7 @@ public interface UserManagement {
     void removeUserInLogged(String username);
     Set<String> getAllUserPermission(String username);
     UserDTO updateUser(UserDTO userDTO) throws BusinessException;
+    boolean logout(String username);
 
     boolean checkRoles(UserDTO userDTO);
 
