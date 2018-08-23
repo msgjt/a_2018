@@ -220,7 +220,7 @@
               <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
             </div>
           </ul>
-          <span class="form-group has-float-label">
+         <!-- <span class="form-group has-float-label">
             <mat-form-field>
               <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
                 <mat-select-trigger>
@@ -231,7 +231,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            </span>
+            </span>-->
           <button class="btn btn-lg btn-block" type="submit"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>

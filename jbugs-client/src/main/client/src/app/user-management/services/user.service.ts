@@ -44,7 +44,7 @@ export class UserService {
       'phoneNumber': mobileNumber,
       'username': username,
       'password': password,
-      'roleDTOS': roles
+      'roles': roles
     };
     return this.http.post<boolean>(this.baseURL + '/users', body,{headers});
   }

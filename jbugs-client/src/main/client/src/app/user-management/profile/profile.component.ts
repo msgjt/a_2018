@@ -46,7 +46,9 @@ export class ProfileComponent implements OnInit {
     this.rolesFormControl = new FormControl();
     this.errorOccurred = false;
     this.positiveResponse = false;
-  }
+    this.userService.getAllRoles().subscribe((roles) => {
+      this.roles = roles;
+    });  }
 
   ngOnInit() {
 
