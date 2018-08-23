@@ -97,10 +97,7 @@
         </form>
         <button type="button" class="btn btn-default"  (click)="pressedEdit=false;" *ngIf="pressedEdit" translate >demo.Back</button>
       </div>
-      <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      <!--</div>-->
+
     </div>
   </div>
 </div>
@@ -199,19 +196,16 @@
               <label for="passwordInput" translate style="margin-top: 15px">demo.Password</label>
             </span>
     <ul *ngFor="let role of roles">
-      <div class="checkbox">
-        <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
+      <div class="checkbox" style="margin-right: 450px; margin-left: -20px">
+        <label ><input type="checkbox"  value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
       </div>
     </ul>
-    <button class="btn btn-lg btn-block" type="submit"
+    <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: whitesmoke; font-size: 15px"
             [disabled]="formControl.invalid" translate>demo.Submit
     </button>
   </form>
       </div>
-      <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      <!--</div>-->
+
     </div>
   </div>
 </div>
