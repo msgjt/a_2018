@@ -25,12 +25,10 @@ export class ProfileComponent implements OnInit {
   roles: Role[];
   rolesFormControl: FormControl;
   @ViewChild('popup') errorPopup: Popup;
+  errorOccurred: boolean;
+  positiveResponse: boolean;
 
   constructor(private userService: UserService, private router: Router) {
-
-  }
-
-  ngOnInit() {
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });
@@ -46,9 +44,15 @@ export class ProfileComponent implements OnInit {
       password: ''
     };
     this.rolesFormControl = new FormControl();
+    this.errorOccurred = false;
+    this.positiveResponse = false;
+    this.userService.getAllRoles().subscribe((roles) => {
+      this.roles = roles;
+    });  }
+
+  ngOnInit() {
+
   }
-
-
 
   logout() {
     if (localStorage.getItem(LSKEY)) {
@@ -138,11 +142,16 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+          this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          this.errorOccurred = false;
+          this.positiveResponse = true;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.errorPopup.show(this.errorPopup.options);
+          this.positiveResponse = false;
+          this.errorOccurred = true;
         }
       );
+    this.userModel.roles = [];
   }
 }
