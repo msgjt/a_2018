@@ -25,10 +25,10 @@ export class LoginComponent implements OnInit {
       id: 0,
       firstName: '',
       lastName: '',
-      isActive: 0,
-      mobileNumber: '',
+      isActive: false,
+      phoneNumber: '',
       email: '',
-      roles: '',
+      roles: [],
       username: '',
       password: ''
     };
@@ -53,11 +53,11 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm() {
-    this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
+   /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
       console.log(response);
       if(response['success'] == true) {
         console.log('Form was submitted with the following data:' +
-          JSON.stringify(this.userModel));
+          JSON.stringify(this.userModel));*/
         this.userService.validateUserCredentials(this.userModel.username,
           this.userModel.password).subscribe(
           (response) => {
@@ -77,9 +77,9 @@ export class LoginComponent implements OnInit {
             this.popup.show(this.popup.options);
           });
       }
-    });
+   // });
 
-  }
+
 
   login(token: string) {
     localStorage.setItem(LSKEY, this.userModel.username);

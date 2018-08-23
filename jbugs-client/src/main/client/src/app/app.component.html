@@ -1,47 +1,58 @@
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
   <a class="navbar-brand" routerLink="/" style="font-size: 36px;">JBugs</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="nav navbar-nav navbar-right" style="margin-top: .5em;">
+  <div class="collapse navbar-collapse " id="navbarsExampleDefault">
+    <ul class="nav navbar-nav " style="margin-top: .5em;">
       <li>
         <a class="nav-link" routerLink="home"><i class="material-icons" style="font-size: 36px;">home</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()" style="font-size: 24px;">Register</a>
+        <a class="nav-link" routerLink="register" *ngIf="!isUserLoggedIn()" style="font-size: 24px;" translate>demo.Register</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px;">Login</a>
+        <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px;" translate>demo.Login</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">account_circle</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()">Roles</a>
+        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()" style="font-size: 24px;" translate>demo.Roles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()"style="font-size: 24px; " translate>demo.Bugs</a>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        <img src="../assets/romaniaFlag.png" height="36px" style="margin-right: 1em; cursor: pointer;">
-      </li>
-      <li>
-        <img src="../assets/usFlag.png" height="36px" style="cursor: pointer;">
-      </li>
+
+    <ul class="navbar nav ml-auto" >
+      <li class="nav-item">
+        <a class="nav-link btn btn-default" style="margin: 0 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()" translate><span class="glyphicon glyphicon-log-out"></span>demo.Logout</a></li>
+      <div class="dropdown" >
+        <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle" style="margin: 0 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" translate><span class="glyphicon glyphicon-globe"></span>demo.Language<b class="caret"></b></a>
+        <ul class="dropdown-menu" style="background-color: #404040">
+          <li ><img src="../assets/romaniaFlag.png" (click)="useLanguage('ro')" height="36px" style="cursor: pointer;"></li>
+          <li><img src="../assets/usFlag.png" (click)="useLanguage('en')" height="36px" style="cursor: pointer;"></li>
+        </ul>
+      </div>
     </ul>
   </div>
 </nav>
 
-<main role="main" class="container">
-  <router-outlet></router-outlet>
-</main>
+<div id="wrap">
+  <main role="main" id="main" class="container clear-top">
+    <router-outlet></router-outlet>
+  </main>
 
 <footer class="footer" style="background-color: #202020;">
   <div class="container">
     <div class="row justify-content-between">
       <div class="col text-center">
-        <span class="text-light">Team A</span>
+        <span class="text-light" translate>demo.Team A</span>
       </div>
       <div class="col centerImage">
         <img src="../assets/msglogo.svg" class="msg">
@@ -49,3 +60,4 @@
     </div>
   </div>
 </footer>
+</div>

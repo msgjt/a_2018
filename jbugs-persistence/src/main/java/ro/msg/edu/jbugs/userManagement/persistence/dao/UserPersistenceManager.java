@@ -109,6 +109,7 @@ public class UserPersistenceManager {
     }
 
 
+
     /**
      * Persists a user in the database.
      * @param role : role entity to be created, should not be null

@@ -41,6 +41,16 @@ public class BugManagementController implements BugManagement {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public BugDTO getBugById(Long id) {
+        return BugDTOHelper.fromEntity(bugPersistenceManager.getBugById(id).get());
+    }
+
+    @Override
+    public BugDTO getBugByTitle(String title) {
+        return BugDTOHelper.fromEntity(bugPersistenceManager.getBugByTitle(title).get());
+    }
+
     private boolean isValidForCreation(BugDTO bug) {
         return bug.getTitle() != null ||
                 bug.getAssignedTo() != null ||

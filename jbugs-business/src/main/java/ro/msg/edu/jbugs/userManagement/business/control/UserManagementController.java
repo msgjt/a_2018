@@ -18,7 +18,7 @@ import ro.msg.edu.jbugs.utils.CustomLogger;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
-import javax.jws.soap.SOAPBinding;
+
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -201,48 +201,43 @@ public class UserManagementController implements UserManagement {
 
     }
 
-    /**
-     * Deactivates a user, removing them the ability to login, but keeping their bugs, comments, etc.
-     *
-     * @param username
-     */
-    @Override
-    public void deactivateUser(String username) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"deactivateUser",username);
 
-        Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
+    @Override
+    public UserDTO deactivateUser(Long id) throws BusinessException {
+        Optional<User> userOptional = userPersistenceManager.getUserById(id);
+        UserDTO result;
         if (userOptional.isPresent()) {
-            User user = userPersistenceManager.getUserByUsername(username).get();
+            User user = userOptional.get();
             user.setIsActive(false);
             userPersistenceManager.updateUser(user);
+            result = UserDTOHelper.fromEntity(user);
+
         } else {
-            CustomLogger.logException(this.getClass(),"deactivateUser",USERNAME_NOT_VALID.toString());
+            CustomLogger.logException(this.getClass(), "deactivateUser", USERNAME_NOT_VALID.toString());
             throw (new BusinessException(ExceptionCode.USERNAME_NOT_VALID));
         }
 
-        CustomLogger.logExit(this.getClass(),"deactivateUser","");
+        CustomLogger.logExit(this.getClass(), "deactivateUser", "");
+        return result;
+
     }
 
-    /**
-     * Activates a user, granting them the ability to login. asdf
-     *
-     * @param username
-     */
     @Override
-    public void activateUser(String username) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"activateUser",username);
-
-        Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
+    public UserDTO activateUser(Long id) throws BusinessException {
+        Optional<User> userOptional = userPersistenceManager.getUserById(id);
+        UserDTO result;
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setIsActive(true);
             userPersistenceManager.updateUser(user);
+            result = UserDTOHelper.fromEntity(user);
         } else {
-            CustomLogger.logException(this.getClass(),"activateUser",USERNAME_NOT_VALID.toString());
+            CustomLogger.logException(this.getClass(), "activateUser", USERNAME_NOT_VALID.toString());
             throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
         }
 
-        CustomLogger.logExit(this.getClass(),"activateUser","");
+        CustomLogger.logExit(this.getClass(), "activateUser", "");
+        return result;
     }
 
     /**
@@ -261,6 +256,16 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(),"getAllUsers",result.toString());
         return result;
+    }
+
+    @Override
+    public UserDTO getUserById(Long id) {
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserById(id).get());
+    }
+
+    @Override
+    public UserDTO getUserByUsername(String username) {
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserByUsername(username).get());
     }
 
     /**
@@ -295,7 +300,7 @@ public class UserManagementController implements UserManagement {
                 failedCounter.put(userOptional.get().getUsername(), failedCounter.get(userOptional.get().getUsername()) + 1);
                 //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
-                    deactivateUser(userOptional.get().getUsername());
+                    deactivateUser(userOptional.get().getId());
                 }
             }
             CustomLogger.logException(this.getClass(),"login",PASSWORD_NOT_VALID.toString());
@@ -322,24 +327,23 @@ public class UserManagementController implements UserManagement {
      */
     @Override
     public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"updateUser",userDTO.toString());
+        CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-        if (!isValidForCreation(userDTO)) {
-            CustomLogger.logException(this.getClass(),"updateUser",USER_VALIDATION_EXCEPTION.toString());
+      /*  if (!isValidForCreation(userDTO)) {
+            CustomLogger.logException(this.getClass(), "updateUser", USER_VALIDATION_EXCEPTION.toString());
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
-        }
-        User user=oldUser.get();
+        }*/
+        User user = oldUser.get();
 
         user.setEmail(userDTO.getEmail().trim());
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
-        user.setPassword(userDTO.getPassword().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
-
+        userPersistenceManager.updateUser(user);
         UserDTO result = UserDTOHelper.fromEntity(user);
 
-        CustomLogger.logExit(this.getClass(),"updateUser",result.toString());
+        CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
         return result;
     }
 
