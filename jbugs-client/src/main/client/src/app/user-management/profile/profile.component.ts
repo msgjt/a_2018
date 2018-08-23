@@ -3,6 +3,7 @@ import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit {
   activeUser: boolean;
   errorMessage: string;
   roles: Role[];
+  rolesFormControl: FormControl;
   @ViewChild('popup') errorPopup: Popup;
 
   constructor(private userService: UserService, private router: Router) {
@@ -42,7 +44,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.rolesFormControl = new FormControl();
   }
 
   logout() {
@@ -53,6 +55,14 @@ export class ProfileComponent implements OnInit {
       this.loggedIn = false;
       this.router.navigate(['./login']);
     }
+  }
+
+  setRoles(roles: Role[]) {
+    this.userModel.roles = roles;
+  }
+
+  showRoleDropdown() {
+
   }
 
   showEditPopup() {

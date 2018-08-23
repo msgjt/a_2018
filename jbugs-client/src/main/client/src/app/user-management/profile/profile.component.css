@@ -85,3 +85,11 @@ i {
   cursor: pointer;
   margin-right: 1em;
 }
+
+/deep/ .mat-select-content {
+  z-index: 99;
+}
+
+/deep/ .ng-trigger ng-trigger-transformPanel ng-tns-c6-4 mat-select-panel mat-primary ng-star-inserted mat-select-panel-done-animating {
+  z-index: 99;
+}

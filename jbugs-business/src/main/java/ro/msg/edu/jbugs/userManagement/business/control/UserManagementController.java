@@ -52,10 +52,10 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
 
         normalizeUserDTO(userDTO);
-        if (userDTO.getRoleDTOS() == null || userDTO.getRoleDTOS().isEmpty()){
-            userDTO.setRoleDTOS(new ArrayList<>());
+        if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()){
+            userDTO.setRoles(new ArrayList<>());
             Role devRole = userPersistenceManager.getRoleByType("DEV");
-            userDTO.getRoleDTOS().add(RoleDTOHelper.fromEntity(devRole));
+            userDTO.getRoles().add(RoleDTOHelper.fromEntity(devRole));
         }
         validateUserForCreation(userDTO);
         User user = UserDTOHelper.toEntity(userDTO);
@@ -430,7 +430,7 @@ public class UserManagementController implements UserManagement {
 
     @Override
     public boolean checkRoles(UserDTO userDTO) {
-        List<Role> recievedRoles = userDTO.getRoleDTOS()
+        List<Role> recievedRoles = userDTO.getRoles()
                 .stream()
                 .map(RoleDTOHelper::toEntity)
                 .collect(Collectors.toList());
