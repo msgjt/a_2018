@@ -96,13 +96,16 @@ i {
 }
 
 
-/deep/ .mat-select-content {
-  z-index: 99;
-}
+/*/deep/ .mat-select-content {*/
+  /*z-index: 1000;*/
+  /*position: absolute;*/
+/*}*/
 
-/deep/ .ng-trigger {
-  z-index: 99;
-}
+/*/deep/ .ng-trigger {*/
+  /*z-index: 3000;*/
+  /*position: relative;*/
+
+/*}*/
 
 .has-float-label label, .has-float-label>span {
   position: absolute;

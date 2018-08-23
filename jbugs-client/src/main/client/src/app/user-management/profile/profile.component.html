@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal" >
+<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; z-index: 800; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal" >
   {{ 'demo.Add User' | translate }}
 </button>
 
@@ -212,18 +212,18 @@
                      placeholder=" ">
               <label for="passwordInput" translate style="margin-top: 15px">demo.Password</label>
             </span>
-    <ul *ngFor="let role of roles">
-      <div class="checkbox" style="margin-right: 450px; margin-left: -20px">
-        <label ><input type="checkbox"  value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
-      </div>
-    </ul>
-          <span class="form-group has-float-label">
-            <mat-form-field>
-              <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
+    <!--<ul *ngFor="let role of roles">-->
+      <!--<div class="checkbox" style="margin-right: 450px; margin-left: -20px">-->
+        <!--<label ><input type="checkbox"  value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>-->
+      <!--</div>-->
+    <!--</ul>-->
+          <span class="form-group has-float-label" >
+            <mat-form-field >
+              <mat-select placeholder="Select roles" [formControl]="rolesFormControl"  multiple (selectionChange)="setRoles(rolesFormControl.value)">
                 <mat-select-trigger>
                   Roles selected
                 </mat-select-trigger>
-                <mat-option *ngFor="let role of roles" [value]="role">
+                <mat-option *ngFor="let role of roles" [value]="role"  >
                   {{role.type}}
                 </mat-option>
               </mat-select>
@@ -235,10 +235,7 @@
     </button>
   </form>
       </div>
-      <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      <!--</div>-->
+
     </div>
   </div>
 </div>
