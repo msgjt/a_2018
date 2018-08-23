@@ -1,23 +1,41 @@
-html, body {
+
+/deep/ html {
   height: 100%;
+  box-sizing: border-box;
 }
 
-#wrap {
+/deep/ body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
   min-height: 100%;
 }
 
-#main {
+/deep/ *,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/deep/ #wrap {
+  margin: 0 auto;
+  width: 94%;
+}
+
+/deep/ #main {
   overflow: auto;
   padding-bottom: 50px;
   margin-top: 5em;
+  min-width: 100%;
+  width: 100%;
 }
 
-nav {
+/deep/ nav {
   -webkit-box-shadow: 0 8px 6px -6px #000;
   -moz-box-shadow: 0 8px 6px -6px #000;
   box-shadow: 0 8px 6px -6px #000;
 }
-.topnav-right {
+/deep/ .topnav-right {
   float: right;
 }
 .footer {

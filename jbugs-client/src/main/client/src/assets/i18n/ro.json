@@ -19,8 +19,8 @@
     "Phone number": "Telefon",
     "Password is required.": "Parola este necesara.",
     "Password is invalid.": "Parola invalida.",
-    "E-mail is required.":"E-mail necesar.",
-    "E-mail is invalid.":"E-mail invalid.",
+    "E-mail is required.": "E-mail necesar.",
+    "E-mail is invalid.": "E-mail invalid.",
     "Password": "Parola",
     "Username": "Utilizator",
     "Edit": "Editeaza",
@@ -31,10 +31,11 @@
     "Submit": "Trimite",
     "Keep in mind!": "Tine minte!",
     "Sign up here": "Inscrie-te aici",
-    "KeepInMindMessage": "Numele si prenumele trebuie sa contina cel putin doua caractere,numarul de telefon trebuie sa fie valid si sa contina 10 cifre,emailul trebuie sa fie de forma ( email@msggrop.com ),iar parola trebuie sa contina cel putin o litera mare si una mica,o cifra si un caracter special ",
+    "KeepInMindMessage": "Numele si prenumele trebuie sa contina cel putin doua caractere,numarul de telefon trebuie sa fie valid si sa contina 10 cifre, emailul trebuie sa fie de forma(email@msggrop.com), iar parola trebuie sa contina cel putin o litera mare si una mica, o cifra si un caracter special ",
     "Please sign in": "Introduceti datele pentru autentificare",
     "Wrong credentials": "Credentiale invalide",
     "Sign in": "Conectare",
+    "Add User": "Adauga utilizator",
     "Add user": "Adauga utilizator",
     "Title": "Titlu",
     "Status": "Status",
@@ -45,6 +46,11 @@
     "Target date": "Data tinta",
     "Assigned to": "Asignata catre",
     "Created by": "Creata de",
-    "Full description":" Descriere completa"
+    "Full description": " Descriere completa",
+    "Active": "Activ",
+    "Actions": "Actiuni",
+    "Manage user": "Gestionare user",
+    "Edit a user": "Editeaza un utilizator"
+
   }
 }
