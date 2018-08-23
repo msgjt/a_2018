@@ -56,41 +56,6 @@
       </table>
     </div>
   </div>
-  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()" translate>demo.Logout</button>
-    <div *ngIf="userList">
-      <div class="table-responsive">
-        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-          <thead style="background-color: darkred; border-color: darkred;" >
-          <tr>
-            <th scope="col" translate>demo.Username</th>
-            <th scope="col" translate>demo.First name</th>
-            <th scope="col" translate>demo.Last name</th>
-            <th scope="col" translate>demo.Phone number</th>
-            <th scope="col" translate>E-mail</th>
-            <th scope="col" translate>demo.Active</th>
-            <th scope="col" translate>demo.Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of userList" #row>
-            <td>{{ user.username }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.phoneNumber }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.isActive }}</td>
-            <td>
-              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
-                <button type="button" class="btn btn-default" style="background-color: darkred; color: white;" (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable</button>
-                <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;" (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable</button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
 </div>
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">

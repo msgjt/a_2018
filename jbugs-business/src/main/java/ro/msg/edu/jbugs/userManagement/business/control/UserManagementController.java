@@ -330,10 +330,7 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-      /*  if (!isValidForCreation(userDTO)) {
-            CustomLogger.logException(this.getClass(), "updateUser", USER_VALIDATION_EXCEPTION.toString());
-            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
-        }*/
+
         User user = oldUser.get();
 
         user.setEmail(userDTO.getEmail().trim());
