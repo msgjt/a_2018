@@ -29,7 +29,7 @@ const appRoutes: Routes = [
     path: 'login', component: LoginComponent, canActivate: [RedirectGuard]
   },
   {
-    path: 'home', component: HomeComponent,  canActivate: [AuthenticatedGuard]
+    path: 'home', component: HomeComponent
   },
   {
     path: 'roles', component: RolesComponent

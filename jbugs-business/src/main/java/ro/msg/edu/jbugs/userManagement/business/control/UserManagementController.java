@@ -438,4 +438,12 @@ public class UserManagementController implements UserManagement {
         }
         return true;
     }
+
+    public boolean logout(String username){
+        loggedUsers.remove(username);
+        if(!loggedUsers.containsKey(username)){
+            System.out.println("User"+ username+" is logged out "+ !loggedUsers.containsKey(username));
+            return true;}
+        return  false;
+    }
 }

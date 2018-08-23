@@ -86,7 +86,7 @@ export class UserService {
     return username ? true : false;
   }
 
-  logout(username: String){
-
+  logout(username: String):Observable<any>{
+    return this.http.post(this.baseURL + '/logout',username);;
   }
 }
