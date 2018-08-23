@@ -85,3 +85,13 @@ i {
   cursor: pointer;
   margin-right: 1em;
 }
+
+.errorLabel {
+  color: red;
+  margin: 10px;
+}
+
+.successLabel {
+  color: green;
+  margin: 10px;
+}

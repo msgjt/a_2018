@@ -23,6 +23,8 @@ export class ProfileComponent implements OnInit {
   errorMessage: string;
   roles: Role[];
   @ViewChild('popup') errorPopup: Popup;
+  errorOccurred: boolean;
+  positiveResponse: boolean;
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
@@ -39,6 +41,8 @@ export class ProfileComponent implements OnInit {
       username: '',
       password: ''
     };
+    this.errorOccurred = false;
+    this.positiveResponse = false;
   }
 
   ngOnInit() {
@@ -124,11 +128,16 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+          this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          this.errorOccurred = false;
+          this.positiveResponse = true;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.errorPopup.show(this.errorPopup.options);
+          this.positiveResponse = false;
+          this.errorOccurred = true;
         }
       );
+    this.userModel.roles = [];
   }
 }
