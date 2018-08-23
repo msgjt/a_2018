@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-
-=======
->>>>>>> 65f09cdb164947bc53da44f6f8642b772accc98e
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/jbugs-client/src/main/client/dist" />
       <excludeFolder url="file://$MODULE_DIR$/jbugs-client/src/main/client/tmp" />
-=======
->>>>>>> 65f09cdb164947bc53da44f6f8642b772accc98e
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
