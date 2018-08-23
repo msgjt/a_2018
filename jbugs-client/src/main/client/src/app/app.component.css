@@ -38,16 +38,21 @@
 /deep/ .topnav-right {
   float: right;
 }
-
-/deep/ .footer {
-  position: absolute;
-  right: 0;
+.footer {
+  position: relative;
+  overflow: hidden;
   bottom: 0;
-  left: 0;
+  margin-top: 40px;
   width: 100%;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
+  height: 60px;
+}
+
+
+.dropdown-menu {
+  min-width: 5px !important;
+  right: 0; left: auto;
+  background: transparent;
+  border-style: none;
 }
 
 
