@@ -23,7 +23,7 @@
 }
 
 /deep/ #main {
-  overflow: auto;
+  overflow: hidden;
   padding-bottom: 50px;
   margin-top: 5em;
   min-width: 100%;

@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
 import {HttpClient} from '@angular/common/http';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import {
   MatAutocompleteModule,
@@ -87,6 +88,9 @@ const appRoutes: Routes = [
     path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
+    path: 'userProfile', component: UserProfileComponent,canActivate: [AuthenticatedGuard]
+  },
+  {
     path: '**', component: ErrorComponent
   }
 ];
@@ -130,7 +134,8 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  declarations: []
 })
 export class MaterialModule {}
 
@@ -143,6 +148,7 @@ export class MaterialModule {}
     ProfileComponent,
     BugsViewComponent,
     HomeComponent,
+    UserProfileComponent,
     RolesComponent
   ],
   imports: [

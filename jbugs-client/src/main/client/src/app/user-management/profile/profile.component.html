@@ -5,40 +5,57 @@
 </button>
 
 <div class="column justify-content-center">
-    <div *ngIf="userList">
-      <div class="table-responsive">
-        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-          <thead style="background-color: darkred; border-color: darkred;" >
-          <tr>
-            <th scope="col" translate>demo.Username</th>
-            <th scope="col" translate>demo.First name</th>
-            <th scope="col" translate>demo.Last name</th>
-            <th scope="col" translate>demo.Phone number</th>
-            <th scope="col" translate>E-mail</th>
-            <th scope="col" translate>demo.Active</th>
-            <th scope="col" translate>demo.Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of userList" #row>
-            <td>{{ user.username }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.phoneNumber }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.isActive }}</td>
-            <td>
-              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
-                <button type="button" class="btn btn-default" style="background-color: darkred; color: white;" (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable</button>
-                <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;" (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable</button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+  <div *ngIf="userList">
+    <div class="table-responsive">
+      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+        <thead style="background-color: darkred; border-color: darkred;">
+        <tr>
+          <th scope="col" translate>demo.Username</th>
+          <th scope="col" translate>demo.First name</th>
+          <th scope="col" translate>demo.Last name</th>
+          <th scope="col" translate>demo.Phone number</th>
+          <th scope="col" translate>E-mail</th>
+          <th scope="col" translate>demo.Roles</th>
+          <th scope="col" translate>demo.Active</th>
+          <th scope="col" translate>demo.Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of userList" #row>
+          <td>{{ user.username }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <mat-menu #appMenu="matMenu">
+                <span *ngFor="let role of user.roles">
+                  <button mat-menu-item> {{role.type}} </button>
+                </span>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>list</mat-icon>
+            </button>
+          </td>
+          <td>
+            {{ user.isActive }}
+          </td>
+          <td>
+            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+              <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
+                      (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
+              </button>
+              <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;"
+                      (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
@@ -200,12 +217,28 @@
         <label ><input type="checkbox"  value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
       </div>
     </ul>
-    <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: whitesmoke; font-size: 15px"
+          <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
+                <mat-select-trigger>
+                  Roles selected
+                </mat-select-trigger>
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{role.type}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </span>
+
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: whitesmoke; font-size: 15px"
             [disabled]="formControl.invalid" translate>demo.Submit
     </button>
   </form>
       </div>
-
+      <!--<div class="modal-footer">-->
+      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
     </div>
   </div>
 </div>
