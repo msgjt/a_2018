@@ -1,5 +1,4 @@
-<link rel="stylesheet"
-      href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
 <button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal" >
   {{ 'demo.Add User' | translate }}
@@ -16,6 +15,7 @@
           <th scope="col" translate>demo.Last name</th>
           <th scope="col" translate>demo.Phone number</th>
           <th scope="col" translate>E-mail</th>
+          <th scope="col" translate>demo.Roles</th>
           <th scope="col" translate>demo.Active</th>
           <th scope="col" translate>demo.Actions</th>
         </tr>
@@ -27,7 +27,19 @@
           <td>{{ user.lastName }}</td>
           <td>{{ user.phoneNumber }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.isActive }}</td>
+          <td>
+            <mat-menu #appMenu="matMenu">
+                <span *ngFor="let role of user.roles">
+                  <button mat-menu-item> {{role.type}} </button>
+                </span>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>list</mat-icon>
+            </button>
+          </td>
+          <td>
+            {{ user.isActive }}
+          </td>
           <td>
             <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
               <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
@@ -44,7 +56,6 @@
       </table>
     </div>
   </div>
-  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()" translate>demo.Logout</button>
 </div>
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
@@ -209,6 +220,18 @@
               <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
             </div>
           </ul>
+          <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
+                <mat-select-trigger>
+                  Roles selected
+                </mat-select-trigger>
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{role.type}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </span>
           <button class="btn btn-lg btn-block" type="submit"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>

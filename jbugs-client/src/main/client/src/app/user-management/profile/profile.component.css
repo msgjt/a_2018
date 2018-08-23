@@ -105,6 +105,15 @@ i {
   margin: 10px;
 }
 
+
+/deep/ .mat-select-content {
+  z-index: 99;
+}
+
+/deep/ .ng-trigger {
+  z-index: 99;
+}
+
 .has-float-label label, .has-float-label>span {
   position: absolute;
   cursor: text;

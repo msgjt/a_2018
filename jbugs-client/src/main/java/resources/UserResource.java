@@ -3,6 +3,7 @@ package resources;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.utils.CustomLogger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -25,9 +26,13 @@ public class UserResource {
 
     @POST
     public Response createUser(UserDTO userDTO) throws BusinessException {
-        return Response.status(Response.Status.CREATED)
+        CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
+
+        Response response = Response.status(Response.Status.CREATED)
                 .entity(userManagement.createUser(userDTO))
                 .build();
+        CustomLogger.logExit(this.getClass(),"createUser",response.toString());
+        return response;
     }
 
     @Path("/{id}")

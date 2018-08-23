@@ -23,7 +23,7 @@
 }
 
 /deep/ #main {
-  overflow: auto;
+  overflow: hidden;
   padding-bottom: 50px;
   margin-top: 5em;
   min-width: 100%;
@@ -39,12 +39,13 @@
   float: right;
 }
 .footer {
-  position: relative;
-  overflow: hidden;
+  position: absolute;
+  right: 0;
   bottom: 0;
-  margin-top: 40px;
-  width: 100%;
-  height: 60px;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
 }
 
 
@@ -53,4 +54,45 @@
   right: 0; left: auto;
   background: transparent;
   border-style: none;
+}
+
+
+
+
+
+
+
+.tracking-in-expand {
+  -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+
+
+
+
+
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
