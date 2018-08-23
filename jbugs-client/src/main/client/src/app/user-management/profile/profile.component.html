@@ -147,6 +147,7 @@
                          pattern="[a-zA-Z]+"
                          id="firstNameInput"
                          #firstName="ngModel"
+                         #firstNameId
                          class="form-control"
                          required
                          [(ngModel)]="userModel.firstName"
@@ -164,6 +165,7 @@
                        pattern="[a-zA-Z]+"
                        id="lastNameInput"
                        #lastName="ngModel"
+                       #lastNameId
                        class="form-control"
                        required
                        [(ngModel)]="userModel.lastName"
@@ -179,6 +181,7 @@
                      pattern="[+0-9]+"
                      id="mobileNumberInput"
                      #phone="ngModel"
+                     #phoneId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.phoneNumber"
@@ -194,6 +197,7 @@
                      pattern="^[a-zA-Z]*@msggroup.com$"
                      id="emailInput"
                      #email="ngModel"
+                     #emailId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.email"
@@ -208,6 +212,7 @@
                      name="password"
                      id="passwordInput"
                      #password="ngModel"
+                     #passwordId
                      class="form-control"
                      required
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
@@ -233,14 +238,15 @@
             </mat-form-field>
             </span>-->
           <button class="btn btn-lg btn-block" type="submit"
-                  [disabled]="formControl.invalid" translate>demo.Submit
+                  [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
+                                                                      emailId.value='';passwordId.value='';">demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
         </form>
       </div>
       <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="primulNume.value = ''">Close</button>-->
       <!--<button type="button" class="btn btn-primary">Save changes</button>-->
       <!--</div>-->
     </div>
