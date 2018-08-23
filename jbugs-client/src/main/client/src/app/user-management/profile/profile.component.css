@@ -35,7 +35,7 @@ form-group {
 
 .form-control:focus + .form-control-placeholder,
 .form-control:valid + .form-control-placeholder {
-  font-size: 75%;
+  font-size: 100%;
   transform: translate3d(0, -100%, 0);
   opacity: 1;
 }
@@ -46,15 +46,18 @@ input[type=text] {
   -o-transition: all 0.30s ease-in-out;
   outline: none;
   border: 0;
-  margin-bottom: 2em;
-  padding-top: 1.5em;
   outline: 0;
   background: transparent;
   border-bottom: 1px solid black;
+  height: 40px;
+  font-size: 18px;
 }
 
 input[type=text]:focus {
   box-shadow:  0 4px 2px -2px  #8b0000;
+  height: 40px;
+  font-size: 18px;
+
 }
 
 input[type=password] {
@@ -68,10 +71,14 @@ input[type=password] {
   padding-top: 1.5em;
   background: transparent;
   border-bottom: 1px solid black;
+  height: 40px;
+  font-size: 18px;
 }
 
 input[type=password]:focus {
   box-shadow:  0 4px 2px -2px  #8b0000;
+  height: 40px;
+  font-size: 18px;
 }
 
 .has-float-label .form-control:placeholder-shown:not(:focus)+* {
@@ -79,9 +86,25 @@ input[type=password]:focus {
   opacity: .5;
   top: .3em;
   font-weight: 400;
+  height: 40px;
+  margin-top: 30px;
 }
 
 i {
   cursor: pointer;
   margin-right: 1em;
+}
+
+.has-float-label label, .has-float-label>span {
+  position: absolute;
+  cursor: text;
+  font-size: 75%;
+  opacity: 1;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  top: -2em;
+  left: 12px;
+  z-index: 3;
+  line-height: 1;
+  padding: 0 1px;
 }
