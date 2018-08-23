@@ -21,7 +21,7 @@
       </li>
       <li class="nav-item">
 
-        <a class="nav-link" routerLink="userProfile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">account_circle</i></a>
+        <a class="nav-link" routerLink="userProfile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;margin: 3px 10px 0 ;">account_circle</i></a>
       </li>
       <li class="nav-item">
 
@@ -32,7 +32,7 @@
         <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px;">supervisor_account</i></a>
+        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
 
       </li>
       <li class="nav-item">
@@ -62,7 +62,7 @@
     <router-outlet></router-outlet>
   </main>
 
-<footer class="footer" style="background-color: #202020;">
+<footer class="footer" style="background-color: #202020; margin-right: 50px">
   <div class="container">
     <div class="row justify-content-between">
       <div class="col text-center">
