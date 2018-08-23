@@ -44,7 +44,7 @@ export class UserService {
       'phoneNumber': mobileNumber,
       'username': username,
       'password': password,
-      'roleDTOS': roles
+      'roles': roles
     };
     return this.http.post<boolean>(this.baseURL + '/users', body,{headers});
   }
@@ -100,8 +100,8 @@ export class UserService {
     return username ? true : false;
   }
 
-  logout(username: String){
-
+  logout(username: String):Observable<any>{
+    return this.http.post(this.baseURL + '/logout',username);;
   }
 
   getAllRoles(): Observable<Role[]> {

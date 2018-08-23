@@ -55,6 +55,9 @@ button:hover {
   color: white;
 }
 
+
+
+
 input[type=text] {
   -webkit-transition: all 0.30s ease-in-out;
   -moz-transition: all 0.30s ease-in-out;
@@ -84,3 +87,4 @@ input[type=password] {
 input[type=password]:focus {
   box-shadow:  0 4px 2px -2px  #8b0000;
 }
+

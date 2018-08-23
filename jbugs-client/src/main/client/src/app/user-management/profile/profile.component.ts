@@ -3,6 +3,7 @@ import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,10 @@ export class ProfileComponent implements OnInit {
   activeUser: boolean;
   errorMessage: string;
   roles: Role[];
+  rolesFormControl: FormControl;
   @ViewChild('popup') errorPopup: Popup;
+  errorOccurred: boolean;
+  positiveResponse: boolean;
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
@@ -38,7 +42,12 @@ export class ProfileComponent implements OnInit {
       username: '',
       password: ''
     };
-  }
+    this.rolesFormControl = new FormControl();
+    this.errorOccurred = false;
+    this.positiveResponse = false;
+    this.userService.getAllRoles().subscribe((roles) => {
+      this.roles = roles;
+    });  }
 
   ngOnInit() {
 
@@ -46,11 +55,20 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     if (localStorage.getItem(LSKEY)) {
-      this.router.navigate(['./login']);
+      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response=>console.log(response.toString()));
       localStorage.removeItem(LSKEY);
       localStorage.removeItem(TOKENKEY);
       this.loggedIn = false;
+      this.router.navigate(['./login']);
     }
+  }
+
+  setRoles(roles: Role[]) {
+    this.userModel.roles = roles;
+  }
+
+  showRoleDropdown() {
+
   }
 
   showEditPopup() {
@@ -122,11 +140,16 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+          this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          this.errorOccurred = false;
+          this.positiveResponse = true;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.errorPopup.show(this.errorPopup.options);
+          this.positiveResponse = false;
+          this.errorOccurred = true;
         }
       );
+    this.userModel.roles = [];
   }
 }

@@ -6,11 +6,11 @@
 <body class="text-center">
   <div class="column justify-content-center">
       <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
-      <h1 class="h3 mb-3 font-weight-normal" translate>demo.Sign up here</h1>
-      <i class="material-icons" style="cursor: help; font-size: 36px" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" data-toggle="tooltip" translate data-html="true" data-placement="bottom">info</i>
-      <div #infoDiv class="alert alert-warning" style="width: 50%; margin: 0 auto;" [hidden]="!showInfoDiv">
-        <strong translate>demo.Keep in mind!</strong>
-        <p translate>demo.KeepInMindMessage</p>
+      <h1 class="h3 mb-3 font-weight-normal"translate>demo.Sign up here</h1>
+      <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;">info</i>
+      <div #infoDiv class="alert alert-warning" style="left:55%;top:30%;width: 20%; margin: 0 auto;position:fixed;" [hidden]="!showInfoDiv">
+        <strong translate >demo.Keep in mind!</strong>
+        <p translate style="color:black;">demo.KeepInMindMessage</p>
       </div>
       <div class="row justify-content-center">
           <form (ngSubmit)="signUpForm()"

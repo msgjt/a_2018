@@ -52,10 +52,10 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
 
         normalizeUserDTO(userDTO);
-        if (userDTO.getRoleDTOS() == null || userDTO.getRoleDTOS().isEmpty()){
-            userDTO.setRoleDTOS(new ArrayList<>());
+        if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()){
+            userDTO.setRoles(new ArrayList<>());
             Role devRole = userPersistenceManager.getRoleByType("DEV");
-            userDTO.getRoleDTOS().add(RoleDTOHelper.fromEntity(devRole));
+            userDTO.getRoles().add(RoleDTOHelper.fromEntity(devRole));
         }
         validateUserForCreation(userDTO);
         User user = UserDTOHelper.toEntity(userDTO);
@@ -330,10 +330,7 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-      /*  if (!isValidForCreation(userDTO)) {
-            CustomLogger.logException(this.getClass(), "updateUser", USER_VALIDATION_EXCEPTION.toString());
-            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
-        }*/
+
         User user = oldUser.get();
 
         user.setEmail(userDTO.getEmail().trim());
@@ -430,7 +427,7 @@ public class UserManagementController implements UserManagement {
 
     @Override
     public boolean checkRoles(UserDTO userDTO) {
-        List<Role> recievedRoles = userDTO.getRoleDTOS()
+        List<Role> recievedRoles = userDTO.getRoles()
                 .stream()
                 .map(RoleDTOHelper::toEntity)
                 .collect(Collectors.toList());
@@ -441,5 +438,13 @@ public class UserManagementController implements UserManagement {
             }
         }
         return true;
+    }
+
+    public boolean logout(String username){
+        loggedUsers.remove(username);
+        if(!loggedUsers.containsKey(username)){
+            System.out.println("User"+ username+" is logged out "+ !loggedUsers.containsKey(username));
+            return true;}
+        return  false;
     }
 }
