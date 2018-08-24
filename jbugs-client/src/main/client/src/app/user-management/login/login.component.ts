@@ -63,9 +63,10 @@ export class LoginComponent implements OnInit {
           (response) => {
             console.log('credentials are valid is : ' + response);
             if (response) {
+              this.login(response.token);
+              this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
               this.wrongCredentials = false;
-              this.login(response.token);
               this.router.navigate(['./profile']);
             } else {
               this.wrongCredentials = true;
@@ -90,5 +91,15 @@ export class LoginComponent implements OnInit {
 
   resolved(captchaResponse: string) {
     this.recaptchaResponse = captchaResponse;
+  }
+
+  getUsersPermissions(username: string){
+    this.userService.getUsersPermissions(username).subscribe(
+      (list)=>{
+        for(let i=0; i<list.length;i++){
+          localStorage.setItem(list[i].type,"1");
+        }
+      }
+    )
   }
 }

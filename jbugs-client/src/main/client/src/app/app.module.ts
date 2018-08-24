@@ -20,6 +20,7 @@ import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
 import {HttpClient} from '@angular/common/http';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import {
   MatAutocompleteModule,
@@ -60,6 +61,7 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
+import { NorightsComponent } from './norights/norights.component';
 
 const appRoutes: Routes = [
   {
@@ -82,6 +84,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'norights', component: NorightsComponent
   },
   {
     path: 'userProfile', component: UserProfileComponent,canActivate: [AuthenticatedGuard]
@@ -131,7 +136,7 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatTreeModule,
   ],
-  declarations: []
+  declarations: [NorightsComponent]
 })
 export class MaterialModule {}
 
@@ -164,7 +169,8 @@ export class MaterialModule {}
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxPaginationModule
   ],
   providers: [
     {

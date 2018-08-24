@@ -27,14 +27,13 @@
         <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
-
+        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Roles</a>
+        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn() && isPERMISSION_MANAGEMENT()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Roles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()"style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Bugs</a>
+        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn() && isBUG_MANAGEMENT()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Bugs</a>
       </li>
     </ul>
 

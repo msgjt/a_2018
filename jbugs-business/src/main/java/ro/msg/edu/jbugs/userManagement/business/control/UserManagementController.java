@@ -1,12 +1,9 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
-import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
-import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
@@ -20,6 +17,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 import javax.validation.constraints.NotNull;
+import java.security.AllPermission;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -329,14 +327,24 @@ public class UserManagementController implements UserManagement {
     public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
+        if (!isValidForUpdate(userDTO)) {
+            throw new BusinessException(USER_VALIDATION_EXCEPTION);
+        }
+
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-
-        User user = oldUser.get();
-
+        User user = new User();
+        if(oldUser.isPresent()) {
+            user = oldUser.get();
+        }
+        else{
+            throw new BusinessException(ExceptionCode.USER_DOES_NOT_EXIST);
+        }
         user.setEmail(userDTO.getEmail().trim());
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
+        user.setRoles(userDTO.getRoles()
+                .stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()));
         userPersistenceManager.updateUser(user);
         UserDTO result = UserDTOHelper.fromEntity(user);
 
@@ -425,6 +433,26 @@ public class UserManagementController implements UserManagement {
     return permisionString;
     }
 
+    //get all permissions assigned to an user as list
+    public List<Permission> getAllUserPermissionAsList(String username){
+        Optional<User> user= userPersistenceManager.getUserByUsername(username);
+        Set<Permission> allPermission = new HashSet<>();
+        List<Permission> allPermisionsForAnUser= new ArrayList<>();
+        if(user.isPresent()){
+            List<Role> roles= user.get().getRoles();
+            for(Role role : roles){
+                List<Permission> allPermisionsInRole= new ArrayList<>();
+                allPermisionsInRole= role.getPermissions();
+                for (Permission p: allPermisionsInRole){
+                    allPermission.add(p);
+                }
+            }
+        }
+        List<Permission> permisionsList= new ArrayList<>();
+        permisionsList.addAll(allPermission);
+        return permisionsList;
+    }
+
     @Override
     public boolean checkRoles(UserDTO userDTO) {
         List<Role> recievedRoles = userDTO.getRoles()
@@ -446,5 +474,16 @@ public class UserManagementController implements UserManagement {
             System.out.println("User"+ username+" is logged out "+ !loggedUsers.containsKey(username));
             return true;}
         return  false;
+    }
+
+    public boolean isValidForUpdate(UserDTO userDTO){
+        return userDTO.getFirstName() != null
+                && userDTO.getLastName() != null
+                && userDTO.getPhoneNumber() != null
+                && userDTO.getEmail() != null
+                && userDTO.getRoles() != null
+                && isValidEmail(userDTO.getEmail())
+                && isValidPhoneNumber(userDTO.getPhoneNumber())
+                && checkRoles(userDTO);
     }
 }
