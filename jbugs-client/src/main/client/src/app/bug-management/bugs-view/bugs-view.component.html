@@ -1,65 +1,66 @@
-<popup #popup>
-  <p style="word-wrap: break-word; ">{{message}}</p>
-  <button class="btn btn-default" (click)="popup.hide()"translate>demo.Cancel</button>
-
-</popup>
-
-
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
-    <table mat-table [dataSource]="bugList" style="position: sticky; width: 100%; "
-           class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp full-width" show-filter="true" matSort>
+    <div id="tableContainer" class="table-responsive" style="text-align: center !important;">
+      <table class="table table-hover table-dark shadow p-3 mb-5 rounded tablesorter" id="bugsTable">
+        <!--<caption>Showing {{ currentPage }} results.</caption>-->
+        <thead style="background-color: darkred; border-color: darkred;" >
+        <tr>
+          <th scope="col" translate>demo.Description</th>
+          <th scope="col" translate>demo.Fixed Version</th>
+          <th scope="col" translate>demo.Severity</th>
+          <th scope="col" translate>demo.Status</th>
+          <th scope="col" translate>demo.Target date</th>
+          <th scope="col" translate>demo.Title</th>
+          <th scope="col" translate>demo.Version</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let bug of bugListAll | paginate: config" #row>
+          <td>{{ bug.description }}</td>
+          <td>{{ bug.fixedVersion }}</td>
+          <td>{{ bug.severity }}</td>
+          <td translate>demo.{{ bug.status }}</td>
+          <td>{{ bug.targetDate }}</td>
+          <td>{{ bug.title }}</td>
+          <td>{{ bug.version }}</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--<pagination-controls [id]="config.id"-->
+                           <!--[maxSize]="maxSize"-->
+                           <!--[directionLinks]="directionLinks"-->
+                           <!--[autoHide]="autoHide"-->
+                           <!--[responsive]="responsive"-->
+                           <!--[previousLabel]="labels.previousLabel"-->
+                           <!--[nextLabel]="labels.nextLabel"-->
+                           <!--[screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"-->
+                           <!--[screenReaderPageLabel]="labels.screenReaderPageLabel"-->
+                           <!--[screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"-->
+                           <!--(pageChange)="onPageChange($event)">-->
+      <!--</pagination-controls>-->
+    </div>
+    <pagination-template #p="paginationApi"
+                         [id]="config.id"
+                         (pageChange)="config.currentPage = $event">
 
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header >{{ 'demo.Title' | translate }}</th>
-        <td mat-cell *matCellDef="let bug" > {{bug.title}}</td>
-      </ng-container>
+      <div class="custom-pagination">
+        <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+          <a *ngIf="!p.isFirstPage()" (click)="p.previous()" style="color: white"> < </a>
+        </div>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Status' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.status}}</td>
-      </ng-container>
+        <div *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value" style="color: white; margin-bottom: 1em;">
+          <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+            <span>{{ page.label }}</span>
+          </a>
+          <div *ngIf="p.getCurrent() === page.value">
+            <span>{{ page.label }}</span>
+          </div>
+        </div>
 
-      <ng-container matColumnDef="severity">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Severity' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.severity}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Description' | translate }}</th>
-        <td mat-cell *matCellDef="let bug">
-          <button (click)="viewDescription(bug.description)" >{{ 'demo.Full description' | translate }} </button>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="version">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Version' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.version}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="fixedVersion">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Fixed Version' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.fixedVersion}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="targetDate">
-        <th mat-header-cell *matHeaderCellDef > {{ 'demo.Target date' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.targetDate}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="assignedTo">
-        <th mat-header-cell *matHeaderCellDef >{{ 'demo.Assigned to' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.assignedTo.username}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="createdBy">
-        <th mat-header-cell *matHeaderCellDef > {{ 'demo.Created by' | translate }}</th>
-        <td mat-cell *matCellDef="let bug"> {{bug.createdBy.username}}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-
-    </table>
+        <div class="pagination-next" [class.disabled]="p.isLastPage()">
+          <a *ngIf="!p.isLastPage()" (click)="p.next()" style="color: white"> > </a>
+        </div>
+      </div>
+    </pagination-template>
   </div>
 </div>

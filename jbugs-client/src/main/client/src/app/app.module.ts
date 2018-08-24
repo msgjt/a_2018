@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { SignUpComponent } from './user-management/sign-up/sign-up.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './user-management/login/login.component';
@@ -20,6 +19,8 @@ import { HomeComponent } from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
 import {HttpClient} from '@angular/common/http';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import {
   MatAutocompleteModule,
@@ -67,9 +68,6 @@ const appRoutes: Routes = [
     path: '', pathMatch: 'full', redirectTo: '/home'
   },
   {
-    path: 'register', component: SignUpComponent
-  },
-  {
     path: 'login', component: LoginComponent, canActivate: [RedirectGuard]
   },
   {
@@ -89,6 +87,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'norights', component: NorightsComponent
+  },
+  {
+    path: 'userProfile', component: UserProfileComponent,canActivate: [AuthenticatedGuard]
   },
   {
     path: '**', component: ErrorComponent
@@ -142,12 +143,12 @@ export class MaterialModule {}
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent,
     LoginComponent,
     ErrorComponent,
     ProfileComponent,
     BugsViewComponent,
     HomeComponent,
+    UserProfileComponent,
     RolesComponent
   ],
   imports: [
@@ -168,7 +169,8 @@ export class MaterialModule {}
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxPaginationModule
   ],
   providers: [
     {

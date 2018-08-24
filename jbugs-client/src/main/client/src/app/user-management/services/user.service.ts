@@ -45,7 +45,7 @@ export class UserService {
       'phoneNumber': mobileNumber,
       'username': username,
       'password': password,
-      'roleDTOS': roles
+      'roles': roles
     };
     return this.http.post<boolean>(this.baseURL + '/users', body,{headers});
   }
@@ -59,7 +59,7 @@ export class UserService {
     return this.http.get<User[]>(this.baseURL + '/users',{headers});
   }
 
-  updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string) {
+  updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, roles: Role[]) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");
     let headers = new HttpHeaders(
@@ -71,6 +71,7 @@ export class UserService {
       'lastName': lastname,
       'email': email,
       'phoneNumber': mobileNumber,
+      'roles': roles
     };
     return this.http.put<boolean>(this.baseURL + '/users', body,{headers});
   }

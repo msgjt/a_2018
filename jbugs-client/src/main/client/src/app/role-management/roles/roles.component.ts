@@ -40,7 +40,7 @@ export class RolesComponent implements OnInit {
         this.roleList.forEach((role) => {
           let valid = [];
           this.permissionsList.forEach(perm => {
-            if (role.permissions.findIndex(p => p.type == perm.type) != -1) {
+            if (role.permissions.findIndex(p => p.type === perm.type) != -1) {
               valid.push(perm);
             }
           });

@@ -17,7 +17,7 @@ public class UserDTOHelper {
         userDTO.setUsername(user.getUsername());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setIsActive(user.getIsActive());
-        userDTO.setRoleDTOS(user.getRoles()
+        userDTO.setRoles(user.getRoles()
                 .stream().map(RoleDTOHelper::fromEntity).collect(Collectors.toList()));
 
         return userDTO;
@@ -34,7 +34,7 @@ public class UserDTOHelper {
         user.setUsername(userDTO.getUsername());
         user.setIsActive(userDTO.getIsActive());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setRoles(userDTO.getRoleDTOS()
+        user.setRoles(userDTO.getRoles()
                 .stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()));
         return user;
 

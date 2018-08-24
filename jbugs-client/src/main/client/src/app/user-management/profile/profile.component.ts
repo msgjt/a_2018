@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,6 @@ import {Role} from "../../role-management/entities/role";
 })
 export class ProfileComponent implements OnInit {
   loggedIn = true;
-  message = '';
   userList: User[];
   @ViewChild('popup') popup: Popup;
   pressedEdit: boolean = false;
@@ -22,7 +22,13 @@ export class ProfileComponent implements OnInit {
   activeUser: boolean;
   errorMessage: string;
   roles: Role[];
+  rolesFormControl: FormControl;
+  editRolesFormControl: FormControl;
   @ViewChild('popup') errorPopup: Popup;
+  errorOccurred: boolean;
+  positiveResponse: boolean;
+  @ViewChild('infoDiv') infoDiv: ElementRef;
+  showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
@@ -46,10 +52,15 @@ export class ProfileComponent implements OnInit {
       username: '',
       password: ''
     };
-  }
+    this.rolesFormControl = new FormControl();
+    this.errorOccurred = false;
+    this.positiveResponse = false;
+    this.userService.getAllRoles().subscribe((roles) => {
+      this.roles = roles;
+    });  }
 
   ngOnInit() {
-
+    this.editRolesFormControl = new FormControl();
   }
 
   logout() {
@@ -59,6 +70,14 @@ export class ProfileComponent implements OnInit {
       this.loggedIn = false;
       this.router.navigate(['./login']);
     }
+  }
+
+  setRoles(roles: Role[]) {
+    this.userModel.roles = roles;
+  }
+
+  showRoleDropdown() {
+
   }
 
   showEditPopup() {
@@ -94,7 +113,7 @@ export class ProfileComponent implements OnInit {
   }
 
   submitEditForm() {
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber)
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
@@ -108,8 +127,16 @@ export class ProfileComponent implements OnInit {
   }
 
   passDataToModal(user: User) {
-    this.message = 'You have clicked on the row containing: \n' + 'Username: ' + user.username + ', First name: ' + user.firstName
-      + ', Last name: ' + user.lastName + 'Phone number: ' + user.phoneNumber +', E-mail: ' + user.email;
+
+    this.userModel = user;
+    console.log(this.userModel.roles);
+    let selectedRoles = [];
+    this.roles.forEach( role => {
+      if( this.userModel.roles.findIndex(r => r.id === role.id) != -1){
+        selectedRoles.push(role);
+      }
+    });
+    this.editRolesFormControl = new FormControl(selectedRoles);
   }
 
   showAddPopup(){
@@ -131,11 +158,25 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+          this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          this.errorOccurred = false;
+          this.positiveResponse = true;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.errorPopup.show(this.errorPopup.options);
+          this.positiveResponse = false;
+          this.errorOccurred = true;
         }
       );
+    this.userModel.roles = [];
   }
+
+  showInfo() {
+    this.showInfoDiv = true;
+  }
+
+  hideInfo() {
+    this.showInfoDiv = false;
+  }
+
 }

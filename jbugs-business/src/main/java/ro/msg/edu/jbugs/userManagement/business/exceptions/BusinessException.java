@@ -1,5 +1,8 @@
 package ro.msg.edu.jbugs.userManagement.business.exceptions;
 
+
+import javax.ws.rs.core.Response;
+
 public class BusinessException extends Exception {
 
     ExceptionCode exceptionCode;
@@ -36,5 +39,21 @@ public class BusinessException extends Exception {
 
     public void setExceptionCode(ExceptionCode exceptionCode) {
         this.exceptionCode = exceptionCode;
+    }
+
+    public BusinessException(Response response){
+
+    }
+
+    public BusinessException(Throwable cause,Response response){
+
+    }
+
+    public BusinessException(Response.Status status) {
+
+    }
+
+    public BusinessException(Throwable cause,Response.Status status) {
+
     }
 }

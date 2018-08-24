@@ -19,8 +19,8 @@ public class Authorization  {
     private UserManagement userManagement;
 
     @POST
-    public Response isAuthorized(UserDTO userDTO){
-        try {
+    public Response isAuthorized(UserDTO userDTO) throws BusinessException {
+
             UserDTO returnedUserDTO = userManagement.login(userDTO.getUsername(),userDTO.getPassword());
             if(returnedUserDTO != null) {
                 String token= JwtManager.getInstance().createToken(userDTO.getUsername());
@@ -36,11 +36,7 @@ public class Authorization  {
                         .entity("No user with specified username and password")
                         .build();
             }
-        } catch (BusinessException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(e.getMessage())
-                    .build();
-        }
+
     }
 
 

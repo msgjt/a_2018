@@ -12,7 +12,7 @@ public class UserDTO {
     private String email;
     private boolean isActive;
     private String phoneNumber;
-    private List<RoleDTO> roleDTOS;
+    private List<RoleDTO> roles;
 
     public Long getId() {
         return id;
@@ -86,12 +86,12 @@ public class UserDTO {
         isActive = active;
     }
 
-    public List<RoleDTO> getRoleDTOS() {
-        return roleDTOS;
+    public List<RoleDTO> getRoles() {
+        return roles;
     }
 
-    public void setRoleDTOS(List<RoleDTO> roleDTOS) {
-        this.roleDTOS = roleDTOS;
+    public void setRoles(List<RoleDTO> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -104,6 +104,7 @@ public class UserDTO {
                 ", email='" + email + '\'' +
                 ", isActive=" + isActive +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", roles='" + roles + "\''" +
                 '}';
     }
 }

@@ -1,30 +1,57 @@
-html, body {
+
+/deep/ html {
   height: 100%;
+  box-sizing: border-box;
 }
 
-#wrap {
+/deep/ body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
   min-height: 100%;
 }
 
-#main {
-  overflow: auto;
-  padding-bottom: 50px;
-  margin-top: 5em;
+/deep/ *,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
-nav {
+/deep/ #wrap {
+  margin: 0 auto;
+  width: 94%;
+}
+
+/deep/ #main {
+  overflow: hidden;
+  padding-bottom: 50px;
+  margin-top: 5em;
+  min-width: 100%;
+  width: 100%;
+}
+
+/deep/ nav {
   -webkit-box-shadow: 0 8px 6px -6px #000;
   -moz-box-shadow: 0 8px 6px -6px #000;
   box-shadow: 0 8px 6px -6px #000;
 }
-.topnav-right {
+/deep/ .topnav-right {
   float: right;
 }
 .footer {
   position: absolute;
+  overflow: hidden;
   bottom: 0;
-  margin-top: -50px;
   width: 100%;
-  height: 50px;
-  clear: both;
+  right: 0;
+  left: 0;
+  height: 60px;
+}
+
+
+.dropdown-menu {
+  min-width: 5px !important;
+  right: 0; left: auto;
+  background: transparent;
+  border-style: none;
 }
