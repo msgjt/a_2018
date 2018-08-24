@@ -29,6 +29,7 @@
     "core-js": "^2.5.4",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
+    "google-translate-api": "^2.3.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.3.1",
     "ng-recaptcha": "^3.0.5",
