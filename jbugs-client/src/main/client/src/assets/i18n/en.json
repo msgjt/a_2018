@@ -1,6 +1,7 @@
 {
   "demo": {
     "Permissions": "Permissions",
+    "Permission": "Permission",
     "Register": "Register",
     "Login": "Login",
     "Roles": "Roles",
@@ -51,8 +52,15 @@
     "Manage user": "Manage user",
     "Edit a user": "Edit a user",
     "Add user": "Add user",
-    "My Profile": "My Profile"
-
+    "My Profile": "My Profile",
+    "Type": "Type",
+    "Click to edit": "Click to Edit",
+    "New": "New",
+    "In progress":"In progress",
+    "Info needed":"Info needed",
+    "Fixed": "Fixed",
+    "Closed":"Closed",
+    "Rejected":"Rejected"
 
   }
 }
