@@ -21,6 +21,7 @@ import {RedirectGuard} from "./user-management/guards/redirect.guard";
 import { RolesComponent } from './role-management/roles/roles.component';
 import {HttpClient} from '@angular/common/http';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import {
   MatAutocompleteModule,
@@ -169,7 +170,8 @@ export class MaterialModule {}
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxPaginationModule
   ],
   providers: [
     {
