@@ -5,57 +5,55 @@
 </button>
 
 <div class="column justify-content-center">
-  <div *ngIf="userList">
-    <div class="table-responsive">
-      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-        <thead style="background-color: darkred; border-color: darkred;">
-        <tr>
-          <th scope="col" translate>demo.Username</th>
-          <th scope="col" translate>demo.First name</th>
-          <th scope="col" translate>demo.Last name</th>
-          <th scope="col" translate>demo.Phone number</th>
-          <th scope="col" translate>E-mail</th>
-          <th scope="col" translate>demo.Roles</th>
-          <th scope="col" translate>demo.Active</th>
-          <th scope="col" translate>demo.Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let user of userList" #row>
-          <td>{{ user.username }}</td>
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.phoneNumber }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            <mat-menu #appMenu="matMenu">
+    <div *ngIf="userList">
+      <div class="table-responsive">
+        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+          <thead style="background-color: darkred; border-color: darkred;" >
+          <tr>
+            <th scope="col" translate>demo.Username</th>
+            <th scope="col" translate>demo.First name</th>
+            <th scope="col" translate>demo.Last name</th>
+            <th scope="col" translate>demo.Phone number</th>
+            <th scope="col" translate>E-mail</th>
+            <th scope="col" translate>demo.Roles</th>
+            <th scope="col" translate>demo.Active</th>
+            <th scope="col" translate>demo.Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of userList" #row>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
                   <button mat-menu-item disabled> {{role.type}} </button>
                 </span>
-            </mat-menu>
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-              <mat-icon>list</mat-icon>
-            </button>
-          </td>
-          <td>
-            {{ user.isActive }}
-          </td>
-          <td>
-            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
-              <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
-                      (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
+              </mat-menu>
+              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>list</mat-icon>
               </button>
-              <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;"
-                      (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable
-              </button>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            </td>
+            <td>
+              <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px;">check_circle_outline</i>
+              <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px;">highlight_off</i>
+            </td>
+            <td>
+              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+                <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+                <button type="button" class="btn btn-default" style="background-color: darkred; color: white;" (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable</button>
+                <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;" (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable</button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()" translate>demo.Logout</button>
 </div>
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
@@ -76,6 +74,7 @@
             <input type="text" id="inputFirstName" class="form-control"
                    name="firstname"
                    minlength="2"
+                   [(ngModel)]="userModel.firstName"
                    pattern="[a-zA-Z]+"
                    required
                    placeholder=" ">
@@ -85,6 +84,7 @@
             <input type="text" id="inputLastName" class="form-control"
                    name="lastname"
                    minlength="2"
+                   [(ngModel)]="userModel.lastName"
                    pattern="[a-zA-Z]+"
                    required
                    placeholder=" ">
@@ -94,6 +94,7 @@
             <input type="text" id="inputPhoneNumber" class="form-control"
                    name="phonenumber"
                    minlength="10"
+                   [(ngModel)]="userModel.phoneNumber"
                    pattern="[0-9]+"
                    required
                    placeholder=" ">
@@ -102,6 +103,7 @@
           <span class="form-group has-float-label">
             <input type="text" id="inputEmail" class="form-control"
                    name="email"
+                   [(ngModel)]="userModel.email"
                    pattern="^[a-zA-Z]*@msggroup.com$"
                    required
                    placeholder=" ">
@@ -114,7 +116,6 @@
         </form>
         <button type="button" class="btn btn-default"  (click)="pressedEdit=false;" *ngIf="pressedEdit" translate >demo.Back</button>
       </div>
-
     </div>
   </div>
 </div>
@@ -144,6 +145,7 @@
                          pattern="[a-zA-Z]+"
                          id="firstNameInput"
                          #firstName="ngModel"
+                         #firstNameId
                          class="form-control"
                          required
                          [(ngModel)]="userModel.firstName"
@@ -161,6 +163,7 @@
                        pattern="[a-zA-Z]+"
                        id="lastNameInput"
                        #lastName="ngModel"
+                       #lastNameId
                        class="form-control"
                        required
                        [(ngModel)]="userModel.lastName"
@@ -176,6 +179,7 @@
                      pattern="[+0-9]+"
                      id="mobileNumberInput"
                      #phone="ngModel"
+                     #phoneId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.phoneNumber"
@@ -191,6 +195,7 @@
                      pattern="^[a-zA-Z]*@msggroup.com$"
                      id="emailInput"
                      #email="ngModel"
+                     #emailId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.email"
@@ -205,6 +210,7 @@
                      name="password"
                      id="passwordInput"
                      #password="ngModel"
+                     #passwordId
                      class="form-control"
                      required
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
@@ -230,14 +236,15 @@
             </mat-form-field>
             </span>-->
           <button class="btn btn-lg btn-block" type="submit"
-                  [disabled]="formControl.invalid" translate>demo.Submit
+                  [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
+                                                                      emailId.value='';passwordId.value='';">demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
         </form>
       </div>
       <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="primulNume.value = ''">Close</button>-->
       <!--<button type="button" class="btn btn-primary">Save changes</button>-->
       <!--</div>-->
     </div>
