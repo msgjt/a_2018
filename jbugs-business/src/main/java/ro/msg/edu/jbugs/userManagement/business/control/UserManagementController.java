@@ -1,12 +1,9 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
-import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
-import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
@@ -20,6 +17,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 import javax.validation.constraints.NotNull;
+import java.security.AllPermission;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -426,6 +424,26 @@ public class UserManagementController implements UserManagement {
     for(Permission p : allPermisionsForAnUser)
     {permisionString.add(p.getType());}
     return permisionString;
+    }
+
+    //get all permissions assigned to an user as list
+    public List<Permission> getAllUserPermissionAsList(String username){
+        Optional<User> user= userPersistenceManager.getUserByUsername(username);
+        Set<Permission> allPermission = new HashSet<>();
+        List<Permission> allPermisionsForAnUser= new ArrayList<>();
+        if(user.isPresent()){
+            List<Role> roles= user.get().getRoles();
+            for(Role role : roles){
+                List<Permission> allPermisionsInRole= new ArrayList<>();
+                allPermisionsInRole= role.getPermissions();
+                for (Permission p: allPermisionsInRole){
+                    allPermission.add(p);
+                }
+            }
+        }
+        List<Permission> permisionsList= new ArrayList<>();
+        permisionsList.addAll(allPermission);
+        return permisionsList;
     }
 
     @Override

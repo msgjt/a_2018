@@ -23,8 +23,7 @@ INSERT INTO users_roles (User_ID, roles_ID) VALUES (1,2);
 INSERT INTO users_roles (User_ID, roles_ID) VALUES (1,3);
 INSERT INTO users_roles (User_ID, roles_ID) VALUES (2,1);
 INSERT INTO users_roles (User_ID, roles_ID) VALUES (2,2);
-INSERT INTO users_roles (User_ID, roles_ID) VALUES (3,3);
-INSERT INTO users_roles (User_ID, roles_ID) VALUES (3,4);
+INSERT INTO users_roles (User_ID, roles_ID) VALUES (3,5);
 
 
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (1,1);

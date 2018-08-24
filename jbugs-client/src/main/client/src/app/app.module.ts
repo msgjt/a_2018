@@ -60,6 +60,7 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
+import { NorightsComponent } from './norights/norights.component';
 
 const appRoutes: Routes = [
   {
@@ -85,6 +86,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'norights', component: NorightsComponent
   },
   {
     path: '**', component: ErrorComponent
@@ -130,7 +134,8 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  declarations: [NorightsComponent]
 })
 export class MaterialModule {}
 

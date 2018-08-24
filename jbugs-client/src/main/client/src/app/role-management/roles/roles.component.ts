@@ -48,6 +48,13 @@ export class RolesComponent implements OnInit {
         });
         this.isDone = true;
       });
+    },(error)=>{
+      if(error.status == 403){
+        this.router.navigate(['/error']);
+      }
+      if(error.status == 401){
+        this.router.navigate(['/norights']);
+      }
     });
   }
 

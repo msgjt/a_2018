@@ -27,6 +27,13 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
+    },(error)=>{
+      if(error.status == 403){
+        router.navigate(['/error']);
+      }
+      if(error.status == 401){
+        router.navigate(['/norights']);
+      }
     });
     this.userModel = {
       id: 0,
@@ -47,9 +54,8 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     if (localStorage.getItem(LSKEY)) {
+      localStorage.clear();
       this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response=>console.log(response.toString()));
-      localStorage.removeItem(LSKEY);
-      localStorage.removeItem(TOKENKEY);
       this.loggedIn = false;
       this.router.navigate(['./login']);
     }
