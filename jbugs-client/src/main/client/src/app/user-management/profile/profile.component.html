@@ -130,6 +130,11 @@
         </button>
       </div>
       <div class="modal-body">
+        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;margin: 0 0 0 50%">info</i>
+        <div #infoDiv class="alert alert-warning" style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;" [hidden]="!showInfoDiv">
+          <strong translate >demo.Keep in mind!</strong>
+          <p translate style="color:black;">demo.KeepInMindMessage</p>
+        </div>
         <form class="form-signin text-center"
               (ngSubmit)="submitAddForm()"
               *ngIf="pressedAdd"
