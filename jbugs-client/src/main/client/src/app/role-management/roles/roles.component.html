@@ -13,9 +13,14 @@
           <td style="all">{{ role.type }}</td>
           <td>
             <mat-form-field *ngIf="isDone">
-              <mat-select [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
-                <mat-select-trigger style="color: white">
-                  Click to edit
+              <mat-select placeholder="Click to edit" style="color: white" [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
+                <mat-select-trigger style="color: white" #formControl="">
+                  <span *ngIf="getFormControlForRole(role).value.length == 1; else elseblock">
+                    {{ getFormControlForRole(role).value.length }} permission
+                  </span>
+                  <ng-template #elseblock>
+                    {{ getFormControlForRole(role).value.length }} permissions
+                  </ng-template>
                 </mat-select-trigger>
                 <mat-option *ngFor="let permission of permissionsList"  [value]="permission" >{{permission.type}}</mat-option>
               </mat-select>
