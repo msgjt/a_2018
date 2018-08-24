@@ -30,7 +30,7 @@
             <td>
               <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
-                  <button mat-menu-item> {{role.type}} </button>
+                  <button mat-menu-item disabled> {{role.type}} </button>
                 </span>
               </mat-menu>
               <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -130,6 +130,11 @@
         </button>
       </div>
       <div class="modal-body">
+        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;margin: 0 0 0 50%">info</i>
+        <div #infoDiv class="alert alert-warning" style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;" [hidden]="!showInfoDiv">
+          <strong translate >demo.Keep in mind!</strong>
+          <p translate style="color:black;">demo.KeepInMindMessage</p>
+        </div>
         <form class="form-signin text-center"
               (ngSubmit)="submitAddForm()"
               *ngIf="pressedAdd"
@@ -218,12 +223,9 @@
                      placeholder=" ">
               <label for="passwordInput" translate style="margin-top: 15px">demo.Password</label>
             </span>
-          <ul *ngFor="let role of roles">
-            <div class="checkbox">
-              <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
-            </div>
-          </ul>
-         <!-- <span class="form-group has-float-label">
+
+
+         <span class="form-group has-float-label">
             <mat-form-field>
               <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
                 <mat-select-trigger>
@@ -234,7 +236,8 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            </span>-->
+            </span>
+
           <button class="btn btn-lg btn-block" type="submit"
                   [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
                                                                       emailId.value='';passwordId.value='';">demo.Submit

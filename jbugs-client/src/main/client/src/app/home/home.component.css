@@ -4,6 +4,11 @@
 html, body {
   background-color: #fedcc8;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 .parallax {
   perspective: 100px;
   height: 100vh;

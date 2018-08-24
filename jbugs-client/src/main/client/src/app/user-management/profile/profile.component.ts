@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
   @ViewChild('popup') errorPopup: Popup;
   errorOccurred: boolean;
   positiveResponse: boolean;
+  @ViewChild('infoDiv') infoDiv: ElementRef;
+  showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getAllUsers().subscribe((user) => {
@@ -152,4 +154,13 @@ export class ProfileComponent implements OnInit {
       );
     this.userModel.roles = [];
   }
+
+  showInfo() {
+    this.showInfoDiv = true;
+  }
+
+  hideInfo() {
+    this.showInfoDiv = false;
+  }
+
 }
