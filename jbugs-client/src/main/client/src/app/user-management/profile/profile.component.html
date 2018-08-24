@@ -33,7 +33,7 @@
           <td>
             <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
-                  <button mat-menu-item disabled> {{role.type}} </button>
+                  <button mat-menu-item> {{role.type}} </button>
                 </span>
             </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -62,14 +62,14 @@
   </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
         <h5 class="modal-title" id="editModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Manage
           user</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
-                (click)="pressedEdit=false;">
+                (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;clearUserModelFields();">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -79,45 +79,80 @@
               #formControl="ngForm">
           <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit a user</h1><br>
           <span class="form-group has-float-label">
-            <input type="text" id="inputFirstName" class="form-control"
-                   name="firstname"
-                   minlength="2"
-                   [(ngModel)]="userModel.firstName"
-                   pattern="[a-zA-Z]+"
-                   required
-                   placeholder=" ">
-            <label for="inputFirstName" translate style="margin-top: 15px">demo.First name</label>
+                  <span class="help-block"
+                        *ngIf="firstName.errors?.required && firstName.touched" translate style="margin-top: 15px">demo.First name is required.</span>
+                  <span class="help-block"
+                        *ngIf="firstName.errors?.minlength && firstName.touched" translate style="margin-top: 15px">demo.First name is invalid.</span>
+                  <input type="text"
+                         name="firstName"
+                         minlength="2"
+                         pattern="[a-zA-Z]+"
+                         id="firstNameInputUpdate"
+                         #firstName="ngModel"
+                         #firstNameId
+                         class="form-control"
+                         required
+                         [(ngModel)]="userModel.firstName"
+                         placeholder=" ">
+                  <label for="firstNameInput" translate style="margin-top: 15px">demo.First name</label>
           </span>
           <span class="form-group has-float-label">
-            <input type="text" id="inputLastName" class="form-control"
-                   name="lastname"
-                   minlength="2"
-                   [(ngModel)]="userModel.lastName"
-                   pattern="[a-zA-Z]+"
-                   required
-                   placeholder=" ">
-            <label for="inputLastName" translate style="margin-top: 15px">demo.Last name</label>
-          </span>
-          <span class="form-group has-float-label">
-            <input type="text" id="inputPhoneNumber" class="form-control"
-                   name="phonenumber"
-                   minlength="10"
-                   [(ngModel)]="userModel.phoneNumber"
-                   pattern="[0-9]+"
-                   required
-                   placeholder=" ">
-            <label for="inputPhoneNumber" translate style="margin-top: 15px">demo.Phone number</label>
-          </span>
+                <span class="help-block"
+                      *ngIf="lastName.errors?.required && lastName.touched" translate style="margin-top: 15px">demo.Last name is required.</span>
+                <span class="help-block"
+                      *ngIf="lastName.errors?.minlength && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</span>
+                <input type="text"
+                       name="lastName"
+                       minlength="2"
+                       pattern="[a-zA-Z]+"
+                       id="lastNameInputUpdate"
+                       #lastName="ngModel"
+                       #lastNameId
+                       class="form-control"
+                       required
+                       [(ngModel)]="userModel.lastName"
+                       placeholder=" ">
+                <label for="lastNameInput" translate style="margin-top: 15px">demo.Last name</label>
+              </span>
+
 
           <span class="form-group has-float-label">
-            <input type="text" id="inputEmail" class="form-control"
-                   name="email"
-                   [(ngModel)]="userModel.email"
-                   pattern="^[a-zA-Z]*@msggroup.com$"
-                   required
-                   placeholder=" ">
-            <label for="inputEmail" translate style="margin-top: 15px">E-mail</label>
-          </span>
+              <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate
+                    style="margin-top: 15px">demo.Phone number is required.</span>
+              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched" translate
+                    style="margin-top: 15px">demo.Phone number is invalid.</span>
+              <input type="text"
+                     name="mobileNumber"
+                     minlength="10"
+                     pattern="[+0-9]+"
+                     id="mobileNumberInputUpdate"
+                     #phone="ngModel"
+                     #phoneId
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.phoneNumber"
+                     placeholder=" ">
+              <label for="mobileNumberInput" translate style="margin-top: 15px">demo.Phone number</label>
+            </span>
+
+          <span class="form-group has-float-label">
+              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate
+                    style="margin-top: 15px">E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate
+                    style="margin-top: 15px">E-mail is invalid.</span>
+              <input type="text"
+                     name="email"
+                     minlength="5"
+                     pattern="^[a-zA-Z]*@msggroup.com$"
+                     id="emailInputUpdate"
+                     #email="ngModel"
+                     #emailId
+                     class="form-control"
+                     required
+                     [(ngModel)]="userModel.email"
+                     placeholder=" ">
+              <label for="emailInput" style="margin-top: 15px">E-mail</label>
+            </span>
 
           <span class="form-group has-float-label">
             <mat-form-field>
@@ -134,15 +169,19 @@
           </span>
 
 
-          <button class="btn btn-lg btn-block" type="submit"
-                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em; color: whitesmoke; font-size: 15px; position: center"
+          <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
+                  style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
           >demo.Edit
           </button>
+          <button type="button" class="btn btn-block" data-dismiss="modal"
+                  style="background-color: darkred; color: white; color: whitesmoke; font-size: 15px; position: center"
+                  (click)="pressedEdit=false;"  translate>
+            demo.Back
+          </button>
+          <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
+          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
         </form>
-        <button type="button" class="btn btn-default" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>
-          demo.Back
-        </button>
       </div>
     </div>
   </div>
@@ -155,7 +194,7 @@
         <h5 class="modal-title" id="addModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Add
           user</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
-                (click)="pressedEdit=false;">
+                (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;clearUserModelFields();">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -276,8 +315,7 @@
               </mat-select>
             </mat-form-field>
             </span>
-
-          <button class="btn btn-lg btn-block" type="submit"
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
                                                                       emailId.value='';passwordId.value='';">demo.Submit
           </button>

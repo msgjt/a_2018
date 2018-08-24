@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BugManagement {
 
-    BugDTO createBug(BugDTO bugDTO) throws BusinessException;
+    BugDTO createBug(BugDTO bugDTO);
     List<BugDTO> getAllBugs();
     BugDTO getBugById(Long id);
     BugDTO getBugByTitle(String title);

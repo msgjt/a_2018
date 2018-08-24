@@ -1,5 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import java.util.Objects;
+
 public class PermissionDTO {
     private Long id;
     private String type;
@@ -35,5 +37,21 @@ public class PermissionDTO {
                 "type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PermissionDTO that = (PermissionDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, type, description);
     }
 }

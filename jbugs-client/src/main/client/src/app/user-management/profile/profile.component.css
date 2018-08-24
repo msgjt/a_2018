@@ -28,7 +28,7 @@ table {
   text-align: center;
 }
 
-form-group {
+.form-group {
   position: relative;
   margin-bottom: 1.5rem;
 }
@@ -57,7 +57,6 @@ input[type=text]:focus {
   box-shadow:  0 4px 2px -2px  #8b0000;
   height: 40px;
   font-size: 18px;
-
 }
 
 input[type=password] {
@@ -130,6 +129,9 @@ i {
   line-height: 1;
   padding: 0 1px;
 }
+
+/* Buttons */
+
 
 
 /* Table */

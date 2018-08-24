@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
-import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
 
@@ -13,10 +12,8 @@ import {FormControl} from "@angular/forms";
 export class ProfileComponent implements OnInit {
   loggedIn = true;
   userList: User[];
-  @ViewChild('popup') popup: Popup;
   pressedEdit: boolean = false;
   @Input('show-modal') showModal: boolean;
-  @ViewChild('addUserPopup') addUserPopup: Popup;
   pressedAdd: boolean = false;
   userModel: User;
   activeUser: boolean;
@@ -24,21 +21,28 @@ export class ProfileComponent implements OnInit {
   roles: Role[];
   rolesFormControl: FormControl;
   editRolesFormControl: FormControl;
-  @ViewChild('popup') errorPopup: Popup;
   errorOccurred: boolean;
   positiveResponse: boolean;
   @ViewChild('infoDiv') infoDiv: ElementRef;
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+  }
+
+  ngOnInit() {
+    this.refresh();
+  }
+
+  refresh(){
+    this.editRolesFormControl = new FormControl();
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
-        router.navigate(['/error']);
+        this.router.navigate(['/error']);
       }
       if(error.status == 401){
-        router.navigate(['/norights']);
+        this.router.navigate(['/norights']);
       }
     });
     this.userModel = {
@@ -57,10 +61,7 @@ export class ProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.userService.getAllRoles().subscribe((roles) => {
       this.roles = roles;
-    },(error)=>{console.log('USER NOT ALLOWED TO GET THE ROLES')});  }
-
-  ngOnInit() {
-    this.editRolesFormControl = new FormControl();
+    },(error)=>{console.log('USER NOT ALLOWED TO GET THE ROLES')});
   }
 
   logout() {
@@ -87,11 +88,10 @@ export class ProfileComponent implements OnInit {
   disableUser(user: any) {
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
-        this.popup.show(this.popup.options);
+        console.log(this.errorMessage);
       }
     );
     this.userList[user.id - 1].isActive = false;
@@ -101,11 +101,10 @@ export class ProfileComponent implements OnInit {
   enableUser(user: any) {
     this.userService.activateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
-        this.popup.show(this.popup.options);
+        console.log(this.errorMessage);
       }
     );
     this.userList[user.id - 1].isActive = true;
@@ -118,16 +117,20 @@ export class ProfileComponent implements OnInit {
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           console.log('response ' + JSON.stringify(response));
+          this.errorOccurred = false;
+          this.positiveResponse = true;
+          this.pressedEdit = false;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.popup.show(this.popup.options);
+          this.errorOccurred = true;
+          this.positiveResponse = false;
         }
       );
   }
 
   passDataToModal(user: User) {
-
+    this.pressedEdit = true;
     this.userModel = user;
     console.log(this.userModel.roles);
     let selectedRoles = [];
@@ -157,7 +160,6 @@ export class ProfileComponent implements OnInit {
     this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.phoneNumber,this.userModel.username, this.userModel.password, this.userModel.roles)
       .subscribe(
         (response) => {
-          console.log('response ' + JSON.stringify(response));
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           this.errorOccurred = false;
           this.positiveResponse = true;
@@ -177,6 +179,20 @@ export class ProfileComponent implements OnInit {
 
   hideInfo() {
     this.showInfoDiv = false;
+  }
+
+  clearUserModelFields(){
+    this.userModel = {
+      id: 0,
+      firstName: '',
+      lastName: '',
+      isActive: false,
+      phoneNumber: '',
+      email: '',
+      roles: [],
+      username: '',
+      password: ''
+    };
   }
 
 }

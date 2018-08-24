@@ -18,8 +18,10 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -224,7 +226,44 @@ public class UserPersistenceManagerBeanTest {
         assertEquals(userManagementController.isValidPhoneNumber(""), false);
         assertEquals(userManagementController.isValidPhoneNumber("abc"), false);
 
+    }
 
+    @Test
+    public void getAllUsers_expectedNull() {
+        when(userPersistenceManager.getAllUsers()).thenReturn(new ArrayList<>());
+        assertEquals(new ArrayList<UserDTO>(), userManagementController.getAllUsers());
+    }
+
+    @Test
+    public void getAllUsers_expectedList() {
+        User u1 = new User();
+        User u2 = new User();
+        u1.setId((long)6);
+        u1.setFirstName("dorel");
+        u1.setLastName("dorel");
+        u1.setEmail("doreldorel@msggroup.com");
+        u1.setPhoneNumber("1234567890");
+        u1.setUsername("Dorelut");
+        u1.setIsActive(true);
+        u1.setRoles(new ArrayList<>());
+
+        u2.setId((long)7);
+        u2.setFirstName("dorel");
+        u2.setLastName("dorel");
+        u2.setEmail("doreldorel@msggroup.com");
+        u2.setPhoneNumber("1234567890");
+        u2.setUsername("Dorelut");
+        u2.setIsActive(true);
+        u2.setRoles(new ArrayList<>());
+
+        List<User> users = new ArrayList<>(Arrays.asList(u1, u2));
+        when(userPersistenceManager.getAllUsers()).thenReturn(users);
+
+        List<User> actuals = userManagementController.getAllUsers()
+                .stream()
+                .map(UserDTOHelper::toEntity)
+                .collect(Collectors.toList());
+        assertEquals(actuals, users);
     }
 
     @Test
