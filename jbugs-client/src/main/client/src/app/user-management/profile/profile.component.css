@@ -132,3 +132,21 @@ i {
 }
 
 
+/* DROPDOWN */
+
+/deep/ .cdk-overlay-container {
+  z-index: 1500;
+}
+
+/deep/ .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: darkred;
+}
+
+/deep/ .mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
+  background: darkred;
+}
+
+/deep/ .mat-form-field.mat-focused .mat-form-field-label {
+   color: darkred;
+}

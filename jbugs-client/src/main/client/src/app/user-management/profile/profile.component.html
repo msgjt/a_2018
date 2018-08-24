@@ -5,30 +5,30 @@
 </button>
 
 <div class="column justify-content-center">
-  <div *ngIf="userList">
-    <div class="table-responsive">
-      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-        <thead style="background-color: darkred; border-color: darkred;">
-        <tr>
-          <th scope="col" translate>demo.Username</th>
-          <th scope="col" translate>demo.First name</th>
-          <th scope="col" translate>demo.Last name</th>
-          <th scope="col" translate>demo.Phone number</th>
-          <th scope="col" translate>E-mail</th>
-          <th scope="col" translate>demo.Roles</th>
-          <th scope="col" translate>demo.Active</th>
-          <th scope="col" translate>demo.Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let user of userList" #row>
-          <td>{{ user.username }}</td>
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.phoneNumber }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            <mat-menu #appMenu="matMenu">
+    <div *ngIf="userList">
+      <div class="table-responsive">
+        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+          <thead style="background-color: darkred; border-color: darkred;" >
+          <tr>
+            <th scope="col" translate>demo.Username</th>
+            <th scope="col" translate>demo.First name</th>
+            <th scope="col" translate>demo.Last name</th>
+            <th scope="col" translate>demo.Phone number</th>
+            <th scope="col" translate>E-mail</th>
+            <th scope="col" translate>demo.Roles</th>
+            <th scope="col" translate>demo.Active</th>
+            <th scope="col" translate>demo.Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of userList" #row>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
                   <button mat-menu-item> {{role.type}} </button>
                 </span>
@@ -115,7 +115,6 @@
         </form>
         <button type="button" class="btn btn-default"  (click)="pressedEdit=false;" *ngIf="pressedEdit" translate >demo.Back</button>
       </div>
-
     </div>
   </div>
 </div>
@@ -130,6 +129,11 @@
         </button>
       </div>
       <div class="modal-body">
+        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;margin: 0 0 0 50%">info</i>
+        <div #infoDiv class="alert alert-warning" style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;" [hidden]="!showInfoDiv">
+          <strong translate >demo.Keep in mind!</strong>
+          <p translate style="color:black;">demo.KeepInMindMessage</p>
+        </div>
         <form class="form-signin text-center"
               (ngSubmit)="submitAddForm()"
               *ngIf="pressedAdd"
@@ -218,12 +222,9 @@
                      placeholder=" ">
               <label for="passwordInput" translate style="margin-top: 15px">demo.Password</label>
             </span>
-          <ul *ngFor="let role of roles">
-            <div class="checkbox">
-              <label><input type="checkbox" value="" name="roleId" [(ngModel)]="role.selected">{{role.type}}</label>
-            </div>
-          </ul>
-         <!-- <span class="form-group has-float-label">
+
+
+         <span class="form-group has-float-label">
             <mat-form-field>
               <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
                 <mat-select-trigger>
@@ -236,8 +237,6 @@
             </mat-form-field>
             </span>-->
           <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate>demo.Submit </button>
-          <button class="btn btn-lg btn-block" type="submit"
                   [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
                                                                       emailId.value='';passwordId.value='';">demo.Submit
           </button>

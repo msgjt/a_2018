@@ -104,6 +104,7 @@ public class UserDTO {
                 ", email='" + email + '\'' +
                 ", isActive=" + isActive +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", roles='" + roles + "\''" +
                 '}';
     }
 }

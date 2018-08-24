@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { SignUpComponent } from './user-management/sign-up/sign-up.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './user-management/login/login.component';
@@ -65,9 +64,6 @@ import {CdkTreeModule} from "@angular/cdk/tree";
 const appRoutes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: '/home'
-  },
-  {
-    path: 'register', component: SignUpComponent
   },
   {
     path: 'login', component: LoginComponent, canActivate: [RedirectGuard]
@@ -142,7 +138,6 @@ export class MaterialModule {}
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent,
     LoginComponent,
     ErrorComponent,
     ProfileComponent,
