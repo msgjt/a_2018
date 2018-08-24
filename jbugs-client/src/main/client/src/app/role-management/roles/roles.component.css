@@ -149,3 +149,35 @@ i {
 /deep/ .mat-form-field.mat-focused .mat-form-field-label {
   color: darkred;
 }
+
+
+/* Table */
+
+/deep/ .table th, .table td {
+  vertical-align: inherit;
+}
+
+
+/deep/ .material-icons _ngcontent-c1 {
+  vertical-align: inherit;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/deep/ i[_ngcontent-c1] {
+  vertical-align: inherit;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+/deep/ mat-form-field ng-tns-c5-6 mat-primary mat-form-field-type-mat-select mat-form-field-appearance-legacy
+mat-form-field-can-float mat-form-field-hide-placeholder ng-pristine ng-valid ng-star-inserted mat-form-field-should-float
+ng-touched {
+  vertical-align: bottom;
+}
+
+/deep/ .mat-form-field {
+  text-align: center;
+}

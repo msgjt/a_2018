@@ -60,7 +60,9 @@
     "Info needed":"Necesita informatii",
     "Fixed": "Reparat",
     "Closed":"Inchis",
-    "Rejected":"Respins"
+    "Rejected":"Respins",
+    "Filer":"Filtrare",
+    "Filter items":"Filtreaza elementele"
 
   }
 }

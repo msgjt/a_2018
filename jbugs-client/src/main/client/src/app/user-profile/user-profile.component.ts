@@ -38,7 +38,7 @@ export class UserProfileComponent implements OnInit {
 
   submitEditForm() {
     console.log(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber);
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber,this.userModel.roles)
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));

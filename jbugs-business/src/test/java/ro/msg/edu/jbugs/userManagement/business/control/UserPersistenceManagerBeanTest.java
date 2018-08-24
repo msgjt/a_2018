@@ -5,7 +5,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
@@ -219,6 +222,52 @@ public class UserPersistenceManagerBeanTest {
         assertEquals(userManagementController.isValidPhoneNumber("abc"), false);
 
 
+    }
+
+    @Test
+    public void testUpdateUser_Success(){
+        Role role = new Role();
+        role.setId(1L);
+        role.setType("DEV");
+        role.setPermissions(new ArrayList<>());
+        List<Role> dbRoles = new ArrayList<>();
+        dbRoles.add(role);
+        when(userPersistenceManager.getRoleByType(any(String.class)))
+                .thenReturn(role);
+        when(userPersistenceManager.getAllRoles())
+                .thenReturn(dbRoles);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setFirstName("Cristi");
+        userDTO.setLastName("Borcea");
+        userDTO.setEmail("dinamo@msggroup.com");
+        userDTO.setPhoneNumber("0720512346");
+        List<RoleDTO> roleDTOList = new ArrayList<>();
+        roleDTOList.add(RoleDTOHelper.fromEntity(role));
+        userDTO.setRoles(roleDTOList);
+
+        UserDTO userDTO1 = new UserDTO();
+        userDTO1.setId(1L);
+        userDTO1.setFirstName("Marian");
+        userDTO1.setLastName("Belean");
+        userDTO1.setEmail("steaua@msggroup.com");
+        userDTO1.setPhoneNumber("0720512347");
+        userDTO1.setRoles(new ArrayList<>());
+
+        when(userPersistenceManager.getUserById(any(Long.class)))
+                .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO)));
+
+        try {
+            UserDTO updatedUser = userManagementController.updateUser(userDTO1);
+            assertEquals(userDTO1.getFirstName(), updatedUser.getFirstName());
+            assertEquals(userDTO1.getLastName(), updatedUser.getLastName());
+            assertEquals(userDTO1.getEmail(), updatedUser.getEmail());
+            assertEquals(userDTO1.getPhoneNumber(), updatedUser.getPhoneNumber());
+            assertEquals(userDTO1.getRoles(), updatedUser.getRoles());
+        } catch (BusinessException e) {
+            fail("Should not reach this point");
+        }
     }
 
 }

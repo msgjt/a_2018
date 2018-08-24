@@ -60,7 +60,8 @@
     "Info needed":"Info needed",
     "Fixed": "Fixed",
     "Closed":"Closed",
-    "Rejected":"Rejected"
-
+    "Rejected":"Rejected",
+    "Filer": "Filer",
+    "Filter items": "Filter items"
   }
 }
