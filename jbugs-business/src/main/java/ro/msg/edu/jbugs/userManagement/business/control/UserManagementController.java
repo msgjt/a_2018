@@ -329,14 +329,24 @@ public class UserManagementController implements UserManagement {
     public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
+        if (!isValidForUpdate(userDTO)) {
+            throw new BusinessException(USER_VALIDATION_EXCEPTION);
+        }
+
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-
-        User user = oldUser.get();
-
+        User user = new User();
+        if(oldUser.isPresent()) {
+            user = oldUser.get();
+        }
+        else{
+            throw new BusinessException(ExceptionCode.USER_DOES_NOT_EXIST);
+        }
         user.setEmail(userDTO.getEmail().trim());
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
+        user.setRoles(userDTO.getRoles()
+                .stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()));
         userPersistenceManager.updateUser(user);
         UserDTO result = UserDTOHelper.fromEntity(user);
 
@@ -446,5 +456,16 @@ public class UserManagementController implements UserManagement {
             System.out.println("User"+ username+" is logged out "+ !loggedUsers.containsKey(username));
             return true;}
         return  false;
+    }
+
+    public boolean isValidForUpdate(UserDTO userDTO){
+        return userDTO.getFirstName() != null
+                && userDTO.getLastName() != null
+                && userDTO.getPhoneNumber() != null
+                && userDTO.getEmail() != null
+                && userDTO.getRoles() != null
+                && isValidEmail(userDTO.getEmail())
+                && isValidPhoneNumber(userDTO.getPhoneNumber())
+                && checkRoles(userDTO);
     }
 }
