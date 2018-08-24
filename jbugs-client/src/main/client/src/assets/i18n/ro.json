@@ -1,6 +1,7 @@
 {
   "demo": {
     "Permissions": "Permisiuni",
+    "Permission": "Permisiune",
     "Register": "Cont nou",
     "Login": "Autentificare",
     "Roles": "Roluri",
@@ -51,6 +52,15 @@
     "Actions": "Actiuni",
     "Manage user": "Gestionare user",
     "Edit a user": "Editeaza un utilizator",
-    "My Profile": "Profilul meu"
+    "My Profile": "Profilul meu",
+    "Type": "Tip",
+    "Click to edit": "Selecteaza pentru a edita",
+    "New": "Nou",
+    "In progress":"In Progres",
+    "Info needed":"Necesita informatii",
+    "Fixed": "Reparat",
+    "Closed":"Inchis",
+    "Rejected":"Respins"
+
   }
 }
