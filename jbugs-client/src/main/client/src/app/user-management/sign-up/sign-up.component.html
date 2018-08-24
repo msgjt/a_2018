@@ -89,11 +89,10 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="userModel.password"
                      placeholder="{{ 'demo.Password' | translate }} ">
-              <label for="passwordInput"translate>demo.Password</label>
+              <label for="passwordInput" translate>demo.Password</label>
             </span>
             <button type="submit"
                     class="btn btn-default"
-
                     [disabled]="formControl.invalid">{{ 'demo.Submit' | translate }}
             </button>
           </form>

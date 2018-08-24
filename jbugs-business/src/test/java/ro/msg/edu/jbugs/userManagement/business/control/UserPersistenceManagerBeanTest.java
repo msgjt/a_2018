@@ -1,13 +1,5 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
-import org.junit.Before;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
-import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
-import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -93,7 +85,7 @@ public class UserPersistenceManagerBeanTest {
 
         when(userPersistenceManager.getUsernamesLike(any(String.class)))
                 .thenReturn(
-                        new ArrayList<String>(){{
+                        new ArrayList<String>() {{
                             add("dorel0");
                             add("dorel06");
                         }}
@@ -126,6 +118,23 @@ public class UserPersistenceManagerBeanTest {
             fail("Shouldn't reach this point");
         } catch (BusinessException e){
             assertEquals(ExceptionCode.USERNAME_NOT_VALID,e.getExceptionCode());
+        }
+    }
+
+    @Test
+    public void testLogin_wrongPassword() {
+        User user = mock(User.class);
+        when(user.getUsername()).thenReturn("ioani");
+        when(user.getPassword()).thenReturn(Encryptor.encrypt("1234"));
+
+        when(userPersistenceManager.getUserByUsername(any(String.class)))
+                .thenReturn(Optional.of(user));
+
+        try {
+            UserDTO userDTO = userManagementController.login("ioani", "not1234");
+            fail("Shouldn't reach this point");
+        } catch (BusinessException e) {
+            assertEquals(ExceptionCode.PASSWORD_NOT_VALID, e.getExceptionCode());
         }
     }
 
