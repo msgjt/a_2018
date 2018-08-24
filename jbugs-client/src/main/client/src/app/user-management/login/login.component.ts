@@ -53,32 +53,32 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm() {
-   /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
-      console.log(response);
-      if(response['success'] == true) {
-        console.log('Form was submitted with the following data:' +
-          JSON.stringify(this.userModel));*/
-        this.userService.validateUserCredentials(this.userModel.username,
-          this.userModel.password).subscribe(
-          (response) => {
-            console.log('credentials are valid is : ' + response);
-            if (response) {
-              this.login(response.token);
-              this.getUsersPermissions(this.userModel.username);
-              this.loggedIn = true;
-              this.wrongCredentials = false;
-              this.router.navigate(['./profile']);
-            } else {
-              this.wrongCredentials = true;
-              this.loggedIn = false;
-            }
-          },
-          (error) => {
-            this.errorMessage = error['error'];
-            this.popup.show(this.popup.options);
-          });
-      }
-   // });
+    /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
+       console.log(response);
+       if(response['success'] == true) {
+         console.log('Form was submitted with the following data:' +
+           JSON.stringify(this.userModel));*/
+    this.userService.validateUserCredentials(this.userModel.username,
+      this.userModel.password).subscribe(
+      (response) => {
+        console.log('credentials are valid is : ' + response);
+        if (response) {
+          this.login(response.token);
+          this.getUsersPermissions(this.userModel.username);
+          this.loggedIn = true;
+          this.wrongCredentials = false;
+          this.router.navigate(['./profile']);
+        } else {
+          this.wrongCredentials = true;
+          this.loggedIn = false;
+        }
+      },
+      (error) => {
+        this.errorMessage = error['error'];
+        this.popup.show(this.popup.options);
+      });
+  }
+  // });
 
 
 
