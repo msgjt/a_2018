@@ -1,12 +1,18 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RoleDTO {
 
     private Long id;
     private String type;
     private List<PermissionDTO> permissions;
+
+    public RoleDTO() {
+        permissions = new ArrayList<>();
+    }
 
     public String getType() {
         return type;
@@ -38,5 +44,21 @@ public class RoleDTO {
                 "type='" + type + '\'' +
                 ", permissions=" + permissions +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoleDTO roleDTO = (RoleDTO) o;
+        return Objects.equals(id, roleDTO.id) &&
+                Objects.equals(type, roleDTO.type) &&
+                Objects.equals(permissions, roleDTO.permissions);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, type, permissions);
     }
 }

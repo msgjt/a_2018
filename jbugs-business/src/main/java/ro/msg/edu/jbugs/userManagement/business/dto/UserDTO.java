@@ -2,6 +2,7 @@ package ro.msg.edu.jbugs.userManagement.business.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDTO {
     private Long id;
@@ -13,6 +14,11 @@ public class UserDTO {
     private boolean isActive;
     private String phoneNumber;
     private List<RoleDTO> roles;
+
+
+    public UserDTO() {
+        roles = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -106,5 +112,27 @@ public class UserDTO {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", roles='" + roles + "\''" +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return isActive == userDTO.isActive &&
+                Objects.equals(id, userDTO.id) &&
+                Objects.equals(firstName, userDTO.firstName) &&
+                Objects.equals(lastName, userDTO.lastName) &&
+                Objects.equals(username, userDTO.username) &&
+                Objects.equals(password, userDTO.password) &&
+                Objects.equals(email, userDTO.email) &&
+                Objects.equals(phoneNumber, userDTO.phoneNumber) &&
+                Objects.equals(roles, userDTO.roles);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, firstName, lastName, username, password, email, isActive, phoneNumber, roles);
     }
 }

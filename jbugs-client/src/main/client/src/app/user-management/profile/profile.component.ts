@@ -27,14 +27,22 @@ export class ProfileComponent implements OnInit {
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+     }
+
+  ngOnInit() {
+    this.refresh();
+  }
+
+  refresh(){
+    this.editRolesFormControl = new FormControl();
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
-        router.navigate(['/error']);
+        this.router.navigate(['/error']);
       }
       if(error.status == 401){
-        router.navigate(['/norights']);
+        this.router.navigate(['/norights']);
       }
     });
     this.userModel = {
@@ -53,10 +61,7 @@ export class ProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.userService.getAllRoles().subscribe((roles) => {
       this.roles = roles;
-    });  }
-
-  ngOnInit() {
-    this.editRolesFormControl = new FormControl();
+    });
   }
 
   logout() {
@@ -83,7 +88,6 @@ export class ProfileComponent implements OnInit {
   disableUser(user: any) {
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
@@ -97,7 +101,6 @@ export class ProfileComponent implements OnInit {
   enableUser(user: any) {
     this.userService.activateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
@@ -116,6 +119,7 @@ export class ProfileComponent implements OnInit {
           console.log('response ' + JSON.stringify(response));
           this.errorOccurred = false;
           this.positiveResponse = true;
+          this.pressedEdit = false;
         },
         (error) => {
           this.errorMessage = error['error'];
@@ -126,7 +130,7 @@ export class ProfileComponent implements OnInit {
   }
 
   passDataToModal(user: User) {
-
+    this.pressedEdit = true;
     this.userModel = user;
     console.log(this.userModel.roles);
     let selectedRoles = [];
@@ -156,7 +160,6 @@ export class ProfileComponent implements OnInit {
     this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.phoneNumber,this.userModel.username, this.userModel.password, this.userModel.roles)
       .subscribe(
         (response) => {
-          console.log('response ' + JSON.stringify(response));
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           this.errorOccurred = false;
           this.positiveResponse = true;

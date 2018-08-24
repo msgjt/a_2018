@@ -324,7 +324,7 @@ public class UserManagementController implements UserManagement {
      * @throws BusinessException
      */
     @Override
-    public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
+    public UserDTO updateUser(UserDTO userDTO) {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
         if (!isValidForUpdate(userDTO)) {
@@ -343,8 +343,11 @@ public class UserManagementController implements UserManagement {
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
-        user.setRoles(userDTO.getRoles()
-                .stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()));
+        if(userDTO.getRoles().size() > 0) {
+            user.setRoles(userDTO.getRoles().stream()
+                    .map(RoleDTOHelper::toEntity)
+                    .collect(Collectors.toList()));
+        }
         userPersistenceManager.updateUser(user);
         UserDTO result = UserDTOHelper.fromEntity(user);
 
@@ -477,7 +480,8 @@ public class UserManagementController implements UserManagement {
     }
 
     public boolean isValidForUpdate(UserDTO userDTO){
-        return userDTO.getFirstName() != null
+        return userDTO != null
+                && userDTO.getFirstName() != null
                 && userDTO.getLastName() != null
                 && userDTO.getPhoneNumber() != null
                 && userDTO.getEmail() != null

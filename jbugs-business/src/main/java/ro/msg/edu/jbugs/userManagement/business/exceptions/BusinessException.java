@@ -3,7 +3,7 @@ package ro.msg.edu.jbugs.userManagement.business.exceptions;
 
 import javax.ws.rs.core.Response;
 
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException {
 
     ExceptionCode exceptionCode;
 

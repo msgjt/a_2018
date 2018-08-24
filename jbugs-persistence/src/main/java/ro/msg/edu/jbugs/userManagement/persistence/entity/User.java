@@ -2,6 +2,7 @@ package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,6 +51,7 @@ public class User extends BaseEntity<Long> {
     private List<Role> roles;
 
     public User() {
+        roles = new ArrayList<>();
     }
 
     public String getFirstName() {
