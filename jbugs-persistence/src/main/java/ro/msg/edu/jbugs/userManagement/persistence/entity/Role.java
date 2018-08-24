@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,11 @@ public class Role extends BaseEntity<Long> {
 
     @ManyToMany
     private List<Permission> permissions;
+
+    public Role() {
+        permissions = new ArrayList<>();
+    }
+
 
     public String getType() {
         return type;

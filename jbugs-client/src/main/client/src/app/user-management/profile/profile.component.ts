@@ -1,9 +1,10 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
+import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-profile',
@@ -31,6 +32,15 @@ export class ProfileComponent implements OnInit {
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+
+  }
+
+  ngOnInit() {
+    this.refresh();
+  }
+
+  refresh(){
+    this.editRolesFormControl = new FormControl();
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
     });
@@ -50,20 +60,7 @@ export class ProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.userService.getAllRoles().subscribe((roles) => {
       this.roles = roles;
-    });  }
-
-  ngOnInit() {
-    this.editRolesFormControl = new FormControl();
-  }
-
-  logout() {
-    if (localStorage.getItem(LSKEY)) {
-      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response=>console.log(response.toString()));
-      localStorage.removeItem(LSKEY);
-      localStorage.removeItem(TOKENKEY);
-      this.loggedIn = false;
-      this.router.navigate(['./login']);
-    }
+    });
   }
 
   setRoles(roles: Role[]) {
@@ -81,7 +78,6 @@ export class ProfileComponent implements OnInit {
   disableUser(user: any) {
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
@@ -95,7 +91,6 @@ export class ProfileComponent implements OnInit {
   enableUser(user: any) {
     this.userService.activateUser(user.id).subscribe(
       (response) => {
-        console.log('response ' + JSON.stringify(response));
       },
       (error) => {
         this.errorMessage = error['error'];
@@ -107,11 +102,12 @@ export class ProfileComponent implements OnInit {
   }
 
   submitEditForm() {
+    console.log('EDIT');
     this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
-          console.log('response ' + JSON.stringify(response));
+          this.pressedEdit = false;
         },
         (error) => {
           this.errorMessage = error['error'];
@@ -121,7 +117,7 @@ export class ProfileComponent implements OnInit {
   }
 
   passDataToModal(user: User) {
-
+    this.pressedEdit = true;
     this.userModel = user;
     console.log(this.userModel.roles);
     let selectedRoles = [];
@@ -151,7 +147,6 @@ export class ProfileComponent implements OnInit {
     this.userService.addUser(this.userModel.firstName,this.userModel.lastName,this.userModel.email,this.userModel.phoneNumber,this.userModel.username, this.userModel.password, this.userModel.roles)
       .subscribe(
         (response) => {
-          console.log('response ' + JSON.stringify(response));
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           this.errorOccurred = false;
           this.positiveResponse = true;

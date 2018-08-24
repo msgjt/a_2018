@@ -1,5 +1,6 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.stream.Collectors;
@@ -7,7 +8,8 @@ import java.util.stream.Collectors;
 public class UserDTOHelper {
 
 
-    public static UserDTO fromEntity(User user){
+    public static UserDTO fromEntity(User user) {
+
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
