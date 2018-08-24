@@ -3,6 +3,7 @@ import {User, UserService} from "../user-management/services/user.service";
 
 import {Popup} from 'ng2-opd-popup';
 import {Role} from "../role-management/entities/role";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
@@ -12,11 +13,22 @@ import {Role} from "../role-management/entities/role";
 export class UserProfileComponent implements OnInit {
   pressedEdit: boolean=false;
   userModel: User;
+  userList: User[];
   errorMessage: string;
   @ViewChild('popup') popup: Popup;
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private router:Router) {
+    this.userService.getAllUsers().subscribe((user) => {
+      this.userList = user;
+    },(error)=>{
+      if(error.status == 403){
+        this.router.navigate(['/error']);
+      }
+      if(error.status == 401){
+        this.router.navigate(['/norights']);
+      }
+    });
   }
 
   ngOnInit() {

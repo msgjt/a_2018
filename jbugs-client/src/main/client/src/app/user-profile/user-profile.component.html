@@ -1,5 +1,19 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 <h3 >Welcome back {{userModel.username}}</h3>
+<div *ngFor="let user of userList" >
+  <div *ngIf="user.username== userModel.username">
+    <p>{{"demo.Your personal data"| translate}}</p>
+    <ul>
+      <li>{{"demo.First name"| translate}}: {{user.firstName}}</li>
+      <li>{{"demo.Last name"| translate}}: {{user.lastName}}</li>
+      <li>E-mail: {{user.email}}</li>
+      <li>{{"demo.Phone number"| translate}}: {{user.phoneNumber}}</li>
+      <li>{{"demo.Username"| translate}}: {{user.username}}</li>
+      <li>{{"demo.Active"| translate}}: {{user.isActive}}</li>
+    </ul>
+  </div>
+</div>
+
 <div class="modal-body">
   <form class="form-signin text-center"
         (ngSubmit)="submitEditForm()"
@@ -14,7 +28,7 @@
                    required
                    [(ngModel)]="userModel.firstName"
                    placeholder=" ">
-            <!--<label for="inputFirstName" translate>demo.First name</label>-->
+            <label for="inputFirstName" translate>demo.First name</label>
 
           </span>
     <span class="form-group has-float-label">
