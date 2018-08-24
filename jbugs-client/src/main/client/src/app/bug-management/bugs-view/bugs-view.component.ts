@@ -13,7 +13,7 @@ export class BugsViewComponent implements OnInit {
 
   bugList: Bug[];
   bugListAll: Bug[];
-  pagesFormControl : FormControl;
+  pagesFormControl: FormControl;
   bugsAmount: number = 3;
   currentPage: number = 1;
   maxPage: number;
@@ -42,7 +42,7 @@ export class BugsViewComponent implements OnInit {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
       this.bugListAll = bug;
-      if(this.bugListAll.length % this.bugsAmount == 0) {
+      if (this.bugListAll.length % this.bugsAmount == 0) {
         this.maxPage = this.bugListAll.length / this.bugsAmount;
       } else {
         this.maxPage = Math.floor(this.bugListAll.length / this.bugsAmount) + 1;
@@ -57,10 +57,10 @@ export class BugsViewComponent implements OnInit {
   }
 
   updateTable() {
-    if(this.currentPage == this.maxPage) {
+    if (this.currentPage == this.maxPage) {
       this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1));
     } else {
       this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1), this.bugsAmount);
     }
   }
-
+}
