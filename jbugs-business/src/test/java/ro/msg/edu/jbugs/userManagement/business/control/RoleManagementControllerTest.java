@@ -9,6 +9,7 @@ import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,4 +61,5 @@ public class RoleManagementControllerTest {
         when(userPersistenceManager.updateRole(toBeUpdated)).thenReturn(toBeUpdated);
 
     }
+
 }

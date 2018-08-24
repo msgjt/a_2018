@@ -3,6 +3,7 @@ import {Bug, BugService} from "../services/bug.service";
 import {Popup} from "ng2-opd-popup";
 import {FormControl} from "@angular/forms";
 import {PaginationInstance} from "ngx-pagination";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-bugs-view',
@@ -38,7 +39,7 @@ export class BugsViewComponent implements OnInit {
     screenReaderCurrentLabel: `You're on page`
   };
 
-  constructor(private bugService: BugService) {
+  constructor(private bugService: BugService, private router: Router) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
       this.bugListAll = bug;
@@ -48,7 +49,15 @@ export class BugsViewComponent implements OnInit {
         this.maxPage = Math.floor(this.bugListAll.length / this.bugsAmount) + 1;
       }
       this.updateTable();
-    });
+    },
+      (error)=>{
+        if(error.status == 403){
+          router.navigate(['/error']);
+        }
+        if(error.status == 401){
+          router.navigate(['/norights']);
+        }
+      });
   }
 
 

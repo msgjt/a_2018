@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-@WebFilter(filterName = "RolesFilter",
-        urlPatterns = "/rest/roles")
-public class RolesFilter implements Filter {
+//This filter check if the user have rights to perform any actions which comes to the following address
+//http://localhost:8080/jbugs/rest/bugs
+@WebFilter(filterName = "BugsFilter",
+        urlPatterns = "/rest/bugs")
+public class BugsFilter implements Filter {
     @EJB
-    //This filter check if the user have rights to perform any actions which comes to the following address
-    //http://localhost:8080/jbugs/rest/users
     private UserManagement userManagement;
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println("+++++++++++++++Inside ROLES FILTER.+++++++++++++++++");
+        System.out.println("+++++++++++++++Inside BUGS FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
         String reqHead = httReq.getHeader("Access-Control-Allow-Origin");
@@ -38,7 +38,7 @@ public class RolesFilter implements Filter {
         String webToken = ((HttpServletRequest)req).getHeader("webtoken");
         System.out.println("+++++++++++++CURENT USER++++++++++++"+currentUser);
         System.out.println("+++++++++++++CURENT TOKEN++++++++++++"+webToken);
-        String userPermision="PERMISSION_MANAGEMENT";
+        String userPermision="BUG_MANAGEMENT";
         Set<String> permissions;
         //Check if the user is logged in
         if(!userManagement.checkLoggedUser(currentUser,webToken)){
@@ -64,5 +64,4 @@ public class RolesFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
 
     }
-
 }

@@ -27,14 +27,16 @@ public class getUsersFilter implements Filter {
     private UserManagement userManagement;
     public void destroy() {
     }
-
+    //This filter check if the user have rights to perform any actions which comes to the following address
+    //http://localhost:8080/jbugs/rest/users
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println("+++++++++++++++Inside filter one.+++++++++++++++++");
+        System.out.println("+++++++++++++++Inside USERS FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
         String reqHead = httReq.getHeader("Access-Control-Allow-Origin");
         HttpServletResponse httpServletResponse = (HttpServletResponse)resp;
 
+        //The filter checks if the request is OPTION, in this case the filter ignore the request
         if(((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")){
             System.out.println("Received Options");
             chain.doFilter(req, resp);
@@ -46,6 +48,7 @@ public class getUsersFilter implements Filter {
         System.out.println("+++++++++++++CURENT TOKEN++++++++++++"+webToken);
         String userPermision="USER_MANAGEMENT";
         Set<String> permissions;
+        //Check if the user is logged in
         if(!userManagement.checkLoggedUser(currentUser,webToken)){
             if(null == httpServletResponse.getHeader("Access-Control-Allow-Origin")){
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
@@ -55,6 +58,7 @@ public class getUsersFilter implements Filter {
         }
         System.out.println("USER ALLOWED");
         permissions=userManagement.getAllUserPermission(currentUser);
+        //Check if the user do not have rights to perform the action
         if(!permissions.contains(userPermision)){
             if(null == httpServletResponse.getHeader("Access-Control-Allow-Origin")){
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
@@ -62,9 +66,6 @@ public class getUsersFilter implements Filter {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        System.out.println("USER HAVE RIGHTS AND IS LOGGED IN");
-        //String tokenHeader = ((HttpServletRequest)req).getHeader("token");
-        //System.out.println(tokenHeader);
         chain.doFilter(req, resp);
     }
 

@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.userService.getAllRoles().subscribe((roles) => {
       this.roles = roles;
-    });  }
+    },(error)=>{console.log('USER NOT ALLOWED TO GET THE ROLES')});  }
 
   ngOnInit() {
     this.editRolesFormControl = new FormControl();
