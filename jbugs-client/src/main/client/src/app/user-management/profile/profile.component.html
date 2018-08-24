@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal" >
+<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em; " data-toggle="modal" data-target="#addModal" >
   {{ 'demo.Add User' | translate }}
 </button>
 
@@ -28,9 +28,8 @@
           <td>{{ user.phoneNumber }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <mat-menu #appMenu="matMenu">
-                <span *ngFor="let role of user.roles">
-                  <button mat-menu-item> {{role.type}} </button>
+            <mat-menu #appMenu="matMenu" >
+                <span *ngFor="let role of user.roles"><button mat-menu-item>{{role.type}}</button>
                 </span>
             </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -107,7 +106,7 @@
                    placeholder=" ">
             <label for="inputEmail" translate style="margin-top: 15px">E-mail</label>
           </span>
-          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em; color: whitesmoke; font-size: 15px; position: center"
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
           >demo.Edit
           </button>
@@ -229,7 +228,7 @@
               </mat-select>
             </mat-form-field>
             </span>-->
-          <button class="btn btn-lg btn-block" type="submit"
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
