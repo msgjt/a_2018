@@ -36,6 +36,7 @@
           [disabled]="formControl.invalid"
   >{{ 'demo.Sign in' | translate }}
   </button>
-  <p *ngIf="wrongCredentials "translate>demo.Wrong credentials</p>
+  <p *ngIf="wrongCredentials " translate>demo.Wrong credentials</p>
+  <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
 </form>
 </body>

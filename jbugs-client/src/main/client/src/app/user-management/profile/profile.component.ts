@@ -1,7 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
-import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
 
@@ -13,10 +12,8 @@ import {FormControl} from "@angular/forms";
 export class ProfileComponent implements OnInit {
   loggedIn = true;
   userList: User[];
-  @ViewChild('popup') popup: Popup;
   pressedEdit: boolean = false;
   @Input('show-modal') showModal: boolean;
-  @ViewChild('addUserPopup') addUserPopup: Popup;
   pressedAdd: boolean = false;
   userModel: User;
   activeUser: boolean;
@@ -24,15 +21,13 @@ export class ProfileComponent implements OnInit {
   roles: Role[];
   rolesFormControl: FormControl;
   editRolesFormControl: FormControl;
-  @ViewChild('popup') errorPopup: Popup;
   errorOccurred: boolean;
   positiveResponse: boolean;
   @ViewChild('infoDiv') infoDiv: ElementRef;
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
-
-  }
+     }
 
   ngOnInit() {
     this.refresh();
@@ -69,6 +64,15 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  logout() {
+    if (localStorage.getItem(LSKEY)) {
+      localStorage.clear();
+      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response=>console.log(response.toString()));
+      this.loggedIn = false;
+      this.router.navigate(['./login']);
+    }
+  }
+
   setRoles(roles: Role[]) {
     this.userModel.roles = roles;
   }
@@ -87,7 +91,7 @@ export class ProfileComponent implements OnInit {
       },
       (error) => {
         this.errorMessage = error['error'];
-        this.popup.show(this.popup.options);
+        console.log(this.errorMessage);
       }
     );
     this.userList[user.id - 1].isActive = false;
@@ -100,7 +104,7 @@ export class ProfileComponent implements OnInit {
       },
       (error) => {
         this.errorMessage = error['error'];
-        this.popup.show(this.popup.options);
+        console.log(this.errorMessage);
       }
     );
     this.userList[user.id - 1].isActive = true;
@@ -112,11 +116,15 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          console.log('response ' + JSON.stringify(response));
+          this.errorOccurred = false;
+          this.positiveResponse = true;
           this.pressedEdit = false;
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.popup.show(this.popup.options);
+          this.errorOccurred = true;
+          this.positiveResponse = false;
         }
       );
   }
@@ -171,6 +179,20 @@ export class ProfileComponent implements OnInit {
 
   hideInfo() {
     this.showInfoDiv = false;
+  }
+
+  clearUserModelFields(){
+    this.userModel = {
+      id: 0,
+      firstName: '',
+      lastName: '',
+      isActive: false,
+      phoneNumber: '',
+      email: '',
+      roles: [],
+      username: '',
+      password: ''
+    };
   }
 
 }
