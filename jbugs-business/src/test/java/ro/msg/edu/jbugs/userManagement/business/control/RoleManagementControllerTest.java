@@ -56,7 +56,8 @@ public class RoleManagementControllerTest {
     @Test
     public void updateRole() {
         Role toBeUpdated = new Role();
-        when(userPersistenceManager.updateRole(toBeUpdated)).thenReturn(toBeUpdated);
+        when(userPersistenceManager.updateRole(toBeUpdated)).thenThrow(new RuntimeException("test exception"));
+
 
     }
 }

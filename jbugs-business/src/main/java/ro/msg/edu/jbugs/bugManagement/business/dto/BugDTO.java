@@ -5,6 +5,7 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 public class BugDTO {
 
+    private Long id;
     private String title;
     private String description;
     private String version;
@@ -87,10 +88,19 @@ public class BugDTO {
         this.assignedTo = assignedTo;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "BugDTO{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", version='" + version + '\'' +
                 ", targetDate='" + targetDate + '\'' +

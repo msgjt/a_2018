@@ -51,7 +51,7 @@ public class BugManagementController implements BugManagement {
         return BugDTOHelper.fromEntity(bugPersistenceManager.getBugByTitle(title).get());
     }
 
-    private boolean isValidForCreation(BugDTO bug) {
+    public boolean isValidForCreation(BugDTO bug) {
         return bug.getTitle() != null ||
                 bug.getAssignedTo() != null ||
                 bug.getCreatedBy() != null ||
@@ -63,7 +63,7 @@ public class BugManagementController implements BugManagement {
                 bug.getStatus() != null ;
     }
 
-    private void validateBugForCreation(BugDTO bugDTO) throws BusinessException {
+    public void validateBugForCreation(BugDTO bugDTO) throws BusinessException {
         if (!isValidForCreation(bugDTO)) {
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION);
         }
