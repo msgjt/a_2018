@@ -1,58 +1,65 @@
-<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default" style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal" data-target="#addModal" >
+<button (click)="showAddPopup()" type="button" class="btn btn-lg btn-default"
+        style="background-color: darkred; color: white; margin-bottom: 1em;" data-toggle="modal"
+        data-target="#addModal">
   {{ 'demo.Add User' | translate }}
 </button>
 
 <div class="column justify-content-center">
-    <div *ngIf="userList">
-      <div class="table-responsive">
-        <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
-          <thead style="background-color: darkred; border-color: darkred;" >
-          <tr>
-            <th scope="col" translate>demo.Username</th>
-            <th scope="col" translate>demo.First name</th>
-            <th scope="col" translate>demo.Last name</th>
-            <th scope="col" translate>demo.Phone number</th>
-            <th scope="col" translate>E-mail</th>
-            <th scope="col" translate>demo.Roles</th>
-            <th scope="col" translate>demo.Active</th>
-            <th scope="col" translate>demo.Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let user of userList" #row>
-            <td>{{ user.username }}</td>
-            <td>{{ user.firstName }}</td>
-            <td>{{ user.lastName }}</td>
-            <td>{{ user.phoneNumber }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <mat-menu #appMenu="matMenu">
+  <div *ngIf="userList">
+    <div class="table-responsive">
+      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+        <thead style="background-color: darkred; border-color: darkred;">
+        <tr>
+          <th scope="col" translate>demo.Username</th>
+          <th scope="col" translate>demo.First name</th>
+          <th scope="col" translate>demo.Last name</th>
+          <th scope="col" translate>demo.Phone number</th>
+          <th scope="col" translate>E-mail</th>
+          <th scope="col" translate>demo.Roles</th>
+          <th scope="col" translate>demo.Active</th>
+          <th scope="col" translate>demo.Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of userList" #row>
+          <td>{{ user.username }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
                   <button mat-menu-item disabled> {{role.type}} </button>
                 </span>
-              </mat-menu>
-              <button mat-icon-button [matMenuTriggerFor]="appMenu">
-                <mat-icon>list</mat-icon>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <mat-icon>list</mat-icon>
+            </button>
+          </td>
+          <td>
+            <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px;">check_circle_outline</i>
+            <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px;">highlight_off</i>
+          </td>
+          <td>
+            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+              <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
+                      (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
               </button>
-            </td>
-            <td>
-              <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px;">check_circle_outline</i>
-              <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px;">highlight_off</i>
-            </td>
-            <td>
-              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
-                <button type="button" class="btn btn-default" style="background-color: darkred; color: white;" (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable</button>
-                <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;" (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable</button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+              <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;"
+                      (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
   <button class="btn btn-default" style="margin: 2em 0 0 0;" (click)="logout()" translate>demo.Logout</button>
 </div>
 
@@ -60,8 +67,10 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="editModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Manage user</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close" (click)="pressedEdit=false;">
+        <h5 class="modal-title" id="editModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Manage
+          user</h5>
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
+                (click)="pressedEdit=false;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -78,7 +87,7 @@
                    pattern="[a-zA-Z]+"
                    required
                    placeholder=" ">
-            <label for="inputFirstName"  translate style="margin-top: 15px">demo.First name</label>
+            <label for="inputFirstName" translate style="margin-top: 15px">demo.First name</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text" id="inputLastName" class="form-control"
@@ -100,6 +109,7 @@
                    placeholder=" ">
             <label for="inputPhoneNumber" translate style="margin-top: 15px">demo.Phone number</label>
           </span>
+
           <span class="form-group has-float-label">
             <input type="text" id="inputEmail" class="form-control"
                    name="email"
@@ -109,12 +119,31 @@
                    placeholder=" ">
             <label for="inputEmail" translate style="margin-top: 15px">E-mail</label>
           </span>
-          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em; color: whitesmoke; font-size: 15px; position: center"
+
+          <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder="Select roles" [formControl]="editRolesFormControl" multiple
+                          (selectionChange)="setRoles(rolesFormControl.value)">
+                <mat-select-trigger>
+                  Roles selected
+                </mat-select-trigger>
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{role.type}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+
+
+          <button class="btn btn-lg btn-block" type="submit"
+                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em; color: whitesmoke; font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
           >demo.Edit
           </button>
         </form>
-        <button type="button" class="btn btn-default"  (click)="pressedEdit=false;" *ngIf="pressedEdit" translate >demo.Back</button>
+        <button type="button" class="btn btn-default" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>
+          demo.Back
+        </button>
       </div>
     </div>
   </div>
@@ -124,15 +153,20 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="addModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Add user</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close" (click)="pressedEdit=false;">
+        <h5 class="modal-title" id="addModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Add
+          user</h5>
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
+                (click)="pressedEdit=false;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()" style="cursor: help;margin: 0 0 0 50%">info</i>
-        <div #infoDiv class="alert alert-warning" style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;" [hidden]="!showInfoDiv">
-          <strong translate >demo.Keep in mind!</strong>
+        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
+           style="cursor: help;margin: 0 0 0 50%">info</i>
+        <div #infoDiv class="alert alert-warning"
+             style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
+             [hidden]="!showInfoDiv">
+          <strong translate>demo.Keep in mind!</strong>
           <p translate style="color:black;">demo.KeepInMindMessage</p>
         </div>
         <form class="form-signin text-center"
@@ -157,7 +191,7 @@
                          placeholder=" ">
                   <label for="firstNameInput" translate style="margin-top: 15px">demo.First name</label>
               </span>
-              <span class="form-group has-float-label">
+          <span class="form-group has-float-label">
                 <span class="help-block"
                       *ngIf="lastName.errors?.required && lastName.touched" translate style="margin-top: 15px">demo.Last name is required.</span>
                 <span class="help-block"
@@ -176,8 +210,10 @@
                 <label for="lastNameInput" translate style="margin-top: 15px">demo.Last name</label>
               </span>
           <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate style="margin-top: 15px">demo.Phone number is required.</span>
-              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</span>
+              <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate
+                    style="margin-top: 15px">demo.Phone number is required.</span>
+              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched" translate
+                    style="margin-top: 15px">demo.Phone number is invalid.</span>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
@@ -191,9 +227,11 @@
                      placeholder=" ">
               <label for="mobileNumberInput" translate style="margin-top: 15px">demo.Phone number</label>
             </span>
-    <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate style="margin-top: 15px">E-mail is required.</span>
-              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate style="margin-top: 15px">E-mail is invalid.</span>
+          <span class="form-group has-float-label">
+              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate
+                    style="margin-top: 15px">E-mail is required.</span>
+              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate
+                    style="margin-top: 15px">E-mail is invalid.</span>
               <input type="text"
                      name="email"
                      minlength="5"
@@ -210,7 +248,8 @@
           <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
               <span class="help-block"
                     *ngIf="password.errors?.required && password.touched" translate style="margin-top: 15px">demo.Password is required.</span>
-              <span class="help-block" *ngIf="password.errors?.pattern && password.touched" translate style="margin-top: 15px">demo.Password is invalid.</span>
+              <span class="help-block" *ngIf="password.errors?.pattern && password.touched" translate
+                    style="margin-top: 15px">demo.Password is invalid.</span>
               <input type="password"
                      name="password"
                      id="passwordInput"
@@ -225,9 +264,10 @@
             </span>
 
 
-         <span class="form-group has-float-label">
+          <span class="form-group has-float-label">
             <mat-form-field>
-              <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple (selectionChange)="setRoles(rolesFormControl.value)">
+              <mat-select placeholder="Select roles" [formControl]="rolesFormControl" multiple
+                          (selectionChange)="setRoles(rolesFormControl.value)">
                 <mat-select-trigger>
                   Roles selected
                 </mat-select-trigger>
