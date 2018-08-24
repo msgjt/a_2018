@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {Popup} from "ng2-opd-popup";
 import {FormControl} from "@angular/forms";
+import {PaginationInstance} from "ngx-pagination";
 
 @Component({
   selector: 'app-bugs-view',
@@ -17,7 +18,26 @@ export class BugsViewComponent implements OnInit {
   currentPage: number = 1;
   maxPage: number;
 
-  @ViewChild('popup') popup: Popup;
+  //Pagination
+
+  public filter: string = '';
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public config: PaginationInstance = {
+    id: 'custom',
+    itemsPerPage: 3,
+    currentPage: 1
+  };
+  public labels: any = {
+    previousLabel: 'Previous',
+    nextLabel: 'Next',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
+
   constructor(private bugService: BugService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
@@ -35,20 +55,6 @@ export class BugsViewComponent implements OnInit {
     this.pagesFormControl = new FormControl(0);
   }
 
-  previousPage() {
-    if(this.currentPage > 1) {
-      this.currentPage = this.currentPage - 1;
-    }
-    this.updateTable();
-  }
-
-  nextPage() {
-    if(this.currentPage < this.maxPage) {
-      this.currentPage = this.currentPage + 1;
-    }
-    this.updateTable();
-  }
-
   updateTable() {
     if(this.currentPage == this.maxPage) {
       this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1));
@@ -56,4 +62,5 @@ export class BugsViewComponent implements OnInit {
       this.bugList = this.bugListAll.slice(this.bugsAmount * (this.currentPage - 1), this.bugsAmount);
     }
   }
+
 }
