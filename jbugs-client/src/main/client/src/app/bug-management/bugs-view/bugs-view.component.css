@@ -45,14 +45,6 @@ th {
   font-size: 24px;
 }
 
-#prev {
-  float: left;
-}
-
-#next {
-  float: right;
-}
-
 th.headerSortUp {
   background: url("../../../assets/desc.png") no-repeat center right;
 }
@@ -87,7 +79,41 @@ a {
   transition: none 86ms ease-out;
 }
 
-span {
-  font-style: inherit;
-  font-weight: inherit;
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 100%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+
+input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  margin-left: 1em;
+  margin-bottom: .5em;
+  border-bottom: 1px solid black;
+  height: 20px;
+  font-size: 12px;
+  width: 50%;
+  color: white;
+}
+
+input[type=text]:focus {
+  box-shadow:  0 4px 2px -2px  #8b0000;
+  height: 40px;
+  font-size: 18px;
+}
+
+.has-float-label .form-control:placeholder-shown:not(:focus)+* {
+  font-size: 100%;
+  opacity: .5;
+  top: .3em;
+  font-weight: 400;
+  height: 40px;
+  margin-top: 30px;
 }

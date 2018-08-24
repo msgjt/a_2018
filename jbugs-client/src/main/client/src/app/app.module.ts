@@ -61,6 +61,7 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
+import { FilterPipe } from './filter.pipe';
 
 const appRoutes: Routes = [
   {
@@ -145,7 +146,8 @@ export class MaterialModule {}
     BugsViewComponent,
     HomeComponent,
     UserProfileComponent,
-    RolesComponent
+    RolesComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -173,6 +175,9 @@ export class MaterialModule {}
       provide: RECAPTCHA_LANGUAGE,
       useValue: 'ro'
     }
+  ],
+  exports: [
+    FilterPipe
   ],
   bootstrap: [AppComponent]
 })
