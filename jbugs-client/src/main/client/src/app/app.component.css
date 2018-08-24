@@ -9,7 +9,6 @@
   margin: 0;
   padding-bottom: 6rem;
   min-height: 100%;
-  overflow-y: hidden;
 
 }
 
@@ -17,7 +16,6 @@
 *:before,
 *:after {
   box-sizing: inherit;
-  overflow: hidden;
 
 }
 
