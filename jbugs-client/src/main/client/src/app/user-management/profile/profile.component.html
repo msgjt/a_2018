@@ -69,7 +69,7 @@
         <h5 class="modal-title" id="editModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Manage
           user</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
-                (click)="pressedEdit=false;">
+                (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;clearUserModelFields();">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -143,6 +143,8 @@
         <button type="button" class="btn btn-default" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>
           demo.Back
         </button>
+        <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
+        <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
       </div>
     </div>
   </div>
@@ -155,7 +157,7 @@
         <h5 class="modal-title" id="addModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Add
           user</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
-                (click)="pressedEdit=false;">
+                (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;clearUserModelFields();">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
