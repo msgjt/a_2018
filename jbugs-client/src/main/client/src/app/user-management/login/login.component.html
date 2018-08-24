@@ -29,9 +29,11 @@
            placeholder="{{ 'demo.Password' | translate }}">
     <label for="inputPassword"translate>demo.Password</label>
   </span>
-  <re-captcha [(ngModel)]="recaptchaResponse"
+  <re-captcha
+    [(ngModel)]="recaptchaResponse"
               name="captcha"
-              (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"></re-captcha><br>
+              (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"
+  required></re-captcha><br>
   <button class="btn btn-lg btn-block" type="submit"
           [disabled]="formControl.invalid"
   >{{ 'demo.Sign in' | translate }}

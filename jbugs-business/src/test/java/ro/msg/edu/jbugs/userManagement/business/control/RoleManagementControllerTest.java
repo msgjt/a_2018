@@ -29,7 +29,6 @@ public class RoleManagementControllerTest {
     @Mock
     private UserPersistenceManager userPersistenceManager;
 
-
     @Test
     public void getAllRoles_expectedList() {
         Role r1 = new Role();
