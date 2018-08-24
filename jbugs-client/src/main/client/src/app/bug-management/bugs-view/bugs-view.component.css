@@ -60,3 +60,34 @@ th.headerSortUp {
 th.headerSortDown {
   background: url("../../../assets/asc.png") no-repeat center right;
 }
+
+.custom-pagination {
+  display: flex;
+  max-width: 300px;
+  margin: auto;
+}
+
+.custom-pagination>div {
+  flex: 1;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.custom-pagination>div.current {
+  border-color: darkred;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  transition: none 86ms ease-out;
+}
+
+span {
+  font-style: inherit;
+  font-weight: inherit;
+}

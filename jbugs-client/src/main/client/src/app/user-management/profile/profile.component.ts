@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   errorMessage: string;
   roles: Role[];
   rolesFormControl: FormControl;
+  editRolesFormControl: FormControl;
   @ViewChild('popup') errorPopup: Popup;
   errorOccurred: boolean;
   positiveResponse: boolean;
@@ -52,7 +53,7 @@ export class ProfileComponent implements OnInit {
     });  }
 
   ngOnInit() {
-
+    this.editRolesFormControl = new FormControl();
   }
 
   logout() {
@@ -106,7 +107,7 @@ export class ProfileComponent implements OnInit {
   }
 
   submitEditForm() {
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber)
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
@@ -120,7 +121,16 @@ export class ProfileComponent implements OnInit {
   }
 
   passDataToModal(user: User) {
+
     this.userModel = user;
+    console.log(this.userModel.roles);
+    let selectedRoles = [];
+    this.roles.forEach( role => {
+      if( this.userModel.roles.findIndex(r => r.id === role.id) != -1){
+        selectedRoles.push(role);
+      }
+    });
+    this.editRolesFormControl = new FormControl(selectedRoles);
   }
 
   showAddPopup(){
