@@ -51,6 +51,7 @@ export class BugsViewComponent implements OnInit {
     });
   }
 
+
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
   }
@@ -63,4 +64,3 @@ export class BugsViewComponent implements OnInit {
     }
   }
 
-}
