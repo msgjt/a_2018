@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
-     }
+  }
 
   ngOnInit() {
     this.refresh();
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.userService.getAllRoles().subscribe((roles) => {
       this.roles = roles;
-    });
+    },(error)=>{console.log('USER NOT ALLOWED TO GET THE ROLES')});
   }
 
   logout() {

@@ -2,6 +2,7 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {FormControl} from "@angular/forms";
 import {PaginationInstance} from "ngx-pagination";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-bugs-view',
@@ -22,11 +23,19 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private bugService: BugService) {
+  constructor(private bugService: BugService, private router: Router) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
       this.bugList = bug;
-    });
+    },
+      (error)=>{
+        if(error.status == 403){
+          router.navigate(['/error']);
+        }
+        if(error.status == 401){
+          router.navigate(['/norights']);
+        }
+      });
   }
 
   ngOnInit() {
