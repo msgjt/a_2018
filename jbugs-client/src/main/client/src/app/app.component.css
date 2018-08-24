@@ -9,14 +9,12 @@
   margin: 0;
   padding-bottom: 6rem;
   min-height: 100%;
-
 }
 
 /deep/ *,
 *:before,
 *:after {
   box-sizing: inherit;
-
 }
 
 /deep/ #wrap {

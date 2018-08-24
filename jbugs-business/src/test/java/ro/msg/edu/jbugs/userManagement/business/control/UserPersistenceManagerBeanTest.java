@@ -13,6 +13,7 @@ import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
@@ -131,6 +132,8 @@ public class UserPersistenceManagerBeanTest {
             assertEquals(ExceptionCode.USERNAME_NOT_VALID, e.getExceptionCode());
         }
     }
+
+
 
     @Test
     public void testLogin_wrongPassword() {

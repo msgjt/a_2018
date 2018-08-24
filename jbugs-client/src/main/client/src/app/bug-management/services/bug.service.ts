@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
@@ -28,6 +28,11 @@ export class BugService {
 
 
   getAllBugs(): Observable<Bug[]> {
-    return this.http.get<Bug[]>(this.baseURL + '/bugs');
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.get<Bug[]>(this.baseURL + '/bugs',{headers});
   }
 }
