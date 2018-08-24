@@ -27,14 +27,13 @@
         <a class="nav-link" routerLink="login" *ngIf="!isUserLoggedIn()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn()"><i class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
-
+        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Roles</a>
+        <a class="nav-link" routerLink="roles" *ngIf="isUserLoggedIn() && isPERMISSION_MANAGEMENT()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Roles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn()"style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Bugs</a>
+        <a class="nav-link" routerLink="bugs" *ngIf="isUserLoggedIn() && isBUG_MANAGEMENT()" style="font-size: 24px; margin: 3px 10px 0;" translate>demo.Bugs</a>
       </li>
     </ul>
 
@@ -44,7 +43,7 @@
       <div class="dropdown" >
         <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle" style="margin: 0 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" translate><span class="glyphicon glyphicon-globe"></span>demo.Language<b class="caret"></b></a>
         <ul class="dropdown-menu" >
-          <li><img src="../assets/romaniaFlag.png" (click)="useLanguage('ro')" height="36px" style="cursor: pointer; position: sticky"></li>
+          <li><img src="../assets/romaniaFlag.png" (click)="useLanguage('ro')" height="36px" style="cursor: pointer; position: sticky;"></li>
           <li><img src="../assets/usFlag.png" (click)="useLanguage('en')" height="36px" style="cursor: pointer; position: sticky"></li>
         </ul>
       </div>
@@ -52,7 +51,7 @@
   </div>
 </nav>
 
-<div id="wrap">
+<div id="wrap" style="overflow: hidden">
   <main role="main" id="main" class="container clear-top">
     <router-outlet></router-outlet>
   </main>
@@ -61,7 +60,7 @@
   <div class="container">
     <div class="row justify-content-between">
       <div class="col text-center">
-        <span class="text-light" translate>demo.Team A</span>
+        <span class="text-light" translate >demo.Team A</span>
       </div>
       <div class="col centerImage">
         <img src="../assets/msglogo.svg" class="msg">

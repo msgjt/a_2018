@@ -3,6 +3,7 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.utils.CustomLogger;
 import javax.ejb.EJB;
@@ -31,13 +32,24 @@ public class RoleManagementController implements RoleManagement{
     }
 
     @Override
-    public RoleDTO updateRole(RoleDTO role) throws BusinessException{
+    public RoleDTO updateRole(RoleDTO role){
+
+        if( ! isValid(role) )
+            throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);
+
         CustomLogger.logEnter(this.getClass(),"updateRole",role.toString());
 
         RoleDTO result = RoleDTOHelper.fromEntity(userPersistenceManager.updateRole(RoleDTOHelper.toEntity(role)));
 
         CustomLogger.logExit(this.getClass(),"updateRole",result.toString());
         return result;
+    }
+
+    private boolean isValid(RoleDTO role) {
+        return role != null
+                && role.getId() != null
+                && role.getType() != null
+                && role.getPermissions() != null;
     }
 
 }

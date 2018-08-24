@@ -18,6 +18,7 @@ public class UserManagementApplication extends Application {
         classes.add(PermissionsResource.class);
         classes.add(BusinessExceptionMapper.class);
         classes.add(Logout.class);
+        classes.add(UserPermissions.class);
         return classes;
     }
 

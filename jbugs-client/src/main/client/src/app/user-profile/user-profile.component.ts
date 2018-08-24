@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 
 import {Popup} from 'ng2-opd-popup';
+import {Role} from "../role-management/entities/role";
 
 @Component({
   selector: 'app-user-profile',
@@ -37,8 +38,9 @@ export class UserProfileComponent implements OnInit {
 
 
   submitEditForm() {
-    console.log(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber);
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber)
+    console.log(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber,
+      this.userModel.roles);
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
