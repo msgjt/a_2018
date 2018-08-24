@@ -1,10 +1,9 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import { Popup } from  'ng2-opd-popup';
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
-import {ModalDirective} from "ngx-bootstrap";
 
 @Component({
   selector: 'app-profile',
@@ -43,6 +42,13 @@ export class ProfileComponent implements OnInit {
     this.editRolesFormControl = new FormControl();
     this.userService.getAllUsers().subscribe((user) => {
       this.userList = user;
+    },(error)=>{
+      if(error.status == 403){
+        this.router.navigate(['/error']);
+      }
+      if(error.status == 401){
+        this.router.navigate(['/norights']);
+      }
     });
     this.userModel = {
       id: 0,
@@ -102,7 +108,6 @@ export class ProfileComponent implements OnInit {
   }
 
   submitEditForm() {
-    console.log('EDIT');
     this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
       .subscribe(
         (response) => {

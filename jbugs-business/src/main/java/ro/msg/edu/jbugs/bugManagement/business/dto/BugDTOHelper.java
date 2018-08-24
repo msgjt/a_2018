@@ -16,6 +16,7 @@ public class BugDTOHelper {
         bugDTO.setCreatedBy(bug.getCreatedBy());
         bugDTO.setAssignedTo(bug.getAssignedTo());
         bugDTO.setDescription(bug.getDescription());
+        bugDTO.setId(bug.getId());
 
 
         return bugDTO;
@@ -33,6 +34,7 @@ public class BugDTOHelper {
         bug.setCreatedBy(bugDTO.getCreatedBy());
         bug.setAssignedTo(bugDTO.getAssignedTo());
         bug.setDescription(bugDTO.getDescription());
+        bug.setId(bugDTO.getId());
 
         return bug;
 

@@ -33,7 +33,7 @@
           <td>
             <mat-menu #appMenu="matMenu">
                 <span *ngFor="let role of user.roles">
-                  <button mat-menu-item disabled> {{role.type}} </button>
+                  <button mat-menu-item> {{role.type}} </button>
                 </span>
             </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -96,8 +96,6 @@
                          placeholder=" ">
                   <label for="firstNameInput" translate style="margin-top: 15px">demo.First name</label>
           </span>
-
-
           <span class="form-group has-float-label">
                 <span class="help-block"
                       *ngIf="lastName.errors?.required && lastName.touched" translate style="margin-top: 15px">demo.Last name is required.</span>
@@ -156,6 +154,7 @@
               <label for="emailInput" style="margin-top: 15px">E-mail</label>
             </span>
 
+          <span class="form-group has-float-label">
             <mat-form-field>
               <mat-select placeholder="Select roles" [formControl]="editRolesFormControl" multiple
                           (selectionChange)="setRoles(rolesFormControl.value)">
@@ -167,6 +166,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+          </span>
 
 
           <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
@@ -245,7 +245,6 @@
                        placeholder=" ">
                 <label for="lastNameInput" translate style="margin-top: 15px">demo.Last name</label>
               </span>
-
           <span class="form-group has-float-label">
               <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate
                     style="margin-top: 15px">demo.Phone number is required.</span>
@@ -264,7 +263,6 @@
                      placeholder=" ">
               <label for="mobileNumberInput" translate style="margin-top: 15px">demo.Phone number</label>
             </span>
-
           <span class="form-group has-float-label">
               <span class="help-block" *ngIf="email.errors?.required && email.touched" translate
                     style="margin-top: 15px">E-mail is required.</span>
@@ -283,7 +281,6 @@
                      placeholder=" ">
               <label for="emailInput" style="margin-top: 15px">E-mail</label>
             </span>
-
           <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
               <span class="help-block"
                     *ngIf="password.errors?.required && password.touched" translate style="margin-top: 15px">demo.Password is required.</span>
@@ -315,10 +312,9 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            </span>
-
-          <button class="btn btn-lg btn-block" type="submit"
-                  [disabled]="formControl.invalid"  translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
+            </span>-->
+          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
+                  [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
                                                                       emailId.value='';passwordId.value='';">demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>

@@ -4,6 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
 import {RoleService} from "../../role-management/services/role.service";
+import {Permission} from "../../role-management/entities/permission";
 
 export interface User {
   id: number;
@@ -108,5 +109,11 @@ export class UserService {
   getAllRoles(): Observable<Role[]> {
     return this.roleService.getAllRoles();
   }
+
+  getUsersPermissions(currentUser: string): Observable<any> {
+    return this.http.get<String[]>(this.baseURL+'/userpermissions/'+currentUser);
+  }
+
+
 
 }
