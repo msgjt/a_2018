@@ -1,9 +1,6 @@
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
     <div id="tableContainer" class="table-responsive" style="text-align: center !important;">
-      <!--<label class="control" style="color: white; font-size: 18px;">Filter items-->
-        <!--<input type="text" class="input" [(ngModel)]="filter">-->
-      <!--</label>-->
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;" >
         <tr>
@@ -80,7 +77,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr #row *ngFor="let bug of bugList | paginate: config">
+        <tr #row *ngFor="let bug of bugList | paginate: config" data-toggle="modal" data-target="#bugDetailsModal">
           <td>{{ bug.description }}</td>
           <td>{{ bug.fixedVersion }}</td>
           <td>{{ bug.severity }}</td>
@@ -116,5 +113,69 @@
         </div>
       </div>
     </pagination-template>
+  </div>
+</div>
+
+<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
+        <h5 class="modal-title" id="bugDetailsModalTitle" style="color: whitesmoke;font-size: 20px; ">Bug details</h5>
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-signin text-center"
+              #formControl="ngForm">
+          <div class="form-group">
+            <label for="descriptionInput">Description</label>
+            <textarea disabled name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+          </div>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="fixedVersion"
+                   id="fixedVersionInput"
+                   disabled>
+            <label for="fixedVersionInput" style="margin-top: 15px">Fixed Version</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="severity"
+                   id="severityInput"
+                   disabled>
+            <label for="severityInput" style="margin-top: 15px">Severity</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="status"
+                   id="statusInput"
+                   disabled>
+            <label for="statusInput" style="margin-top: 15px">Status</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="targetDate"
+                   id="targetDateInput"
+                   disabled>
+            <label for="targetDateInput" style="margin-top: 15px">Target Date</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="title"
+                   id="titleInput"
+                   disabled>
+            <label for="titleInput" style="margin-top: 15px">Title</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="version"
+                   id="versionInput"
+                   disabled>
+            <label for="versionInput" style="margin-top: 15px">Version</label>
+          </span>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
