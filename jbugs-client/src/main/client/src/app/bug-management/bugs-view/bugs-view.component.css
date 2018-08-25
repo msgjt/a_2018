@@ -30,7 +30,6 @@ td {
 
 th {
   color: white;
-  cursor: pointer;
 }
 
 .pagination {
@@ -45,13 +44,13 @@ th {
   font-size: 24px;
 }
 
-th.headerSortUp {
-  background: url("../../../assets/desc.png") no-repeat center right;
-}
+/*th.headerSortUp {*/
+  /*background: url("../../../assets/desc.png") no-repeat center right;*/
+/*}*/
 
-th.headerSortDown {
-  background: url("../../../assets/asc.png") no-repeat center right;
-}
+/*th.headerSortDown {*/
+  /*background: url("../../../assets/asc.png") no-repeat center right;*/
+/*}*/
 
 .custom-pagination {
   display: flex;
@@ -98,15 +97,17 @@ input[type=text] {
   margin-bottom: .5em;
   border-bottom: 1px solid black;
   height: 20px;
-  font-size: 12px;
+  font-size: 16px;
   width: 50%;
   color: white;
 }
 
 input[type=text]:focus {
   box-shadow:  0 4px 2px -2px  #8b0000;
-  height: 40px;
-  font-size: 18px;
+}
+
+th input[type=text] {
+  border-bottom: 1px solid white;
 }
 
 .has-float-label .form-control:placeholder-shown:not(:focus)+* {
@@ -116,4 +117,10 @@ input[type=text]:focus {
   font-weight: 400;
   height: 40px;
   margin-top: 30px;
+}
+
+i {
+  margin: .65em 0 0 .75em;
+  font-size: 8px;
+  cursor: pointer;
 }
