@@ -1,3 +1,4 @@
+import filters.BugsFilter;
 import resources.*;
 
 import javax.ws.rs.ApplicationPath;
@@ -19,6 +20,7 @@ public class UserManagementApplication extends Application {
         classes.add(BusinessExceptionMapper.class);
         classes.add(Logout.class);
         classes.add(UserPermissions.class);
+        classes.add(BugsFilter.class);
         return classes;
     }
 
