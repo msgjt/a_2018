@@ -36,6 +36,6 @@
           [disabled]="formControl.invalid"
   >{{ 'demo.Sign in' | translate }}
   </button>
-  <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">Username or password not valid</label>
+  <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
 </form>
 </body>

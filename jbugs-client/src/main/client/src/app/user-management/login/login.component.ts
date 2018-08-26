@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   baseURL = 'http://localhost:8080/jbugs/rest';
   recaptchaResponse: any;
   errorOccurred: boolean;
+  errorMessage: string;
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.userModel = {
@@ -52,8 +53,16 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['./profile']);
           },
           (error) => {
-            this.errorOccurred = true;
-            this.loggedIn = false;
+            if(error['error'] == 'Failed_5_times') {
+              this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
+            }
+            else{
+              this.errorMessage = 'Username or password not valid';
+              this.errorOccurred = true;
+              this.loggedIn = false;
+            }
+            console.log(JSON.stringify(error));
+
           });
       }
    // });

@@ -32,7 +32,7 @@ public class RoleManagementController implements RoleManagement{
     }
 
     @Override
-    public RoleDTO updateRole(RoleDTO role){
+    public RoleDTO updateRole(RoleDTO role) throws BusinessException {
 
         if( ! isValid(role) )
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);
