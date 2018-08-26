@@ -4,7 +4,7 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;" >
         <tr>
-          <th scope="col">
+          <th scope="col" (click)="doSort('description')">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Description
@@ -24,7 +24,7 @@
               <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show2']">
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" (click)="doSort('severity')">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Severity

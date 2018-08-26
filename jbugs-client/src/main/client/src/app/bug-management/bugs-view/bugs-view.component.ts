@@ -33,6 +33,7 @@ export class BugsViewComponent implements OnInit {
   filter7 = '';
   bugListAux = [];
   detailedBug: Bug;
+  ascendingSort: boolean = false;
 
   //Pagination
   public filter = { };
@@ -119,5 +120,44 @@ export class BugsViewComponent implements OnInit {
 
   passUserToDetailedModal(bug: Bug) {
     this.detailedBug = bug;
+  }
+
+  doSort(sortBy: string) {
+    this.ascendingSort = !this.ascendingSort;
+    // let toSortBugList = this.bugList.slice((this.config.currentPage-1)* 25 + 1, (this.bugList.length>(this.config.currentPage-1)* 25 + 26) ? (this.bugList.length-))
+    // switch (sortBy) {
+    //   case 'description' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    //   case 'fixedVersion' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    //   case 'severity' : {
+    //     if(this.ascendingSort) {
+    //       this.bugList.sort((one, two) => (one.severity < two.severity ? -1 : 1));
+    //     } else {
+    //       this.bugList.sort((one, two) => (one.severity > two.severity ? -1 : 1));
+    //     }
+    //     break;
+    //   }
+    //   case 'status' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    //   case 'targetDate' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    //   case 'title' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    //   case 'version' : {
+    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
+    //     break;
+    //   }
+    // }
   }
 }
