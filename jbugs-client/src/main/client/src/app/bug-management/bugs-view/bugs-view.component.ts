@@ -32,6 +32,7 @@ export class BugsViewComponent implements OnInit {
   filter6 = '';
   filter7 = '';
   bugListAux = [];
+  detailedBug: Bug;
 
   //Pagination
   public filter = { };
@@ -114,5 +115,9 @@ export class BugsViewComponent implements OnInit {
       }
     }
     this.bugList = new FilterPipe().transform(this.bugListAux, this.filter);
+  }
+
+  passUserToDetailedModal(bug: Bug) {
+    this.detailedBug = bug;
   }
 }

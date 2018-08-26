@@ -77,7 +77,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr #row *ngFor="let bug of bugList | paginate: config" data-toggle="modal" data-target="#bugDetailsModal">
+        <tr #row *ngFor="let bug of bugList | paginate: config" data-toggle="modal" data-target="#bugDetailsModal" style="cursor: pointer;" (click)="passUserToDetailedModal(bug)">
           <td>{{ bug.description }}</td>
           <td>{{ bug.fixedVersion }}</td>
           <td>{{ bug.severity }}</td>
@@ -116,7 +116,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true">
+<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true" *ngIf="detailedBug">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
@@ -130,12 +130,14 @@
               #formControl="ngForm">
           <div class="form-group">
             <label for="descriptionInput">Description</label>
-            <textarea disabled name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+            <textarea #description="ngModel" [(ngModel)]="detailedBug.description" disabled name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
           </div>
           <span class="form-group has-float-label">
             <input type="text"
                    name="fixedVersion"
                    id="fixedVersionInput"
+                   #fixedVersion="ngModel"
+                   [(ngModel)]="detailedBug.fixedVersion"
                    disabled>
             <label for="fixedVersionInput" style="margin-top: 15px">Fixed Version</label>
           </span>
@@ -143,6 +145,8 @@
             <input type="text"
                    name="severity"
                    id="severityInput"
+                   #severity="ngModel"
+                   [(ngModel)]="detailedBug.severity"
                    disabled>
             <label for="severityInput" style="margin-top: 15px">Severity</label>
           </span>
@@ -150,6 +154,8 @@
             <input type="text"
                    name="status"
                    id="statusInput"
+                   #status="ngModel"
+                   [(ngModel)]="detailedBug.status"
                    disabled>
             <label for="statusInput" style="margin-top: 15px">Status</label>
           </span>
@@ -157,6 +163,8 @@
             <input type="text"
                    name="targetDate"
                    id="targetDateInput"
+                   #targetDate="ngModel"
+                   [(ngModel)]="detailedBug.targetDate"
                    disabled>
             <label for="targetDateInput" style="margin-top: 15px">Target Date</label>
           </span>
@@ -164,6 +172,8 @@
             <input type="text"
                    name="title"
                    id="titleInput"
+                   #title="ngModel"
+                   [(ngModel)]="detailedBug.title"
                    disabled>
             <label for="titleInput" style="margin-top: 15px">Title</label>
           </span>
@@ -171,6 +181,8 @@
             <input type="text"
                    name="version"
                    id="versionInput"
+                   #version="ngModel"
+                   [(ngModel)]="detailedBug.version"
                    disabled>
             <label for="versionInput" style="margin-top: 15px">Version</label>
           </span>
