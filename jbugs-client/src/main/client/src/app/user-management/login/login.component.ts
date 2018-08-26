@@ -12,9 +12,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class LoginComponent implements OnInit {
 
   userModel: User;
-  wrongCredentials = false;
   loggedIn = false;
-  errorMessage: string;
   baseURL = 'http://localhost:8080/jbugs/rest';
   recaptchaResponse: any;
   errorOccurred: boolean;
@@ -48,21 +46,14 @@ export class LoginComponent implements OnInit {
         this.userService.validateUserCredentials(this.userModel.username,
           this.userModel.password).subscribe(
           (response) => {
-            console.log('credentials are valid is : ' + response);
-            if (response) {
               this.login(response.token);
               this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
-              this.wrongCredentials = false;
               this.router.navigate(['./profile']);
-            } else {
-              this.wrongCredentials = true;
-              this.loggedIn = false;
-            }
           },
           (error) => {
-            this.errorMessage = error['error'];
             this.errorOccurred = true;
+            this.loggedIn = false;
           });
       }
    // });
