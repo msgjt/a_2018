@@ -332,6 +332,9 @@ public class UserManagementController implements UserManagement {
     public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
+        if (!isValidForUpdate(userDTO)) {
+            throw new BusinessException(USER_VALIDATION_EXCEPTION);
+        }
 
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
         User user = new User();
@@ -345,7 +348,10 @@ public class UserManagementController implements UserManagement {
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
-        if(userDTO.getRoles().size() > 0) {
+        if(userDTO.getRoles().isEmpty()){
+            user.setRoles(new ArrayList<>());
+        }
+        else{
             user.setRoles(userDTO.getRoles().stream()
                     .map(RoleDTOHelper::toEntity)
                     .collect(Collectors.toList()));
