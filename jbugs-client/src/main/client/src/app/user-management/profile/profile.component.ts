@@ -163,6 +163,7 @@ export class ProfileComponent implements OnInit {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           this.errorOccurred = false;
           this.positiveResponse = true;
+          this.clearUserModelFields();
         },
         (error) => {
           this.errorMessage = error['error'];

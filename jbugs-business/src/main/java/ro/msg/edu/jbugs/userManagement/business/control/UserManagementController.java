@@ -16,6 +16,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.security.AllPermission;
 import java.util.*;
@@ -278,6 +279,7 @@ public class UserManagementController implements UserManagement {
 
     // Check the user credentials received fro a Http Post
     @Override
+   // @Transactional(dontRollbackOn = BusinessException.class)
     public UserDTO login(String username, String password) throws BusinessException {
         CustomLogger.logEnter(this.getClass(),"login",username,password);
 
@@ -298,7 +300,10 @@ public class UserManagementController implements UserManagement {
                 failedCounter.put(userOptional.get().getUsername(), failedCounter.get(userOptional.get().getUsername()) + 1);
                 //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
+                    //TODO this will rollback after the runtime exception is thrown
                     deactivateUser(userOptional.get().getId());
+                    CustomLogger.logException(this.getClass(),"login",FAILED_5_TIMES.toString());
+                    throw new BusinessException(ExceptionCode.FAILED_5_TIMES);
                 }
             }
             CustomLogger.logException(this.getClass(),"login",PASSWORD_NOT_VALID.toString());
@@ -324,9 +329,12 @@ public class UserManagementController implements UserManagement {
      * @throws BusinessException
      */
     @Override
-    public UserDTO updateUser(UserDTO userDTO) {
+    public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
         CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
 
+        if (!isValidForUpdate(userDTO)) {
+            throw new BusinessException(USER_VALIDATION_EXCEPTION);
+        }
 
         Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
         User user = new User();
@@ -340,7 +348,10 @@ public class UserManagementController implements UserManagement {
         user.setFirstName(userDTO.getFirstName().trim());
         user.setLastName(userDTO.getLastName().trim());
         user.setPhoneNumber(userDTO.getPhoneNumber().trim());
-        if(userDTO.getRoles().size() > 0) {
+        if(userDTO.getRoles().isEmpty()){
+            user.setRoles(new ArrayList<>());
+        }
+        else{
             user.setRoles(userDTO.getRoles().stream()
                     .map(RoleDTOHelper::toEntity)
                     .collect(Collectors.toList()));

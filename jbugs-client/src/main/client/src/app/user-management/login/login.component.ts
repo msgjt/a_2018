@@ -12,12 +12,11 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class LoginComponent implements OnInit {
 
   userModel: User;
-  wrongCredentials = false;
   loggedIn = false;
-  errorMessage: string;
   baseURL = 'http://localhost:8080/jbugs/rest';
   recaptchaResponse: any;
   errorOccurred: boolean;
+  errorMessage: string;
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.userModel = {
@@ -48,21 +47,22 @@ export class LoginComponent implements OnInit {
         this.userService.validateUserCredentials(this.userModel.username,
           this.userModel.password).subscribe(
           (response) => {
-            console.log('credentials are valid is : ' + response);
-            if (response) {
               this.login(response.token);
               this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
-              this.wrongCredentials = false;
               this.router.navigate(['./profile']);
-            } else {
-              this.wrongCredentials = true;
-              this.loggedIn = false;
-            }
           },
           (error) => {
-            this.errorMessage = error['error'];
-            this.errorOccurred = true;
+            if(error['error'] == 'Failed_5_times') {
+              this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
+            }
+            else{
+              this.errorMessage = 'Username or password not valid';
+              this.errorOccurred = true;
+              this.loggedIn = false;
+            }
+            console.log(JSON.stringify(error));
+
           });
       }
    // });
