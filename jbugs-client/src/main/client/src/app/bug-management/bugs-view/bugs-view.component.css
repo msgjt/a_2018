@@ -99,7 +99,7 @@ input[type=text] {
   height: 20px;
   font-size: 16px;
   width: 50%;
-  color: white;
+  color: black;
 }
 
 input[type=text]:focus {
