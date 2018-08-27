@@ -54,7 +54,7 @@ public class TestServlet extends HttpServlet {
         bug.setTitle("title");
         bug.setDescription("descriptioooooooooooooo");
         bug.setVersion("vers");
-        bug.setTargetDate("2020-05-11");
+       // bug.setTargetDate("2020-05-11");
         bug.setStatus("1");
         bug.setFixedVersion("fVers");
         bug.setSeverity(Severity.LVL2);

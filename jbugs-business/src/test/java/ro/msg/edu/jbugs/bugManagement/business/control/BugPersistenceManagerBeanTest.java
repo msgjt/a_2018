@@ -45,7 +45,7 @@ public class BugPersistenceManagerBeanTest {
         bug.setTitle("title");
         bug.setDescription("descript");
         bug.setVersion("vers");
-        bug.setTargetDate("2020-05-11");
+      //  bug.setTargetDate("2020-05-11");
         bug.setStatus("1");
         bug.setFixedVersion("fVers");
         bug.setSeverity(Severity.LVL2);
@@ -83,7 +83,7 @@ public class BugPersistenceManagerBeanTest {
         b1.setVersion("3.4");
         b1.setDescription("description");
         b1.setTitle("bug1");
-        b1.setTargetDate("12-02-2019");
+      //  b1.setTargetDate("12-02-2019");
 
         b2.setAssignedTo(user);
         b2.setCreatedBy(user);
@@ -93,7 +93,7 @@ public class BugPersistenceManagerBeanTest {
         b2.setVersion("3.4");
         b2.setDescription("description");
         b2.setTitle("bug1");
-        b2.setTargetDate("12-02-2019");
+      //  b2.setTargetDate("12-02-2019");
 
         List<Bug> bugs = new ArrayList<>(Arrays.asList(b1, b2));
         when(bugPersistenceManager.getAllBugs()).thenReturn(bugs);
@@ -138,11 +138,11 @@ public class BugPersistenceManagerBeanTest {
         bug.setAssignedTo(user);
         bug.setCreatedBy(user);
         bug.setDescription("des");
-        bug.setTargetDate("12-06-2044");
+    //    bug.setTargetDate("12-06-2044");
         bug.setFixedVersion("2.0");
         bug.setVersion("2.1");
         bug.setSeverity(Severity.LVL2);
-        bug.setStatus("progr");
+    //    bug.setStatus("progr");
 
         assertEquals(true, bugManagementController.isValidForCreation(BugDTOHelper.fromEntity(bug)));
     }
