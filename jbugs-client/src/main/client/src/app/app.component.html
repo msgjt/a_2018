@@ -39,14 +39,18 @@
 
     <ul class="navbar nav ml-auto" >
       <li class="nav-item">
-        <a class="nav-link btn btn-default" style="margin: 0 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()" translate><span class="glyphicon glyphicon-log-out"></span>demo.Logout</a></li>
+        <a tabindex="0" data-toggle="popover" title="Notifications" data-content="You don't have any notifications." data-placement="bottom" class="nav-link btn btn-default" style="margin: 0 .7em 0 0;cursor: pointer; font-size: 26px; color: #420000" *ngIf="isUserLoggedIn()"><i class="fas fa-bell"></i></a>
+      </li>
       <div class="dropdown" >
-        <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle" style="margin: 0 10px 0 0;cursor: pointer; font-size: 18px; color: #420000" translate><span class="glyphicon glyphicon-globe"></span>demo.Language<b class="caret"></b></a>
-        <ul class="dropdown-menu" >
+        <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle" style="margin: 0 10px 0 0;cursor: pointer; font-size: 20px; color: #420000" translate><span class="glyphicon glyphicon-globe"></span>demo.Language<b class="caret"></b></a>
+        <ul class="dropdown-menu">
           <li><img src="../assets/romaniaFlag.png" (click)="useLanguage('ro')" height="36px" style="cursor: pointer; position: sticky;"></li>
           <li><img src="../assets/usFlag.png" (click)="useLanguage('en')" height="36px" style="cursor: pointer; position: sticky"></li>
         </ul>
       </div>
+      <li class="nav-item">
+        <a class="nav-link btn btn-default" style="margin: 0 10px 0 0;cursor: pointer; font-size: 20px; color: #420000" *ngIf="isUserLoggedIn()" (click)="logout()" translate><span class="glyphicon glyphicon-log-out"></span>demo.Logout</a>
+      </li>
     </ul>
   </div>
 </nav>
