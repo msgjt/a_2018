@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Stateless
 public class BugValidator extends BaseValidator{
@@ -25,13 +27,11 @@ public class BugValidator extends BaseValidator{
 
         Map<DetailedExceptionCode,Boolean> result = new HashMap<DetailedExceptionCode,Boolean>() {{
             put(DetailedExceptionCode.BUG_TITLE_NULL,           bugDTO.getTitle() == null);
-            put(DetailedExceptionCode.BUG_ASSIGNED_TO_NULL,     bugDTO.getAssignedTo() == null);
             put(DetailedExceptionCode.BUG_CREATED_BY_NULL,      bugDTO.getCreatedBy() == null);
-            put(DetailedExceptionCode.BUG_TARGET_DATE_NULL,     bugDTO.getTargetDate() == null);
-            put(DetailedExceptionCode.BUG_FIXED_VERSION_NULL,   bugDTO.getFixedVersion() == null);
             put(DetailedExceptionCode.BUG_VERSION_NULL,         bugDTO.getVersion() == null);
             put(DetailedExceptionCode.BUG_SEVERITY_NULL,        bugDTO.getSeverity() == null);
-            put(DetailedExceptionCode.BUG_STATUS_NULL,          bugDTO.getStatus() == null);
+            put(DetailedExceptionCode.BUG_DESCRIPTION_TOO_SHORT,bugDTO.getDescription().length() < 250);
+            put(DetailedExceptionCode.BUG_VERSION_NOT_VALID,    !isValidVersion(bugDTO.getVersion()));
         }};
 
         CustomLogger.logExit(BugValidator.class,"getValidationMap",result.toString());
@@ -88,6 +88,16 @@ public class BugValidator extends BaseValidator{
         CustomLogger.logExit(this.getClass(),"validateBugForUpdate","OK");
     }
 
+
+    public boolean isValidVersion(String version){
+        if( version == null )
+            return false;
+        Pattern VALID_VERSION_REGEX =
+                Pattern.compile("^\\w+(\\.\\w*)*$", Pattern.CASE_INSENSITIVE);
+
+        Matcher matcher = VALID_VERSION_REGEX.matcher(version);
+        return matcher.find();
+    }
 
 
 }

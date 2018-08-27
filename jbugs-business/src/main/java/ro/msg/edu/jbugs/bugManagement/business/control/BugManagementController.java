@@ -52,6 +52,7 @@ public class BugManagementController implements BugManagement {
         CustomLogger.logEnter(this.getClass(),"createBug",bugDTO.toString());
 
         bugValidator.validateCreate(bugDTO);
+        bugDTO.setStatus("Open");
         Bug bug = BugDTOHelper.toEntity(bugDTO);
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
