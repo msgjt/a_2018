@@ -1,12 +1,6 @@
 package filters;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import jwt.JwtManager;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 
 import javax.ejb.EJB;
 import javax.servlet.Filter;
@@ -15,10 +9,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
-
-import static ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode.USER_VALIDATION_EXCEPTION;
 
 @WebFilter(filterName = "getUsersFilter",
         urlPatterns = "/rest/users")

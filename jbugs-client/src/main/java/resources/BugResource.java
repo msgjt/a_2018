@@ -2,7 +2,7 @@ package resources;
 
 import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;

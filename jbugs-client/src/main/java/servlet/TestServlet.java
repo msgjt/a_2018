@@ -15,7 +15,7 @@ import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 

@@ -8,6 +8,7 @@ import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf'
 import {Status} from "tslint/lib/runner";
 
+//for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',

@@ -116,7 +116,6 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
-          console.log('response ' + JSON.stringify(response));
           this.errorOccurred = false;
           this.positiveResponse = true;
           this.pressedEdit = false;

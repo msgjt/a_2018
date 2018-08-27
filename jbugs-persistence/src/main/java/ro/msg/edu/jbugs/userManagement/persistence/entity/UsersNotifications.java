@@ -1,0 +1,45 @@
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
+@Entity
+@Table(name = "users_notifications")
+public class UsersNotifications implements Serializable {
+    private User user;
+    private Notification notification;
+    private Date date;
+
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "User_ID")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "notifications_ID")
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
+    }
+
+    @Column(name = "date")
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+}

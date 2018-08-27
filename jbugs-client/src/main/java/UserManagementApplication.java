@@ -1,6 +1,5 @@
 import filters.BugsFilter;
 import resources.*;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -21,6 +20,7 @@ public class UserManagementApplication extends Application {
         classes.add(Logout.class);
         classes.add(UserPermissions.class);
         classes.add(BugsFilter.class);
+        classes.add(CheckedExceptionMapper.class);
         classes.add(LoggedIn.class);
         return classes;
     }

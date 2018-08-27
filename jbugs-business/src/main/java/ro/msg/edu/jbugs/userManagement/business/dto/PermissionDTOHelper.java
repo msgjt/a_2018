@@ -1,10 +1,12 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import javax.validation.constraints.NotNull;
 
 public class PermissionDTOHelper {
 
-    public static PermissionDTO fromEntity(Permission permission) {
+
+    public static PermissionDTO fromEntity(@NotNull Permission permission) {
         PermissionDTO permissionDTO = new PermissionDTO();
 
         permissionDTO.setId(permission.getId());
@@ -14,7 +16,7 @@ public class PermissionDTOHelper {
         return permissionDTO;
     }
 
-    public static Permission toEntity(PermissionDTO permissionDTO) {
+    public static Permission toEntity(@NotNull PermissionDTO permissionDTO) {
         Permission permission = new Permission();
 
         permission.setId(permissionDTO.getId());

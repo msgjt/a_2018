@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 
-import {Popup} from 'ng2-opd-popup';
-import {Role} from "../role-management/entities/role";
+
 import {Router} from "@angular/router";
 
 @Component({
@@ -15,7 +14,7 @@ export class UserProfileComponent implements OnInit {
   userModel: User;
   userList: User[];
   errorMessage: string;
-  @ViewChild('popup') popup: Popup;
+
 
 
   constructor(private userService: UserService, private router:Router) {
@@ -49,7 +48,7 @@ export class UserProfileComponent implements OnInit {
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.popup.show(this.popup.options);
+          //TODO: this.popup.show(this.popup.options);
         }
       );
   }
