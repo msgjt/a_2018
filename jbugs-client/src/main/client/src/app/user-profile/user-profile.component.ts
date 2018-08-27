@@ -49,7 +49,7 @@ export class UserProfileComponent implements OnInit {
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.popup.show(this.popup.options);
+          //TODO: this.popup.show(this.popup.options);
         }
       );
   }

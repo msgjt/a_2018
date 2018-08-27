@@ -3,7 +3,7 @@ package resources;
 
 import ro.msg.edu.jbugs.userManagement.business.control.RoleManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;

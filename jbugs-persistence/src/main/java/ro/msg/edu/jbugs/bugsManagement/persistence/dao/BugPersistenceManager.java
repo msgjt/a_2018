@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.bugsManagement.persistence.dao;
 
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
@@ -11,47 +12,87 @@ import java.util.Optional;
 @Stateless
 public class BugPersistenceManager {
 
+    private static final long serialVersionUID = 1L;
 
-        private static final long serialVersionUID = 1L;
+    @PersistenceContext(unitName = "jbugs-persistence")
+    private EntityManager em;
 
-        @PersistenceContext(unitName = "jbugs-persistence")
-        private EntityManager em;
+    // TODO ADD VALIDATION FOR DB CONSTRAINTS
 
-        public Bug createBug(@NotNull Bug bug) {
-            em.persist(bug);
-            em.flush();
-            return bug;
+    /**
+     * Method adds a bug to the DB.
+     * @param bug not null
+     * @return the created bug with its ID set
+     */
+    public Bug createBug(@NotNull Bug bug) {
+        CustomLogger.logEnter(this.getClass(),"createBug",bug.toString());
+        em.persist(bug);
+        em.flush();
+        CustomLogger.logExit(this.getClass(),"createBug",bug.toString());
+        return bug;
+    }
+
+    /**
+     * Method updates a bug from the DB.
+     * @param bug the desired state of the bug entity
+     * @return the updated bug
+     */
+    public Bug updateBug(@NotNull Bug bug) {
+        CustomLogger.logEnter(this.getClass(),"updateBug",bug.toString());
+        Bug result = em.merge(bug);
+        CustomLogger.logExit(this.getClass(),"updateBug",result.toString());
+        return result;
+    }
+
+
+    /**
+     * Method to get all the bugs from the DB.
+     * @return the list of all the bugs from the DB, empty if no bugs found
+     */
+    public List<Bug> getAllBugs() {
+        CustomLogger.logEnter(this.getClass(),"getAllBugs","");
+        List<Bug> result = em.createNamedQuery(Bug.GET_ALL_BUGS, Bug.class)
+                .getResultList();
+        CustomLogger.logExit(this.getClass(),"getAllBugs",result.toString());
+        return result;
+    }
+
+    /**
+     * Method returns a bug by its title by using a NamedQuery defined in the Bug class.
+     * @param title the search key, not null
+     * @return an optional of the required bug or an empty optional if no bug found
+     */
+    public Optional<Bug> getBugByTitle(@NotNull String title) {
+        CustomLogger.logEnter(this.getClass(),"getBugByTitle",title);
+
+        TypedQuery<Bug> q = em.createNamedQuery(Bug.GET_BUG_BY_TITLE, Bug.class)
+                .setParameter("title",title);
+        Optional<Bug> result;
+        try {
+            result = Optional.of(q.getSingleResult());
+        } catch (NoResultException ex) {
+            result = Optional.empty();
         }
+        CustomLogger.logExit(this.getClass(),"getBugByTitle",result.toString());
+        return result;
+    }
 
-        public Bug updateBug(@NotNull Bug bug) {
-
-            return em.merge(bug);
+    /**
+     * Method returns a bug by its id by using a NamedQuery defined in the Bug class.
+     * @param id the search key, not null
+     * @return an optional of the required bug or an empty optional if no such bug has been found
+     */
+    public Optional<Bug> getBugById(@NotNull Long id){
+        CustomLogger.logEnter(this.getClass(),"getBugById",String.valueOf(id));
+        TypedQuery<Bug> q = em.createNamedQuery(Bug.GET_BUG_BY_ID, Bug.class)
+                .setParameter("id",id);
+        Optional<Bug> result;
+        try {
+            result = Optional.of(q.getSingleResult());
+        } catch (NoResultException ex) {
+            result = Optional.empty();
         }
-
-
-        public List<Bug> getAllBugs() {
-            return em.createNamedQuery(Bug.GET_ALL_BUGS, Bug.class)
-                    .getResultList();
-        }
-
-
-        public Optional<Bug> getBugByTitle(@NotNull String title) {
-            TypedQuery<Bug> q = em.createNamedQuery(Bug.GET_BUG_BY_TITLE, Bug.class)
-                    .setParameter("title",title);
-            try {
-                return Optional.of(q.getSingleResult());
-            } catch (NoResultException ex) {
-                return Optional.empty();
-            }
-        }
-
-        public Optional<Bug> getBugById(@NotNull Long id){
-            TypedQuery<Bug> q = em.createNamedQuery(Bug.GET_BUG_BY_ID, Bug.class)
-                    .setParameter("id",id);
-            try {
-                return Optional.of(q.getSingleResult());
-            } catch (NoResultException ex) {
-                return Optional.empty();
-            }
-        }
+        CustomLogger.logExit(this.getClass(),"getBugById",result.toString());
+        return result;
+    }
 }

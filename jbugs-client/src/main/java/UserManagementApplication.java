@@ -1,7 +1,5 @@
 import filters.BugsFilter;
 import resources.*;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

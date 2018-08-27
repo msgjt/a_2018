@@ -1,249 +1,44 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.CheckedBusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
+import ro.msg.edu.jbugs.shared.business.utils.Encryptor;
+import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
+import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.dto.*;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
-import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.utils.CustomLogger;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
 import javax.ejb.Stateless;
-
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.security.AllPermission;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode.*;
-
-@Singleton
 @Stateless
 public class UserManagementController implements UserManagement {
-    //TODO rename;
+
     private final static int MAX_LAST_NAME_LENGTH = 5;
     private final static int MIN_USERNAME_LENGTH = 6;
-    private static final Logger logger = LogManager.getLogger(UserManagementController.class);
-    private static Map<String,Integer> failedCounter= new HashMap<String,Integer>();
-    private static Map<String,String> loggedUsers= new HashMap<String,String>();
+    @SuppressWarnings("all")
+    private static Map<String,Integer> failedCounter= new HashMap<>();
+    @SuppressWarnings("all")
+    private static Map<String,String> loggedUsers= new HashMap<>();
+
+    @EJB
+    private UserValidator userValidator;
 
     @EJB
     private UserPersistenceManager userPersistenceManager;
 
-    /**
-     * Creates a user entity using a user DTO.
-     *
-     * @param userDTO user information
-     * @return : the user DTO of the created entity
-     * @throws BusinessException
-     */
-    @Override
-    public UserDTO createUser(UserDTO userDTO) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
-
-        normalizeUserDTO(userDTO);
-        if (userDTO.getRoles() == null || userDTO.getRoles().isEmpty()){
-            userDTO.setRoles(new ArrayList<>());
-            Role devRole = userPersistenceManager.getRoleByType("DEV");
-            userDTO.getRoles().add(RoleDTOHelper.fromEntity(devRole));
-        }
-        validateUserForCreation(userDTO);
-        User user = UserDTOHelper.toEntity(userDTO);
-        user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
-        user.setIsActive(true);
-        user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
-        userPersistenceManager.createUser(user);
-        UserDTO result = UserDTOHelper.fromEntity(user);
-
-        CustomLogger.logExit(this.getClass(),"createUser",result.toString());
-        return result;
-    }
-
 
     /**
-     * Validates the DTO. To use before sending it further.
+     * Getter method for all the users.
      *
-     * @param userDTO
-     * @throws BusinessException
-     */
-    private void validateUserForCreation(UserDTO userDTO) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"validateUserForCreation",userDTO.toString());
-
-        if (!isValidForCreation(userDTO)) {
-            CustomLogger.logException(this.getClass(),"validateUserForCreation",USER_VALIDATION_EXCEPTION.toString());
-            throw new BusinessException(USER_VALIDATION_EXCEPTION);
-        }
-        //validate if email already exists
-        if (userPersistenceManager.getUserByEmail(userDTO.getEmail()).isPresent()) {
-            CustomLogger.logException(this.getClass(),"validateUserForCreation",EMAIL_EXISTS_ALREADY.toString());
-            throw new BusinessException(ExceptionCode.EMAIL_EXISTS_ALREADY);
-        }
-
-        CustomLogger.logExit(this.getClass(),"validateUserForCreation","");
-
-    }
-
-    /**
-     * Trims stuff (first and last name)
-     *
-     * @param userDTO
-     */
-    private void normalizeUserDTO(UserDTO userDTO) {
-        CustomLogger.logEnter(this.getClass(),"normalizeUserDTO",userDTO.toString());
-
-        userDTO.setFirstName(userDTO.getFirstName().trim());
-        userDTO.setLastName(userDTO.getLastName().trim());
-
-        CustomLogger.logExit(this.getClass(),"normalizeUserDTO",userDTO.toString());
-    }
-
-    /**
-     * Creates a suffix for the username, if the username already exists. The suffix consists
-     * of a number.
-     * TODO : Change this. Probably won't be needed.
-     *
-     * @param username
-     * @return
-     */
-    protected String createSuffix(String username) {
-        CustomLogger.logEnter(this.getClass(),"createSuffix",username);
-
-        Optional<Integer> max = userPersistenceManager.getUsernamesLike(username)
-                .stream()
-                .map(x -> x.substring(MIN_USERNAME_LENGTH, x.length()))
-                .map(x -> x.equals("") ? 0 : Integer.parseInt(x))
-                .max(Comparator.naturalOrder())
-                .map(x -> x + 1);
-
-        String result = max.map(Object::toString).orElse("");
-
-        CustomLogger.logExit(this.getClass(),"createSuffix",result);
-        return result;
-    }
-
-    private boolean isValidForCreation(UserDTO user) {
-        CustomLogger.logEnter(this.getClass(),"isValidForCreation",user.toString());
-
-        boolean result = user.getEmail() != null
-                && user.getLastName() != null
-                && user.getEmail() != null
-                && user.getPassword() != null
-                && user.getPhoneNumber() != null
-                && isValidEmail(user.getEmail())
-                && isValidPhoneNumber(user.getPhoneNumber())
-                && checkRoles(user);
-
-
-        CustomLogger.logExit(this.getClass(),"isValidForCreation",String.valueOf(result));
-        return result;
-    }
-
-    private boolean isValidEmail(String email) {
-        CustomLogger.logEnter(this.getClass(),"isValidEmail",email);
-
-        final Pattern VALID_EMAIL_ADDRESS_REGEX =
-                Pattern.compile("^[A-Z0-9._%+-]+@msggroup.com$", Pattern.CASE_INSENSITIVE);
-
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-        boolean result = matcher.find();
-
-        CustomLogger.logExit(this.getClass(),"isValidEmail",String.valueOf(result));
-        return result;
-    }
-
-
-    /**
-     * Generates a username, taking the first 5 letters of the last name and the first
-     * letter of the first name.
-     * If the user's last name is not long enough it will try
-     * to add the first name's letters to the username until it has 6 characters.
-     * If the username already exists it will append a number to the username.
-     * <p>
-     * TODO : Change the algorithm.
-     *
-     * @param firstName
-     * @param lastName
-     * @return generated username
-     */
-    protected String generateUsername(@NotNull final String firstName, @NotNull final String lastName) {
-        CustomLogger.logEnter(this.getClass(),"generateUsername",firstName,lastName);
-
-        StringBuilder username = new StringBuilder();
-
-
-        if (lastName.length() >= MAX_LAST_NAME_LENGTH) {
-            username.append(lastName.substring(0, MAX_LAST_NAME_LENGTH) + firstName.charAt(0));
-
-        } else if (lastName.length() + firstName.length() >= MIN_USERNAME_LENGTH) {
-            username.append(lastName + firstName.substring(0, MIN_USERNAME_LENGTH - lastName.length()));
-        } else {
-            username.append(lastName + firstName);
-            int usernameLength = username.length();
-            for (int i = 0; i < MIN_USERNAME_LENGTH - usernameLength; i++) {
-                username.append("0");
-            }
-        }
-
-        String result = username.toString().toLowerCase();
-
-        CustomLogger.logExit(this.getClass(),"generateUsername",result);
-        return result;
-
-    }
-
-
-    @Override
-    public UserDTO deactivateUser(Long id) throws BusinessException {
-        Optional<User> userOptional = userPersistenceManager.getUserById(id);
-        UserDTO result;
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setIsActive(false);
-            userPersistenceManager.updateUser(user);
-            result = UserDTOHelper.fromEntity(user);
-
-        } else {
-            CustomLogger.logException(this.getClass(), "deactivateUser", USERNAME_NOT_VALID.toString());
-            throw (new BusinessException(ExceptionCode.USERNAME_NOT_VALID));
-        }
-
-        CustomLogger.logExit(this.getClass(), "deactivateUser", "");
-        return result;
-
-    }
-
-    @Override
-    public UserDTO activateUser(Long id) throws BusinessException {
-        Optional<User> userOptional = userPersistenceManager.getUserById(id);
-        UserDTO result;
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setIsActive(true);
-            userPersistenceManager.updateUser(user);
-            result = UserDTOHelper.fromEntity(user);
-        } else {
-            CustomLogger.logException(this.getClass(), "activateUser", USERNAME_NOT_VALID.toString());
-            throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
-        }
-
-        CustomLogger.logExit(this.getClass(), "activateUser", "");
-        return result;
-    }
-
-    /**
-     * Get a list of all Users that are registered.
-     *
-     * @return
+     * @return the list of all the userDTOs present (enabled or disabled).
      */
     @Override
     public List<UserDTO> getAllUsers() {
@@ -258,42 +53,343 @@ public class UserManagementController implements UserManagement {
         return result;
     }
 
+    /**
+     * Creates a new user from a userDTO. Will call a validation method for the parameter and will set the other
+     * fields accordingly (isActive = true, username = generated, password = encrypted, roles = default if none)
+     *
+     * @param userDTO contains the required user information in its fields, will be validated
+     * @return : the persisted userDTO
+     */
     @Override
-    public UserDTO getUserById(Long id) {
-        return UserDTOHelper.fromEntity(userPersistenceManager.getUserById(id).get());
-    }
+    public UserDTO createUser(UserDTO userDTO){
+        CustomLogger.logEnter(this.getClass(), "createUser", String.valueOf(userDTO));
 
-    @Override
-    public UserDTO getUserByUsername(String username) {
-        return UserDTOHelper.fromEntity(userPersistenceManager.getUserByUsername(username).get());
+        userValidator.validateCreate(userDTO); // THROWS VALIDATION BUSINESS EXCEPTIONS
+        validateRoles(userDTO);
+        userDTO = normalizeUserDTO(userDTO);
+
+        if (userPersistenceManager.getUserByEmail(userDTO.getEmail()).isPresent()) {
+            CustomLogger.logException(this.getClass(),"validateUserForCreation",
+                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                                        DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+        }
+
+        User user = UserDTOHelper.toEntity(userDTO);
+        user.setIsActive(true);
+        user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
+        user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
+        
+        if(user.getRoles() == null || user.getRoles().isEmpty()){
+            Role defaultRole = userPersistenceManager.getRoleByType("DEV");
+            user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+        }
+        
+        User createdUser = userPersistenceManager.createUser(user);
+        UserDTO result = UserDTOHelper.fromEntity(createdUser);
+
+        CustomLogger.logExit(this.getClass(), "createUser", result.toString());
+        return result;
     }
 
     /**
-     * Takes the username and password of a user and if they are correct, it returns the
-     * corresponding DTO. Otherwise it will throw an exception.
+     * Updates a user from a userDTO. Will call a validation method for the parameter and will set the other
+     * fields accordingly (by calling the copy method from the user class)
      *
-     * @param username
-     * @param password
-     * @return a user DTO if it succeeds.
-     * @throws BusinessException
+     * @param userDTO contains the required user information in its fields, will be validated
+     * @return : the persisted userDTO
      */
-
-    // Check the user credentials received fro a Http Post
     @Override
-   // @Transactional(dontRollbackOn = BusinessException.class)
-    public UserDTO login(String username, String password) throws BusinessException, CheckedBusinessException {
+    public UserDTO updateUser(UserDTO userDTO) {
+        CustomLogger.logEnter(this.getClass(), "updateUser", String.valueOf(userDTO));
+
+        userValidator.validateUpdate(userDTO); // THROWS VALIDATION BUSINESS EXCEPTIONS
+        validateRoles(userDTO);
+        userDTO = normalizeUserDTO(userDTO);
+
+        User oldUser = userPersistenceManager.getUserById(userDTO.getId())
+                .orElseThrow(() -> new BusinessException(
+                        ExceptionCode.USER_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.USER_NOT_FOUND)
+                );
+
+        User newUser = oldUser.copy(UserDTOHelper.toEntity(userDTO));
+
+        if(newUser.getRoles() == null || newUser.getRoles().isEmpty()){
+            Role defaultRole = userPersistenceManager.getRoleByType("DEV");
+            newUser.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+        }
+        
+        newUser = userPersistenceManager.updateUser(newUser);
+        UserDTO result = UserDTOHelper.fromEntity(newUser);
+
+        CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
+        return result;
+    }
+
+    /**
+     * Checks if the roles of a userDTO are present in the DB.
+     * @param userDTO the user for which the roles will be checked
+     */
+    private void validateRoles(UserDTO userDTO) {
+        List<Role> recievedRoles = userDTO.getRoles()
+                .stream()
+                .map(RoleDTOHelper::toEntity)
+                .collect(Collectors.toList());
+        List<Role> possibleRoles = userPersistenceManager.getAllRoles();
+        for (Role r : recievedRoles){
+            if (!possibleRoles.contains(r)){
+                throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.USER_ROLES_NOT_VALID);
+            }
+        }
+    }
+
+    /**
+     * Trims firstName and lastName of the userDTO.
+     *
+     * @param userDTO not null
+     */
+    private UserDTO normalizeUserDTO(@NotNull UserDTO userDTO) {
+        CustomLogger.logEnter(this.getClass(),"normalizeUserDTO",userDTO.toString());
+
+        userDTO.setFirstName(userDTO.getFirstName().trim());
+        userDTO.setLastName(userDTO.getLastName().trim());
+
+        CustomLogger.logExit(this.getClass(),"normalizeUserDTO",userDTO.toString());
+        return userDTO;
+    }
+
+    /**
+     * Will generate the username for the given firstName and lastName. Will call methods
+     * to generate the suffix and the prefix of the username;
+     * @param firstName not null
+     * @param lastName not null
+     * @return the full username
+     */
+    private String generateFullUsername(@NotNull String firstName,@NotNull String lastName) {
+        CustomLogger.logEnter(this.getClass(),"generateFullUsername",firstName,lastName);
+
+        String prefix = generateUsernamePrefix(firstName, lastName);
+        String suffix = generateUsernameSuffix(prefix);
+        String result = prefix + suffix;
+
+        CustomLogger.logExit(this.getClass(),"generateFullUsername",result);
+        return result;
+    }
+
+    /**
+     * Creates a suffix for the username, if the username already exists. The suffix consists
+     * of a number.
+     *
+     * @param username the username for which the suffix will be created, not null
+     * @return the suffix generated for the username
+     */
+    private String generateUsernameSuffix(@NotNull String username) {
+        CustomLogger.logEnter(this.getClass(),"generateUsernameSuffix",username);
+
+        Optional<Integer> max = userPersistenceManager.getUsernamesLike(username)
+                .stream()
+                .map(x -> x.substring(MIN_USERNAME_LENGTH, x.length()))
+                .map(x -> x.equals("") ? 0 : Integer.parseInt(x))
+                .max(Comparator.naturalOrder())
+                .map(x -> x + 1);
+
+        String result = max.map(Object::toString).orElse("");
+
+        CustomLogger.logExit(this.getClass(),"generateUsernameSuffix",result);
+        return result;
+    }
+
+    /**
+     * Generates a username, taking the first 5 letters of the last name and the first
+     * letter of the first name.
+     * If the user's last name is not long enough it will try
+     * to add the first name's letters to the username until it has 6 characters.
+     * If the username already exists it will append a number to the username.
+     *
+     * @param firstName not null
+     * @param lastName not null
+     * @return generated username
+     */
+    private String generateUsernamePrefix(@NotNull final String firstName, @NotNull final String lastName) {
+        CustomLogger.logEnter(this.getClass(),"generateUsernamePrefix",firstName,lastName);
+
+        StringBuilder username = new StringBuilder();
+
+        if (lastName.length() >= MAX_LAST_NAME_LENGTH) {
+            username.append(lastName, 0, MAX_LAST_NAME_LENGTH).append(firstName.charAt(0));
+
+        } else if (lastName.length() + firstName.length() >= MIN_USERNAME_LENGTH) {
+            username.append(lastName).append(firstName, 0, MIN_USERNAME_LENGTH - lastName.length());
+        } else {
+            username.append(lastName).append(firstName);
+            int usernameLength = username.length();
+            for (int i = 0; i < MIN_USERNAME_LENGTH - usernameLength; i++)
+                username.append("0");
+        }
+
+        String result = username.toString().toLowerCase();
+
+        CustomLogger.logExit(this.getClass(),"generateUsernamePrefix",result);
+        return result;
+    }
+
+    /**
+     * Activates a user (sets isActive to true)
+     * @param id will be validated for null values, or not present
+     * @return the persisted userDTO
+     */
+    @Override
+    public UserDTO activateUser(Long id){
+        userValidator.validateId(id);
+        return setActiveStatus(id,true);
+    }
+
+    /**
+     * Deactivates a user (sets isActive to false)
+     * @param id will be validated for null values, or not present
+     * @return the persisted userDTO
+     */
+    @Override
+    public UserDTO deactivateUser(Long id){
+        userValidator.validateId(id);
+        return setActiveStatus(id,false);
+    }
+
+    /**
+     * Sets the given active status to a user. Will check if the user corresponding to the id is present.
+     * @param id the id of the user
+     * @param value the desired active status
+     * @return the persisted userDTO
+     */
+    private UserDTO setActiveStatus(long id,boolean value){
+        CustomLogger.logEnter(this.getClass(),"setActiveStatus",String.valueOf(id),String.valueOf(value));
+
+        UserDTO result = UserDTOHelper.fromEntity(
+                userPersistenceManager.getUserById(id)
+                        .map( user -> {
+                            user.setIsActive(value);
+                            return userPersistenceManager.updateUser(user);
+                        }).orElseThrow(() -> {
+                            CustomLogger.logException(this.getClass(), "setActiveStatus",
+                                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_NOT_FOUND);
+                            return new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION, DetailedExceptionCode.USER_NOT_FOUND);
+                        }));
+
+        CustomLogger.logExit(this.getClass(),"setActiveStatus",result.toString());
+        return result;
+    }
+
+    /**
+     * @param id the id of the desired user, will be validated for null values
+     * @return the required userDTO
+     */
+    @Override
+    public UserDTO getUserById(Long id) {
+        userValidator.validateId(id);
+
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserById(id).orElseThrow(
+                () -> new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,DetailedExceptionCode.USER_NOT_FOUND)
+        ));
+    }
+
+    /**
+     * @param username the username of the desired user, will be validated for null values
+     * @return the required userDTO
+     */
+    @Override
+    public UserDTO getUserByUsername(String username) {
+        userValidator.validateUsername(username);
+
+        return UserDTOHelper.fromEntity(userPersistenceManager.getUserByUsername(username).orElseThrow(
+                () -> new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,DetailedExceptionCode.USER_NOT_FOUND)
+        ));
+    }
+
+    /**
+     * Checks if a user is already in the failed counter map.
+     * @param username not null
+     * @return true if the user is in the failed counter, false otherwise
+     */
+    // check if a specific user already exist in the failedCounter map
+    private boolean isInFailedCounter(@NotNull String username) {
+        CustomLogger.logEnter(this.getClass(),"isInFailedCounter",username);
+
+        boolean result = failedCounter.containsKey(username);
+
+        CustomLogger.logExit(this.getClass(),"isInFailedCounter",String.valueOf(result));
+        return result;
+    }
+
+    /**
+     * Adds the value "token" to the key "username" in the logged users map.
+     * @param username not null
+     * @param token the session token, not null
+     */
+    public void addInLoggedUsers(@NotNull String username,@NotNull String token){
+        loggedUsers.put(username,token);
+    }
+
+    /**
+     * Checks if the user with the given username and token is present in the loggedUsers map.
+     * @param username not null, the search key in the loggedUsera map
+     * @param token not null, the value that must be present at the search key
+     * @return true if the username @username is present in the loggedUsers map and contains the value @token
+     */
+    public boolean checkLoggedUser(@NotNull String username,@NotNull String token){
+       return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
+    }
+
+    /**
+     * Remove the user with the given username from the loggedIn map.
+     * @param username the key to be removed
+     */
+    public void removeUserInLogged(String username){
+        loggedUsers.remove(username);
+    }
+
+    /**
+     * Logout method for a username. Will remove the user from the loggedUsers map.
+     * @param username the username of the user that must log out
+     * @return false
+     */
+    public boolean logout(String username){
+        loggedUsers.remove(username);
+        return loggedUsers.containsKey(username);
+    }
+    
+
+    /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
+    /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
+    /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
+    /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
+
+    /**
+     * Takes the username and password of a user and if they are correct, it returns the
+     * corresponding DTOHelper. Otherwise it will throw an exception.
+     *
+     * @param username .
+     * @param password .
+     * @return a user DTOHelper if it succeeds.
+     */
+    @Override
+    public UserDTO login(String username, String password) throws CheckedBusinessException {
         CustomLogger.logEnter(this.getClass(),"login",username,password);
 
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
         //check if the username exist in the database otherwise the login method throw an Exception Code
         if (!userOptional.isPresent()) {
-            CustomLogger.logException(this.getClass(),"login",USERNAME_NOT_VALID.toString());
-            throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
+            CustomLogger.logException(this.getClass(),"login",
+                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_NOT_FOUND);
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.USER_NOT_FOUND);
         }
 
         if(!userOptional.get().getIsActive()){
-            CustomLogger.logException(this.getClass(),"login",USER_DISABLED.toString());
-            throw new BusinessException(ExceptionCode.USER_DISABLED);
+            CustomLogger.logException(this.getClass(),"login",DetailedExceptionCode.USER_DISABLED.toString());
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.USER_DISABLED);
         }
 
         //check if the password match with the one found in the database
@@ -309,12 +405,15 @@ public class UserManagementController implements UserManagement {
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
                     //TODO this will rollback after the runtime exception is thrown
                     deactivateUser(userOptional.get().getId());
-                    CustomLogger.logException(this.getClass(),"login",FAILED_5_TIMES.toString());
-                    throw new CheckedBusinessException(ExceptionCode.FAILED_5_TIMES);
+                    CustomLogger.logException(this.getClass(),"login",DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES.toString());
+                    throw new CheckedBusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                            DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES);
                 }
             }
-            CustomLogger.logException(this.getClass(),"login",PASSWORD_NOT_VALID.toString());
-            throw new BusinessException(ExceptionCode.PASSWORD_NOT_VALID);
+            CustomLogger.logException(this.getClass(),"login",
+                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_NOT_FOUND);
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.USER_NOT_FOUND);
         }
         //in case the user login with success the username is reoved from the map
         if (isInFailedCounter(userOptional.get().getUsername())) {
@@ -325,109 +424,6 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(),"login",result.toString());
         return result;
-    }
-
-    /**
-     * Updates a user with new attributes received from a Http Put.
-     * It returns the corresponding DTO. Otherwise it will throw an exception.
-     *
-     * @param userDTO
-     * @return a user DTO if it succeeds.
-     * @throws BusinessException
-     */
-    @Override
-    public UserDTO updateUser(UserDTO userDTO) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(), "updateUser", userDTO.toString());
-
-        if (!isValidForUpdate(userDTO)) {
-            throw new BusinessException(USER_VALIDATION_EXCEPTION);
-        }
-
-        Optional<User> oldUser = userPersistenceManager.getUserById(userDTO.getId());
-        User user = new User();
-        if(oldUser.isPresent()) {
-            user = oldUser.get();
-        }
-        else{
-            throw new BusinessException(ExceptionCode.USER_DOES_NOT_EXIST);
-        }
-        user.setEmail(userDTO.getEmail().trim());
-        user.setFirstName(userDTO.getFirstName().trim());
-        user.setLastName(userDTO.getLastName().trim());
-        user.setPhoneNumber(userDTO.getPhoneNumber().trim());
-        if(userDTO.getRoles().isEmpty()){
-            user.setRoles(new ArrayList<>());
-        }
-        else{
-            user.setRoles(userDTO.getRoles().stream()
-                    .map(RoleDTOHelper::toEntity)
-                    .collect(Collectors.toList()));
-        }
-        userPersistenceManager.updateUser(user);
-        UserDTO result = UserDTOHelper.fromEntity(user);
-
-        CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
-        return result;
-    }
-
-    private String generateFullUsername(String firstName, String lastName) {
-        CustomLogger.logEnter(this.getClass(),"generateFullUsername",firstName,lastName);
-
-        String prefix = generateUsername(firstName, lastName);
-        String suffix = createSuffix(prefix);
-        String result = prefix + suffix;
-
-        CustomLogger.logExit(this.getClass(),"generateFullUsername",result);
-        return result;
-    }
-
-    /**
-     * Checks if the given number is a valid german or romanian phone number
-     * @param phoneNumber
-     * @return true if valid, false if not
-     */
-    public boolean isValidPhoneNumber(String phoneNumber) {
-        final Pattern VALID_PHONE_ADDRESS_REGEX_GERMANY =
-                Pattern.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$", Pattern.CASE_INSENSITIVE);
-
-        Matcher matcher_ger = VALID_PHONE_ADDRESS_REGEX_GERMANY.matcher(phoneNumber);
-        final Pattern VALID_PHONE_ADDRESS_REGEX_ROMANIA =
-                Pattern.compile("^(\\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\\s|\\.|\\-)?([0-9]{3}(\\s|\\.|\\-|)){2}$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher_ro = VALID_PHONE_ADDRESS_REGEX_ROMANIA.matcher(phoneNumber);
-
-        return matcher_ger.find() || matcher_ro.find();
-    }
-
-    // check if a specific user already exist in the failedCounter map
-    private boolean isInFailedCounter(String username) {
-        CustomLogger.logEnter(this.getClass(),"isInFailedCounter",username);
-
-        boolean result = failedCounter.containsKey(username);
-
-        CustomLogger.logExit(this.getClass(),"isInFailedCounter",String.valueOf(result));
-        return result;
-    }
-
-    //add the username and the token in a map to have the list with the logged users.
-    public void addInLoggedUsers(String username, String token){
-        loggedUsers.put(username,token);
-    }
-
-    // check if an user is logged in
-    public boolean checkLoggedUser(String username, String token){
-       if(loggedUsers.containsKey(username)){
-           if(loggedUsers.get(username).equals(token))
-               return true;
-           else return false;
-       }
-       return  false;
-    }
-
-    //remove the user from loggedUsers map.
-    public void removeUserInLogged(String username){
-        if (loggedUsers.containsKey(username)){
-            loggedUsers.remove(username);
-        }
     }
 
 
@@ -471,40 +467,5 @@ public class UserManagementController implements UserManagement {
         List<Permission> permisionsList= new ArrayList<>();
         permisionsList.addAll(allPermission);
         return permisionsList;
-    }
-
-    @Override
-    public boolean checkRoles(UserDTO userDTO) {
-        List<Role> recievedRoles = userDTO.getRoles()
-                .stream()
-                .map(RoleDTOHelper::toEntity)
-                .collect(Collectors.toList());
-        List<Role> possibleRoles = userPersistenceManager.getAllRoles();
-        for (Role r : recievedRoles){
-            if (!possibleRoles.contains(r)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean logout(String username){
-        loggedUsers.remove(username);
-        if(!loggedUsers.containsKey(username)){
-            System.out.println("User"+ username+" is logged out "+ !loggedUsers.containsKey(username));
-            return true;}
-        return  false;
-    }
-
-    public boolean isValidForUpdate(UserDTO userDTO){
-        return userDTO != null
-                && userDTO.getFirstName() != null
-                && userDTO.getLastName() != null
-                && userDTO.getPhoneNumber() != null
-                && userDTO.getEmail() != null
-                && userDTO.getRoles() != null
-                && isValidEmail(userDTO.getEmail())
-                && isValidPhoneNumber(userDTO.getPhoneNumber())
-                && checkRoles(userDTO);
     }
 }

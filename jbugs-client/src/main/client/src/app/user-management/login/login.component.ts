@@ -53,11 +53,12 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['./profile']);
           },
           (error) => {
-            if(error['error'] == 'Failed_5_times') {
+            console.log('ERROR: ' + JSON.stringify(error['error']));
+            if(JSON.stringify(error['error']) == '{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_LOGIN_FAILED_FIVE_TIMES}}') {
               this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
             }
             else {
-              if (error['error'] == 'User_disabled') {
+              if (JSON.stringify(error['error']) == '{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_DISABLED}}') {
                 this.errorMessage = 'User disabled';
               }
               else {
@@ -70,7 +71,7 @@ export class LoginComponent implements OnInit {
 
           });
       }
-   // });
+
 
 
 

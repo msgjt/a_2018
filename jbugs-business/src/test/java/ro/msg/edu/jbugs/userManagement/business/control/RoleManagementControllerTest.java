@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 
@@ -28,7 +28,6 @@ public class RoleManagementControllerTest {
 
     @Mock
     private UserPersistenceManager userPersistenceManager;
-
 
     @Test
     public void getAllRoles_expectedList() {

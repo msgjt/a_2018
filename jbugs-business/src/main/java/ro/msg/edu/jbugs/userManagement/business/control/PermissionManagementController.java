@@ -3,7 +3,7 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.PermissionPersistenceManager;
-import ro.msg.edu.jbugs.utils.CustomLogger;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.List;
@@ -15,6 +15,10 @@ public class PermissionManagementController implements PermissionManagement {
     @EJB
     private PermissionPersistenceManager permissionPersistenceManager;
 
+    /**
+     * Gets all the permissions in the form of a list.
+     * @return the list of all the permissions, empty if no permissions found.
+     */
     @Override
     public List<PermissionDTO> getAllPermissions() {
         CustomLogger.logEnter(this.getClass(),"getAllPermissions","");
