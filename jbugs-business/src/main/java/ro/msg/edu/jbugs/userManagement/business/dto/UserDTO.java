@@ -11,7 +11,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String email;
-    private boolean isActive;
+    private Boolean isActive;
     private String phoneNumber;
     private List<RoleDTO> roles;
     private List<NotificationDTO> notifications;
@@ -78,11 +78,11 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -121,7 +121,7 @@ public class UserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
-        return isActive == userDTO.isActive &&
+        return Objects.equals(isActive,userDTO.isActive) &&
                 Objects.equals(id, userDTO.id) &&
                 Objects.equals(firstName, userDTO.firstName) &&
                 Objects.equals(lastName, userDTO.lastName) &&

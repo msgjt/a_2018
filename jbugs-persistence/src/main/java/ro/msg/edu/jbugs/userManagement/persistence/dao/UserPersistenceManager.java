@@ -3,7 +3,7 @@ package ro.msg.edu.jbugs.userManagement.persistence.dao;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.utils.CustomLogger;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;

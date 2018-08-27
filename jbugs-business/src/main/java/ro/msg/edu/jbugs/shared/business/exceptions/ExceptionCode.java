@@ -1,16 +1,12 @@
-package ro.msg.edu.jbugs.userManagement.business.exceptions;
+package ro.msg.edu.jbugs.shared.business.exceptions;
 
 /**
  * Provides exception codes and description.
  */
 public enum ExceptionCode {
-    USER_VALIDATION_EXCEPTION(1000, "Validation Exception"),
-    EMAIL_EXISTS_ALREADY(1001, "Email already exists."),
-    PASSWORD_NOT_VALID(1002, "Password not valid."),
-    USERNAME_NOT_VALID(1003, "Username not valid"),
-    USER_DOES_NOT_EXIST(1004, "User does not exist"),
-    FAILED_5_TIMES(1005, "Failed_5_times"),
-    ROLE_VALIDATION_EXCEPTION(2000, "Role is not valid");
+    USER_VALIDATION_EXCEPTION(1000, "USER_VALIDATION_EXCEPTION"),
+    ROLE_VALIDATION_EXCEPTION(2000, "ROLE_VALIDATION_EXCEPTION"),
+    BUG_VALIDATION_EXCEPTION(3000,"BUG_VALIDATION_EXCEPTION");
     int id;
     String message;
 
@@ -34,6 +30,5 @@ public enum ExceptionCode {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }

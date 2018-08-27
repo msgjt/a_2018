@@ -1,4 +1,4 @@
-package ro.msg.edu.jbugs.userManagement.business.utils;
+package ro.msg.edu.jbugs.shared.business.utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

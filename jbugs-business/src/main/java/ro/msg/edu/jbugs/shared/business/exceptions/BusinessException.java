@@ -1,20 +1,43 @@
-package ro.msg.edu.jbugs.userManagement.business.exceptions;
+package ro.msg.edu.jbugs.shared.business.exceptions;
 
 
 import javax.ws.rs.core.Response;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class BusinessException extends RuntimeException {
 
     ExceptionCode exceptionCode;
+    DetailedExceptionCode detailedExceptionCode;
 
     public BusinessException() {
     }
+
+    public BusinessException(ExceptionCode exceptionCode, DetailedExceptionCode detailedExceptionCode){
+        super( "{id=" + exceptionCode.id + detailedExceptionCode.id
+                + ", type=" + exceptionCode.message
+                + ", details={" + detailedExceptionCode.message + "}}" );
+        this.exceptionCode = exceptionCode;
+        this.detailedExceptionCode = detailedExceptionCode;
+    }
+
+    public BusinessException(ExceptionCode exceptionCode, Stack<DetailedExceptionCode> detailedStack){
+        super( detailedStack.stream()
+                .map( dExc -> "{id=" + exceptionCode.id + dExc.id
+                            + ", type=" + exceptionCode.message
+                            + ", details={" + dExc.message + "}}"
+                )
+                .collect(Collectors.toList())
+                .toString() );
+    }
+
     public BusinessException(ExceptionCode exceptionCode) {
         super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
     }
+
     public BusinessException(String message,ExceptionCode exceptionCode ) {
-        super(message);
+        super(exceptionCode.getMessage() + "," + message);
         this.exceptionCode = exceptionCode;
     }
 
