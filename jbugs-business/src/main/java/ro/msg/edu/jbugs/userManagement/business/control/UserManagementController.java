@@ -130,7 +130,7 @@ public class UserManagementController implements UserManagement {
      * Checks if the roles of a userDTO are present in the DB.
      * @param userDTO the user for which the roles will be checked
      */
-    public void validateRoles(UserDTO userDTO) {
+    private void validateRoles(UserDTO userDTO) {
         List<Role> recievedRoles = userDTO.getRoles()
                 .stream()
                 .map(RoleDTOHelper::toEntity)
@@ -395,7 +395,11 @@ public class UserManagementController implements UserManagement {
                 failedCounter.put(userOptional.get().getUsername(), failedCounter.get(userOptional.get().getUsername()) + 1);
                 //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
+                    //TODO this will rollback after the runtime exception is thrown
                     deactivateUser(userOptional.get().getId());
+                    CustomLogger.logException(this.getClass(),"login",DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES.toString());
+                    throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                            DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES);
                 }
             }
             CustomLogger.logException(this.getClass(),"login",
@@ -413,7 +417,6 @@ public class UserManagementController implements UserManagement {
         CustomLogger.logExit(this.getClass(),"login",result.toString());
         return result;
     }
-
 
 
     //get all permissions assigned to an user

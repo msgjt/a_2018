@@ -3,6 +3,7 @@ import {User, UserService} from "../user-management/services/user.service";
 
 import {Popup} from 'ng2-opd-popup';
 import {Role} from "../role-management/entities/role";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-profile',
@@ -12,15 +13,12 @@ import {Role} from "../role-management/entities/role";
 export class UserProfileComponent implements OnInit {
   pressedEdit: boolean=false;
   userModel: User;
+  userList: User[];
   errorMessage: string;
   @ViewChild('popup') popup: Popup;
 
 
-  constructor(private userService: UserService) {
-  }
-
-  ngOnInit() {
-
+  constructor(private userService: UserService, private router:Router) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -34,6 +32,10 @@ export class UserProfileComponent implements OnInit {
     };
     this.userModel.username = localStorage.getItem('currentUser');
     this.userModel.id = Number(localStorage.getItem('id'))+1;
+  }
+
+  ngOnInit() {
+    this.isLoggedInOnServer()
   }
 
 
@@ -50,6 +52,15 @@ export class UserProfileComponent implements OnInit {
           //TODO: this.popup.show(this.popup.options);
         }
       );
+  }
+
+  isLoggedInOnServer(){
+    let returnedValue : boolean;
+    var test = this.userService.isLoggedInOnServer().subscribe(response=>{
+    if(response==true){
+    }else{
+      this.router.navigate(['/norights']);
+    }})
   }
 
 

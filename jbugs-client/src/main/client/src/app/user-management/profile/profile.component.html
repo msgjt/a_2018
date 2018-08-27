@@ -10,7 +10,7 @@
 <div class="column justify-content-center">
   <div *ngIf="userList">
     <div class="table-responsive">
-      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+      <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="usersTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
           <th scope="col" translate>demo.Username</th>
@@ -41,8 +41,8 @@
             </button>
           </td>
           <td>
-            <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px;">check_circle_outline</i>
-            <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px;">highlight_off</i>
+            <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px; cursor: default;">check_circle_outline</i>
+            <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px; cursor: default;">highlight_off</i>
           </td>
           <td>
             <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
@@ -222,7 +222,6 @@
                          pattern="[a-zA-Z]+"
                          id="firstNameInput"
                          #firstName="ngModel"
-                         #firstNameId
                          class="form-control"
                          required
                          [(ngModel)]="userModel.firstName"
@@ -240,7 +239,6 @@
                        pattern="[a-zA-Z]+"
                        id="lastNameInput"
                        #lastName="ngModel"
-                       #lastNameId
                        class="form-control"
                        required
                        [(ngModel)]="userModel.lastName"
@@ -258,7 +256,6 @@
                      pattern="[+0-9]+"
                      id="mobileNumberInput"
                      #phone="ngModel"
-                     #phoneId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.phoneNumber"
@@ -276,7 +273,6 @@
                      pattern="^[a-zA-Z]*@msggroup.com$"
                      id="emailInput"
                      #email="ngModel"
-                     #emailId
                      class="form-control"
                      required
                      [(ngModel)]="userModel.email"
@@ -292,7 +288,6 @@
                      name="password"
                      id="passwordInput"
                      #password="ngModel"
-                     #passwordId
                      class="form-control"
                      required
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
@@ -316,8 +311,7 @@
             </mat-form-field>
             </span>
           <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate (click)="firstNameId.value='';lastNameId.value='';phoneId.value='';
-                                                                      emailId.value='';passwordId.value='';">demo.Submit
+                  [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
