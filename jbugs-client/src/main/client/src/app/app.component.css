@@ -87,3 +87,21 @@
     opacity: 1;
   }
 }
+
+/deep/ .popover-header {
+  color: black;
+  font-size: 20px;
+  background-color: white;
+}
+/deep/ .popover-body {
+  color: black;
+  font-size: 16px;
+}
+
+/deep/ .popover {
+  border: none;
+}
+
+/deep/ .popover .arrow {
+  display: none;
+}
