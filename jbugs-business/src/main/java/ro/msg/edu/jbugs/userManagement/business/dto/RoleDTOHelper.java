@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RoleDTOHelper {
 
-    public static RoleDTO fromEntity(Role role) {
+    public static RoleDTO fromEntity(Role role) throws BusinessException {
 
         if( role == null || role.getPermissions() == null )
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);
@@ -27,7 +27,7 @@ public class RoleDTOHelper {
         return roleDTO;
     }
 
-    public static Role toEntity(RoleDTO roleDTO) {
+    public static Role toEntity(RoleDTO roleDTO) throws BusinessException {
 
         if( roleDTO == null || roleDTO.getPermissions() == null )
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);

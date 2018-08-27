@@ -13,8 +13,8 @@ import {Router} from "@angular/router";
 export class UserProfileComponent implements OnInit {
   pressedEdit: boolean=false;
   userModel: User;
+  userList: User[];
   errorMessage: string;
-  returnValue: boolean;
   @ViewChild('popup') popup: Popup;
 
 

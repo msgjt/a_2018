@@ -4,22 +4,84 @@
       <label class="control" style="color: white; font-size: 18px;">Filter items
         <input type="text" class="input" [(ngModel)]="filter">
       </label>
-        <button (click)="exportToExcel()" class="btn btn-success"><i class="far fa-file-excel"></i>Export to Excel</button>
-      <table class="table table-hover table-dark shadow p-3 mb-5 rounded tablesorter" id="bugsTable">
-        <!--<caption>Showing {{ currentPage }} results.</caption>-->
+      <button (click)="exportToExcel()" class="btn btn-success"><i class="far fa-file-excel"></i>Export to Excel</button>
+      <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;" >
         <tr>
-          <th scope="col" translate>demo.Description</th>
-          <th scope="col" translate>demo.Fixed Version</th>
-          <th scope="col" translate>demo.Severity</th>
-          <th scope="col" translate>demo.Status</th>
-          <th scope="col" translate>demo.Target date</th>
-          <th scope="col" translate>demo.Title</th>
-          <th scope="col" translate>demo.Version</th>
+          <th scope="col" (click)="doSort('description')">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Description
+                <i class="fas fa-plus" *ngIf="!filtersShow['show1']" (click)="filtersShow['show1'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show1']" (click)="filtersShow['show1'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show1']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Fixed Version
+                <i class="fas fa-plus" *ngIf="!filtersShow['show2']" (click)="filtersShow['show2'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show2']" (click)="filtersShow['show2'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show2']">
+            </div>
+          </th>
+          <th scope="col" (click)="doSort('severity')">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Severity
+                <i class="fas fa-plus" *ngIf="!filtersShow['show3']" (click)="filtersShow['show3'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show3']" (click)="filtersShow['show3'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show3']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Status
+                <i class="fas fa-plus" *ngIf="!filtersShow['show4']" (click)="filtersShow['show4'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show4']" (click)="filtersShow['show4'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show4']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Target date
+                <i class="fas fa-plus" *ngIf="!filtersShow['show5']" (click)="filtersShow['show5'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show5']" (click)="filtersShow['show5'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show5']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Title
+                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show6']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Version
+                <i class="fas fa-plus" *ngIf="!filtersShow['show7']" (click)="filtersShow['show7'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show7']" (click)="filtersShow['show7'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show7']">
+            </div>
+          </th>
         </tr>
         </thead>
         <tbody>
-        <tr #row *ngFor="let bug of bugList | tableFilter: filter | paginate: config">
+        <tr #row *ngFor="let bug of bugList | paginate: config" data-toggle="modal" data-target="#bugDetailsModal" style="cursor: pointer;" (click)="passUserToDetailedModal(bug)">
           <td>{{ bug.description }}</td>
           <td>{{ bug.fixedVersion }}</td>
           <td>{{ bug.severity }}</td>
@@ -29,19 +91,8 @@
           <td>{{ bug.version }}</td>
         </tr>
         </tbody>
+        <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ? ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) - (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 : (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + '/' + (bugList | tableFilter: filter).length }} results.</caption>
       </table>
-      <!--<pagination-controls [id]="config.id"-->
-                           <!--[maxSize]="maxSize"-->
-                           <!--[directionLinks]="directionLinks"-->
-                           <!--[autoHide]="autoHide"-->
-                           <!--[responsive]="responsive"-->
-                           <!--[previousLabel]="labels.previousLabel"-->
-                           <!--[nextLabel]="labels.nextLabel"-->
-                           <!--[screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"-->
-                           <!--[screenReaderPageLabel]="labels.screenReaderPageLabel"-->
-                           <!--[screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"-->
-                           <!--(pageChange)="onPageChange($event)">-->
-      <!--</pagination-controls>-->
     </div>
     <pagination-template #p="paginationApi"
                          [id]="config.id"
@@ -66,5 +117,81 @@
         </div>
       </div>
     </pagination-template>
+  </div>
+</div>
+
+<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true" *ngIf="detailedBug">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
+        <h5 class="modal-title" id="bugDetailsModalTitle" style="color: whitesmoke;font-size: 20px; ">Bug details</h5>
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-signin text-center"
+              #formControl="ngForm">
+          <div class="form-group">
+            <label for="descriptionInput">Description</label>
+            <textarea #description="ngModel" [(ngModel)]="detailedBug.description" disabled name="description" class="form-control" id="descriptionInput" rows="3"></textarea>
+          </div>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="fixedVersion"
+                   id="fixedVersionInput"
+                   #fixedVersion="ngModel"
+                   [(ngModel)]="detailedBug.fixedVersion"
+                   disabled>
+            <label for="fixedVersionInput" style="margin-top: 15px">Fixed Version</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="severity"
+                   id="severityInput"
+                   #severity="ngModel"
+                   [(ngModel)]="detailedBug.severity"
+                   disabled>
+            <label for="severityInput" style="margin-top: 15px">Severity</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="status"
+                   id="statusInput"
+                   #status="ngModel"
+                   [(ngModel)]="detailedBug.status"
+                   disabled>
+            <label for="statusInput" style="margin-top: 15px">Status</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="targetDate"
+                   id="targetDateInput"
+                   #targetDate="ngModel"
+                   [(ngModel)]="detailedBug.targetDate"
+                   disabled>
+            <label for="targetDateInput" style="margin-top: 15px">Target Date</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="title"
+                   id="titleInput"
+                   #title="ngModel"
+                   [(ngModel)]="detailedBug.title"
+                   disabled>
+            <label for="titleInput" style="margin-top: 15px">Title</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="version"
+                   id="versionInput"
+                   #version="ngModel"
+                   [(ngModel)]="detailedBug.version"
+                   disabled>
+            <label for="versionInput" style="margin-top: 15px">Version</label>
+          </span>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

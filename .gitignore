@@ -28,6 +28,7 @@ target/
 # IntelliJ project files
 *.iws
 *.ipr
+*.iml
 .idea/
 
 # eclipse project file

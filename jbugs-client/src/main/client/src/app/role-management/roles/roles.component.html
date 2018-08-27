@@ -1,7 +1,7 @@
 <div class="column justify-content-center">
   <div *ngIf="roleList">
     <div class="table-responsive">
-      <table class="table table-hover table-dark shadow p-3 mb-5 rounded">
+      <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
           <th scope="col" translate>demo.Type</th>
@@ -10,7 +10,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let role of roleList" #row>
-          <td style="all">{{ role.type }}</td>
+          <td>{{ role.type }}</td>
           <td>
             <mat-form-field *ngIf="isDone">
               <mat-select placeholder= '{{ "demo.Click to edit"| translate}}' style="color: white" [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
