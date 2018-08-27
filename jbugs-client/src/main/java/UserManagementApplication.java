@@ -23,6 +23,7 @@ public class UserManagementApplication extends Application {
         classes.add(UserPermissions.class);
         classes.add(BugsFilter.class);
         classes.add(CheckedExceptionMapper.class);
+        classes.add(LoggedIn.class);
         return classes;
     }
 

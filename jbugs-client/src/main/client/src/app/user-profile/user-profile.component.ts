@@ -18,21 +18,7 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('popup') popup: Popup;
 
 
-  constructor(private userService: UserService,private router:Router) {
-    this.userService.getAllUsers().subscribe((user) => {
-      this.userList = user;
-    },(error)=>{
-      if(error.status == 403){
-        this.router.navigate(['/error']);
-      }
-      if(error.status == 401){
-        this.router.navigate(['/norights']);
-      }
-    });
-  }
-
-  ngOnInit() {
-
+  constructor(private userService: UserService, private router:Router) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -46,6 +32,10 @@ export class UserProfileComponent implements OnInit {
     };
     this.userModel.username = localStorage.getItem('currentUser');
     this.userModel.id = Number(localStorage.getItem('id'))+1;
+  }
+
+  ngOnInit() {
+    this.isLoggedInOnServer()
   }
 
 
@@ -62,6 +52,15 @@ export class UserProfileComponent implements OnInit {
           this.popup.show(this.popup.options);
         }
       );
+  }
+
+  isLoggedInOnServer(){
+    let returnedValue : boolean;
+    var test = this.userService.isLoggedInOnServer().subscribe(response=>{
+    if(response==true){
+    }else{
+      this.router.navigate(['/norights']);
+    }})
   }
 
 
