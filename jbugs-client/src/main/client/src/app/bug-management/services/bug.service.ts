@@ -14,7 +14,7 @@ export interface Bug {
   targetDate: string;
   version: string;
   assignedTo: User;
-  createdBy: number;
+  createdBy: User;
 }
 
 @Injectable({

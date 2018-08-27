@@ -14,10 +14,12 @@ public class UserDTO {
     private Boolean isActive;
     private String phoneNumber;
     private List<RoleDTO> roles;
+    private List<NotificationDTO> notifications;
 
 
     public UserDTO() {
         roles = new ArrayList<>();
+        notifications= new ArrayList<>();
     }
 
     public Long getId() {
@@ -134,5 +136,13 @@ public class UserDTO {
     public int hashCode() {
 
         return Objects.hash(id, firstName, lastName, username, password, email, isActive, phoneNumber, roles);
+    }
+
+    public List<NotificationDTO> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<NotificationDTO> notifications) {
+        this.notifications = notifications;
     }
 }
