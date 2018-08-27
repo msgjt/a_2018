@@ -37,11 +37,12 @@ public class Bug extends BaseEntity<Long> {
     private String fixedVersion;
     @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
     private Severity severity;
+
     @JoinColumn(name = "createdBy", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private User createdBy;
     @JoinColumn(name = "assignedTo", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private User assignedTo;
 
     public Bug() {

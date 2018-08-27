@@ -15,6 +15,7 @@ import {FilterPipe} from "../../filter.pipe";
 })
 export class BugsViewComponent implements OnInit {
 
+  selectedBug;
   bugList: Bug[];
   pagesFormControl : FormControl;
   filtersShow = [
@@ -50,6 +51,7 @@ export class BugsViewComponent implements OnInit {
     this.bugService.getAllBugs().subscribe((bug) => {
       this.bugList = bug;
       this.bugListAux = bug;
+      this.selectedBug = bug[0];
     },
       (error)=>{
         if(error.status == 403){
@@ -165,5 +167,9 @@ export class BugsViewComponent implements OnInit {
     //     break;
     //   }
     // }
+  }
+
+  passDataToEditModal(bug: Bug) {
+    this.selectedBug = bug;
   }
 }

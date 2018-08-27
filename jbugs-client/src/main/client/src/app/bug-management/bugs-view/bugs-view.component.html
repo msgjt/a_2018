@@ -1,3 +1,7 @@
+<app-edit-bug [bug]="selectedBug"></app-edit-bug>
+
+
+
 <div class="column justify-content-center">
   <div class="mat-elevation-z6 data-table">
     <div id="tableContainer" class="table-responsive" style="text-align: center !important;">
@@ -78,7 +82,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr #row *ngFor="let bug of bugList | paginate: config" data-toggle="modal" data-target="#bugDetailsModal" style="cursor: pointer;" (click)="passUserToDetailedModal(bug)">
+        <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;" >
           <td>{{ bug.description }}</td>
           <td>{{ bug.fixedVersion }}</td>
           <td>{{ bug.severity }}</td>
@@ -86,6 +90,8 @@
           <td>{{ bug.targetDate }}</td>
           <td>{{ bug.title }}</td>
           <td>{{ bug.version }}</td>
+          <td> <i class="material-icons" data-toggle="modal" data-target="#bugDetailsModal" (click)="passUserToDetailedModal(bug)"> notes </i></td>
+          <td> <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"> edit </i> </td>
         </tr>
         </tbody>
         <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ? ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) - (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 : (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + '/' + (bugList | tableFilter: filter).length }} results.</caption>

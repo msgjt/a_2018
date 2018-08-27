@@ -4,6 +4,10 @@ body {
 
 }
 
+/deep/ #body-m {
+  background-color: #202020;
+}
+
 body {
   display: -ms-flexbox;
   display: -webkit-box;

@@ -63,6 +63,7 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
 import { NorightsComponent } from './norights/norights.component';
 import { FilterPipe } from './filter.pipe';
+import { EditBugComponent } from './bug-management/edit-bug/edit-bug.component';
 
 const appRoutes: Routes = [
   {
@@ -148,6 +149,7 @@ export class MaterialModule {}
     ErrorComponent,
     ProfileComponent,
     BugsViewComponent,
+    EditBugComponent,
     HomeComponent,
     UserProfileComponent,
     RolesComponent,
