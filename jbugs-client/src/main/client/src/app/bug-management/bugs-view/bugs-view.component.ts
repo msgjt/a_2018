@@ -23,7 +23,9 @@ export class BugsViewComponent implements OnInit {
     { show4: false },
     { show5: false },
     { show6: false },
-    { show7: false }
+    { show7: false },
+    { show8: false },
+    { show9: false }
   ];
   filter1 = '';
   filter2 = '';
@@ -32,9 +34,11 @@ export class BugsViewComponent implements OnInit {
   filter5 = '';
   filter6 = '';
   filter7 = '';
+  filter8 = '';
+  filter9 = '';
   bugListAux = [];
   detailedBug: Bug;
-  ascendingSort: boolean = false;
+  ascendingSort = { description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
 
   //Pagination
   public filter = { };
@@ -119,6 +123,20 @@ export class BugsViewComponent implements OnInit {
         }
         break;
       }
+      case 'assignedTo' : {
+        this.filter[filterBy] = this.filter8;
+        if(this.filter[filterBy] == '') {
+          delete this.filter[filterBy];
+        }
+        break;
+      }
+      case 'createdBy' : {
+        this.filter[filterBy] = this.filter9;
+        if(this.filter[filterBy] == '') {
+          delete this.filter[filterBy];
+        }
+        break;
+      }
     }
     this.bugList = new FilterPipe().transform(this.bugListAux, this.filter);
   }
@@ -128,41 +146,164 @@ export class BugsViewComponent implements OnInit {
   }
 
   doSort(sortBy: string) {
-    this.ascendingSort = !this.ascendingSort;
-    // let toSortBugList = this.bugList.slice((this.config.currentPage-1)* 25 + 1, (this.bugList.length>(this.config.currentPage-1)* 25 + 26) ? (this.bugList.length-))
-    // switch (sortBy) {
-    //   case 'description' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    //   case 'fixedVersion' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    //   case 'severity' : {
-    //     if(this.ascendingSort) {
-    //       this.bugList.sort((one, two) => (one.severity < two.severity ? -1 : 1));
-    //     } else {
-    //       this.bugList.sort((one, two) => (one.severity > two.severity ? -1 : 1));
-    //     }
-    //     break;
-    //   }
-    //   case 'status' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    //   case 'targetDate' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    //   case 'title' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    //   case 'version' : {
-    //     this.bugList.sort((one, two) => (one > two ? -1 : 1));
-    //     break;
-    //   }
-    // }
+    let startIndex = (this.config.currentPage-1)*25;
+    let endIndex = ((this.config.currentPage*this.config.itemsPerPage) - ((this.bugList.length > this.config.currentPage*this.config.itemsPerPage) ? 0 : (this.config.currentPage*this.config.itemsPerPage-this.bugList.length)));
+    let bugListCopy = this.bugList;
+    let toSortBugList = bugListCopy.slice(startIndex, endIndex);
+    switch (sortBy) {
+      case 'description' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.description.toLowerCase().localeCompare(bug2.description.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.description.toLowerCase().localeCompare(bug1.description.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'fixedVersion' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.fixedVersion.toLowerCase().localeCompare(bug2.fixedVersion.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.fixedVersion.toLowerCase().localeCompare(bug1.fixedVersion.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'severity' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.severity.toLowerCase().localeCompare(bug2.severity.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.severity.toLowerCase().localeCompare(bug1.severity.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'status' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.status.toLowerCase().localeCompare(bug2.status.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.status.toLowerCase().localeCompare(bug1.status.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'targetDate' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.targetDate.toLowerCase().localeCompare(bug2.targetDate.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.targetDate.toLowerCase().localeCompare(bug1.targetDate.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'title' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.title.toLowerCase().localeCompare(bug2.title.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.title.toLowerCase().localeCompare(bug1.title.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'version' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.version.toLowerCase().localeCompare(bug2.version.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.version.toLowerCase().localeCompare(bug1.version.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'assignedTo' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.assignedTo.username.toLowerCase().localeCompare(bug2.assignedTo.username.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.assignedTo.username.toLowerCase().localeCompare(bug1.assignedTo.username.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'createdBy' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.createdBy.username.toLowerCase().localeCompare(bug2.createdBy.username.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.createdBy.username.toLowerCase().localeCompare(bug1.createdBy.username.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+    }
   }
 }

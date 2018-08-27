@@ -25,6 +25,7 @@ td {
 
 th {
   color: white;
+  cursor: pointer;
 }
 
 .pagination {

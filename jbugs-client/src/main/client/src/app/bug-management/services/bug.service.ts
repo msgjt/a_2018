@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
+import {User} from "../../user-management/services/user.service";
 
 export interface Bug {
   id: number;
@@ -12,8 +13,8 @@ export interface Bug {
   fixedVersion: string;
   targetDate: string;
   version: string;
-  assignedTo: number;
-  createdBy: number;
+  assignedTo: User;
+  createdBy: User;
 }
 
 @Injectable({
