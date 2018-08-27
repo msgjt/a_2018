@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 
 import {Popup} from 'ng2-opd-popup';
-import {Role} from "../role-management/entities/role";
 import {Router} from "@angular/router";
 
 @Component({

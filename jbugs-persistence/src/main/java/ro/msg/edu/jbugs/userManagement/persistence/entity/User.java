@@ -49,9 +49,12 @@ public class User extends BaseEntity<Long> {
 
     @ManyToMany
     private List<Role> roles;
+    @OneToMany
+    private List<Notification> notifications;
 
     public User() {
         roles = new ArrayList<>();
+        notifications=new ArrayList<>();
     }
 
     public String getFirstName() {
@@ -117,6 +120,13 @@ public class User extends BaseEntity<Long> {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -152,5 +162,6 @@ public class User extends BaseEntity<Long> {
                 ", status='" + isActive + '\'' +
                 '}';
     }
+
 
 }
