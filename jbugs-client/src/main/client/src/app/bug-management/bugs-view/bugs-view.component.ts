@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 
+//for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
