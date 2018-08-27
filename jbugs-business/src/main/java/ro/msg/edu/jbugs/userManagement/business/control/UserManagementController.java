@@ -416,11 +416,13 @@ public class UserManagementController implements UserManagement {
        return  false;
     }
 
+    //remove the user from loggedUsers map.
     public void removeUserInLogged(String username){
         if (loggedUsers.containsKey(username)){
             loggedUsers.remove(username);
         }
     }
+
 
     //get all permissions assigned to an user
     public Set<String> getAllUserPermission(String username){

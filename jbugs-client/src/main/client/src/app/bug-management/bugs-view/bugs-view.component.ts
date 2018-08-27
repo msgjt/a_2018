@@ -3,6 +3,7 @@ import {Bug, BugService} from "../services/bug.service";
 import {FormControl} from "@angular/forms";
 import {PaginationInstance} from "ngx-pagination";
 import {Router} from "@angular/router";
+import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 
 @Component({
@@ -43,7 +44,7 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private bugService: BugService, private router: Router) {
+  constructor(private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
       this.bugList = bug;
@@ -61,6 +62,10 @@ export class BugsViewComponent implements OnInit {
 
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
+  }
+
+  exportToExcel() {
+    this.excelService.exportAsExcelFile(this.bugList);
   }
 
   addFilters(filterBy: string) {

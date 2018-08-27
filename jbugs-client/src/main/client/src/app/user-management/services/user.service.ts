@@ -102,8 +102,13 @@ export class UserService {
     return username ? true : false;
   }
 
+  isLoggedInOnServer():Observable<boolean>{
+    let body=localStorage.getItem(LSKEY)+"   "+localStorage.getItem(TOKENKEY);
+    return this.http.post<boolean>(this.baseURL+'/loggedin',body);
+  }
+
   logout(username: String):Observable<any>{
-    return this.http.post(this.baseURL + '/logout',username);;
+    return this.http.post(this.baseURL + '/logout',username);
   }
 
   getAllRoles(): Observable<Role[]> {

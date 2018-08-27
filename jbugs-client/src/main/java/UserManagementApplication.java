@@ -21,6 +21,7 @@ public class UserManagementApplication extends Application {
         classes.add(Logout.class);
         classes.add(UserPermissions.class);
         classes.add(BugsFilter.class);
+        classes.add(LoggedIn.class);
         return classes;
     }
 
