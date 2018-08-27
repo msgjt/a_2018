@@ -4,6 +4,7 @@ import jwt.JwtManager;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -19,7 +20,7 @@ public class Authorization  {
     private UserManagement userManagement;
 
     @POST
-    public Response isAuthorized(UserDTO userDTO) throws BusinessException {
+    public Response isAuthorized(UserDTO userDTO) throws BusinessException, CheckedBusinessException {
 
             UserDTO returnedUserDTO = userManagement.login(userDTO.getUsername(),userDTO.getPassword());
             if(returnedUserDTO != null) {

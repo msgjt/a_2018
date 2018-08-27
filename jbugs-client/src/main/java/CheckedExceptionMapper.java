@@ -1,13 +1,13 @@
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class BusinessExceptionMapper implements ExceptionMapper<BusinessException> {
+public class CheckedExceptionMapper implements ExceptionMapper<CheckedBusinessException> {
     @Override
-    public Response toResponse(BusinessException e) {
+    public Response toResponse(CheckedBusinessException e) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
     }
 }

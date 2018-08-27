@@ -10,6 +10,7 @@ public enum ExceptionCode {
     USERNAME_NOT_VALID(1003, "Username not valid"),
     USER_DOES_NOT_EXIST(1004, "User does not exist"),
     FAILED_5_TIMES(1005, "Failed_5_times"),
+    USER_DISABLED(1006,"User_disabled"),
     ROLE_VALIDATION_EXCEPTION(2000, "Role is not valid");
     int id;
     String message;

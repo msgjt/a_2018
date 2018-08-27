@@ -10,6 +10,7 @@ import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
@@ -130,6 +131,8 @@ public class UserPersistenceManagerBeanTest {
             fail("Shouldn't reach this point");
         } catch (BusinessException e) {
             assertEquals(ExceptionCode.USERNAME_NOT_VALID, e.getExceptionCode());
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 
@@ -149,6 +152,8 @@ public class UserPersistenceManagerBeanTest {
             fail("Shouldn't reach this point");
         } catch (BusinessException e) {
             assertEquals(ExceptionCode.PASSWORD_NOT_VALID, e.getExceptionCode());
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 
@@ -166,6 +171,8 @@ public class UserPersistenceManagerBeanTest {
             assertEquals(userDTO.getUsername(), user.getUsername());
         } catch (BusinessException e) {
             fail("Shouldn't reach this point");
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 import filters.BugsFilter;
 import resources.*;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -21,6 +22,7 @@ public class UserManagementApplication extends Application {
         classes.add(Logout.class);
         classes.add(UserPermissions.class);
         classes.add(BugsFilter.class);
+        classes.add(CheckedExceptionMapper.class);
         return classes;
     }
 

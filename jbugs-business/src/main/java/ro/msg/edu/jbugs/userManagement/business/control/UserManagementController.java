@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.userManagement.business.exceptions.CheckedBusinessException;
 import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
@@ -280,7 +281,7 @@ public class UserManagementController implements UserManagement {
     // Check the user credentials received fro a Http Post
     @Override
    // @Transactional(dontRollbackOn = BusinessException.class)
-    public UserDTO login(String username, String password) throws BusinessException {
+    public UserDTO login(String username, String password) throws BusinessException, CheckedBusinessException {
         CustomLogger.logEnter(this.getClass(),"login",username,password);
 
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
@@ -289,6 +290,12 @@ public class UserManagementController implements UserManagement {
             CustomLogger.logException(this.getClass(),"login",USERNAME_NOT_VALID.toString());
             throw new BusinessException(ExceptionCode.USERNAME_NOT_VALID);
         }
+
+        if(!userOptional.get().getIsActive()){
+            CustomLogger.logException(this.getClass(),"login",USER_DISABLED.toString());
+            throw new BusinessException(ExceptionCode.USER_DISABLED);
+        }
+
         //check if the password match with the one found in the database
         if (!Encryptor.encrypt(password).equals(userOptional.get().getPassword())) {
             // if the password don#t match with the one in te database check if the user tried before to login without success
@@ -303,7 +310,7 @@ public class UserManagementController implements UserManagement {
                     //TODO this will rollback after the runtime exception is thrown
                     deactivateUser(userOptional.get().getId());
                     CustomLogger.logException(this.getClass(),"login",FAILED_5_TIMES.toString());
-                    throw new BusinessException(ExceptionCode.FAILED_5_TIMES);
+                    throw new CheckedBusinessException(ExceptionCode.FAILED_5_TIMES);
                 }
             }
             CustomLogger.logException(this.getClass(),"login",PASSWORD_NOT_VALID.toString());
