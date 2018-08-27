@@ -1,11 +1,12 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.CheckedBusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
+import ro.msg.edu.jbugs.shared.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.dto.*;
-import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
-import ro.msg.edu.jbugs.shared.business.utils.Encryptor;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
@@ -373,7 +374,7 @@ public class UserManagementController implements UserManagement {
      * @return a user DTOHelper if it succeeds.
      */
     @Override
-    public UserDTO login(String username, String password){
+    public UserDTO login(String username, String password) throws CheckedBusinessException {
         CustomLogger.logEnter(this.getClass(),"login",username,password);
 
         Optional<User> userOptional = userPersistenceManager.getUserByUsername(username);
@@ -384,6 +385,13 @@ public class UserManagementController implements UserManagement {
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
                     DetailedExceptionCode.USER_NOT_FOUND);
         }
+
+        if(!userOptional.get().getIsActive()){
+            CustomLogger.logException(this.getClass(),"login",DetailedExceptionCode.USER_DISABLED.toString());
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.USER_DISABLED);
+        }
+
         //check if the password match with the one found in the database
         if (!Encryptor.encrypt(password).equals(userOptional.get().getPassword())) {
             // if the password don#t match with the one in te database check if the user tried before to login without success
@@ -398,7 +406,7 @@ public class UserManagementController implements UserManagement {
                     //TODO this will rollback after the runtime exception is thrown
                     deactivateUser(userOptional.get().getId());
                     CustomLogger.logException(this.getClass(),"login",DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES.toString());
-                    throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    throw new CheckedBusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
                             DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES);
                 }
             }

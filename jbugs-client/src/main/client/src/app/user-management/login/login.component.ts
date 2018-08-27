@@ -53,14 +53,20 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['./profile']);
           },
           (error) => {
-            if(error['error'] == 'Failed_5_times') {
+            console.log('ERROR: ' + JSON.stringify(error['error']));
+            if(error['error'] == 'aaa') {
               this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
             }
-            else{
-              this.errorMessage = 'Username or password not valid';
-              this.errorOccurred = true;
-              this.loggedIn = false;
+            else {
+              if (error['error'] == 'bbb') {
+                this.errorMessage = 'User disabled';
+              }
+              else {
+                this.errorMessage = 'Username or password not valid';
+              }
             }
+            this.errorOccurred = true;
+            this.loggedIn = false;
             console.log(JSON.stringify(error));
 
           });

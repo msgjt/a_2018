@@ -131,6 +131,8 @@ public class UserPersistenceManagerBeanTest {
             fail("Shouldn't reach this point");
         } catch (BusinessException e) {
             assertEquals(ExceptionCode.USERNAME_NOT_VALID, e.getExceptionCode());
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 */
@@ -150,6 +152,8 @@ public class UserPersistenceManagerBeanTest {
             fail("Shouldn't reach this point");
         } catch (BusinessException e) {
             assertEquals(ExceptionCode.PASSWORD_NOT_VALID, e.getExceptionCode());
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 *//*
@@ -167,6 +171,8 @@ public class UserPersistenceManagerBeanTest {
             assertEquals(userDTO.getUsername(), user.getUsername());
         } catch (BusinessException e) {
             fail("Shouldn't reach this point");
+        } catch (CheckedBusinessException e) {
+            e.printStackTrace();
         }
     }
 
