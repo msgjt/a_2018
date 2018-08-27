@@ -4,6 +4,7 @@
       <label class="control" style="color: white; font-size: 18px;">Filter items
         <input type="text" class="input" [(ngModel)]="filter">
       </label>
+        <button (click)="exportToExcel()" class="btn btn-success"><i class="far fa-file-excel"></i>Export to Excel</button>
       <table class="table table-hover table-dark shadow p-3 mb-5 rounded tablesorter" id="bugsTable">
         <!--<caption>Showing {{ currentPage }} results.</caption>-->
         <thead style="background-color: darkred; border-color: darkred;" >
