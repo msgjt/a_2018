@@ -1,8 +1,9 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.business.dto.NotificationDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.NotificationDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
-import ro.msg.edu.jbugs.utils.CustomLogger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.List;

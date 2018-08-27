@@ -7,7 +7,6 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/guards/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
-import {PopupModule} from "ng2-opd-popup";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
@@ -158,7 +157,6 @@ export class MaterialModule {}
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    PopupModule.forRoot(),
     BrowserAnimationsModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,

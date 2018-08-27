@@ -37,6 +37,7 @@
     "ng2-opd-popup": "^1.1.21",
     "ngx-bootstrap": "^3.0.1",
     "ngx-pagination": "^3.2.0",
+    "recaptcha": "^1.2.1",
     "rxjs": "^6.2.2",
     "table-sort": "^1.0.16",
     "tablesorter": "^2.30.7",
