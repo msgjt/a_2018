@@ -1,5 +1,3 @@
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;

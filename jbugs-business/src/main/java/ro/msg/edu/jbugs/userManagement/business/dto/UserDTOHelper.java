@@ -1,14 +1,14 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
+import javax.validation.constraints.NotNull;
 import java.util.stream.Collectors;
 
 public class UserDTOHelper {
 
 
-    public static UserDTO fromEntity(User user) {
+    public static UserDTO fromEntity(@NotNull User user) {
 
         UserDTO userDTO = new UserDTO();
 
@@ -25,7 +25,7 @@ public class UserDTOHelper {
         return userDTO;
     }
 
-    public static User toEntity(UserDTO userDTO){
+    public static User toEntity(@NotNull UserDTO userDTO){
         User user = new User();
 
         user.setId(userDTO.getId());
