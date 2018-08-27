@@ -1,16 +1,14 @@
 package ro.msg.edu.jbugs.userManagement.business.exceptions;
 
+import ro.msg.edu.jbugs.userManagement.business.exceptions.ExceptionCode;
 
-import javax.ws.rs.core.Response;
-
-public class BusinessException extends RuntimeException {
+public class BusinessException extends Exception {
 
     ExceptionCode exceptionCode;
 
     public BusinessException() {
     }
     public BusinessException(ExceptionCode exceptionCode) {
-        super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
     }
     public BusinessException(String message,ExceptionCode exceptionCode ) {
@@ -39,21 +37,5 @@ public class BusinessException extends RuntimeException {
 
     public void setExceptionCode(ExceptionCode exceptionCode) {
         this.exceptionCode = exceptionCode;
-    }
-
-    public BusinessException(Response response){
-
-    }
-
-    public BusinessException(Throwable cause,Response response){
-
-    }
-
-    public BusinessException(Response.Status status) {
-
-    }
-
-    public BusinessException(Throwable cause,Response.Status status) {
-
     }
 }

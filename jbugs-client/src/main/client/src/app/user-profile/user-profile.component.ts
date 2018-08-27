@@ -15,6 +15,8 @@ export class UserProfileComponent implements OnInit {
   userList: User[];
   errorMessage: string;
 
+
+
   constructor(private userService: UserService, private router:Router) {
     this.userModel = {
       id: 0,

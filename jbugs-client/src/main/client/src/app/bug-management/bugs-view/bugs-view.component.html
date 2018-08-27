@@ -216,6 +216,9 @@
                    [(ngModel)]="detailedBug.version"
                    disabled>
             <label for="versionInput" style="margin-top: 15px">Version</label>
+            <button (click)="exportToPdf(detailedBug.description,detailedBug.fixedVersion,
+            detailedBug.severity,detailedBug.status,detailedBug.targetDate,
+            detailedBug.title,detailedBug.version)">Export PDF</button>
           </span>
         </form>
       </div>

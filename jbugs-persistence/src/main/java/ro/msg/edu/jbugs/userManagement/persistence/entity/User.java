@@ -49,9 +49,24 @@ public class User extends BaseEntity<Long> {
 
     @ManyToMany
     private List<Role> roles;
+    @OneToMany
+    private List<Notification> notifications;
 
     public User() {
         roles = new ArrayList<>();
+        notifications=new ArrayList<>();
+    }
+
+    public User copy(User user){
+        this.id = user.getId() != null ? user.getId() : this.id;
+        this.firstName = user.getFirstName() != null ? user.getFirstName() : this.firstName;
+        this.lastName = user.getLastName() != null ? user.getLastName() : this.lastName;
+        this.username = user.getUsername() != null ? user.getUsername() : this.username;
+        this.password = user.getPassword() != null ? user.getPassword() : this.password;
+        this.phoneNumber = user.getPhoneNumber() != null ? user.getPhoneNumber() : this.phoneNumber;
+        this.email = user.getEmail() != null ? user.getEmail() : this.email;
+        this.isActive = user.getIsActive() != null ? user.getIsActive() : this.isActive;
+        return this;
     }
 
     public String getFirstName() {
@@ -117,6 +132,13 @@ public class User extends BaseEntity<Long> {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -152,5 +174,6 @@ public class User extends BaseEntity<Long> {
                 ", status='" + isActive + '\'' +
                 '}';
     }
+
 
 }

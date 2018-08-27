@@ -2,8 +2,8 @@ package resources;
 
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
-import ro.msg.edu.jbugs.userManagement.business.exceptions.BusinessException;
-import ro.msg.edu.jbugs.utils.CustomLogger;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
