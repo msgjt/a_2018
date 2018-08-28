@@ -116,7 +116,7 @@ th input[type=text] {
   margin-top: 30px;
 }
 
-i {
+button i {
   margin: .65em 0 0 .75em;
   font-size: 8px;
   cursor: pointer;
@@ -126,3 +126,15 @@ i {
 .toast-info {
   background-color: #BD362F;
 }
+
+/deep/ .table th, .table td {
+  vertical-align: inherit;
+}
+
+/*/deep/ .material-icons _ngcontent-c1 {*/
+  /*vertical-align: inherit;*/
+  /*width: 30%;*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*display: block;*/
+/*}*/
