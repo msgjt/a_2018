@@ -315,4 +315,16 @@ public class UserPersistenceManager {
         Query q = em.createQuery("SELECT n FROM Notification n WHERE n.type='" + type + "'");
         return (Notification) q.getSingleResult();
     }
+
+    public List<Notification> getAllNotificationsForUser(@NotNull Long id) {
+        CustomLogger.logEnter(this.getClass(), "getAllNotificationsForUser", String.valueOf(id));
+
+        Query q = em.createQuery("SELECT n FROM users_notifications n inner join notifications no on no.ID=n.notifications_ID WHERE n.User_ID="+ id +"and no.status like 'not_read'");
+
+
+        List<Notification> result= q.getResultList();
+
+        CustomLogger.logEnter(this.getClass(), "getAllNotificationsForUser", result.toString());
+        return result;
+    }
 }

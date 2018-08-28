@@ -9,6 +9,7 @@ public class NotificationDTO {
     private String message;
     private String URL;
     private String type;
+    private String status;
 
 
 
@@ -44,5 +45,11 @@ public class NotificationDTO {
         this.type = type;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

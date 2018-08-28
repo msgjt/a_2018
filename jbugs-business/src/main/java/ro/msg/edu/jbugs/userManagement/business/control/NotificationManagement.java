@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface NotificationManagement {
     List<NotificationDTO> getAllNotifications();
+    List<NotificationDTO> getNewNotifications(Long id);
 }
