@@ -1,5 +1,6 @@
 package filters;
 
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 
 import javax.ejb.EJB;
@@ -22,6 +23,9 @@ public class BugsFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        CustomLogger.logEnter(this.getClass(),"doFilter",
+                "req: " + req.toString(),"chain: " +chain.toString());
+
         System.out.println("+++++++++++++++Inside BUGS FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
@@ -32,6 +36,7 @@ public class BugsFilter implements Filter {
         if(((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")){
             System.out.println("Received Options");
             chain.doFilter(req, resp);
+            CustomLogger.logExit(this.getClass(),"doFilter",resp.toString());
             return;
         }
         String currentUser = ((HttpServletRequest)req).getHeader("currentUser");
@@ -46,6 +51,7 @@ public class BugsFilter implements Filter {
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
             }
             httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN );
+            CustomLogger.logExit(this.getClass(),"doFilter",HttpServletResponse.SC_FORBIDDEN + "");
             return;
         }
         System.out.println("USER ALLOWED");
@@ -56,9 +62,11 @@ public class BugsFilter implements Filter {
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
             }
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            CustomLogger.logExit(this.getClass(),"doFilter",HttpServletResponse.SC_UNAUTHORIZED + "");
             return;
         }
         chain.doFilter(req, resp);
+        CustomLogger.logExit(this.getClass(),"doFilter",resp.toString());
     }
 
     public void init(FilterConfig config) throws ServletException {

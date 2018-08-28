@@ -4,7 +4,9 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.BaseEntity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "bugs")
@@ -30,21 +32,39 @@ public class Bug extends BaseEntity<Long> {
     private String description;
     @Column(name = "version", length = MAX_STRING_LENGTH, nullable = false)
     private String version;
+
+
     @Column(name = "targetDate", length = MAX_STRING_LENGTH, nullable = false)
-    private Date targetDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date targetDate = new Date();
+
     @Column(name = "status", length = MAX_STRING_LENGTH, nullable = false)
     private String status;
+
     @Column(name = "fixedVersion", length = MAX_STRING_LENGTH, nullable = false)
     private String fixedVersion;
-    @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
-    private Severity severity;
 
-    @JoinColumn(name = "createdBy", nullable = false)
-    @ManyToOne()
+    @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
+    private String severity;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "bugs_creators",
+            joinColumns = @JoinColumn(
+                    name = "bug_id",
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id")
+    )
     private User createdBy;
+
     @JoinColumn(name = "assignedTo", nullable = false)
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private User assignedTo;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bug", orphanRemoval = true)
+    private List<History> history = new ArrayList<>();
 
     public Bug() {
     }
@@ -97,12 +117,12 @@ public class Bug extends BaseEntity<Long> {
         this.fixedVersion = fixedVersion;
     }
 
-    public Severity getSeverity() {
+    public String getSeverity() {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
+    public void setSeverity(String string) {
+        this.severity = string;
     }
 
     public User getCreatedBy() {
@@ -131,10 +151,18 @@ public class Bug extends BaseEntity<Long> {
                 ", targetDate=" + targetDate +
                 ", status='" + status + '\'' +
                 ", fixedVersion='" + fixedVersion + '\'' +
-                ", severity='" + severity + '\'' +
+                ", string='" + severity + '\'' +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
 
                 '}';
+    }
+
+    public List<History> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<History> history) {
+        this.history = history;
     }
 }

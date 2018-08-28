@@ -1,6 +1,5 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
 
-import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.Date;
@@ -8,37 +7,37 @@ import java.util.Date;
 public class BugDTO {
 
     private Long id;
-    private String title;
-    private String description;
-    private String version;
+    private java.lang.String title;
+    private java.lang.String description;
+    private java.lang.String version;
     private Date targetDate;
-    private String status;
-    private String fixedVersion;
-    private Severity severity;
+    private java.lang.String status;
+    private java.lang.String fixedVersion;
+    private String severity;
     private User createdBy;
     private User assignedTo;
 
-    public String getTitle() {
+    public java.lang.String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(java.lang.String title) {
         this.title = title;
     }
 
-    public String getDescription() {
+    public java.lang.String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(java.lang.String description) {
         this.description = description;
     }
 
-    public String getVersion() {
+    public java.lang.String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(java.lang.String version) {
         this.version = version;
     }
 
@@ -50,28 +49,28 @@ public class BugDTO {
         this.targetDate = targetDate;
     }
 
-    public String getStatus() {
+    public java.lang.String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(java.lang.String status) {
         this.status = status;
     }
 
-    public String getFixedVersion() {
+    public java.lang.String getFixedVersion() {
         return fixedVersion;
     }
 
-    public void setFixedVersion(String fixedVersion) {
+    public void setFixedVersion(java.lang.String fixedVersion) {
         this.fixedVersion = fixedVersion;
     }
 
-    public Severity getSeverity() {
+    public String getSeverity() {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
+    public void setSeverity(String string) {
+        this.severity = string;
     }
 
     public User getCreatedBy() {
@@ -99,7 +98,7 @@ public class BugDTO {
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return "BugDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +

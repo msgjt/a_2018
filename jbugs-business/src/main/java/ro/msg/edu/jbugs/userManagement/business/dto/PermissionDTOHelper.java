@@ -11,7 +11,7 @@ public class PermissionDTOHelper {
 
         permissionDTO.setId(permission.getId());
         permissionDTO.setDescription(permission.getDescription());
-        permissionDTO.setType(permission.getType());
+        permissionDTO.setType(permission.getType2());
 
         return permissionDTO;
     }
@@ -21,7 +21,7 @@ public class PermissionDTOHelper {
 
         permission.setId(permissionDTO.getId());
         permission.setDescription(permissionDTO.getDescription());
-        permission.setType(permissionDTO.getType());
+        permission.setType2(permissionDTO.getType());
 
         return permission;
     }

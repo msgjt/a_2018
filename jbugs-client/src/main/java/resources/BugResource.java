@@ -22,7 +22,7 @@ public class BugResource {
 
 
     @GET
-    public List<BugDTO> getUsers(){
+    public List<BugDTO> getBugs(){
         return bugManagement.getAllBugs();
     }
 

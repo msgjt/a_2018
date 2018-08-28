@@ -445,7 +445,7 @@ public class UserManagementController implements UserManagement {
     Set<String> permisionString= new HashSet<>();
     allPermisionsForAnUser.addAll(allPermisssion);
     for(Permission p : allPermisionsForAnUser)
-    {permisionString.add(p.getType());}
+    {permisionString.add(p.getType2());}
     return permisionString;
     }
 

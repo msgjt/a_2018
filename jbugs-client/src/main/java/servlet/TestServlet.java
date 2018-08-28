@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
-import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
@@ -38,41 +37,6 @@ public class TestServlet extends HttpServlet {
             throws ServletException, IOException {
 
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setFirstName("dorel");
-        userDTO.setLastName("dorel");
-        userDTO.setEmail("doreldorel@msggroup.com");
-        userDTO.setPassword("Password");
-        userDTO.setPhoneNumber("1234567890");
-        userDTO.setUsername("Dorelut");
-        UserDTO persistentUserDTO = null;
-
-        UserDTOHelper userDTOHelper = new UserDTOHelper();
-        User user = userDTOHelper.toEntity(userDTO);
-
-        BugDTO bug = new BugDTO();
-        bug.setTitle("title");
-        bug.setDescription("descriptioooooooooooooo");
-        bug.setVersion("vers");
-       // bug.setTargetDate("2020-05-11");
-        bug.setStatus("1");
-        bug.setFixedVersion("fVers");
-        bug.setSeverity(Severity.MEDIUM);
-        bug.setCreatedBy(user);
-        bug.setAssignedTo(user);
-
-        PrintWriter out = response.getWriter();
-
-
-        try {
-            bugManagement.createBug(bug);
-            List<BugDTO> bugs = bugManagement.getAllBugs();
-            for (BugDTO b:bugs){
-                out.println(b);
-            }
-        } catch (BusinessException e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -114,7 +78,7 @@ public class TestServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public java.lang.String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 }

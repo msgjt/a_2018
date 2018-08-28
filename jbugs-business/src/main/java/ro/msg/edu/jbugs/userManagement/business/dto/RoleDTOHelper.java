@@ -22,7 +22,7 @@ public class RoleDTOHelper {
         role.getPermissions().forEach(p -> permissions.add(PermissionDTOHelper.fromEntity(p)));
 
         roleDTO.setId(role.getId());
-        roleDTO.setType(role.getType());
+        roleDTO.setType(role.getType1());
         roleDTO.setPermissions(permissions);
 
         return roleDTO;
@@ -39,7 +39,7 @@ public class RoleDTOHelper {
         roleDTO.getPermissions().forEach(p -> permissions.add(PermissionDTOHelper.toEntity(p)));
 
         role.setId(roleDTO.getId());
-        role.setType(roleDTO.getType());
+        role.setType1(roleDTO.getType());
         role.setPermissions(permissions);
 
         return role;

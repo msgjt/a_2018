@@ -1,6 +1,8 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 
+import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +49,16 @@ public class User extends BaseEntity<Long> {
     @Column(name = "isActive", length = MAX_STRING_LENGTH, nullable = false)
     private Boolean isActive;
 
-    @ManyToMany
-    private List<Role> roles;
-    @OneToMany
-    private List<Notification> notifications;
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private List<Role> roles = new ArrayList<>();
 
-    public User() {
-        roles = new ArrayList<>();
-        notifications=new ArrayList<>();
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo", orphanRemoval = true)
+    @JoinColumn(name = "bug_id")
+    private List<Bug> assignedBugs = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "notification_id")
+    private List<Notification> notifications = new ArrayList<>();
 
     public User copy(User user){
         this.id = user.getId() != null ? user.getId() : this.id;
@@ -176,4 +179,11 @@ public class User extends BaseEntity<Long> {
     }
 
 
+    public List<Bug> getAssignedBugs() {
+        return assignedBugs;
+    }
+
+    public void setAssignedBugs(List<Bug> assignedBugs) {
+        this.assignedBugs = assignedBugs;
+    }
 }

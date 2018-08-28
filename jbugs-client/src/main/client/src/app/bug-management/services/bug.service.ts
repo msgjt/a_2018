@@ -8,13 +8,13 @@ export interface Bug {
   id: number;
   title: string;
   description: string;
-  status: string;
-  severity: string;
-  fixedVersion: string;
-  targetDate: string;
   version: string;
-  assignedTo: User;
+  targetDate: string;
+  status: string;
+  fixedVersion: string;
+  severity: string;
   createdBy: User;
+  assignedTo: User;
 }
 
 @Injectable({
