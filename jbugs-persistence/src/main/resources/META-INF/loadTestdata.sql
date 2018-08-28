@@ -43,6 +43,7 @@ INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (3,1);
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,3);
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,4);
 
+<<<<<<< HEAD
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v0.1","Critical","Open","2018-08-23","Bug in Screen","v0.2",3);
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v0.1","Critical","Open","2018-08-23","Bug in Screen","v0.2",3);
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v0.1","Critical","Open","2018-08-23","Bug in Screen","v0.2",3);
@@ -106,3 +107,19 @@ INSERT INTO bugs_creators(bug_id,user_id) VALUES (27,1);
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (28,1);
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (29,1);
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (30,1);
+
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+
+
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,1);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",3,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,1);
+>>>>>>> 386ed0a1bebd3155f5f9b4f9975cee9f60f155a0

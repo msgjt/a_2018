@@ -4,10 +4,6 @@ body {
 
 }
 
-/deep/ #body-m {
-  background-color: #202020;
-}
-
 body {
   display: -ms-flexbox;
   display: -webkit-box;
@@ -124,4 +120,9 @@ i {
   margin: .65em 0 0 .75em;
   font-size: 8px;
   cursor: pointer;
+}
+
+/deep/
+.toast-info {
+  background-color: #BD362F;
 }

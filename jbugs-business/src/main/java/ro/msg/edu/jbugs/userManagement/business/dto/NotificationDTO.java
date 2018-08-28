@@ -12,6 +12,7 @@ public class NotificationDTO {
     private String status;
 
 
+
     public Long getId() {
         return id;
     }

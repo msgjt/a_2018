@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Notification extends BaseEntity<Long>{
     public static final String GET_ALL_NOTIFICATIONS = "get_all_notifications";
 
-    @Column(name = "type", nullable = false, unique = true)
+    @Column(name = "type")
     private String type;
 
     @Column(name = "message")

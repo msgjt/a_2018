@@ -17,10 +17,6 @@
 }
 
 
-/deep/ #body-m {
-   background-color: beige;
-}
-
 .errorLabel {
   display: inline;
   color: red;

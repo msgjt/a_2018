@@ -4,9 +4,6 @@
   box-sizing: border-box;
 }
 
-/deep/ #body-m {
-  background-color: #202020;
-}
 
 /deep/ body {
   position: relative;
