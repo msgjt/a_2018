@@ -40,14 +40,6 @@ th {
   font-size: 24px;
 }
 
-/*th.headerSortUp {*/
-  /*background: url("../../../assets/desc.png") no-repeat center right;*/
-/*}*/
-
-/*th.headerSortDown {*/
-  /*background: url("../../../assets/asc.png") no-repeat center right;*/
-/*}*/
-
 .custom-pagination {
   display: flex;
   max-width: 300px;
@@ -130,11 +122,3 @@ button i {
 /deep/ .table th, .table td {
   vertical-align: inherit;
 }
-
-/*/deep/ .material-icons _ngcontent-c1 {*/
-  /*vertical-align: inherit;*/
-  /*width: 30%;*/
-  /*margin-left: auto;*/
-  /*margin-right: auto;*/
-  /*display: block;*/
-/*}*/
