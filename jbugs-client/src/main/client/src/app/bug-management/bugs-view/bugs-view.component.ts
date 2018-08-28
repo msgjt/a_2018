@@ -5,15 +5,19 @@ import {PaginationInstance} from "ngx-pagination";
 import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
-import * as jsPDF from 'jspdf'
-import {Status} from "tslint/lib/runner";
+import * as jsPDF from 'jspdf';
+import {MyFormatter} from "./datePickerFormatter";
+import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 
 //for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
   styleUrls: ['./bugs-view.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  providers: [
+    { provide: NgbDateParserFormatter, useClass: MyFormatter }
+  ]
 })
 export class BugsViewComponent implements OnInit {
 
@@ -43,6 +47,8 @@ export class BugsViewComponent implements OnInit {
   bugListAux = [];
   detailedBug: Bug;
   ascendingSort = { description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
+  bugModel: Bug;
+  showInfoDiv: boolean = false;
 
   //Pagination
   public filter = { };
@@ -314,7 +320,7 @@ export class BugsViewComponent implements OnInit {
 
   exportToPdf(description: string, fixedVersion :string, severity: string, status: string, targetDate: string,
               title :string, version :string){
-    var doc = new jsPDF('p' ,'pt' ,'a4',{pagesplit: true, margin: {top: 10, right: 10, bottom: 10, left: 10, useFor: 'content'}});
+    let doc = new jsPDF('p' ,'pt' ,'a4',{pagesplit: true, margin: {top: 10, right: 10, bottom: 10, left: 10, useFor: 'content'}});
     doc.text('MSG ROMANIA: BUG '+title ,10, 10);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 20);
     doc.text('DESCRIPTION: '+description, 10, 30);
@@ -338,5 +344,38 @@ export class BugsViewComponent implements OnInit {
 
   passDataToEditModal(bug: Bug) {
     this.selectedBug = bug;
+  }
+
+  submitAddData(){
+    // this.roles.forEach(role =>
+    // {
+    //   if (role.selected){
+    //     role.selected = false;
+    //     this.userModel.roles.push(role);
+    //   }
+    // });
+    // this.bugService.createBug(this.bugModel)
+    //   .subscribe(
+    //     (response) => {
+    //       this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+    //       this.errorOccurred = false;
+    //       this.positiveResponse = true;
+    //       this.clearUserModelFields();
+    //     },
+    //     (error) => {
+    //       this.errorMessage = error['error'];
+    //       this.positiveResponse = false;
+    //       this.errorOccurred = true;
+    //     }
+    //   );
+    // this.userModel.roles = [];
+  }
+
+  showInfo() {
+    this.showInfoDiv = true;
+  }
+
+  hideInfo() {
+    this.showInfoDiv = false;
   }
 }

@@ -63,6 +63,7 @@ import {CdkTreeModule} from "@angular/cdk/tree";
 import { NorightsComponent } from './norights/norights.component';
 import { FilterPipe } from './filter.pipe';
 import { EditBugComponent } from './bug-management/edit-bug/edit-bug.component';
+import {NgbDatepicker, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 const appRoutes: Routes = [
   {
@@ -172,7 +173,8 @@ export class MaterialModule {}
         deps: [HttpClient]
       }
     }),
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgbModule
   ],
   providers: [
     {
