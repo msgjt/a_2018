@@ -71,3 +71,20 @@ INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,versi
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,createdBy) VALUES("screen flickers","version 1",3,"Info needed","2018-08-23","Bug in Screen","version 2",3,1);
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,createdBy) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,1);
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,createdBy) values("screen flickers","version 1",2,"Info needed","2018-08-23","Bug in Screen","version 2",3,1);
+
+
+
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+
+
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,1);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",3,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,1);

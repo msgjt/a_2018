@@ -30,7 +30,7 @@ export class UserProfileComponent implements OnInit {
       password: ''
     };
     this.userModel.username = localStorage.getItem('currentUser');
-    this.userModel.id = Number(localStorage.getItem('id'))+1;
+    this.userModel.id = Number(localStorage.getItem('id'));
   }
 
   ngOnInit() {

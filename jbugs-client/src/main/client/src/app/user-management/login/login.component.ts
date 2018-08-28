@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
           this.userModel.password).subscribe(
           (response) => {
               this.login(response.token);
+              localStorage.setItem("id",response.id);
               this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
               this.router.navigate(['./profile']);

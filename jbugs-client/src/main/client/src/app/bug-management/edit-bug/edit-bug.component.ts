@@ -1,10 +1,7 @@
-import {Bug, BugService} from "../services/bug.service";
+import {BugService} from "../services/bug.service";
 import {Router} from "@angular/router";
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {Role} from "../../role-management/entities/role";
-import {HttpHeaders} from "@angular/common/http";
-import {User, UserService} from "../../user-management/services/user.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {UserService} from "../../user-management/services/user.service";
 
 
 @Component({

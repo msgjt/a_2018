@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Notification extends BaseEntity<Long>{
     public static final String GET_ALL_NOTIFICATIONS = "get_all_notifications";
 
-    @Column(name = "type", nullable = false, unique = true)
+    @Column(name = "type")
     private String type;
 
     @Column(name = "message")
@@ -21,6 +21,17 @@ public class Notification extends BaseEntity<Long>{
 
     @Column(name = "URL")
     private String URL;
+
+    @Column(name = "status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 
     public String getType() {
