@@ -320,7 +320,7 @@ export class BugsViewComponent implements OnInit {
 
   exportToPdf(description: string, fixedVersion :string, severity: string, status: string, targetDate: string,
               title :string, version :string){
-    let doc = new jsPDF('p' ,'pt' ,'a4',{pagesplit: true, margin: {top: 10, right: 10, bottom: 10, left: 10, useFor: 'content'}});
+    let doc = new jsPDF('p' ,'pt' ,'a4');
     doc.text('MSG ROMANIA: BUG '+title ,10, 10);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 20);
     doc.text('DESCRIPTION: '+description, 10, 30);
@@ -345,6 +345,10 @@ export class BugsViewComponent implements OnInit {
   passDataToEditModal(bug: Bug) {
     this.selectedBug = bug;
   }
+
+  isBUG_EXPORT_PDF(): boolean {
+    return localStorage.getItem('BUG_EXPORT_PDF') != null;}
+
 
   submitAddData(){
     // this.roles.forEach(role =>

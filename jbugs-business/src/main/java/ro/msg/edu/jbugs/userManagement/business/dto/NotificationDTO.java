@@ -9,7 +9,7 @@ public class NotificationDTO {
     private String message;
     private String URL;
     private String type;
-
+    private String status;
 
 
     public Long getId() {
@@ -45,4 +45,11 @@ public class NotificationDTO {
     }
 
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
