@@ -8,6 +8,9 @@ import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
 import {MyFormatter} from "./datePickerFormatter";
 import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrService} from "ngx-toastr";
+import {User} from "../../user-management/services/user.service";
+import {Role} from "../../role-management/entities/role";
 
 //for commit
 @Component({
@@ -58,21 +61,53 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private bugService: BugService, private router: Router,private excelService: ExcelService) {
+  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
-      this.bugList = bug;
-      this.bugListAux = bug;
-      this.selectedBug = bug[0];
-    },
-      (error)=>{
-        if(error.status == 403){
+        this.bugList = bug;
+        this.bugListAux = bug;
+        this.selectedBug = bug[0];
+      },
+      (error) => {
+        if (error.status == 403) {
           router.navigate(['/error']);
         }
-        if(error.status == 401){
+        if (error.status == 401) {
           router.navigate(['/norights']);
         }
       });
+    this.bugModel = {
+      id: 0,
+      title: '',
+      description: '',
+      status: '',
+      severity: '',
+      fixedVersion: '',
+      targetDate: '',
+      version: '',
+      assignedTo: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      },
+      createdBy: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      }
+    }
   }
 
   ngOnInit() {
@@ -381,5 +416,9 @@ export class BugsViewComponent implements OnInit {
 
   hideInfo() {
     this.showInfoDiv = false;
+  }
+
+  showNotif() {
+    this.toastr.success('Hello world!', 'Toastr fun!');
   }
 }

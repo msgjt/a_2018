@@ -1,24 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import { LoginComponent } from './user-management/login/login.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {LoginComponent} from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/guards/authenticated.guard";
-import { ErrorComponent } from './error/error.component';
-import { ProfileComponent } from './user-management/profile/profile.component';
+import {ErrorComponent} from './error/error.component';
+import {ProfileComponent} from './user-management/profile/profile.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {BugsViewComponent} from './bug-management/bugs-view/bugs-view.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {RECAPTCHA_LANGUAGE, RecaptchaModule} from "ng-recaptcha";
-import { RecaptchaFormsModule } from "ng-recaptcha/forms";
-import { HomeComponent } from './home/home.component';
+import {RecaptchaFormsModule} from "ng-recaptcha/forms";
+import {HomeComponent} from './home/home.component';
 import {RedirectGuard} from "./user-management/guards/redirect.guard";
-import { RolesComponent } from './role-management/roles/roles.component';
-import {HttpClient} from '@angular/common/http';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import {RolesComponent} from './role-management/roles/roles.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 
 import {
@@ -60,10 +59,11 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
-import { NorightsComponent } from './norights/norights.component';
-import { FilterPipe } from './filter.pipe';
-import { EditBugComponent } from './bug-management/edit-bug/edit-bug.component';
-import {NgbDatepicker, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NorightsComponent} from './norights/norights.component';
+import {FilterPipe} from './filter.pipe';
+import {EditBugComponent} from './bug-management/edit-bug/edit-bug.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrModule} from "ngx-toastr";
 
 const appRoutes: Routes = [
   {
@@ -174,12 +174,13 @@ export class MaterialModule {}
       }
     }),
     NgxPaginationModule,
-    NgbModule
+    NgbModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     {
       provide: RECAPTCHA_LANGUAGE,
-      useValue: 'ro'
+      useValue: 'en'
     }
   ],
   exports: [
