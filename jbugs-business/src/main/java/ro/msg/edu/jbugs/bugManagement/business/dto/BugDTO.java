@@ -3,13 +3,15 @@ package ro.msg.edu.jbugs.bugManagement.business.dto;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
+import java.util.Date;
+
 public class BugDTO {
 
     private Long id;
     private String title;
     private String description;
     private String version;
-    private String targetDate;
+    private Date targetDate;
     private String status;
     private String fixedVersion;
     private Severity severity;
@@ -40,11 +42,11 @@ public class BugDTO {
         this.version = version;
     }
 
-    public String getTargetDate() {
+    public Date getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(String targetDate) {
+    public void setTargetDate(Date targetDate) {
         this.targetDate = targetDate;
     }
 
