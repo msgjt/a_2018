@@ -63,6 +63,9 @@
     "Rejected":"Rejected",
     "Filer": "Filer",
     "Filter items": "Filter items",
-    "Your personal data":"Your persoal data"
+    "Your personal data":"Your personal data",
+    "Username is required":"Username is required",
+    "Username not valid":"Username is not valid",
+    "Password is required":"Password is required"
   }
 }

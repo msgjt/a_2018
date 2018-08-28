@@ -3,6 +3,7 @@ package resources;
 import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -36,6 +37,18 @@ public class BugResource {
             throw new RuntimeException("Bug could not be created");
         }
 
+    }
+
+    @PUT
+    public Response updateBug(BugDTO bugDTO) {
+        CustomLogger.logEnter(this.getClass(),"updateBug",bugDTO.toString());
+
+        BugDTO result = bugManagement.updateBug(bugDTO);
+
+        CustomLogger.logExit(this.getClass(),"updateBug",result.toString());
+        return Response.status(Response.Status.OK)
+                .entity(result)
+                .build();
     }
 
     @Path("/{id}")

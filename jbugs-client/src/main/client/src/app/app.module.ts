@@ -7,7 +7,6 @@ import { LoginComponent } from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/guards/authenticated.guard";
 import { ErrorComponent } from './error/error.component';
-import {PopupModule} from "ng2-opd-popup";
 import { ProfileComponent } from './user-management/profile/profile.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { BugsViewComponent } from './bug-management/bugs-view/bugs-view.component';
@@ -63,6 +62,7 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {CdkTreeModule} from "@angular/cdk/tree";
 import { NorightsComponent } from './norights/norights.component';
 import { FilterPipe } from './filter.pipe';
+import { EditBugComponent } from './bug-management/edit-bug/edit-bug.component';
 
 const appRoutes: Routes = [
   {
@@ -148,6 +148,7 @@ export class MaterialModule {}
     ErrorComponent,
     ProfileComponent,
     BugsViewComponent,
+    EditBugComponent,
     HomeComponent,
     UserProfileComponent,
     RolesComponent,
@@ -158,7 +159,6 @@ export class MaterialModule {}
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    PopupModule.forRoot(),
     BrowserAnimationsModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
