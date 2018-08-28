@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
+import {User} from "../../user-management/services/user.service";
 
 export interface Bug {
   id: number;
@@ -12,8 +13,8 @@ export interface Bug {
   fixedVersion: string;
   targetDate: string;
   version: string;
-  assignedTo: number;
-  createdBy: number;
+  assignedTo: User;
+  createdBy: User;
 }
 
 @Injectable({
@@ -34,5 +35,14 @@ export class BugService {
       {'currentUser':currentUser,
         'webtoken':webtoken});
     return this.http.get<Bug[]>(this.baseURL + '/bugs',{headers});
+  }
+
+  updateBug(bug: Bug) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.put<boolean>(this.baseURL + '/bugs', bug,{headers});
   }
 }

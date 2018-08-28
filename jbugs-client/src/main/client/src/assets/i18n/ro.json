@@ -63,7 +63,10 @@
     "Rejected":"Respins",
     "Filer":"Filtrare",
     "Filter items":"Filtreaza elementele",
-    "Your personal data":"Datele tale curente"
+    "Your personal data":"Datele tale curente",
+    "Username is required":"Numele utilizatorului este necesar",
+    "Username not valid":"Numele utilizatorului nu este valid",
+    "Password is required":"Parola este necesara"
 
   }
 }

@@ -1,5 +1,7 @@
 
-
+/deep/ #body-m {
+  background-color: #202020;
+}
 
 
 body {
@@ -15,7 +17,6 @@ body {
   justify-content: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #f5f5f5;
 }
 
 td {

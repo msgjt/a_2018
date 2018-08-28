@@ -1,8 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "../../../../node_modules/@angular/common/http";
-import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +14,14 @@ export class LoginComponent implements OnInit {
   loggedIn = false;
   baseURL = 'http://localhost:8080/jbugs/rest';
   recaptchaResponse: any;
+  RecaptchaOptions = { theme : 'clean' };
   errorOccurred: boolean;
   errorMessage: string;
+  usernameError: boolean;
+
+  @ViewChild('container-login-username') containerUsername: ElementRef;
+
+
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.userModel = {
@@ -35,7 +40,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.usernameError = false;
   }
 
   submitForm() {
@@ -54,15 +59,21 @@ export class LoginComponent implements OnInit {
           },
           (error) => {
             console.log('ERROR: ' + JSON.stringify(error['error']));
-            if(JSON.stringify(error['error']) == '{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_LOGIN_FAILED_FIVE_TIMES}}') {
+            if(error['error'] == "{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_LOGIN_FAILED_FIVE_TIMES}}") {
               this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
             }
             else {
-              if (JSON.stringify(error['error']) == '{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_DISABLED}}') {
+              if (error['error'] == "{id=1000207, type=USER_VALIDATION_EXCEPTION, details={USER_DISABLED}}") {
                 this.errorMessage = 'User disabled';
               }
               else {
-                this.errorMessage = 'Username or password not valid';
+                if( ! this.userModel.username ) {
+                  this.usernameError = true;
+                  this.errorMessage = 'Username not valid';
+                }
+                if( ! this.userModel.password) {
+                  this.errorMessage = 'Password not valid';
+                }
               }
             }
             this.errorOccurred = true;

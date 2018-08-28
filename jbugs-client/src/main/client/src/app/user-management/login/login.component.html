@@ -1,39 +1,111 @@
-<link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-<body class="text-center" *ngIf="!loggedIn">
-<form class="form-signin"
-      (ngSubmit)="submitForm()"
-      #formControl="ngForm">
-  <img class="mb-4" src="../../../assets/loginlogo.png" alt="" width="120" height="120">
-  <h1 class="h3 mb-3 font-weight-normal"translate>demo.Please sign in</h1>
-  <span class="form-group has-float-label">
-    <input type="text" id="inputUsername" class="form-control"
-           name="username"
-           minlength="5"
-           pattern="[a-z0-9]+"
-           required
-           [(ngModel)]="userModel.username"
-           placeholder=" {{ 'demo.Username' | translate }}">
-    <label for="inputUsername"translate>demo.Username</label>
-  </span>
-  <span class="form-group has-float-label">
-    <input type="password" id="inputPassword" class="form-control"
-           name="password"
-           minlength="4"
-           required
-           [(ngModel)]="userModel.password"
-           placeholder="{{ 'demo.Password' | translate }}">
-    <label for="inputPassword"translate>demo.Password</label>
-  </span>
-  <re-captcha
-    [(ngModel)]="recaptchaResponse"
-              name="captcha"
-              (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787"
-  required></re-captcha><br>
-  <button class="btn btn-lg btn-block" type="submit"
-          [disabled]="formControl.invalid"
-  >{{ 'demo.Sign in' | translate }}
-  </button>
-  <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
-</form>
-</body>
+<div id="container-main">
+  <div class="parallax" style="z-index: 10;">
+    <div class="parallax__layer parallax__layer__0">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_0.png"/>
+    </div>
+    <div class="parallax__layer parallax__layer__1">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_1.png"/>
+    </div>
+    <div class="parallax__layer parallax__layer__2">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_2.png" class="responsive"/>
+    </div>
+    <div class="parallax__layer parallax__layer__3">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_3.png" class="responsive"/>
+    </div>
+    <div class="parallax__layer parallax__layer__4">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_4.png" class="responsive"/>
+    </div>
+    <div class="parallax__layer parallax__layer__5">
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_5.png" class="responsive"/>
+      <div class="logo">JBugger</div>
+    </div>
+    <div class="parallax__layer parallax__layer__6">
+      <div class="login-container" *ngIf="!loggedIn">
+
+        <div class="limiter">
+          <div class="container-login100">
+            <div class="wrap-login100 p-t-190 p-b-30">
+              <form class="login100-form validate-form" (ngSubmit)="submitForm()"
+                    #formControl="ngForm">
+                <div class="wrap-input100 validate-input m-b-10">
+                  <input class="input100" type="text" id="inputUsername"
+                         [ngClass]="{'input100-error': username.errors && username.touched}"
+                         name="username" #username="ngModel"
+                         minlength="5" pattern="[a-z0-9]+" required
+                         [(ngModel)]="userModel.username"
+                         placeholder=" {{ 'demo.Username' | translate }}">
+                  <div class="errorLabel" *ngIf="username.errors?.required && username.touched">
+                    {{ 'demo.Username is required' | translate }}
+                  </div>
+                  <div class="errorLabel" *ngIf="username.errors?.pattern && username.touched" translate>
+                    demo.Username not valid.
+                  </div>
+                  <span class="focus-input100"></span>
+                  <span class="symbol-input100">
+							    <i class="fa fa-user"></i>
+						    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-10">
+                  <input class="input100" type="password" id="inputPassword"
+                         [ngClass]="{'input100-error': password.errors?.required && password.touched}"
+                         name="password" #password="ngModel"
+                         required
+                         [(ngModel)]="userModel.password"
+                         placeholder=" {{ 'demo.Password' | translate }}">
+                  <div class="errorLabel" *ngIf="password.errors?.required && password.touched">
+                    {{ 'demo.Password is required' | translate }}
+                  </div>
+                  <span class="focus-input100"></span>
+                  <span class="symbol-input100">
+							<i class="fa fa-lock"></i>
+						</span>
+                </div>
+                <div class="container-login100-form-btn p-t-10">
+                  <button class="login100-form-btn" [disabled]="formControl.invalid">
+                    {{ 'demo.Login' | translate }}
+                  </button>
+                </div>
+
+                <div class="container-login100-form-btn p-t-10" style="margin-top: 5%">
+                  <re-captcha
+                    [(ngModel)]="recaptchaResponse"
+                    name="captcha"
+                    (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787">
+                  </re-captcha>
+                </div>
+                <div class="information" *ngIf="errorOccurred" class="errorLabel" style="position: center;">
+                  {{errorMessage}}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="https://sam.beckham.io/images/articles/firewatch/layer_6.png" class="responsive"/>
+    </div>
+    <div class="bird-container bird-container--one">
+      <div class="bird bird--one"></div>
+    </div>
+    <div class="bird-container bird-container--two">
+      <div class="bird bird--two"></div>
+    </div>
+    <div class="bird-container bird-container--three">
+      <div class="bird bird--three"></div>
+    </div>
+    <div class="bird-container bird-container--four">
+      <div class="bird bird--four"></div>
+    </div>
+    <div class="parallax__cover">
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+

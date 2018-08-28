@@ -1,10 +1,10 @@
-* {
-  box-sizing: border-box;
-}
-html, body {
-  background-color: #fedcc8;
 
+
+
+/deep/ #body-m {
+  background-color: beige;
 }
+
 
 ::-webkit-scrollbar {
   display: none;
@@ -12,7 +12,6 @@ html, body {
 
 .parallax {
   perspective: 100px;
-  height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;

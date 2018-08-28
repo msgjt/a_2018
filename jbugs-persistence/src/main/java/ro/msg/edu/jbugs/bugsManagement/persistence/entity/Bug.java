@@ -4,6 +4,7 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.BaseEntity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "bugs")
@@ -30,18 +31,19 @@ public class Bug extends BaseEntity<Long> {
     @Column(name = "version", length = MAX_STRING_LENGTH, nullable = false)
     private String version;
     @Column(name = "targetDate", length = MAX_STRING_LENGTH, nullable = false)
-    private String targetDate;
+    private Date targetDate;
     @Column(name = "status", length = MAX_STRING_LENGTH, nullable = false)
     private String status;
     @Column(name = "fixedVersion", length = MAX_STRING_LENGTH, nullable = false)
     private String fixedVersion;
     @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
     private Severity severity;
+
     @JoinColumn(name = "createdBy", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private User createdBy;
     @JoinColumn(name = "assignedTo", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private User assignedTo;
 
     public Bug() {
@@ -71,11 +73,11 @@ public class Bug extends BaseEntity<Long> {
         this.version = version;
     }
 
-    public String getTargetDate() {
+    public Date getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(String targetDate) {
+    public void setTargetDate(Date targetDate) {
         this.targetDate = targetDate;
     }
 
