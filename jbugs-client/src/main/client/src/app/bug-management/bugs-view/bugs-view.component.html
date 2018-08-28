@@ -118,7 +118,7 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.severity }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.targetDate }}</td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.targetDate.split('T')[0] }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.title }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
@@ -315,7 +315,7 @@
             </span>
           <div class="form-group">
             <div class="input-group">
-              <input class="form-control" placeholder="dd-mm-yyyy"
+              <input class="form-control" placeholder="yyyy-mm-dd"
                      name="dp" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
@@ -352,15 +352,10 @@
                      placeholder=" ">
               <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
             </span>
-          <span class="form-group has-float-label">
-              <input type="file"
-                     name="attachmentAdd"
-                     id="attachmentInputAdd"
-                     class="form-control"
-                     placeholder=" ">
-              <label for="attachmentInputAdd" translate style="margin-top: 15px">demo.Attachment</label>
-            </span>
-
+          <div class="form-group">
+            <label for="attachmentInputAdd">Attachment</label>
+            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file">
+          </div>
           <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>

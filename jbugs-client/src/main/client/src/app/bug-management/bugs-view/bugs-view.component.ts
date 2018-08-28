@@ -17,10 +17,8 @@ import {Role} from "../../role-management/entities/role";
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
   styleUrls: ['./bugs-view.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  providers: [
-    { provide: NgbDateParserFormatter, useClass: MyFormatter }
-  ]
+  changeDetection: ChangeDetectionStrategy.Default
+
 })
 export class BugsViewComponent implements OnInit {
 
@@ -420,5 +418,7 @@ export class BugsViewComponent implements OnInit {
 
   showNotif() {
     this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.');
+    let snd = new Audio("../../assets/mai.mp3");
+    snd.play();
   }
 }
