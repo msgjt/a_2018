@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
+import {LSKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
@@ -75,14 +75,6 @@ export class ProfileComponent implements OnInit {
 
   setRoles(roles: Role[]) {
     this.userModel.roles = roles;
-  }
-
-  showRoleDropdown() {
-
-  }
-
-  showEditPopup() {
-    this.pressedEdit = true;
   }
 
   disableUser(user: any) {

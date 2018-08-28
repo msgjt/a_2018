@@ -12,21 +12,21 @@ public class CustomLogger {
     public static void logEnter(@NotNull final Class className,
                                 @NotNull final String methodName,
                                 final String... parameters){
-        logger.log(Level.INFO,"[ENTER] CLASS={}, METHOD={}, PARAMETERS={}, TIME={}",className,methodName,parameters,System.currentTimeMillis());
+        logger.log(Level.INFO,"\n[ENTER]\n____  CLASS = {}\n____  METHOD = {}\n____  PARAMETERS = {}\n",className,methodName,parameters);
     }
 
     public static void logExit(@NotNull final Class className,
                                @NotNull final String methodName,
                                final String result){
 
-        logger.log(Level.INFO,"[EXIT] CLASS={}, METHOD={}, RESULT={}, TIME={}",methodName,result,System.currentTimeMillis());
+        logger.log(Level.INFO,"\n[EXIT]\n____  CLASS = {}\n____  METHOD = {}\n____  RESULT = {}\n",className,methodName,result);
 
     }
 
     public static void logException(@NotNull final Class className,
                                     @NotNull final String methodName,
                                     @NotNull final String exceptionCode){
-        logger.log(Level.INFO,"[EXCEPTION] CLASS={}, METHOD={}, EXCEPTION_CODE={}, TIME={}",className,methodName,exceptionCode,System.currentTimeMillis());
+        logger.log(Level.INFO,"\n[EXCEPTION]\n____  CLASS = {}\n____  METHOD = {}\n____  EXCEPTION_CODE = {}\n",className,methodName,exceptionCode);
     }
 
 }

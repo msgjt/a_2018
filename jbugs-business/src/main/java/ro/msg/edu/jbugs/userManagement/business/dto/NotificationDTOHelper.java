@@ -11,7 +11,7 @@ public class NotificationDTOHelper {
         notificationDTO.setMessage(notification.getMessage());
         notificationDTO.setType(notification.getType());
         notificationDTO.setURL(notification.getURL());
-        notificationDTO.setStatus(notification.getURL());
+        notificationDTO.setStatus(notification.getStatus());
         return notificationDTO;
     }
 
@@ -21,7 +21,7 @@ public class NotificationDTOHelper {
         notification.setMessage(notificationDTO.getMessage());
         notification.setType(notificationDTO.getType());
         notification.setURL(notificationDTO.getURL());
-        notification.setStatus(notificationDTO.getURL());
+        notification.setStatus(notificationDTO.getStatus());
         return notification;
     }
 

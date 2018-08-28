@@ -219,7 +219,7 @@ public class UserPersistenceManager {
     public Notification getNotificationForId(long id) {
         CustomLogger.logEnter(this.getClass(), "getNotificationForId", String.valueOf(id));
 
-        Query q = em.createQuery("SELECT n FROM Notifications n WHERE n.id=" + id);
+        Query q = em.createQuery("SELECT n FROM Notification n WHERE n.id=" + id);
         Notification result = (Notification) q.getSingleResult();
 
         CustomLogger.logExit(this.getClass(), "getNotificationForId", result.toString());

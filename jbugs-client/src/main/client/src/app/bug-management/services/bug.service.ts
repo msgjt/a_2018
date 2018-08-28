@@ -37,6 +37,10 @@ export class BugService {
     return this.http.get<Bug[]>(this.baseURL + '/bugs',{headers});
   }
 
+  createBug(bug: Bug) {
+
+  }
+
   updateBug(bug: Bug) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");

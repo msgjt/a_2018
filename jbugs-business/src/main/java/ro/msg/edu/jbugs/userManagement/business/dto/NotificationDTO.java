@@ -45,6 +45,7 @@ public class NotificationDTO {
         this.type = type;
     }
 
+
     public String getStatus() {
         return status;
     }

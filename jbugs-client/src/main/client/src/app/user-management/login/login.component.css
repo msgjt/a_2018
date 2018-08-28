@@ -62,7 +62,6 @@
 
 .container-main {
   min-width: 100%;
-  background-color: blue;
 }
 
 img {
@@ -294,8 +293,8 @@ iframe {
   height: 8vh;
   border-radius: 25px;
   padding: 0 30px 0 53px;
-  -webkit-animation: pulsate 1s ease-in-out infinite;
-  animation: pulsate 1s ease-in-out infinite;
+  -webkit-animation: pulsate 5s ease-in-out infinite;
+  animation: pulsate 5s ease-in-out infinite;
 }
 
 
@@ -334,13 +333,13 @@ iframe {
 
 @-webkit-keyframes pulsate {
   0%   { box-shadow: 0 0 0 darkred; }
-  50%  { box-shadow: 0 0 17px darkred; }
+  50%  { box-shadow: 0 0 4vh darkred; }
   100% { box-shadow: 0 0 0 darkred; }
 }
 
 @keyframes pulsate {
   0%   { box-shadow: 0 0 0 darkred; }
-  50%  { box-shadow: 0 0 10vh darkred; }
+  50%  { box-shadow: 0 0 4vh darkred; }
   100% { box-shadow: 0 0 0 darkred; }
 }
 
@@ -429,7 +428,7 @@ iframe {
 }
 
 .login100-form-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.8;
   cursor: not-allowed;
 
 }
@@ -453,7 +452,6 @@ iframe {
 }
 
 .login100-form-btn:hover {
-  background: transparent;
   color: #fff;
 }
 
