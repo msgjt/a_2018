@@ -175,7 +175,13 @@ export class MaterialModule {}
     }),
     NgxPaginationModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      enableHtml: true,
+      progressBar: true,
+      progressAnimation: "decreasing",
+
+    })
   ],
   providers: [
     {

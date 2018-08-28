@@ -419,6 +419,6 @@ export class BugsViewComponent implements OnInit {
   }
 
   showNotif() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.');
   }
 }
