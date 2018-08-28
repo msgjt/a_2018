@@ -45,6 +45,8 @@ public class Bug extends BaseEntity<Long> {
     @JoinColumn(name = "assignedTo", nullable = false)
     @ManyToOne()
     private User assignedTo;
+    @Column(name = "attachment", length = MAX_STRING_LENGTH, nullable = false)
+    private String attachment;
 
     public Bug() {
     }
@@ -119,6 +121,14 @@ public class Bug extends BaseEntity<Long> {
 
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 
     @Override
