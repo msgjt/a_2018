@@ -17,6 +17,7 @@ public class BugDTO {
     private Severity severity;
     private User createdBy;
     private User assignedTo;
+    private String attachment;
 
     public String getTitle() {
         return title;
@@ -98,6 +99,14 @@ public class BugDTO {
         this.id = id;
     }
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
     @Override
     public String toString() {
         return "BugDTO{" +
@@ -111,6 +120,7 @@ public class BugDTO {
                 ", severity=" + severity +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
+                ", attachment=" + attachment +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ public class BugDTOHelper {
         bugDTO.setAssignedTo(bug.getAssignedTo());
         bugDTO.setDescription(bug.getDescription());
         bugDTO.setId(bug.getId());
-
+        bugDTO.setAttachment(bug.getAttachment());
 
         return bugDTO;
     }
@@ -35,6 +35,7 @@ public class BugDTOHelper {
         bug.setAssignedTo(bugDTO.getAssignedTo());
         bug.setDescription(bugDTO.getDescription());
         bug.setId(bugDTO.getId());
+        bug.setAttachment(bugDTO.getAttachment());
 
         return bug;
 
