@@ -144,3 +144,13 @@ textarea {
   -moz-box-sizing:border-box;
   box-sizing:border-box;
 }
+
+table {
+  table-layout: fixed;
+}
+
+.descriptionCells {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
