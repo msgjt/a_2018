@@ -45,7 +45,7 @@ public class Bug extends BaseEntity<Long> {
     private String fixedVersion;
 
     @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
-    private String severity;
+    private Severity severity;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(
@@ -62,6 +62,8 @@ public class Bug extends BaseEntity<Long> {
     @JoinColumn(name = "assignedTo", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User assignedTo;
+    @Column(name = "attachment", length = MAX_STRING_LENGTH, nullable = false)
+    private String attachment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bug", orphanRemoval = true)
     private List<History> history = new ArrayList<>();
@@ -117,11 +119,11 @@ public class Bug extends BaseEntity<Long> {
         this.fixedVersion = fixedVersion;
     }
 
-    public String getSeverity() {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public void setSeverity(String string) {
+    public void setSeverity(Severity string) {
         this.severity = string;
     }
 
@@ -139,6 +141,14 @@ public class Bug extends BaseEntity<Long> {
 
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 
     @Override

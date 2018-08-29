@@ -20,7 +20,7 @@ public class BugDTOHelper {
         bugDTO.setAssignedTo(UserDTOHelper.fromEntity(bug.getAssignedTo()));
         bugDTO.setDescription(bug.getDescription());
         bugDTO.setId(bug.getId());
-
+        bugDTO.setAttachment(bug.getAttachment());
 
         return bugDTO;
     }
@@ -38,6 +38,7 @@ public class BugDTOHelper {
         bug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo()));
         bug.setDescription(bugDTO.getDescription());
         bug.setId(bugDTO.getId());
+        bug.setAttachment(bugDTO.getAttachment());
 
         return bug;
 

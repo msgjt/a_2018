@@ -1,20 +1,38 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
-<h3 >Welcome back {{userModel.username}}</h3>
-<div *ngFor="let user of userList" >
-  <div *ngIf="user.username== userModel.username">
-    <p>{{"demo.Your personal data"| translate}}</p>
-    <ul>
-      <li>{{"demo.First name"| translate}}: {{user.firstName}}</li>
-      <li>{{"demo.Last name"| translate}}: {{user.lastName}}</li>
-      <li>E-mail: {{user.email}}</li>
-      <li>{{"demo.Phone number"| translate}}: {{user.phoneNumber}}</li>
-      <li>{{"demo.Username"| translate}}: {{user.username}}</li>
-      <li>{{"demo.Active"| translate}}: {{user.isActive}}</li>
-    </ul>
-  </div>
+
+
+<div class="sidenav">
+
+  <p > Welcome back {{userModel.username}}</p>
+  <a (click)="showInfoDiv=true;showUpdate=false">Display data </a>
+  <a (click)="showInfoDiv=false;showUpdate=true;">Change data</a>
+  <a (click)="showInfoDiv=false;showUpdate=false;">Change password</a>
+
 </div>
 
-<div class="modal-body">
+
+<div
+  id="infoDiv"
+     [hidden]="!showInfoDiv"
+     *ngFor="let user of userList">
+
+  <ul *ngIf="user.username== userModel.username">
+    <li>{{"demo.Your personal data"| translate}}</li>
+    <li>{{"demo.First name"| translate}}: {{user.firstName}}</li>
+    <li>{{"demo.Last name"| translate}}: {{user.lastName}}</li>
+    <li>E-mail: {{user.email}}</li>
+    <li>{{"demo.Phone number"| translate}}: {{user.phoneNumber}}</li>
+    <li>{{"demo.Username"| translate}}: {{user.username}}</li>
+    <li>{{"demo.Active"| translate}}: {{user.isActive}}</li>
+  </ul>
+
+</div>
+
+
+
+<div class="modal-body"
+     id="updateDiv"
+     [hidden]="!showUpdate">
   <form class="form-signin text-center"
         (ngSubmit)="submitEditForm()"
         #formControl="ngForm">
@@ -61,13 +79,11 @@
             <label for="inputEmail" translate>E-mail</label>
           </span>
     <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;">
-           <!-- [disabled]="formControl.invalid"-->
+
     {{ 'demo.Edit' | translate }}
     </button>
+    <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
+    <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
-<!--<div class="modal-footer">-->
-<!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--<button type="button" class="btn btn-primary">Save changes</button>-->
-<!--</div>-->
