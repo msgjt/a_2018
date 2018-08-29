@@ -1,4 +1,5 @@
 import filters.BugsFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import resources.*;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -23,6 +24,7 @@ public class UserManagementApplication extends Application {
         classes.add(CheckedExceptionMapper.class);
         classes.add(LoggedIn.class);
         classes.add(GetNotifications.class);
+        classes.add(MultiPartFeature.class);
         return classes;
     }
 

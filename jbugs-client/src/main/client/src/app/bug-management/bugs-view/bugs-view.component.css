@@ -4,10 +4,6 @@ body {
 
 }
 
-/deep/ #body-m {
-  background-color: #202020;
-}
-
 body {
   display: -ms-flexbox;
   display: -webkit-box;
@@ -43,14 +39,6 @@ th {
   text-decoration: none;
   font-size: 24px;
 }
-
-/*th.headerSortUp {*/
-  /*background: url("../../../assets/desc.png") no-repeat center right;*/
-/*}*/
-
-/*th.headerSortDown {*/
-  /*background: url("../../../assets/asc.png") no-repeat center right;*/
-/*}*/
 
 .custom-pagination {
   display: flex;
@@ -120,8 +108,22 @@ th input[type=text] {
   margin-top: 30px;
 }
 
-i {
+button i {
   margin: .65em 0 0 .75em;
   font-size: 8px;
   cursor: pointer;
+}
+
+/deep/
+.toast-info {
+  background-color: #BD362F;
+}
+
+/deep/ .table th, .table td {
+  vertical-align: inherit;
+}
+
+th i {
+  font-size: 12px;
+  margin: .25em 0 0 .5em;
 }

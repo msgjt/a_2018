@@ -14,6 +14,7 @@ import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,13 @@ public class BugManagementController implements BugManagement {
 
         bugValidator.validateCreate(bugDTO);
         bugDTO.setStatus("Open");
+
+        if(bugDTO.getAttachment() != null){
+            File file = new File(bugDTO.getAttachment());
+            if(!file.exists()){
+                throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
+            }
+        }
         Bug bug = BugDTOHelper.toEntity(bugDTO);
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);

@@ -1,9 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
-
-import {Role} from "../role-management/entities/role";
 import {Router} from "@angular/router";
-import {NotificationService} from "../notification.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -11,14 +8,15 @@ import {NotificationService} from "../notification.service";
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  pressedEdit: boolean=false;
+  pressedEdit: boolean = false;
   userModel: User;
   userList: User[];
   errorMessage: string;
-  notificationsList : Notification[];
-
-  constructor(private userService: UserService, private router:Router,
-              private notificationService: NotificationService) {
+  errorOccurred: boolean;
+  positiveResponse: boolean;
+  showInfoDiv: boolean;
+  showUpdate:boolean;
+  constructor(private userService: UserService, private router: Router) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -30,14 +28,23 @@ export class UserProfileComponent implements OnInit {
       username: '',
       password: ''
     };
+    this.errorOccurred = false;
+    this.positiveResponse = false;
+    this.showInfoDiv = false;
+    this.showUpdate= false;
     this.userModel.username = localStorage.getItem('currentUser');
     this.userModel.id = Number(localStorage.getItem('id'));
   }
 
   ngOnInit() {
-    this.isLoggedInOnServer();
-    this.getUsersNotifications()
+    this.userService.getAllUsers().subscribe((user) => {
+      this.userList = user;
+    });
 
+    this.userModel.username = localStorage.getItem('currentUser');
+    this.userModel.id = Number(localStorage.getItem('id'));
+
+    this.isLoggedInOnServer()
   }
 
 
@@ -48,27 +55,25 @@ export class UserProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
+          this.errorOccurred = false;
+          this.positiveResponse = true;
         },
         (error) => {
           this.errorMessage = error['error'];
+          this.errorOccurred = true;
+          this.positiveResponse = false;
         }
       );
   }
 
-  isLoggedInOnServer(){
-    let returnedValue : boolean;
-    let test = this.userService.isLoggedInOnServer().subscribe(response=>{
-    if(response==true){
-    }else{
-      this.router.navigate(['/norights']);
-    }})
-  }
-
-  getUsersNotifications(){
-    this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
-      .subscribe(notifications=>{this.notificationsList=notifications,
-        console.log(this.notificationsList),
-        this.getUsersNotifications()});
+  isLoggedInOnServer() {
+    let returnedValue: boolean;
+    let test = this.userService.isLoggedInOnServer().subscribe(response => {
+      if (response == true) {
+      } else {
+        this.router.navigate(['/norights']);
+      }
+    })
   }
 
 

@@ -6,18 +6,15 @@ import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
-import {MyFormatter} from "./datePickerFormatter";
-import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
+import {ToastrService} from "ngx-toastr";
 
 //for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
   styleUrls: ['./bugs-view.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  providers: [
-    { provide: NgbDateParserFormatter, useClass: MyFormatter }
-  ]
+  changeDetection: ChangeDetectionStrategy.Default
+
 })
 export class BugsViewComponent implements OnInit {
 
@@ -58,21 +55,55 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private bugService: BugService, private router: Router,private excelService: ExcelService) {
+  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
-      this.bugList = bug;
-      this.bugListAux = bug;
-      this.selectedBug = bug[0];
-    },
-      (error)=>{
-        if(error.status == 403){
+        this.bugList = bug;
+        this.bugListAux = bug;
+        this.selectedBug = bug[0];
+        console.log(this.bugList[0].attachment.split('.'));
+      },
+      (error) => {
+        if (error.status == 403) {
           router.navigate(['/error']);
         }
-        if(error.status == 401){
+        if (error.status == 401) {
           router.navigate(['/norights']);
         }
       });
+    this.bugModel = {
+      id: 0,
+      title: '',
+      description: '',
+      status: '',
+      severity: '',
+      fixedVersion: '',
+      targetDate: '',
+      version: '',
+      attachment: '',
+      assignedTo: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      },
+      createdBy: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      }
+    }
   }
 
   ngOnInit() {
@@ -381,5 +412,11 @@ export class BugsViewComponent implements OnInit {
 
   hideInfo() {
     this.showInfoDiv = false;
+  }
+
+  showNotif() {
+    this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.');
+    let snd = new Audio("../../assets/mai.mp3");
+    snd.play();
   }
 }
