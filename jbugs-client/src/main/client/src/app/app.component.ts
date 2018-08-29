@@ -14,7 +14,6 @@ export class AppComponent {
   loggedIn = true;
 
   constructor(private router: Router,private translate: TranslateService, private userService: UserService){
-
     translate.setDefaultLang('en');
   }
 

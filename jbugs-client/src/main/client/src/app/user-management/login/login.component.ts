@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "../../../../node_modules/@angular/common/http";
+import {NotificationService} from "../../notification.service";
 
 @Component({
   selector: 'app-login',
@@ -18,12 +19,14 @@ export class LoginComponent implements OnInit {
   errorOccurred: boolean;
   errorMessage: string;
   usernameError: boolean;
+  notificationsList: Notification[];
 
   @ViewChild('container-login-username') containerUsername: ElementRef;
 
 
 
-  constructor(private userService: UserService, private router: Router, private http: HttpClient) {
+  constructor(private userService: UserService, private router: Router, private http: HttpClient,
+              private notificationService: NotificationService) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("id",response.id);
               this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
+              this.getUsersNotifications();
               this.router.navigate(['./profile']);
           },
           (error) => {
@@ -106,5 +110,12 @@ export class LoginComponent implements OnInit {
         }
       }
     )
+  }
+
+  getUsersNotifications(){
+    this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
+      .subscribe(notifications=>{this.notificationsList=notifications,
+        console.log(this.notificationsList),
+        this.getUsersNotifications()});
   }
 }
