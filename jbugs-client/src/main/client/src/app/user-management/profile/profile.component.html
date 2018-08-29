@@ -198,11 +198,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
-           style="cursor: help;margin: 0 0 0 50%">info</i>
+           style="cursor: help;margin: 0 auto;">info</i>
         <div #infoDiv class="alert alert-warning"
-             style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
+             style="left:20%;top:25%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
              [hidden]="!showInfoDiv">
           <strong translate>demo.Keep in mind!</strong>
           <p translate style="color:black;">demo.KeepInMindMessageUser</p>

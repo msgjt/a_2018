@@ -1,3 +1,6 @@
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+
 <app-edit-bug [bug]="selectedBug"></app-edit-bug>
 
 <div class="column justify-content-center">
@@ -129,10 +132,10 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.createdBy.username }}</td>
           <td style="cursor: default;">
-            <i class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
-            <i class="far fa-file-pdf" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
-            <i class="far fa-file-word" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
-            <i class="far fa-image" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
+            <i class="far fa-file-excel" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
+            <i class="far fa-file-pdf" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
+            <i class="far fa-file-word" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
+            <i class="far fa-image" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
             <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="width: 24px; color: white" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
           </td>
           <td> <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)" style="font-size: 24px;"> edit </i> </td>
@@ -177,21 +180,39 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="margin-top: 1em;">
         <form class="form-signin text-center"
               #formControl="ngForm">
-          <div class="form-group">
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="titleDetails"
+                   id="titleInputDetails"
+                   #titleDetails="ngModel"
+                   [(ngModel)]="detailedBug.title"
+                   disabled>
+            <label for="titleInputDetails" style="margin-top: 15px">Title</label>
+          </span>
+          <div class="form-group" style="margin-bottom: 1.5em;">
             <label for="descriptionInputDetails">Description</label>
             <textarea #description="ngModel" [(ngModel)]="detailedBug.description" name="description" class="form-control" id="descriptionInputDetails" rows="3" disabled></textarea>
           </div>
           <span class="form-group has-float-label">
             <input type="text"
-                   name="fixedVersionDetails"
-                   id="fixedVersionInputDetails"
-                   #fixedVersionDetails="ngModel"
-                   [(ngModel)]="detailedBug.fixedVersion"
+                   name="versionDetails"
+                   id="versionInputDetails"
+                   #versionDetails="ngModel"
+                   [(ngModel)]="detailedBug.version"
                    disabled>
-            <label for="fixedVersionInputDetails" style="margin-top: 15px">Fixed Version</label>
+            <label for="versionInputDetails" style="margin-top: 15px">Version</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="targetDateDetails"
+                   id="targetDateInputDetails"
+                   #targetDateDetails="ngModel"
+                   [(ngModel)]="detailedBug.targetDate.split('T')[0]"
+                   disabled>
+            <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text"
@@ -213,30 +234,12 @@
           </span>
           <span class="form-group has-float-label">
             <input type="text"
-                   name="targetDateDetails"
-                   id="targetDateInputDetails"
-                   #targetDateDetails="ngModel"
-                   [(ngModel)]="detailedBug.targetDate.split('T')[0]"
+                   name="fixedVersionDetails"
+                   id="fixedVersionInputDetails"
+                   #fixedVersionDetails="ngModel"
+                   [(ngModel)]="detailedBug.fixedVersion"
                    disabled>
-            <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
-          </span>
-          <span class="form-group has-float-label">
-            <input type="text"
-                   name="titleDetails"
-                   id="titleInputDetails"
-                   #titleDetails="ngModel"
-                   [(ngModel)]="detailedBug.title"
-                   disabled>
-            <label for="titleInputDetails" style="margin-top: 15px">Title</label>
-          </span>
-          <span class="form-group has-float-label">
-            <input type="text"
-                   name="versionDetails"
-                   id="versionInputDetails"
-                   #versionDetails="ngModel"
-                   [(ngModel)]="detailedBug.version"
-                   disabled>
-            <label for="versionInputDetails" style="margin-top: 15px">Version</label>
+            <label for="fixedVersionInputDetails" style="margin-top: 15px">Fixed Version</label>
           </span>
         </form>
       </div>
@@ -262,11 +265,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
-           style="cursor: help;margin: 0 0 0 50%">info</i>
+           style="cursor: help; margin: 0 auto">info</i>
         <div #infoDiv class="alert alert-warning"
-             style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
+             style="left: 20%; top:25%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
              [hidden]="!showInfoDiv">
           <strong translate>demo.Keep in mind!</strong>
           <p translate style="color:black;">demo.KeepInMindMessageBug</p>
@@ -281,8 +284,6 @@
               <span class="form-group has-float-label">
                 <span class="help-block"
                       *ngIf="severityAdd.errors?.required && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is required.</span>
-                <span class="help-block"
-                      *ngIf="severityAdd.errors?.minlength && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is invalid.</span>
                 <input type="text"
                        name="severityAdd"
                        id="severityInputAdd"
@@ -290,12 +291,12 @@
                        class="form-control"
                        required
                        [(ngModel)]="bugModel.severity"
-                       placeholder=" ">
+                       >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
               <div class="form-group">
                 <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd"
+                  <input class="form-control" placeholder="yyyy-mm-dd" required readonly
                          name="dp" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
@@ -305,8 +306,6 @@
               <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
                       style="margin-top: 15px">Title is required.</span>
-                <span class="help-block" *ngIf="titleAdd.errors?.pattern && titleAdd.touched" translate
-                      style="margin-top: 15px">Title is invalid.</span>
                 <input type="text"
                        name="titleAdd"
                        id="titleInputAdd"
@@ -320,8 +319,6 @@
               <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
                       style="margin-top: 15px">demo.Version is required.</span>
-                <span class="help-block" *ngIf="versionAdd.errors?.pattern && versionAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is invalid.</span>
                 <input type="text"
                        name="versionAdd"
                        id="versionInputAdd"
@@ -335,8 +332,6 @@
               <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="assignedToAdd.errors?.required && assignedToAdd.touched" translate
                       style="margin-top: 15px">demo.Version is required.</span>
-                <span class="help-block" *ngIf="assignedToAdd.errors?.pattern && assignedToAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is invalid.</span>
                 <input type="text"
                        name="assignedToAdd"
                        id="assignedToInputAdd"
