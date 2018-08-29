@@ -61,7 +61,6 @@ export class BugsViewComponent implements OnInit {
         this.bugList = bug;
         this.bugListAux = bug;
         this.selectedBug = bug[0];
-        console.log(this.bugList[0].attachment.split('.'));
       },
       (error) => {
         if (error.status == 403) {
@@ -111,7 +110,8 @@ export class BugsViewComponent implements OnInit {
   }
 
   exportToExcel() {
-    this.excelService.exportAsExcelFile(this.bugList);
+    let copyOfBugList = JSON.parse(JSON.stringify(this.bugList));
+    this.excelService.exportAsExcelFile(copyOfBugList);
   }
 
   addFilters(filterBy: string) {

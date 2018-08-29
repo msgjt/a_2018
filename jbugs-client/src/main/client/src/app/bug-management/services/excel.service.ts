@@ -13,13 +13,17 @@ export class ExcelService {
   }
 
   public exportAsExcelFile(json: any[]): void {
+    let copyOfJSON = [];
     for(let key in json) {
-      if(json.hasOwnProperty(key)) {
-        json[key]['assignedTo'] = json[key]['assignedTo'].username;
-        json[key]['createdBy'] = json[key]['createdBy'].username;
+      copyOfJSON[key] = json[key];
+    }
+    for(let key in copyOfJSON) {
+      if(copyOfJSON.hasOwnProperty(key)) {
+        copyOfJSON[key]['assignedTo'] = copyOfJSON[key]['assignedTo'].username;
+        copyOfJSON[key]['createdBy'] = copyOfJSON[key]['createdBy'].username;
       }
     }
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(copyOfJSON);
     const workbook: XLSX.WorkBook = {Sheets: {'data': worksheet}, SheetNames: ['data']};
     XLSX.writeFile(workbook, ExcelService.toExportFileName());
   }
