@@ -1,16 +1,19 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
-
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class BugDTOHelper {
 
-    public static BugDTO fromEntity(Bug bug){
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public static BugDTO fromEntity(@NotNull Bug bug){
         BugDTO bugDTO = new BugDTO();
 
         bugDTO.setTitle(bug.getTitle());
-        bugDTO.setTargetDate(bug.getTargetDate());
+        bugDTO.setTargetDate(bug.getTargetDate().format(formatter));
         bugDTO.setStatus(bug.getStatus());
         bugDTO.setFixedVersion(bug.getFixedVersion());
         bugDTO.setVersion(bug.getVersion());
@@ -24,22 +27,24 @@ public class BugDTOHelper {
         return bugDTO;
     }
 
-    public static Bug toEntity(BugDTO bugDTO){
-        Bug bug = new Bug();
+    public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
 
-        bug.setTitle(bugDTO.getTitle());
-        bug.setTargetDate(bugDTO.getTargetDate());
-        bug.setStatus(bugDTO.getStatus());
-        bug.setFixedVersion(bugDTO.getFixedVersion());
-        bug.setVersion(bugDTO.getVersion());
-        bug.setSeverity(bugDTO.getSeverity());
-        bug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy()));
-        bug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo()));
-        bug.setDescription(bugDTO.getDescription());
-        bug.setId(bugDTO.getId());
-        bug.setAttachment(bugDTO.getAttachment());
+        oldBug.setTitle(bugDTO.getTitle());
+        oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
+        oldBug.setStatus(bugDTO.getStatus());
+        oldBug.setFixedVersion(bugDTO.getFixedVersion());
+        oldBug.setVersion(bugDTO.getVersion());
+        oldBug.setSeverity(bugDTO.getSeverity());
 
-        return bug;
+        oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),oldBug.getCreatedBy()));
+        oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),oldBug.getAssignedTo()));
+
+        oldBug.setDescription(bugDTO.getDescription());
+        oldBug.setId(bugDTO.getId());
+        oldBug.setAttachment(bugDTO.getAttachment());
+
+        return oldBug;
+
 
     }
 }

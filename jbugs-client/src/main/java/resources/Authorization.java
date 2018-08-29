@@ -29,7 +29,6 @@ public class Authorization {
             String token= JwtManager.getInstance().createToken(userDTO.getUsername());
             String username= userDTO.getUsername();
             String tokenComposed= "{ \"token\": \"" + token + "\"" +  ",\"id\": " + returnedUserDTO.getId() + "}";
-            CustomLogger.logEnter(this.getClass(),tokenComposed,"");
             userManagement.addInLoggedUsers(username,token);
             CustomLogger.logExit(this.getClass(),"isAuthorized","OK");
             return Response.status(Response.Status.OK)

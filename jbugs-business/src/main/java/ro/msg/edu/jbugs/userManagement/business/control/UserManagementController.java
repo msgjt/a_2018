@@ -78,7 +78,7 @@ public class UserManagementController implements UserManagement {
                     DetailedExceptionCode.USER_DUPLICATE_EMAIL);
         }
 
-        User user = UserDTOHelper.toEntity(userDTO);
+        User user = UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO));
         user.setIsActive(true);
         user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
         user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
@@ -110,18 +110,25 @@ public class UserManagementController implements UserManagement {
         validateRoles(userDTO);
         userDTO = normalizeUserDTO(userDTO);
 
-        User oldUser = userPersistenceManager.getUserById(userDTO.getId())
+        User user = userPersistenceManager.getUserById(userDTO.getId())
                 .orElseThrow(() -> new BusinessException(
                         ExceptionCode.USER_VALIDATION_EXCEPTION,
                         DetailedExceptionCode.USER_NOT_FOUND)
                 );
 
+<<<<<<< HEAD
         User newUser = UserDTOHelper.toEntity(userDTO);
 
         if (newUser.getRoles() == null || newUser.getRoles().isEmpty()) {
+=======
+        user = UserDTOHelper.toEntity(userDTO,user);
+        
+        if(user.getRoles() == null || user.getRoles().isEmpty()){
+>>>>>>> 40c760e77692e738d22d36bccbc0aa4ee1ac4cd4
             Role defaultRole = userPersistenceManager.getRoleByType("DEV");
-            newUser.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+            user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
         }
+<<<<<<< HEAD
 
         if (userDTO.getFirstName() != null && userDTO.getFirstName() != "" ) {
             oldUser.setFirstName(userDTO.getFirstName());
@@ -138,6 +145,11 @@ public class UserManagementController implements UserManagement {
 
         userPersistenceManager.updateUser(oldUser);
         UserDTO result = UserDTOHelper.fromEntity(oldUser);
+=======
+        
+        user = userPersistenceManager.updateUser(user);
+        UserDTO result = UserDTOHelper.fromEntity(user);
+>>>>>>> 40c760e77692e738d22d36bccbc0aa4ee1ac4cd4
 
         CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
         return result;
@@ -398,7 +410,38 @@ public class UserManagementController implements UserManagement {
         loggedUsers.remove(username);
         return loggedUsers.containsKey(username);
     }
+<<<<<<< HEAD
 
+=======
+    
+    
+    
+    private User getOldUserFields(UserDTO newUserDTO){
+        User user =
+            newUserDTO.getId() != null ?
+                (
+                    userPersistenceManager.getUserById(newUserDTO.getId()).orElseGet(User::new)
+                )
+
+                    :
+
+                (
+                    newUserDTO.getUsername() != null ?
+                        (
+                            userPersistenceManager.getUserByUsername(newUserDTO.getUsername()).orElseGet(User::new)
+                        )
+
+                            :
+
+                        (
+                            new User()
+                        )
+                );
+        return user;
+    }
+    
+    
+>>>>>>> 40c760e77692e738d22d36bccbc0aa4ee1ac4cd4
 
     /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
     /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
@@ -482,12 +525,21 @@ public class UserManagementController implements UserManagement {
                 }
             }
         }
+<<<<<<< HEAD
         Set<String> permisionString = new HashSet<>();
         allPermisionsForAnUser.addAll(allPermisssion);
         for (Permission p : allPermisionsForAnUser) {
             permisionString.add(p.getType());
         }
         return permisionString;
+=======
+    }
+    Set<String> permisionString= new HashSet<>();
+    allPermisionsForAnUser.addAll(allPermisssion);
+    for(Permission p : allPermisionsForAnUser)
+    {permisionString.add(p.getType2());}
+    return permisionString;
+>>>>>>> 40c760e77692e738d22d36bccbc0aa4ee1ac4cd4
     }
 
     //get all permissions assigned to an user as list

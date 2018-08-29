@@ -33,9 +33,9 @@ public class RoleManagementControllerTest {
     public void getAllRoles_expectedList() {
         Role r1 = new Role();
         Role r2 = new Role();
-        r1.setType("ADM");
+        r1.setType1("ADM");
         r1.setPermissions(new ArrayList<>());
-        r2.setType("DEV");
+        r2.setType1("DEV");
         r2.setPermissions(new ArrayList<>());
         List<Role> roles = new ArrayList<>(Arrays.asList(r1,r2));
         when(userPersistenceManager.getAllRoles()).thenReturn(roles);
@@ -66,11 +66,11 @@ public class RoleManagementControllerTest {
     public void updateRole(){
         Role toBeUpdated = new Role();
         toBeUpdated.setId(1L);
-        toBeUpdated.setType("tobe");
+        toBeUpdated.setType1("tobe");
 
         Role expected = new Role();
         expected.setId(1L);
-        expected.setType("expected");
+        expected.setType1("expected");
         when(userPersistenceManager.updateRole(toBeUpdated)).thenReturn(expected);
 
         try {

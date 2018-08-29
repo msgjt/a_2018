@@ -1,7 +1,6 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,17 +11,17 @@ public class Permission extends BaseEntity<Long>{
     private final static int MAX_STRING_LENGTH = 127;
 
     @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true)
-    private String type;
+    private String type2;
 
     @Column(name = "description")
     private String description;
 
-    public String getType() {
-        return type;
+    public String getType2() {
+        return type2;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType2(String type) {
+        this.type2 = type;
     }
 
     public String getDescription() {
@@ -39,7 +38,7 @@ public class Permission extends BaseEntity<Long>{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Permission that = (Permission) o;
-        return Objects.equals(type, that.type) &&
+        return Objects.equals(type2, that.type2) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(id,that.id);
     }
@@ -47,14 +46,14 @@ public class Permission extends BaseEntity<Long>{
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), type, description);
+        return Objects.hash(super.hashCode(), type2, description);
     }
 
     @Override
     public String toString() {
         return "Permission{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", type='" + type2 + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

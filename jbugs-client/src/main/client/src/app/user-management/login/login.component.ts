@@ -105,6 +105,7 @@ export class LoginComponent implements OnInit {
   getUsersPermissions(username: string){
     this.userService.getUsersPermissions(username).subscribe(
       (list)=>{
+        console.log(list);
         for(let i=0; i<list.length;i++){
           localStorage.setItem(list[i].type,"1");
         }

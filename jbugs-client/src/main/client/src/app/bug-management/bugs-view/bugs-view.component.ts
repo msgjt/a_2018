@@ -58,6 +58,7 @@ export class BugsViewComponent implements OnInit {
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
+
         this.bugList = bug;
         this.bugListAux = bug;
         this.selectedBug = bug[0];
@@ -352,24 +353,20 @@ export class BugsViewComponent implements OnInit {
   exportToPdf(description: string, fixedVersion :string, severity: string, status: string, targetDate: string,
               title :string, version :string){
     let doc = new jsPDF('p' ,'pt' ,'a4');
-    doc.text('MSG ROMANIA: BUG '+title ,10, 10);
+    doc.text(doc.splitTextToSize('MSG ROMANIA: BUG '+title , 180), 10, 10);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 20);
-    doc.text('DESCRIPTION: '+description, 10, 30);
+    doc.text(doc.splitTextToSize('DESCRIPTION: '+description, 580),  10, 30);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 40);
     doc.text('FIXED VERSION: '+fixedVersion, 10, 50);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 60);
     doc.text('SEVERITY: '+severity, 10, 70);
     doc.text('-----------------------------------------------------------------------------------------------------',10, 80);
     doc.text('STATUS: '+status, 10, 90);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 100);
     doc.text('TARGET DATE: '+targetDate, 10, 110);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 120);
     doc.text('TITLE: '+title, 10, 130);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 140);
     doc.text('VERSION: '+version, 10, 150);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 160);
     doc.text('TEAM A ',10, 170);
-    doc.save(title+'_'+version)
+    doc.save(title+'_'+version+'.pdf');
 
   }
 
