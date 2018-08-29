@@ -106,6 +106,11 @@
             </div>
           </th>
           <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" >
+                {{"demo.Attachment"|translate}}
+            </div>
+          </th>
+          <th scope="col">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" translate>
                 demo.Actions
             </div>
@@ -123,8 +128,14 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.createdBy.username }}</td>
+          <td>
+            <i class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
+            <i class="far fa-file-pdf" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
+            <i class="far fa-file-word" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
+            <i class="far fa-image" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
+            <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="width: 24px; color: white" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
+          </td>
           <td> <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)" style="font-size: 24px;"> edit </i> </td>
-
         </tr>
         </tbody>
         <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ? ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) - (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 : (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + ' of ' + (bugList | tableFilter: filter).length }} results.</caption>

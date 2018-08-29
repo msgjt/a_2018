@@ -13,6 +13,7 @@ export interface Bug {
   fixedVersion: string;
   targetDate: string;
   version: string;
+  attachment: string;
   assignedTo: User;
   createdBy: User;
 }

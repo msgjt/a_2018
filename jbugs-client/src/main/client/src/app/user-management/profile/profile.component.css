@@ -141,15 +141,6 @@ i {
   vertical-align: inherit;
 }
 
-
-/deep/ .material-icons _ngcontent-c1 {
-  vertical-align: inherit;
-  width: 30%;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
-
 /deep/ i[_ngcontent-c1] {
   vertical-align: inherit;
   margin-left: auto;
