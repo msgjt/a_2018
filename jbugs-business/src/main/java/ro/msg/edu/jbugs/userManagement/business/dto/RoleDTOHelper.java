@@ -4,7 +4,6 @@ import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;

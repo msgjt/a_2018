@@ -101,6 +101,7 @@ public class UserManagementController implements UserManagement {
      */
     @Override
     public UserDTO updateUser(UserDTO userDTO) {
+
         CustomLogger.logEnter(this.getClass(), "updateUser", String.valueOf(userDTO));
 
         userValidator.validateUpdate(userDTO); // THROWS VALIDATION BUSINESS EXCEPTIONS

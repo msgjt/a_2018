@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class BusinessException extends RuntimeException {
 
-    ExceptionCode exceptionCode;
-    DetailedExceptionCode detailedExceptionCode;
+    private ExceptionCode exceptionCode;
+    private DetailedExceptionCode detailedExceptionCode;
 
     public BusinessException() {
     }
@@ -78,5 +78,13 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(Throwable cause,Response.Status status) {
 
+    }
+
+    public DetailedExceptionCode getDetailedExceptionCode() {
+        return detailedExceptionCode;
+    }
+
+    public void setDetailedExceptionCode(DetailedExceptionCode detailedExceptionCode) {
+        this.detailedExceptionCode = detailedExceptionCode;
     }
 }

@@ -4,7 +4,6 @@ package ro.msg.edu.jbugs.userManagement.persistence.entity;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

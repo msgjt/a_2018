@@ -17,8 +17,6 @@ public class BugPersistenceManager {
     @PersistenceContext(unitName = "jbugs-persistence")
     private EntityManager em;
 
-    // TODO ADD VALIDATION FOR DB CONSTRAINTS
-
     /**
      * Method adds a bug to the DB.
      * @param bug not null
@@ -33,8 +31,10 @@ public class BugPersistenceManager {
     }
 
     /**
-     * Method updates a bug from the DB.
-     * @param bug the desired state of the bug entity
+     * Method updates a bug from the DB. <h1> IMPORTANT: READ PARAM DESCRIPTION </h1>
+     * @param bug the desired state of the bug entity, MUST BE A DETACHED ENTITY FROM THE
+     *            PERSISTENCE CONTEXT (CAN GET IT BY CALLING THE @getUserById or @getUserByUsername METHODS)
+     *            !! MAKE SURE YOU DON'T CREATE A NEW OBJECT AND SEND IT TO THIS METHOD !!
      * @return the updated bug
      */
     public Bug updateBug(@NotNull Bug bug) {
