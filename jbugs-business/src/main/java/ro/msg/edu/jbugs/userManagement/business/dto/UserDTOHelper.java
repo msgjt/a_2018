@@ -1,12 +1,16 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
+import javax.ejb.EJB;
 import javax.validation.constraints.NotNull;
 import java.util.stream.Collectors;
 
 public class UserDTOHelper {
-
+    @EJB
+    private UserPersistenceManager userPersistenceManager;
 
     public static UserDTO fromEntity(@NotNull User user) {
 
@@ -25,21 +29,20 @@ public class UserDTOHelper {
         return userDTO;
     }
 
-    public static User toEntity(@NotNull UserDTO userDTO){
-        User user = new User();
+    public static User toEntity(@NotNull UserDTO userDTO,@NotNull User oldUser){
 
-        user.setId(userDTO.getId());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setUsername(userDTO.getUsername());
-        user.setIsActive(userDTO.getIsActive());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setRoles(userDTO.getRoles()
-                .stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()));
-        return user;
+        oldUser.setFirstName(userDTO.getFirstName() != null ? userDTO.getFirstName() : oldUser.getFirstName());
+        oldUser.setLastName(userDTO.getLastName() != null ? userDTO.getLastName() : oldUser.getLastName());
+        oldUser.setEmail(userDTO.getEmail() != null ? userDTO.getEmail() : oldUser.getEmail());
+        oldUser.setPassword(userDTO.getPassword() != null ? userDTO.getPassword() : oldUser.getPassword());
+        oldUser.setUsername(userDTO.getUsername() != null ? userDTO.getUsername() : oldUser.getUsername());
+        oldUser.setIsActive(userDTO.getIsActive() != null ? userDTO.getIsActive() : oldUser.getIsActive());
+        oldUser.setPhoneNumber(userDTO.getPhoneNumber() != null ? userDTO.getPhoneNumber() : oldUser.getPhoneNumber());
+        oldUser.setRoles(userDTO.getRoles() != null ?
+                userDTO.getRoles().stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()) :
+                oldUser.getRoles());
 
+        return oldUser;
     }
 }
 

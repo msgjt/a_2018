@@ -75,7 +75,7 @@ public class UserManagementController implements UserManagement {
                                         DetailedExceptionCode.USER_DUPLICATE_EMAIL);
         }
 
-        User user = UserDTOHelper.toEntity(userDTO);
+        User user = UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO));
         user.setIsActive(true);
         user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
         user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
@@ -113,7 +113,7 @@ public class UserManagementController implements UserManagement {
                         DetailedExceptionCode.USER_NOT_FOUND)
                 );
 
-        User newUser = oldUser.copy(UserDTOHelper.toEntity(userDTO));
+        User newUser = oldUser.copy(UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO)));
 
         if(newUser.getRoles() == null || newUser.getRoles().isEmpty()){
             Role defaultRole = userPersistenceManager.getRoleByType("DEV");
@@ -358,6 +358,33 @@ public class UserManagementController implements UserManagement {
         loggedUsers.remove(username);
         return loggedUsers.containsKey(username);
     }
+    
+    
+    
+    private User getOldUserFields(UserDTO newUserDTO){
+        User user =
+            newUserDTO.getId() != null ?
+                (
+                    userPersistenceManager.getUserById(newUserDTO.getId()).orElseGet(User::new)
+                )
+
+                    :
+
+                (
+                    newUserDTO.getUsername() != null ?
+                        (
+                            userPersistenceManager.getUserByUsername(newUserDTO.getUsername()).orElseGet(User::new)
+                        )
+
+                            :
+
+                        (
+                            new User()
+                        )
+                );
+        return user;
+    }
+    
     
 
     /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */

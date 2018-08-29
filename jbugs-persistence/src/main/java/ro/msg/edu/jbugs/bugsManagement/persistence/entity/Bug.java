@@ -4,6 +4,8 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.BaseEntity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +16,11 @@ import java.util.List;
         {
                 @NamedQuery(name = Bug.GET_ALL_BUGS, query = "SELECT b FROM Bug b"),
                 @NamedQuery(name = Bug.GET_BUG_BY_TITLE, query = "SELECT b FROM Bug b WHERE b.title=:title"),
-                @NamedQuery(name = Bug.GET_BUG_BY_ID, query = "SELECT b FROM Bug b WHERE b.id=:id"),
+                @NamedQuery(name = Bug.GET_BUG_BY_ID, query = "SELECT DISTINCT b FROM Bug b WHERE b.id=:id")
 
         }
 )
+@Converter(autoApply = true)
 public class Bug extends BaseEntity<Long> {
 
     @Transient
@@ -33,10 +36,8 @@ public class Bug extends BaseEntity<Long> {
     @Column(name = "version", length = MAX_STRING_LENGTH, nullable = false)
     private String version;
 
-
     @Column(name = "targetDate", length = MAX_STRING_LENGTH, nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date targetDate = new Date();
+    private LocalDate targetDate;
 
     @Column(name = "status", length = MAX_STRING_LENGTH, nullable = false)
     private String status;
@@ -47,7 +48,7 @@ public class Bug extends BaseEntity<Long> {
     @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
     private Severity severity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "bugs_creators",
             joinColumns = @JoinColumn(
@@ -62,6 +63,8 @@ public class Bug extends BaseEntity<Long> {
     @JoinColumn(name = "assignedTo", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User assignedTo;
+
+
     @Column(name = "attachment", length = MAX_STRING_LENGTH, nullable = false)
     private String attachment;
 
@@ -70,6 +73,24 @@ public class Bug extends BaseEntity<Long> {
 
     public Bug() {
     }
+
+    public Bug copy(Bug bug){
+
+        title = title != null ? title : bug.title;
+        description = description != null ? description : bug.description;
+        version = version != null ? version : bug.version;
+        targetDate = targetDate != null ? targetDate : bug.targetDate;
+        status = status != null ? status : bug.status;
+        fixedVersion = fixedVersion != null ? fixedVersion : bug.fixedVersion;
+        severity = severity != null ? severity : bug.severity;
+        createdBy = createdBy != null ? createdBy : bug.createdBy;
+        assignedTo = assignedTo != null ? assignedTo : bug.assignedTo;
+        attachment = attachment != null ? attachment : bug.attachment;
+        history = history != null ? history : bug.history;
+
+        return this;
+    }
+
 
     public String getTitle() {
         return title;
@@ -95,11 +116,11 @@ public class Bug extends BaseEntity<Long> {
         this.version = version;
     }
 
-    public Date getTargetDate() {
+    public LocalDate getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(Date targetDate) {
+    public void setTargetDate(LocalDate targetDate) {
         this.targetDate = targetDate;
     }
 
@@ -154,17 +175,18 @@ public class Bug extends BaseEntity<Long> {
     @Override
     public String toString() {
         return "Bug{" +
-                ", id=" + id +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", version='" + version + '\'' +
                 ", targetDate=" + targetDate +
                 ", status='" + status + '\'' +
                 ", fixedVersion='" + fixedVersion + '\'' +
-                ", string='" + severity + '\'' +
+                ", severity=" + severity +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
-
+                ", attachment='" + attachment + '\'' +
+                ", history=" + history +
+                ", id=" + id +
                 '}';
     }
 

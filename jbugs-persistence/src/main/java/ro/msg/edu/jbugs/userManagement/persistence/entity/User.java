@@ -4,6 +4,7 @@ package ro.msg.edu.jbugs.userManagement.persistence.entity;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +15,9 @@ import java.util.Objects;
         {
                 @NamedQuery(name = User.GET_ALL_USERS, query = "SELECT u FROM User u"),
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
-                @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
-                @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id")
+                @NamedQuery(name = User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
+                @NamedQuery(name = User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id"),
+                @NamedQuery(name = User.GET_NOTIFICATIONS_BY_USER_AND_STATUS, query = "SELECT n FROM User u, Notification n WHERE n MEMBER OF u.notifications AND n.status=:status")
 
         }
 )
@@ -27,6 +29,7 @@ public class User extends BaseEntity<Long> {
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
+    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS = "GET_NOTIFICATIONS_BY_USER_AND_STATUS";
 
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;
@@ -49,18 +52,35 @@ public class User extends BaseEntity<Long> {
     @Column(name = "isActive", length = MAX_STRING_LENGTH, nullable = false)
     private Boolean isActive;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo", orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "bug_id")
     private List<Bug> assignedBugs = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_id")
     private List<Notification> notifications = new ArrayList<>();
 
-    public User copy(User user){
+    @Transactional
+    public User copyFieldsFrom(User user) {
+
+        id = id != null ? id : user.id;
+        firstName = firstName != null ? firstName : user.firstName;
+        lastName = lastName != null ? lastName : user.lastName;
+        username = username != null ? username : user.username;
+        password = password != null ? password : user.password;
+        phoneNumber = phoneNumber != null ? phoneNumber : user.phoneNumber;
+        email = email != null ? email : user.email;
+        isActive = isActive != null ? isActive : user.isActive;
+        roles = roles != null ? roles : user.roles;
+        notifications = notifications != null ? notifications : user.notifications;
+
+        return this;
+    }
+
+    public User copy(User user) {
         this.id = user.getId() != null ? user.getId() : this.id;
         this.firstName = user.getFirstName() != null ? user.getFirstName() : this.firstName;
         this.lastName = user.getLastName() != null ? user.getLastName() : this.lastName;
@@ -69,6 +89,9 @@ public class User extends BaseEntity<Long> {
         this.phoneNumber = user.getPhoneNumber() != null ? user.getPhoneNumber() : this.phoneNumber;
         this.email = user.getEmail() != null ? user.getEmail() : this.email;
         this.isActive = user.getIsActive() != null ? user.getIsActive() : this.isActive;
+        this.roles = user.getRoles() != null ? user.getRoles() : this.roles;
+        this.assignedBugs = user.getAssignedBugs() != null ? user.getAssignedBugs() : this.assignedBugs;
+        this.notifications = user.getNotifications() != null ? user.getNotifications() : this.notifications;
         return this;
     }
 
@@ -135,6 +158,7 @@ public class User extends BaseEntity<Long> {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
     public List<Notification> getNotifications() {
         return notifications;
     }

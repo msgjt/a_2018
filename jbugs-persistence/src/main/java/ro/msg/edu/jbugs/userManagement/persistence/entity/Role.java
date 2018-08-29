@@ -22,8 +22,10 @@ public class Role extends BaseEntity<Long> {
     @Column(name = "type", length = MAX_STRING_LENGTH)
     private String type1;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Permission> permissions = new ArrayList<>();
+
+
 
     public String getType1() {
         return type1;
