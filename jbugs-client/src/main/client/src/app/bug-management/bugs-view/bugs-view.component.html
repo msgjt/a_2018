@@ -119,7 +119,7 @@
         </thead>
         <tbody>
         <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;">
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.description }}</td>
+          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.description }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.severity }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status }}</td>
@@ -216,7 +216,7 @@
                    name="targetDateDetails"
                    id="targetDateInputDetails"
                    #targetDateDetails="ngModel"
-                   [(ngModel)]="detailedBug.targetDate"
+                   [(ngModel)]="detailedBug.targetDate.split('T')[0]"
                    disabled>
             <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
           </span>
@@ -237,15 +237,14 @@
                    [(ngModel)]="detailedBug.version"
                    disabled>
             <label for="versionInputDetails" style="margin-top: 15px">Version</label>
-            <button *ngIf="isBUG_EXPORT_PDF()" (click)="exportToPdf(detailedBug.description,detailedBug.fixedVersion,
-            detailedBug.severity,detailedBug.status,detailedBug.targetDate,
-            detailedBug.title,detailedBug.version)">Export PDF</button>
           </span>
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-default" style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;">
-          <i class="fas fa-file-pdf" style="font-size: 14px; color: white; margin-right: .25em;" (click)="exportToExcel()"></i>
+        <button *ngIf="isBUG_EXPORT_PDF()" class="btn btn-default" style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;">
+          <i class="fas fa-file-pdf" style="font-size: 14px; color: white; margin-right: .25em;" (click)="exportToPdf(detailedBug.description,detailedBug.fixedVersion,
+            detailedBug.severity,detailedBug.status,detailedBug.targetDate,
+            detailedBug.title,detailedBug.version)"></i>
           PDF
         </button>
       </div>
@@ -332,6 +331,21 @@
                        [(ngModel)]="bugModel.version"
                        placeholder=" ">
                 <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
+              </span>
+              <span class="form-group has-float-label">
+                <span class="help-block" *ngIf="assignedToAdd.errors?.required && assignedToAdd.touched" translate
+                      style="margin-top: 15px">demo.Version is required.</span>
+                <span class="help-block" *ngIf="assignedToAdd.errors?.pattern && assignedToAdd.touched" translate
+                      style="margin-top: 15px">demo.Version is invalid.</span>
+                <input type="text"
+                       name="assignedToAdd"
+                       id="assignedToInputAdd"
+                       #assignedToAdd="ngModel"
+                       class="form-control"
+                       required
+                       [(ngModel)]="bugModel.assignedTo.username"
+                       placeholder=" ">
+                <label for="assignedToInputAdd" translate style="margin-top: 15px">demo.Assigned to</label>
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>

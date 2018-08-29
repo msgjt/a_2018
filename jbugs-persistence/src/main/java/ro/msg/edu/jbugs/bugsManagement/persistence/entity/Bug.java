@@ -26,7 +26,7 @@ public class Bug extends BaseEntity<Long> {
 
     @Column(name = "title", length = MAX_STRING_LENGTH, nullable = false)
     private String title;
-    @Column(name = "description", length = 300, nullable = false)
+    @Column(name = "description", length = 2000, nullable = false)
     private String description;
     @Column(name = "version", length = MAX_STRING_LENGTH, nullable = false)
     private String version;
