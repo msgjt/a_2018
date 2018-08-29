@@ -32,7 +32,7 @@ public class UsersNotifications implements Serializable {
         this.notification = notification;
     }
 
-    @Column(name = "date")
+    @Column(name = "date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     public Date getDate() {
         return date;
     }

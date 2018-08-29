@@ -2,95 +2,100 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.CheckedBusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.business.utils.Encryptor;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
-import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
-import ro.msg.edu.jbugs.userManagement.business.dto.*;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Stateless
-public class UserManagementController implements UserManagement {
+    @Stateless
+    public class UserManagementController implements UserManagement {
 
-    private final static int MAX_LAST_NAME_LENGTH = 5;
-    private final static int MIN_USERNAME_LENGTH = 6;
-    @SuppressWarnings("all")
-    private static Map<String,Integer> failedCounter= new HashMap<>();
-    @SuppressWarnings("all")
-    private static Map<String,String> loggedUsers= new HashMap<>();
+        private final static int MAX_LAST_NAME_LENGTH = 5;
+        private final static int MIN_USERNAME_LENGTH = 6;
+        @SuppressWarnings("all")
+        private static Map<String, Integer> failedCounter = new HashMap<>();
+        @SuppressWarnings("all")
+        private static Map<String, String> loggedUsers = new HashMap<>();
 
-    @EJB
-    private UserValidator userValidator;
+        @EJB
+        private UserValidator userValidator;
 
-    @EJB
-    private UserPersistenceManager userPersistenceManager;
+        @EJB
+        private UserPersistenceManager userPersistenceManager;
 
 
-    /**
-     * Getter method for all the users.
-     *
-     * @return the list of all the userDTOs present (enabled or disabled).
-     */
-    @Override
-    public List<UserDTO> getAllUsers() {
-        CustomLogger.logEnter(this.getClass(),"getAllUsers","");
+        /**
+         * Getter method for all the users.
+         *
+         * @return the list of all the userDTOs present (enabled or disabled).
+         */
+        @Override
+        public List<UserDTO> getAllUsers() {
+            CustomLogger.logEnter(this.getClass(), "getAllUsers", "");
 
-        List<UserDTO> result = userPersistenceManager.getAllUsers()
-                .stream()
-                .map(UserDTOHelper::fromEntity)
-                .collect(Collectors.toList());
+            List<UserDTO> result = userPersistenceManager.getAllUsers()
+                    .stream()
+                    .map(UserDTOHelper::fromEntity)
+                    .collect(Collectors.toList());
 
-        CustomLogger.logExit(this.getClass(),"getAllUsers",result.toString());
-        return result;
-    }
-
-    /**
-     * Creates a new user from a userDTO. Will call a validation method for the parameter and will set the other
-     * fields accordingly (isActive = true, username = generated, password = encrypted, roles = default if none)
-     *
-     * @param userDTO contains the required user information in its fields, will be validated
-     * @return : the persisted userDTO
-     */
-    @Override
-    public UserDTO createUser(UserDTO userDTO){
-        CustomLogger.logEnter(this.getClass(), "createUser", String.valueOf(userDTO));
-
-        userValidator.validateCreate(userDTO); // THROWS VALIDATION BUSINESS EXCEPTIONS
-        validateRoles(userDTO);
-        userDTO = normalizeUserDTO(userDTO);
-
-        if (userPersistenceManager.getUserByEmail(userDTO.getEmail()).isPresent()) {
-            CustomLogger.logException(this.getClass(),"validateUserForCreation",
-                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DUPLICATE_EMAIL);
-            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
-                                        DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+            CustomLogger.logExit(this.getClass(), "getAllUsers", result.toString());
+            return result;
         }
 
-        User user = UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO));
-        user.setIsActive(true);
-        user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
-        user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
-        
-        if(user.getRoles() == null || user.getRoles().isEmpty()){
-            Role defaultRole = userPersistenceManager.getRoleByType("DEV");
-            user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
-        }
-        
-        User createdUser = userPersistenceManager.createUser(user);
-        UserDTO result = UserDTOHelper.fromEntity(createdUser);
+        /**
+         * Creates a new user from a userDTO. Will call a validation method for the parameter and will set the other
+         * fields accordingly (isActive = true, username = generated, password = encrypted, roles = default if none)
+         *
+         * @param userDTO contains the required user information in its fields, will be validated
+         * @return : the persisted userDTO
+         */
+        @Override
+        public UserDTO createUser(UserDTO userDTO) {
+            CustomLogger.logEnter(this.getClass(), "createUser", String.valueOf(userDTO));
 
-        CustomLogger.logExit(this.getClass(), "createUser", result.toString());
-        return result;
-    }
+            userValidator.validateCreate(userDTO); // THROWS VALIDATION BUSINESS EXCEPTIONS
+            validateRoles(userDTO);
+            userDTO = normalizeUserDTO(userDTO);
+
+            if (userPersistenceManager.getUserByEmail(userDTO.getEmail()).isPresent()) {
+                CustomLogger.logException(this.getClass(), "validateUserForCreation",
+                        ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+                throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+            }
+
+            User user = UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO));
+            user.setIsActive(true);
+            user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
+            user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
+
+            if (user.getRoles() == null || user.getRoles().isEmpty()) {
+                Role defaultRole = userPersistenceManager.getRoleByType("DEV");
+                user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+            }
+
+            User createdUser = userPersistenceManager.createUser(user);
+            UserDTO result = UserDTOHelper.fromEntity(createdUser);
+            createWelcomeNotification(createdUser);
+
+            CustomLogger.logExit(this.getClass(), "createUser", result.toString());
+            return result;
+        }
 
     /**
      * Updates a user from a userDTO. Will call a validation method for the parameter and will set the other
@@ -342,6 +347,10 @@ public class UserManagementController implements UserManagement {
        return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
     }
 
+    public boolean checkLoggedUserByUsername(@NotNull String username){
+        return loggedUsers.containsKey(username);
+    }
+
     /**
      * Remove the user with the given username from the loggedIn map.
      * @param username the key to be removed
@@ -495,5 +504,18 @@ public class UserManagementController implements UserManagement {
         List<Permission> permisionsList= new ArrayList<>();
         permisionsList.addAll(allPermission);
         return permisionsList;
+    }
+
+    public void createWelcomeNotification(User user){
+        Notification notification= new Notification();
+        notification.setStatus("not_read");
+        notification.setMessage("Welcome");
+        notification.setType("WELCOME_NEW_USER");
+        notification.setURL("Welcome new user");
+        userPersistenceManager.createNotification(notification);
+        List<Notification> notifications= user.getNotifications();
+        notifications.add(notification);
+        user.setNotifications(notifications);
+        userPersistenceManager.updateUser(user);
     }
 }

@@ -75,7 +75,12 @@ export class UserService {
     };
     return this.http.put<boolean>(this.baseURL + '/users', body,{headers});
   }
-
+  updateUserPassword( id: number, password: string){
+    let body = {
+      'id': id,
+      'password': password};
+    return this.http.put<boolean>(this.baseURL + '/users/changePassword', body);
+  }
 
   deactivateUser(id: number){
     let body = {

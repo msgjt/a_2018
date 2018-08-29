@@ -13,4 +13,8 @@ export class NotificationService {
   getNewNotificationForUser(id: number){
     return this.http.get<Notification[]>(this.baseURL + '/getnotifications/'+id);
   }
+
+  getOldNotificationForUser(id: number){
+    return this.http.get<Notification[]>(this.baseURL + '/getoldnotifications/'+id);
+  }
 }

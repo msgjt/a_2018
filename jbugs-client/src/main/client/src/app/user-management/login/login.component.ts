@@ -3,6 +3,7 @@ import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "../../../../node_modules/@angular/common/http";
 import {NotificationService} from "../../notification.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -20,13 +21,14 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   usernameError: boolean;
   notificationsList: Notification[];
+  oldNotificationsList: Notification[];
 
   @ViewChild('container-login-username') containerUsername: ElementRef;
 
 
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService, private toastrService: ToastrService) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem("id",response.id);
               this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
+              this.getOldUsersNotifications();
               this.getUsersNotifications();
               this.router.navigate(['./profile']);
           },
@@ -117,6 +120,20 @@ export class LoginComponent implements OnInit {
     this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
       .subscribe(notifications=>{this.notificationsList=notifications,
         console.log(this.notificationsList),
-        this.getUsersNotifications()});
+        this.getUsersNotifications()
+        },
+        ()=>{this.getOldUsersNotifications()});
+  }
+
+  getOldUsersNotifications(){
+    this.notificationService.getOldNotificationForUser(Number(localStorage.getItem('id')))
+      .subscribe(notifications=>{this.oldNotificationsList=notifications,
+        this.toastrService.info(this.oldNotificationsList[0]["type"],this.oldNotificationsList[0]["type"])
+          .onShown.subscribe(()=>{
+           // let sound =new Audio('../../assets/notificationsound.mp3');
+           // sound.play();
+          console.log(this.oldNotificationsList[0])
+        })
+        });
   }
 }

@@ -1,11 +1,16 @@
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
+
 <app-edit-bug [bug]="selectedBug"></app-edit-bug>
 
 <div class="column justify-content-center">
-  <button data-target="#addBugsModal" data-toggle="modal" class="btn btn-default" style="width: 120px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
+  <button data-target="#addBugsModal" data-toggle="modal" class="btn btn-default"
+          style="width: 120px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
     <i class="fas fa-bug" style="font-size: 14px; color: white; margin-right: .25em;"></i>
     Add a bug
   </button>
-  <button (click)="exportToExcel()" class="btn btn-default" style="width: 90px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkgreen; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
+  <button (click)="exportToExcel()" class="btn btn-default"
+          style="width: 90px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkgreen; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
     <i class="fas fa-file-excel" style="font-size: 14px; color: white; margin-right: .25em;"></i>
     Excel
   </button>
@@ -13,7 +18,7 @@
   <div class="mat-elevation-z6 data-table">
     <div id="tableContainer" class="table-responsive" style="text-align: center !important;">
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
-        <thead style="background-color: darkred; border-color: darkred;" >
+        <thead style="background-color: darkred; border-color: darkred;">
         <tr>
           <th scope="col" (click)="doSort('description')">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
@@ -22,7 +27,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show1']" (click)="filtersShow['show1'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show1']" (click)="filtersShow['show1'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show1']">
+              <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show1']">
             </div>
           </th>
           <th scope="col" (click)="doSort('fixedVersion')">
@@ -32,7 +38,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show2']" (click)="filtersShow['show2'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show2']" (click)="filtersShow['show2'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show2']">
+              <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show2']">
             </div>
           </th>
           <th scope="col" (click)="doSort('severity')">
@@ -42,7 +49,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show3']" (click)="filtersShow['show3'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show3']" (click)="filtersShow['show3'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show3']">
+              <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show3']">
             </div>
           </th>
           <th scope="col" (click)="doSort('status')">
@@ -52,7 +60,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show4']" (click)="filtersShow['show4'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show4']" (click)="filtersShow['show4'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show4']">
+              <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show4']">
             </div>
           </th>
           <th scope="col" (click)="doSort('targetDate')">
@@ -62,7 +71,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show5']" (click)="filtersShow['show5'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show5']" (click)="filtersShow['show5'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show5']">
+              <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show5']">
             </div>
           </th>
           <th scope="col" (click)="doSort('title')">
@@ -72,7 +82,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show6']">
+              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show6']">
             </div>
           </th>
           <th scope="col" (click)="doSort('version')">
@@ -82,7 +93,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show7']" (click)="filtersShow['show7'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show7']" (click)="filtersShow['show7'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show7']">
+              <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show7']">
             </div>
           </th>
           <th scope="col" (click)="doSort('assignedTo')">
@@ -92,7 +104,8 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show8']" (click)="filtersShow['show8'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show8']" (click)="filtersShow['show8'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show8']">
+              <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show8']">
             </div>
           </th>
           <th scope="col" (click)="doSort('createdBy')">
@@ -102,43 +115,74 @@
                 <i class="fas fa-plus" *ngIf="!filtersShow['show9']" (click)="filtersShow['show9'] = true;"></i>
                 <i class="fas fa-minus" *ngIf="filtersShow['show9']" (click)="filtersShow['show9'] = false;"></i>
               </div>
-              <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show9']">
+              <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show9']">
             </div>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" >
-                {{"demo.Attachment"|translate}}
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              {{"demo.Attachment"|translate}}
             </div>
           </th>
           <th scope="col">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" translate>
-                demo.Actions
+              demo.Actions
             </div>
           </th>
         </tr>
         </thead>
         <tbody>
         <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;">
-          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.description }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.severity }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.targetDate.split('T')[0] }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.title }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.createdBy.username }}</td>
-          <td style="cursor: default;">
-            <i class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
-            <i class="far fa-file-pdf" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
-            <i class="far fa-file-word" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
-            <i class="far fa-image" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
-            <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="width: 24px; color: white" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
+          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal"
+              data-target="#bugDetailsModal">{{ bug.description }}
           </td>
-          <td> <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)" style="font-size: 24px;"> edit </i> </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.fixedVersion }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.severity
+            }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
+            demo.{{ bug.status }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.targetDate.split('T')[0] }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.title
+            }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version
+            }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.assignedTo.username }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.createdBy.username }}
+          </td>
+          <td style="cursor: default;">
+            <i class="far fa-file-excel" style="font-size: 24px;"
+               *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
+            <i class="far fa-file-pdf" style="font-size: 24px;"
+               *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
+            <i class="far fa-file-word" style="font-size: 24px;"
+               *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
+            <i class="far fa-image" style="font-size: 24px;"
+               *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
+            <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)"
+                 style="width: 24px; color: white"
+                 *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
+          </td>
+          <td><i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
+                 style="font-size: 24px;"> edit </i></td>
         </tr>
         </tbody>
-        <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ? ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) - (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 : (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + ' of ' + (bugList | tableFilter: filter).length }} results.</caption>
+        <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ?
+          ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) -
+          (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 :
+          (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + ' of ' + (bugList |
+          tableFilter: filter).length }} results.
+        </caption>
       </table>
     </div>
     <pagination-template #p="paginationApi"
@@ -150,7 +194,8 @@
           <a *ngIf="!p.isFirstPage()" (click)="p.previous()" style="color: white"> < </a>
         </div>
 
-        <div *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value" style="color: white; margin-bottom: 1em;">
+        <div *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value"
+             style="color: white; margin-bottom: 1em;">
           <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
             <span>{{ page.label }}</span>
           </a>
@@ -168,30 +213,51 @@
 </div>
 
 <!--View Details-->
-<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true" *ngIf="detailedBug">
+<div class="modal fade" id="bugDetailsModal" tabindex="-1" aria-labelledby="bugDetailsModalTitle" aria-hidden="true"
+     *ngIf="detailedBug">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
         <h5 class="modal-title" id="bugDetailsModalTitle" style="color: whitesmoke;font-size: 20px; ">Bug details</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
+                aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="margin-top: 1em;">
         <form class="form-signin text-center"
               #formControl="ngForm">
-          <div class="form-group">
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="titleDetails"
+                   id="titleInputDetails"
+                   #titleDetails="ngModel"
+                   [(ngModel)]="detailedBug.title"
+                   disabled>
+            <label for="titleInputDetails" style="margin-top: 15px">Title</label>
+          </span>
+          <div class="form-group" style="margin-bottom: 1.5em;">
             <label for="descriptionInputDetails">Description</label>
-            <textarea #description="ngModel" [(ngModel)]="detailedBug.description" name="description" class="form-control" id="descriptionInputDetails" rows="3" disabled></textarea>
+            <textarea #description="ngModel" [(ngModel)]="detailedBug.description" name="description"
+                      class="form-control" id="descriptionInputDetails" rows="3" disabled></textarea>
           </div>
           <span class="form-group has-float-label">
             <input type="text"
-                   name="fixedVersionDetails"
-                   id="fixedVersionInputDetails"
-                   #fixedVersionDetails="ngModel"
-                   [(ngModel)]="detailedBug.fixedVersion"
+                   name="versionDetails"
+                   id="versionInputDetails"
+                   #versionDetails="ngModel"
+                   [(ngModel)]="detailedBug.version"
                    disabled>
-            <label for="fixedVersionInputDetails" style="margin-top: 15px">Fixed Version</label>
+            <label for="versionInputDetails" style="margin-top: 15px">Version</label>
+          </span>
+          <span class="form-group has-float-label">
+            <input type="text"
+                   name="targetDateDetails"
+                   id="targetDateInputDetails"
+                   #targetDateDetails="ngModel"
+                   [(ngModel)]="detailedBug.targetDate.split('T')[0]"
+                   disabled>
+            <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text"
@@ -213,35 +279,18 @@
           </span>
           <span class="form-group has-float-label">
             <input type="text"
-                   name="targetDateDetails"
-                   id="targetDateInputDetails"
-                   #targetDateDetails="ngModel"
-                   [(ngModel)]="detailedBug.targetDate.split('T')[0]"
+                   name="fixedVersionDetails"
+                   id="fixedVersionInputDetails"
+                   #fixedVersionDetails="ngModel"
+                   [(ngModel)]="detailedBug.fixedVersion"
                    disabled>
-            <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
-          </span>
-          <span class="form-group has-float-label">
-            <input type="text"
-                   name="titleDetails"
-                   id="titleInputDetails"
-                   #titleDetails="ngModel"
-                   [(ngModel)]="detailedBug.title"
-                   disabled>
-            <label for="titleInputDetails" style="margin-top: 15px">Title</label>
-          </span>
-          <span class="form-group has-float-label">
-            <input type="text"
-                   name="versionDetails"
-                   id="versionInputDetails"
-                   #versionDetails="ngModel"
-                   [(ngModel)]="detailedBug.version"
-                   disabled>
-            <label for="versionInputDetails" style="margin-top: 15px">Version</label>
+            <label for="fixedVersionInputDetails" style="margin-top: 15px">Fixed Version</label>
           </span>
         </form>
       </div>
       <div class="modal-footer">
-        <button *ngIf="isBUG_EXPORT_PDF()" class="btn btn-default" style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;">
+        <button *ngIf="isBUG_EXPORT_PDF()" class="btn btn-default"
+                style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;">
           <i class="fas fa-file-pdf" style="font-size: 14px; color: white; margin-right: .25em;" (click)="exportToPdf(detailedBug.description,detailedBug.fixedVersion,
             detailedBug.severity,detailedBug.status,detailedBug.targetDate,
             detailedBug.title,detailedBug.version)"></i>
@@ -253,20 +302,21 @@
 </div>
 
 <!--Add-->
-<div class="modal fade" id="addBugsModal" tabindex="-1" aria-labelledby="addBugsModalTitle" aria-hidden="true" >
+<div class="modal fade" id="addBugsModal" tabindex="-1" aria-labelledby="addBugsModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
         <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">Submit a bug</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
+                aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
-           style="cursor: help;margin: 0 0 0 50%">info</i>
+           style="cursor: help; margin: 0 auto">info</i>
         <div #infoDiv class="alert alert-warning"
-             style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
+             style="left: 20%; top:25%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
              [hidden]="!showInfoDiv">
           <strong translate>demo.Keep in mind!</strong>
           <p translate style="color:black;">demo.KeepInMindMessageBug</p>
@@ -274,39 +324,38 @@
         <form class="form-signin text-center"
               (ngSubmit)="submitAddData()"
               #formControl="ngForm">
-              <div class="form-group">
-                <label for="descriptionInputAdd">Description</label>
-                <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description" name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
-              </div>
-              <span class="form-group has-float-label">
+          <div class="form-group">
+            <label for="descriptionInputAdd">Description</label>
+            <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description"
+                      name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
+          </div>
+          <span class="form-group has-float-label">
                 <span class="help-block"
                       *ngIf="severityAdd.errors?.required && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is required.</span>
-                <span class="help-block"
-                      *ngIf="severityAdd.errors?.minlength && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is invalid.</span>
                 <input type="text"
                        name="severityAdd"
                        id="severityInputAdd"
                        #severityAdd="ngModel"
                        class="form-control"
                        required
+                       placeholder=" "
                        [(ngModel)]="bugModel.severity"
-                       placeholder=" ">
+                >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd"
-                         name="dp" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
-                  </div>
-                </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" required readonly
+                     name="dp" id="datepicker" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
+                  class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
               </div>
-              <span class="form-group has-float-label">
+            </div>
+          </div>
+          <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
                       style="margin-top: 15px">Title is required.</span>
-                <span class="help-block" *ngIf="titleAdd.errors?.pattern && titleAdd.touched" translate
-                      style="margin-top: 15px">Title is invalid.</span>
                 <input type="text"
                        name="titleAdd"
                        id="titleInputAdd"
@@ -317,11 +366,9 @@
                        placeholder=" ">
                 <label for="titleInputAdd" style="margin-top: 15px">Title</label>
               </span>
-              <span class="form-group has-float-label">
+          <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
                       style="margin-top: 15px">demo.Version is required.</span>
-                <span class="help-block" *ngIf="versionAdd.errors?.pattern && versionAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is invalid.</span>
                 <input type="text"
                        name="versionAdd"
                        id="versionInputAdd"
@@ -332,11 +379,9 @@
                        placeholder=" ">
                 <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
               </span>
-              <span class="form-group has-float-label">
+          <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="assignedToAdd.errors?.required && assignedToAdd.touched" translate
                       style="margin-top: 15px">demo.Version is required.</span>
-                <span class="help-block" *ngIf="assignedToAdd.errors?.pattern && assignedToAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is invalid.</span>
                 <input type="text"
                        name="assignedToAdd"
                        id="assignedToInputAdd"
@@ -349,9 +394,10 @@
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
-            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file">
+            <input  name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file">
           </div>
-          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
+          <button class="btn btn-lg btn-block" type="submit"
+                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <!--<label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>-->
