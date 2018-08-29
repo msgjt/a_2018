@@ -14,7 +14,7 @@ import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 

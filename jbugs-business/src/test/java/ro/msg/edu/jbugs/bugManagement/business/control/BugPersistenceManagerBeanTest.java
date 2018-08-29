@@ -63,6 +63,9 @@ public class BugPersistenceManagerBeanTest {
         bug.setSeverity(String.MEDIUM);
         bug.setCreatedBy(user);
         bug.setAssignedTo(user);
+        bug.setSeverity(Severity.MEDIUM);
+       // bug.setCreatedBy(user);
+      //  bug.setAssignedTo(user);
 
         when(bugPersistenceManager.createBug(BugDTOHelper.toEntity(bug)))
                 .thenReturn(BugDTOHelper.toEntity(bug));

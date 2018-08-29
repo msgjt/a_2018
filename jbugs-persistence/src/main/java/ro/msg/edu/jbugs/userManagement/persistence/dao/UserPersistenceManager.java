@@ -8,6 +8,7 @@ import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -194,6 +195,7 @@ public class UserPersistenceManager {
         CustomLogger.logEnter(this.getClass(), "updateRole", notification.toString());
 
         Notification result = em.merge(notification);
+        em.flush();
 
         CustomLogger.logExit(this.getClass(), "updateRole", result.toString());
         return result;
@@ -317,14 +319,14 @@ public class UserPersistenceManager {
     }
 
     public List<Notification> getAllNotificationsForUser(@NotNull Long id) {
-        CustomLogger.logEnter(this.getClass(), "getAllNotificationsForUser", String.valueOf(id));
+        
+        List<Notification> filteredList= new ArrayList<>();
 
-        Query q = em.createQuery("SELECT n FROM users_notifications n inner join notifications no on no.ID=n.notifications_ID WHERE n.User_ID="+ id +"and no.status like 'not_read'");
+        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
+                .setParameter("status","not_read").setParameter("userId",id);
+        filteredList=tq.getResultList();
 
 
-        List<Notification> result= q.getResultList();
-
-        CustomLogger.logEnter(this.getClass(), "getAllNotificationsForUser", result.toString());
-        return result;
+        return filteredList;
     }
 }

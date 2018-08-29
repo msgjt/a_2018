@@ -32,7 +32,8 @@
     "Submit": "Trimite",
     "Keep in mind!": "Tine minte!",
     "Sign up here": "Inscrie-te aici",
-    "KeepInMindMessage": "Numele si prenumele trebuie sa contina cel putin doua caractere,numarul de telefon trebuie sa fie valid si sa contina 10 cifre, emailul trebuie sa fie de forma(email@msggrop.com), iar parola trebuie sa contina cel putin o litera mare si una mica, o cifra si un caracter special ",
+    "KeepInMindMessageUser": "Numele si prenumele trebuie sa contina cel putin doua caractere,numarul de telefon trebuie sa fie valid si sa contina 10 cifre, emailul trebuie sa fie de forma(email@msggrop.com), iar parola trebuie sa contina cel putin o litera mare si una mica, o cifra si un caracter special ",
+    "KeepInMindMessageBug": "Fiecare camp inafara de cel de atasament este obligatoriu. Descrierea bug-ului trebuie sa contina minim 250 de caractere si versiune poate contine doar caractere alfanumerice(a-zA-Z0-9) separate prin punct(.).",
     "Please sign in": "Introduceti datele pentru autentificare",
     "Wrong credentials": "Credentiale invalide",
     "Sign in": "Conectare",
@@ -66,7 +67,7 @@
     "Your personal data":"Datele tale curente",
     "Username is required":"Numele utilizatorului este necesar",
     "Username not valid":"Numele utilizatorului nu este valid",
-    "Password is required":"Parola este necesara"
-
+    "Password is required":"Parola este necesara",
+    "Attachment":"Atasament"
   }
 }

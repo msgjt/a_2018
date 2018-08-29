@@ -20,8 +20,10 @@ public class GetNotifications {
     @EJB
     NotificationManagement notificationManagement;
 
+    @Path("/{id}")
     @GET
-    public List<NotificationDTO> getNewNotifications(Long id){
+    public List<NotificationDTO> getNewNotifications(@PathParam("id") Long id){
+        System.out.println("--------------------"+id+"--");
         return notificationManagement.getNewNotifications(id);
     }
 

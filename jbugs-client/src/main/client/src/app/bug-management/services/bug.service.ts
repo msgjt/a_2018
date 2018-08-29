@@ -13,8 +13,9 @@ export interface Bug {
   status: string;
   fixedVersion: string;
   severity: string;
-  createdBy: any;
-  assignedTo: any;
+  attachment: string;
+  assignedTo: User;
+  createdBy: User;
 }
 
 @Injectable({

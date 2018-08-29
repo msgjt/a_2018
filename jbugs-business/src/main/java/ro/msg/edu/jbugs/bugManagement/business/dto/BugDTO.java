@@ -18,6 +18,11 @@ public class BugDTO {
     private UserDTO createdBy;
     private UserDTO assignedTo;
     private Severity severity;
+<<<<<<< HEAD
+=======
+    private UserDTO createdBy;
+    private UserDTO assignedTo;
+>>>>>>> 6faeddee5f8387c0b412e0642109525e3279d018
     private String attachment;
 
     public String getTitle() {

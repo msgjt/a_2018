@@ -43,7 +43,6 @@ INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (3,1);
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,3);
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,4);
 
-
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file");
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"In progress","2018-08-21","Bug in Screen","version 2",3,"file");
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"Info needed","2018-08-22","Bug in Screen","version 2",3,"file");

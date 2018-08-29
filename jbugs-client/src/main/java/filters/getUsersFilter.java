@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @WebFilter(filterName = "getUsersFilter",
-        urlPatterns = "/rest/users")
+        urlPatterns = "/rest/users/*")
 public class getUsersFilter implements Filter {
     @EJB
     private UserManagement userManagement;

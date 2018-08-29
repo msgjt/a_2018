@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @WebFilter(filterName = "RolesFilter",
-        urlPatterns = "/rest/roles")
+        urlPatterns = "/rest/roles/*")
 public class RolesFilter implements Filter {
     @EJB
     //This filter check if the user have rights to perform any actions which comes to the following address
