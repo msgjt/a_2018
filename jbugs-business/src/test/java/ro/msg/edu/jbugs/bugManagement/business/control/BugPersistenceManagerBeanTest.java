@@ -62,7 +62,7 @@ public class BugPersistenceManagerBeanTest {
         bug.setTargetDate(date);
         bug.setStatus("Open");
         bug.setFixedVersion("fVers");
-        bug.setSeverity(Severity.MEDIUM);
+        bug.setSeverity(Severity.MEDIUM.toString());
        // bug.setCreatedBy(user);
       //  bug.setAssignedTo(user);
 

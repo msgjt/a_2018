@@ -57,7 +57,7 @@ public class TestServlet extends HttpServlet {
        // bug.setTargetDate("2020-05-11");
         bug.setStatus("1");
         bug.setFixedVersion("fVers");
-        bug.setSeverity(Severity.MEDIUM);
+        bug.setSeverity(Severity.MEDIUM.toString());
        // bug.setCreatedBy(user);
        // bug.setAssignedTo(user);
 

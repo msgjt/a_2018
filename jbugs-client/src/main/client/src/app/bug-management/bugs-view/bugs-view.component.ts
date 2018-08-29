@@ -387,12 +387,19 @@ export class BugsViewComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log(response);
-          this.bugService.createBug(this.bugModel,this.formData)
-
         },
         (error) =>{
           console.log(error);
           //TODO show error to user
+        }
+      );
+    this.bugService.createBug(this.bugModel,this.formData)
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
         }
       );
     // this.bugService.createBug(this.bugModel,this.formData);
@@ -433,6 +440,7 @@ export class BugsViewComponent implements OnInit {
     if (files.length > 0) {
       this.formData = new FormData();
       this.formData.append('file', files[0]);
+      this.bugModel.attachment = files[0].name;
     }
   }
 }
