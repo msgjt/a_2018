@@ -1,5 +1,6 @@
 package filters;
 
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 
 import javax.ejb.EJB;
@@ -22,43 +23,51 @@ public class BugsFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        CustomLogger.logEnter(this.getClass(), "doFilter",
+                "req: " + req.toString(), "chain: " + chain.toString());
+
+
         System.out.println("+++++++++++++++Inside BUGS FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
         String reqHead = httReq.getHeader("Access-Control-Allow-Origin");
-        HttpServletResponse httpServletResponse = (HttpServletResponse)resp;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
 
         //The filter checks if the request is OPTION, in this case the filter ignore the request
-        if(((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")){
+        if (((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")) {
             System.out.println("Received Options");
             chain.doFilter(req, resp);
+            CustomLogger.logExit(this.getClass(), "doFilter", resp.toString());
             return;
         }
-        String currentUser = ((HttpServletRequest)req).getHeader("currentUser");
-        String webToken = ((HttpServletRequest)req).getHeader("webtoken");
-        System.out.println("+++++++++++++CURENT USER++++++++++++"+currentUser);
-        System.out.println("+++++++++++++CURENT TOKEN++++++++++++"+webToken);
-        String userPermision="BUG_MANAGEMENT";
+        String currentUser = ((HttpServletRequest) req).getHeader("currentUser");
+        String webToken = ((HttpServletRequest) req).getHeader("webtoken");
+        System.out.println("+++++++++++++CURENT USER++++++++++++" + currentUser);
+        System.out.println("+++++++++++++CURENT TOKEN++++++++++++" + webToken);
+        String userPermision = "BUG_MANAGEMENT";
         Set<String> permissions;
         //Check if the user is logged in
-        if(!userManagement.checkLoggedUser(currentUser,webToken)){
-            if(null == httpServletResponse.getHeader("Access-Control-Allow-Origin")){
+        if (!userManagement.checkLoggedUser(currentUser, webToken)) {
+            if (null == httpServletResponse.getHeader("Access-Control-Allow-Origin")) {
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
             }
-            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN );
+            httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+            CustomLogger.logExit(this.getClass(), "doFilter", HttpServletResponse.SC_FORBIDDEN + "");
             return;
         }
         System.out.println("USER ALLOWED");
-        permissions=userManagement.getAllUserPermission(currentUser);
+        permissions = userManagement.getAllUserPermission(currentUser);
         //Check if the user do not have rights to perform the action
-        if(!permissions.contains(userPermision)){
-            if(null == httpServletResponse.getHeader("Access-Control-Allow-Origin")){
+        if (!permissions.contains(userPermision)) {
+            if (null == httpServletResponse.getHeader("Access-Control-Allow-Origin")) {
                 httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
             }
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            CustomLogger.logExit(this.getClass(), "doFilter", HttpServletResponse.SC_UNAUTHORIZED + "");
             return;
         }
         chain.doFilter(req, resp);
+        CustomLogger.logExit(this.getClass(), "doFilter", resp.toString());
     }
 
     public void init(FilterConfig config) throws ServletException {

@@ -20,22 +20,19 @@ public class Role extends BaseEntity<Long> {
     public static final String GET_ALL_ROLES = "get_all_roles";
 
     @Column(name = "type", length = MAX_STRING_LENGTH)
-    private String type;
+    private String type1;
 
-    @ManyToMany
-    private List<Permission> permissions;
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<Permission> permissions = new ArrayList<>();
 
-    public Role() {
-        permissions = new ArrayList<>();
+
+
+    public String getType1() {
+        return type1;
     }
 
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setType1(String type) {
+        this.type1 = type;
     }
 
     public List<Permission> getPermissions() {
@@ -52,21 +49,21 @@ public class Role extends BaseEntity<Long> {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Role role = (Role) o;
-        return Objects.equals(type, role.type) &&
+        return Objects.equals(type1, role.type1) &&
                 Objects.equals(id, role.getId());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), type);
+        return Objects.hash(super.hashCode(), type1);
     }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", type='" + type1 + '\'' +
                 '}';
     }
 

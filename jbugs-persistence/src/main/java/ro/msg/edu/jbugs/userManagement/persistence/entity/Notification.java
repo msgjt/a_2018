@@ -42,7 +42,6 @@ public class Notification extends BaseEntity<Long>{
         this.type = type;
     }
 
-
     public String getMessage() {
         return message;
     }

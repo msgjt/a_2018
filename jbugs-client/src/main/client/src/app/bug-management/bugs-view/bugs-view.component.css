@@ -127,3 +127,30 @@ th i {
   font-size: 12px;
   margin: .25em 0 0 .5em;
 }
+
+textarea {
+  border-radius: 20px;
+  outline: none;
+  padding: 10px;
+  font-family: 'Sniglet', cursive;
+  font-size: 1em;
+  color: black;
+  transition: border 0.5s;
+  -webkit-transition: border 0.5s;
+  -moz-transition: border 0.5s;
+  -o-transition: border 0.5s;
+  border: solid 1px #8b0000;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+}
+
+table {
+  table-layout: fixed;
+}
+
+.descriptionCells {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

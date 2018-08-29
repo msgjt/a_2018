@@ -17,7 +17,6 @@ public class Filter implements javax.servlet.Filter {
             throws IOException, ServletException {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        System.out.println("CORSFilter HTTP Request: " + request.getMethod());
 
         // Authorize (allow) all domains to consume the content
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
@@ -28,8 +27,7 @@ public class Filter implements javax.servlet.Filter {
         // For HTTP OPTIONS verb/method reply with ACCEPTED status code -- per CORS handshake
         if (request.getMethod().equals("OPTIONS")) {
             String reqHead = request.getHeader("Access-Control-Request-Headers");
-
-            if(null != reqHead && !reqHead.equals(null)){
+            if(reqHead != null){
                 ((HttpServletResponse) servletResponse).addHeader(
                         "Access-Control-Allow-Headers", reqHead);
             }

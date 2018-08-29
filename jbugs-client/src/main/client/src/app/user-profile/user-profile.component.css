@@ -1,6 +1,6 @@
 body {
   font-family: "Lato", sans-serif;
-  background-color: #00c6fb;
+  padding-bottom: 30px;
 }
 
 .sidenav {
@@ -10,29 +10,47 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: rgba(142,0,0,0.82) ;
+  background-color: rgba(142, 0, 0, 0.82);
   overflow-x: hidden;
   padding-top: 80px;
-}
-#infoDiv{
-  padding-top: 80px;
-  margin-left: 400px;
+  margin-bottom: 3px;
 
 }
-#updateDiv{
+
+#infoDiv {
   padding-top: 80px;
   margin-left: 400px;
-
 }
-li{
+#passwordDiv{
+  padding-top: 80px;
+  margin-left: 400px;
+}
+#updateDiv {
+  padding-top: 80px;
+  margin-left: 400px;
+}
+
+#errorLabel {
+
+  color: red;
+  font-weight: bold;
+}
+
+#succesLabel {
+  color: green;
+}
+
+li {
 
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: rgba(193,193,193,0.82);
+  color: rgba(193, 193, 193, 0.82);
+  list-style: none;
 
 }
-p{
+
+p {
   margin-top: 40px;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -47,17 +65,39 @@ p{
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: rgba(193,193,193,0.82);
+  color: rgba(193, 193, 193, 0.82);
   display: block;
+
 }
 
 .sidenav a:hover {
-  color: rgba(39,39,39,0.88);
+  color: white;
+  cursor: pointer;
 }
-
 
 .main {
   margin-left: 280px;
   font-size: 28px;
   padding: 0px 10px;
+  margin-bottom: 30px;
 }
+
+p, li {
+  animation-duration: 1s;
+  animation-name: slidein;
+  animation-iteration-count: 1;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: -100%;
+    width: 300%;
+  }
+
+  to {
+    margin-left: 0%;
+    width: 100%;
+  }
+
+}
+

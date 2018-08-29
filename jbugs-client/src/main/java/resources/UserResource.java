@@ -42,6 +42,12 @@ public class UserResource {
         return userManagement.getUserById(id);
     }
 
+    @Path("/changePassword")
+    @PUT
+    public UserDTO updateUserPassword(UserDTO userDTO) {
+
+        return userManagement.updateUserPassword(userDTO.getId(),userDTO.getPassword());
+    }
 
     @PUT
     public Response updateUser(UserDTO userDTO) throws BusinessException {

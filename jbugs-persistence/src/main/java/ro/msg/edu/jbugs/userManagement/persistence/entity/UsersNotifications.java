@@ -1,6 +1,4 @@
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-
+package ro.msg.edu.jbugs.userManagement.persistence.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +13,7 @@ public class UsersNotifications implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "User_ID")
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }
@@ -25,7 +23,7 @@ public class UsersNotifications implements Serializable {
     }
     @Id
     @ManyToOne
-    @JoinColumn(name = "notifications_ID")
+    @JoinColumn(name = "notification_id")
     public Notification getNotification() {
         return notification;
     }

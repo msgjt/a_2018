@@ -303,7 +303,7 @@ public class UserPersistenceManager {
      * @return
      */
     public Role getRoleByType(String type) {
-        Query q = em.createQuery("SELECT r FROM Role r WHERE r.type='" + type + "'");
+        Query q = em.createQuery("SELECT r FROM Role r WHERE r.type1='" + type + "'");
         return (Role) q.getSingleResult();
     }
 

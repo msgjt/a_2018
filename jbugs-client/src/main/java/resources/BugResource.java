@@ -26,10 +26,13 @@ public class BugResource {
 
 
     @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BugDTO> getUsers() {
-        return bugManagement.getAllBugs();
+    public List<BugDTO> getBugs(){
+        CustomLogger.logEnter(this.getClass(),"getBugs","");
+
+        List<BugDTO> bugs = bugManagement.getAllBugs();
+
+        CustomLogger.logExit(this.getClass(),"getBugs",bugs.toString());
+        return bugs;
     }
 
     @POST
