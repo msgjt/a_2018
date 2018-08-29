@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
-import {ToastrService} from "ngx-toastr";
+import {ActiveToast, ToastrService} from "ngx-toastr";
 
 //for commit
 @Component({
@@ -62,7 +62,6 @@ export class BugsViewComponent implements OnInit {
         this.bugList = bug;
         this.bugListAux = bug;
         this.selectedBug = bug[0];
-        console.log(this.bugList[0].attachment.split('.'));
       },
       (error) => {
         if (error.status == 403) {
@@ -112,7 +111,8 @@ export class BugsViewComponent implements OnInit {
   }
 
   exportToExcel() {
-    this.excelService.exportAsExcelFile(this.bugList);
+    let copyOfBugList = JSON.parse(JSON.stringify(this.bugList));
+    this.excelService.exportAsExcelFile(copyOfBugList);
   }
 
   addFilters(filterBy: string) {
@@ -422,9 +422,10 @@ export class BugsViewComponent implements OnInit {
   }
 
   showNotif() {
-    this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.');
-    let snd = new Audio("../../assets/mai.mp3");
-    snd.play();
+    this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.').onShown.subscribe(() => {
+      let snd = new Audio("../../assets/notificationsound.mp3");
+      snd.play();
+    });
   }
 
   fileChange(event){

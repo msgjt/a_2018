@@ -5,6 +5,7 @@ import ro.msg.edu.jbugs.userManagement.business.dto.NotificationDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -30,18 +31,30 @@ public class NotificationManagementController implements NotificationManagement 
     }
 
     public List<NotificationDTO> getNewNotifications(Long id){
-        List<NotificationDTO> newNotifications= new ArrayList<>();
-        List<Notification> toBeModified= new ArrayList<>();
-        do{
-            newNotifications= userPersistenceManager.getAllNotificationsForUser(id).stream()
+        List<Notification> newNotifications= new ArrayList<>();
+        List<NotificationDTO> newNotificationsDTO = new ArrayList<>();
+
+        do {
+            newNotifications = userPersistenceManager.getAllNotificationsForUser(id);
+            newNotificationsDTO = newNotifications.stream()
                     .map(NotificationDTOHelper::fromEntity)
                     .collect(Collectors.toList());
-            toBeModified=userPersistenceManager.getAllNotificationsForUser(id);
-        }while (newNotifications.size()==0);
-        for(Notification i : toBeModified){
-            i.setStatus("read");
-            userPersistenceManager.updateNotification(i);
-        }
-        return newNotifications;
+
+            newNotifications.stream()
+                    .forEach(notification -> {
+                        notification.setStatus("read");
+                        userPersistenceManager.updateNotification(notification);
+                    });
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while(newNotifications.size() ==0);
+
+
+
+        return newNotificationsDTO;
     }
 }

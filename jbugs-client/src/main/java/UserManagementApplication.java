@@ -23,6 +23,7 @@ public class UserManagementApplication extends Application {
         classes.add(BugsFilter.class);
         classes.add(CheckedExceptionMapper.class);
         classes.add(LoggedIn.class);
+        classes.add(GetNotifications.class);
         classes.add(MultiPartFeature.class);
         return classes;
     }

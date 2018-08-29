@@ -32,6 +32,8 @@ export class UserProfileComponent implements OnInit {
     this.positiveResponse = false;
     this.showInfoDiv = false;
     this.showUpdate= false;
+    this.userModel.username = localStorage.getItem('currentUser');
+    this.userModel.id = Number(localStorage.getItem('id'));
   }
 
   ngOnInit() {
@@ -42,12 +44,8 @@ export class UserProfileComponent implements OnInit {
     this.userModel.username = localStorage.getItem('currentUser');
     this.userModel.id = Number(localStorage.getItem('id'));
 
-
-
     this.isLoggedInOnServer()
   }
-
-
 
 
   submitEditForm() {

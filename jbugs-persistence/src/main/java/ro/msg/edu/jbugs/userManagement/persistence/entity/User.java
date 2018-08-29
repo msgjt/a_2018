@@ -13,8 +13,8 @@ import java.util.Objects;
                 @NamedQuery(name = User.GET_ALL_USERS, query = "SELECT u FROM User u"),
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
                 @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
-                @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id")
-
+                @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id"),
+                @NamedQuery(name = User.GET_NOTIFICATIONS_BY_USER_AND_STATUS, query = "SELECT n FROM User u, Notification n WHERE n MEMBER OF u.notifications AND n.status=:status AND u.id =:userId")
         }
 )
 public class User extends BaseEntity<Long> {
@@ -25,6 +25,7 @@ public class User extends BaseEntity<Long> {
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
+    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS ="GET_NOTIFICATIONS_BY_USER_AND_STATUS";
 
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;

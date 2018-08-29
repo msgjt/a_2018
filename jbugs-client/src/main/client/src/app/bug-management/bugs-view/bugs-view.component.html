@@ -9,7 +9,7 @@
     <i class="fas fa-file-excel" style="font-size: 14px; color: white; margin-right: .25em;"></i>
     Excel
   </button>
-  <button (click)="showNotif()">da</button>
+  <!--<button (click)="showNotif()">da</button>-->
   <div class="mat-elevation-z6 data-table">
     <div id="tableContainer" class="table-responsive" style="text-align: center !important;">
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
@@ -128,7 +128,7 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.createdBy.username }}</td>
-          <td>
+          <td style="cursor: default;">
             <i class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
             <i class="far fa-file-pdf" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
             <i class="far fa-file-word" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
@@ -264,37 +264,22 @@
         </button>
       </div>
       <div class="modal-body">
-        <!--<i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"-->
-           <!--style="cursor: help;margin: 0 0 0 50%">info</i>-->
-        <!--<div #infoDiv class="alert alert-warning"-->
-             <!--style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"-->
-             <!--[hidden]="!showInfoDiv">-->
-          <!--<strong translate>demo.Keep in mind!</strong>-->
-          <!--<p translate style="color:black;">demo.KeepInMindMessage</p>-->
-        <!--</div>-->
+        <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
+           style="cursor: help;margin: 0 0 0 50%">info</i>
+        <div #infoDiv class="alert alert-warning"
+             style="left:20%;top:30%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
+             [hidden]="!showInfoDiv">
+          <strong translate>demo.Keep in mind!</strong>
+          <p translate style="color:black;">demo.KeepInMindMessageBug</p>
+        </div>
         <form class="form-signin text-center"
               (ngSubmit)="submitAddData()"
               #formControl="ngForm">
               <div class="form-group">
                 <label for="descriptionInputAdd">Description</label>
-                <textarea #descriptionAdd="ngModel" [(ngModel)]="bugModel.description" name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
+                <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description" name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
               </div>
               <span class="form-group has-float-label">
-                  <span class="help-block"
-                        *ngIf="fixedVersionAdd.errors?.required && fixedVersionAdd.touched" translate style="margin-top: 15px">demo.Fixed version is required.</span>
-                  <span class="help-block"
-                        *ngIf="fixedVersionAdd.errors?.minlength && fixedVersionAdd.touched" translate style="margin-top: 15px">demo.Fixed version is invalid.</span>
-                  <input type="text"
-                         name="fixedVersionAdd"
-                         id="fixedVersionInputAdd"
-                         #fixedVersionAdd="ngModel"
-                         class="form-control"
-                         required
-                         [(ngModel)]="bugModel.fixedVersion"
-                         placeholder=" ">
-                  <label for="fixedVersionInputAdd" translate style="margin-top: 15px">demo.Fixed Version</label>
-              </span>
-          <span class="form-group has-float-label">
                 <span class="help-block"
                       *ngIf="severityAdd.errors?.required && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is required.</span>
                 <span class="help-block"
@@ -309,60 +294,45 @@
                        placeholder=" ">
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
-          <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="statusAdd.errors?.required && statusAdd.touched" translate
-                    style="margin-top: 15px">demo.Status is required.</span>
-              <span class="help-block" *ngIf="statusAdd.errors?.minlength && statusAdd.touched" translate
-                    style="margin-top: 15px">demo.Status is invalid.</span>
-              <input type="text"
-                     name="statusAdd"
-                     id="statusInputAdd"
-                     #statusAdd="ngModel"
-                     class="form-control"
-                     required
-                     [(ngModel)]="bugModel.status"
-                     placeholder=" ">
-              <label for="statusInputAdd" translate style="margin-top: 15px">demo.Status</label>
-            </span>
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                         name="dp" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
-                    style="margin-top: 15px">Title is required.</span>
-              <span class="help-block" *ngIf="titleAdd.errors?.pattern && titleAdd.touched" translate
-                    style="margin-top: 15px">Title is invalid.</span>
-              <input type="text"
-                     name="titleAdd"
-                     id="titleInputAdd"
-                     #titleAdd="ngModel"
-                     class="form-control"
-                     required
-                     [(ngModel)]="bugModel.title"
-                     placeholder=" ">
-              <label for="titleInputAdd" style="margin-top: 15px">Title</label>
-            </span>
-          <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
-                    style="margin-top: 15px">demo.Version is required.</span>
-              <span class="help-block" *ngIf="versionAdd.errors?.pattern && versionAdd.touched" translate
-                    style="margin-top: 15px">demo.Version is invalid.</span>
-              <input type="text"
-                     name="versionAdd"
-                     id="versionInputAdd"
-                     #versionAdd="ngModel"
-                     class="form-control"
-                     required
-                     [(ngModel)]="bugModel.version"
-                     placeholder=" ">
-              <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
-            </span>
+              <span class="form-group has-float-label">
+                <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
+                      style="margin-top: 15px">Title is required.</span>
+                <span class="help-block" *ngIf="titleAdd.errors?.pattern && titleAdd.touched" translate
+                      style="margin-top: 15px">Title is invalid.</span>
+                <input type="text"
+                       name="titleAdd"
+                       id="titleInputAdd"
+                       #titleAdd="ngModel"
+                       class="form-control"
+                       required
+                       [(ngModel)]="bugModel.title"
+                       placeholder=" ">
+                <label for="titleInputAdd" style="margin-top: 15px">Title</label>
+              </span>
+              <span class="form-group has-float-label">
+                <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
+                      style="margin-top: 15px">demo.Version is required.</span>
+                <span class="help-block" *ngIf="versionAdd.errors?.pattern && versionAdd.touched" translate
+                      style="margin-top: 15px">demo.Version is invalid.</span>
+                <input type="text"
+                       name="versionAdd"
+                       id="versionInputAdd"
+                       #versionAdd="ngModel"
+                       class="form-control"
+                       required
+                       [(ngModel)]="bugModel.version"
+                       placeholder=" ">
+                <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
+              </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
             <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
