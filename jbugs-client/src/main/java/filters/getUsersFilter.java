@@ -1,4 +1,4 @@
-package filters;
+/*package filters;
 
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
@@ -73,3 +73,4 @@ public class getUsersFilter implements Filter {
     }
 
 }
+*/
