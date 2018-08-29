@@ -107,21 +107,21 @@ public class UserManagementController implements UserManagement {
         validateRoles(userDTO);
         userDTO = normalizeUserDTO(userDTO);
 
-        User oldUser = userPersistenceManager.getUserById(userDTO.getId())
+        User user = userPersistenceManager.getUserById(userDTO.getId())
                 .orElseThrow(() -> new BusinessException(
                         ExceptionCode.USER_VALIDATION_EXCEPTION,
                         DetailedExceptionCode.USER_NOT_FOUND)
                 );
 
-        User newUser = oldUser.copy(UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO)));
-
-        if(newUser.getRoles() == null || newUser.getRoles().isEmpty()){
+        user = UserDTOHelper.toEntity(userDTO,user);
+        
+        if(user.getRoles() == null || user.getRoles().isEmpty()){
             Role defaultRole = userPersistenceManager.getRoleByType("DEV");
-            newUser.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+            user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
         }
         
-        newUser = userPersistenceManager.updateUser(newUser);
-        UserDTO result = UserDTOHelper.fromEntity(newUser);
+        user = userPersistenceManager.updateUser(user);
+        UserDTO result = UserDTOHelper.fromEntity(user);
 
         CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
         return result;

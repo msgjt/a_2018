@@ -71,27 +71,6 @@ public class Bug extends BaseEntity<Long> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bug", orphanRemoval = true)
     private List<History> history = new ArrayList<>();
 
-    public Bug() {
-    }
-
-    public Bug copy(Bug bug){
-
-        title = title != null ? title : bug.title;
-        description = description != null ? description : bug.description;
-        version = version != null ? version : bug.version;
-        targetDate = targetDate != null ? targetDate : bug.targetDate;
-        status = status != null ? status : bug.status;
-        fixedVersion = fixedVersion != null ? fixedVersion : bug.fixedVersion;
-        severity = severity != null ? severity : bug.severity;
-        createdBy = createdBy != null ? createdBy : bug.createdBy;
-        assignedTo = assignedTo != null ? assignedTo : bug.assignedTo;
-        attachment = attachment != null ? attachment : bug.attachment;
-        history = history != null ? history : bug.history;
-
-        return this;
-    }
-
-
     public String getTitle() {
         return title;
     }

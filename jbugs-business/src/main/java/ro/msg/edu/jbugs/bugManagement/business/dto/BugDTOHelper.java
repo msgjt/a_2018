@@ -27,7 +27,7 @@ public class BugDTOHelper {
         return bugDTO;
     }
 
-    public static Bug toEntity(@NotNull BugDTO bugDTO,@NotNull Bug oldBug){
+    public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
 
         oldBug.setTitle(bugDTO.getTitle());
         oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));

@@ -59,40 +59,8 @@ public class User extends BaseEntity<Long> {
     private List<Bug> assignedBugs = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "notification_id")
+    @JoinColumn(name = "user_id")
     private List<Notification> notifications = new ArrayList<>();
-
-    @Transactional
-    public User copyFieldsFrom(User user) {
-
-        id = id != null ? id : user.id;
-        firstName = firstName != null ? firstName : user.firstName;
-        lastName = lastName != null ? lastName : user.lastName;
-        username = username != null ? username : user.username;
-        password = password != null ? password : user.password;
-        phoneNumber = phoneNumber != null ? phoneNumber : user.phoneNumber;
-        email = email != null ? email : user.email;
-        isActive = isActive != null ? isActive : user.isActive;
-        roles = roles != null ? roles : user.roles;
-        notifications = notifications != null ? notifications : user.notifications;
-
-        return this;
-    }
-
-    public User copy(User user) {
-        this.id = user.getId() != null ? user.getId() : this.id;
-        this.firstName = user.getFirstName() != null ? user.getFirstName() : this.firstName;
-        this.lastName = user.getLastName() != null ? user.getLastName() : this.lastName;
-        this.username = user.getUsername() != null ? user.getUsername() : this.username;
-        this.password = user.getPassword() != null ? user.getPassword() : this.password;
-        this.phoneNumber = user.getPhoneNumber() != null ? user.getPhoneNumber() : this.phoneNumber;
-        this.email = user.getEmail() != null ? user.getEmail() : this.email;
-        this.isActive = user.getIsActive() != null ? user.getIsActive() : this.isActive;
-        this.roles = user.getRoles() != null ? user.getRoles() : this.roles;
-        this.assignedBugs = user.getAssignedBugs() != null ? user.getAssignedBugs() : this.assignedBugs;
-        this.notifications = user.getNotifications() != null ? user.getNotifications() : this.notifications;
-        return this;
-    }
 
     public String getFirstName() {
         return firstName;

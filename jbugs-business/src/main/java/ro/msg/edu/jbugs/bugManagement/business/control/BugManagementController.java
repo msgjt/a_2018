@@ -62,7 +62,7 @@ public class BugManagementController implements BugManagement {
                 throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
             }
         }
-        Bug bug = BugDTOHelper.toEntity(bugDTO,getExistentBug(bugDTO));
+        Bug bug = BugDTOHelper.toEntity(bugDTO,new Bug());
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
 
@@ -81,7 +81,11 @@ public class BugManagementController implements BugManagement {
 
         bugValidator.validateUpdate(bugDTO);
 
-        Bug bug = BugDTOHelper.toEntity(bugDTO,getExistentBug(bugDTO));
+        Bug bug = bugPersistenceManager.getBugById(bugDTO.getId()).orElseThrow(() ->
+            new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.BUG_NOT_FOUND));
+
+        bug = BugDTOHelper.toEntity(bugDTO,bug);
 
         if( ! canChangeStatus(bug) ){
             CustomLogger.logException(this.getClass(),"updateBug","STATUS_INCOMPATIBLE");
@@ -89,11 +93,7 @@ public class BugManagementController implements BugManagement {
                     DetailedExceptionCode.BUG_STATUS_INCOMPATIBLE);
         }
 
-
-        Bug oldBug = bugPersistenceManager.getBugById(bugDTO.getId()).orElseThrow(RuntimeException::new);
-        oldBug = oldBug.copy(bug);
-
-        bug = bugPersistenceManager.updateBug(oldBug);
+        bug = bugPersistenceManager.updateBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
         
         CustomLogger.logExit(this.getClass(),"updateBug",result.toString());
@@ -185,13 +185,5 @@ public class BugManagementController implements BugManagement {
         return result;
     }
 
-    private Bug getExistentBug(BugDTO newBugDTO){
-
-        Bug oldBug = newBugDTO.getId() != null ?
-                bugPersistenceManager.getBugById(newBugDTO.getId()).orElse(new Bug()) :
-                new Bug();
-
-        return oldBug;
-    }
 
 }
