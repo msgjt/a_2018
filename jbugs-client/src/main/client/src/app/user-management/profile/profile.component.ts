@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   showInfoDiv: boolean = false;
 
   constructor(private userService: UserService, private router: Router) {
+    this.refresh();
   }
 
   ngOnInit() {

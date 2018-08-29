@@ -10,7 +10,6 @@ import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
 import ro.msg.edu.jbugs.bugManagement.business.validator.BugValidator;
 import ro.msg.edu.jbugs.bugsManagement.persistence.dao.BugPersistenceManager;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
-import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
@@ -18,7 +17,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -42,13 +40,13 @@ public class BugPersistenceManagerBeanTest {
 
     @Mock
     private User user;
-
+/*
     @Test
     public void testCreateBug_Success() {
 
         Date date = new Date();
         try {
-            String target = "27-09-1997";
+            java.lang.String target = "27-09-1997";
             DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             date =  df.parse(target);
         } catch (ParseException e) {
@@ -62,7 +60,10 @@ public class BugPersistenceManagerBeanTest {
         bug.setTargetDate(date);
         bug.setStatus("Open");
         bug.setFixedVersion("fVers");
-        bug.setSeverity(Severity.MEDIUM.toString());
+        bug.setSeverity(String.MEDIUM);
+        bug.setCreatedBy(user);
+        bug.setAssignedTo(user);
+        bug.setSeverity(Severity.MEDIUM);
        // bug.setCreatedBy(user);
       //  bug.setAssignedTo(user);
 
@@ -93,7 +94,7 @@ public class BugPersistenceManagerBeanTest {
 
         Date date = new Date();
         try {
-            String target = "27-09-2018";
+            java.lang.String target = "27-09-2018";
             DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             date =  df.parse(target);
         } catch (ParseException e) {
@@ -102,7 +103,7 @@ public class BugPersistenceManagerBeanTest {
 
         b1.setAssignedTo(user);
         b1.setCreatedBy(user);
-        b1.setSeverity(Severity.MEDIUM);
+        b1.setString(String.MEDIUM);
         b1.setFixedVersion("2.3");
         b1.setStatus("in progress");
         b1.setVersion("3.4");
@@ -112,7 +113,7 @@ public class BugPersistenceManagerBeanTest {
 
         b2.setAssignedTo(user);
         b2.setCreatedBy(user);
-        b2.setSeverity(Severity.MEDIUM);
+        b2.setString(String.MEDIUM);
         b2.setFixedVersion("2.3");
         b2.setStatus("in progress");
         b2.setVersion("3.4");
@@ -186,7 +187,7 @@ public class BugPersistenceManagerBeanTest {
     //    bug.setTargetDate("12-06-2044");
         bug.setFixedVersion("2.0");
         bug.setVersion("2.1");
-        bug.setSeverity(Severity.LVL2);
+        bug.setString(String.LVL2);
     //    bug.setStatus("progr");
 
         assertEquals(true, bugManagementController.isValidForCreation(BugDTOHelper.fromEntity(bug)));

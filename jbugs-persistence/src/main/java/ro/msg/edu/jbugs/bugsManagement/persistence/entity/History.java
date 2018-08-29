@@ -17,9 +17,10 @@ public class History extends BaseEntity<Long> {
     public History() {
     }
 
-    @JoinColumn(name = "bugId", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bug_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Bug bug;
+
     @Column(name = "modifiedDate", length = MAX_STRING_LENGTH, nullable = false)
     private Date modifiedDate;
     @Column(name = "afterStatus", length = MAX_STRING_LENGTH, nullable = false)

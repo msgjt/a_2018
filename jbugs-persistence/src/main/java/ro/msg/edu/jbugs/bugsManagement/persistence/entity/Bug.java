@@ -4,7 +4,11 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.BaseEntity;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "bugs")
@@ -12,10 +16,11 @@ import java.util.Date;
         {
                 @NamedQuery(name = Bug.GET_ALL_BUGS, query = "SELECT b FROM Bug b"),
                 @NamedQuery(name = Bug.GET_BUG_BY_TITLE, query = "SELECT b FROM Bug b WHERE b.title=:title"),
-                @NamedQuery(name = Bug.GET_BUG_BY_ID, query = "SELECT b FROM Bug b WHERE b.id=:id"),
+                @NamedQuery(name = Bug.GET_BUG_BY_ID, query = "SELECT DISTINCT b FROM Bug b WHERE b.id=:id")
 
         }
 )
+@Converter(autoApply = true)
 public class Bug extends BaseEntity<Long> {
 
     @Transient
@@ -30,26 +35,41 @@ public class Bug extends BaseEntity<Long> {
     private String description;
     @Column(name = "version", length = MAX_STRING_LENGTH, nullable = false)
     private String version;
+
     @Column(name = "targetDate", length = MAX_STRING_LENGTH, nullable = false)
-    private Date targetDate;
+    private LocalDate targetDate;
+
     @Column(name = "status", length = MAX_STRING_LENGTH, nullable = false)
     private String status;
+
     @Column(name = "fixedVersion", length = MAX_STRING_LENGTH, nullable = false)
     private String fixedVersion;
+
     @Column(name = "severity", length = MAX_STRING_LENGTH, nullable = false)
     private Severity severity;
 
-    @JoinColumn(name = "createdBy", nullable = false)
-    @ManyToOne()
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "bugs_creators",
+            joinColumns = @JoinColumn(
+                    name = "bug_id",
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id",
+                    referencedColumnName = "id")
+    )
     private User createdBy;
+
     @JoinColumn(name = "assignedTo", nullable = false)
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private User assignedTo;
+
+
     @Column(name = "attachment", length = MAX_STRING_LENGTH, nullable = false)
     private String attachment;
 
-    public Bug() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bug", orphanRemoval = true)
+    private List<History> history = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -75,11 +95,11 @@ public class Bug extends BaseEntity<Long> {
         this.version = version;
     }
 
-    public Date getTargetDate() {
+    public LocalDate getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(Date targetDate) {
+    public void setTargetDate(LocalDate targetDate) {
         this.targetDate = targetDate;
     }
 
@@ -103,8 +123,8 @@ public class Bug extends BaseEntity<Long> {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
+    public void setSeverity(Severity string) {
+        this.severity = string;
     }
 
     public User getCreatedBy() {
@@ -134,17 +154,26 @@ public class Bug extends BaseEntity<Long> {
     @Override
     public String toString() {
         return "Bug{" +
-                ", id=" + id +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", version='" + version + '\'' +
                 ", targetDate=" + targetDate +
                 ", status='" + status + '\'' +
                 ", fixedVersion='" + fixedVersion + '\'' +
-                ", severity='" + severity + '\'' +
+                ", severity=" + severity +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
-
+                ", attachment='" + attachment + '\'' +
+                ", history=" + history +
+                ", id=" + id +
                 '}';
+    }
+
+    public List<History> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<History> history) {
+        this.history = history;
     }
 }

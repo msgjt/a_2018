@@ -1,3 +1,5 @@
+
+
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -44,9 +46,9 @@
           </span>
 
           <span class="form-group has-float-label">
-                  <input name="severity" #severity="ngModel" #severityId id="severityInput"
+                  <input name="string" #string="ngModel" #severityId id="severityInput"
                          type="text" class="form-control" required
-                         [(ngModel)]="bug.severity" placeholder="{{bug.severity}}">
+                         [(ngModel)]="bug.string" placeholder="{{bug.string}}">
                   <label for="severityInput" translate style="margin-top: 15px">demo.Severity</label>
           </span>
 

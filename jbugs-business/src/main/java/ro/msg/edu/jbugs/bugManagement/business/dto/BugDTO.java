@@ -12,7 +12,7 @@ public class BugDTO {
     private String title;
     private String description;
     private String version;
-    private Date targetDate;
+    private String targetDate;
     private String status;
     private String fixedVersion;
     private String severity;
@@ -44,11 +44,11 @@ public class BugDTO {
         this.version = version;
     }
 
-    public Date getTargetDate() {
+    public String getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(Date targetDate) {
+    public void setTargetDate(String targetDate) {
         this.targetDate = targetDate;
     }
 
@@ -118,7 +118,7 @@ public class BugDTO {
                 ", targetDate='" + targetDate + '\'' +
                 ", status='" + status + '\'' +
                 ", fixedVersion='" + fixedVersion + '\'' +
-                ", severity=" + severity +
+                ", severity='" + severity + '\'' +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
                 ", attachment=" + attachment +

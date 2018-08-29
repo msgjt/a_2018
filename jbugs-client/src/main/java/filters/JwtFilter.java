@@ -3,6 +3,7 @@ package filters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jwt.JwtManager;
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.servlet.*;
 import javax.servlet.Filter;
@@ -17,6 +18,8 @@ public class JwtFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        CustomLogger.logEnter(this.getClass(),"doFilter",req.toString(),chain.toString());
+
         String tokenHeader = ((HttpServletRequest)req).getHeader("Authorization");
         if (tokenHeader != null && tokenHeader.startsWith("Bearer ")){
             String token = tokenHeader.substring( new String("Bearer").length());
@@ -28,6 +31,8 @@ public class JwtFilter implements Filter {
             }
         }
         chain.doFilter(req, resp);
+
+        CustomLogger.logExit(this.getClass(),"doFilter",resp.toString());
     }
 
     public void init(FilterConfig config) throws ServletException {

@@ -59,6 +59,7 @@ export class BugsViewComponent implements OnInit {
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
+
         this.bugList = bug;
         this.bugListAux = bug;
         this.selectedBug = bug[0];

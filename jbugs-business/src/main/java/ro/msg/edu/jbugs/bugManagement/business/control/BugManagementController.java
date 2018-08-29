@@ -62,7 +62,7 @@ public class BugManagementController implements BugManagement {
                 throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
             }
         }
-        Bug bug = BugDTOHelper.toEntity(bugDTO);
+        Bug bug = BugDTOHelper.toEntity(bugDTO,new Bug());
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
 
@@ -80,7 +80,12 @@ public class BugManagementController implements BugManagement {
         CustomLogger.logEnter(this.getClass(),"updateBug",bugDTO.toString());
 
         bugValidator.validateUpdate(bugDTO);
-        Bug bug = BugDTOHelper.toEntity(bugDTO);
+
+        Bug bug = bugPersistenceManager.getBugById(bugDTO.getId()).orElseThrow(() ->
+            new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.BUG_NOT_FOUND));
+
+        bug = BugDTOHelper.toEntity(bugDTO,bug);
 
         if( ! canChangeStatus(bug) ){
             CustomLogger.logException(this.getClass(),"updateBug","STATUS_INCOMPATIBLE");
@@ -179,5 +184,6 @@ public class BugManagementController implements BugManagement {
         CustomLogger.logExit(this.getClass(),"getBugById",result.toString());
         return result;
     }
+
 
 }

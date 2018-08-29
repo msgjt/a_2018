@@ -75,7 +75,7 @@ public class UserManagementController implements UserManagement {
                                         DetailedExceptionCode.USER_DUPLICATE_EMAIL);
         }
 
-        User user = UserDTOHelper.toEntity(userDTO);
+        User user = UserDTOHelper.toEntity(userDTO,getOldUserFields(userDTO));
         user.setIsActive(true);
         user.setUsername(generateFullUsername(userDTO.getFirstName(), userDTO.getLastName()));
         user.setPassword(Encryptor.encrypt(userDTO.getPassword()));
@@ -107,21 +107,21 @@ public class UserManagementController implements UserManagement {
         validateRoles(userDTO);
         userDTO = normalizeUserDTO(userDTO);
 
-        User oldUser = userPersistenceManager.getUserById(userDTO.getId())
+        User user = userPersistenceManager.getUserById(userDTO.getId())
                 .orElseThrow(() -> new BusinessException(
                         ExceptionCode.USER_VALIDATION_EXCEPTION,
                         DetailedExceptionCode.USER_NOT_FOUND)
                 );
 
-        User newUser = oldUser.copy(UserDTOHelper.toEntity(userDTO));
-
-        if(newUser.getRoles() == null || newUser.getRoles().isEmpty()){
+        user = UserDTOHelper.toEntity(userDTO,user);
+        
+        if(user.getRoles() == null || user.getRoles().isEmpty()){
             Role defaultRole = userPersistenceManager.getRoleByType("DEV");
-            newUser.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
+            user.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
         }
         
-        newUser = userPersistenceManager.updateUser(newUser);
-        UserDTO result = UserDTOHelper.fromEntity(newUser);
+        user = userPersistenceManager.updateUser(user);
+        UserDTO result = UserDTOHelper.fromEntity(user);
 
         CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
         return result;
@@ -359,6 +359,33 @@ public class UserManagementController implements UserManagement {
         return loggedUsers.containsKey(username);
     }
     
+    
+    
+    private User getOldUserFields(UserDTO newUserDTO){
+        User user =
+            newUserDTO.getId() != null ?
+                (
+                    userPersistenceManager.getUserById(newUserDTO.getId()).orElseGet(User::new)
+                )
+
+                    :
+
+                (
+                    newUserDTO.getUsername() != null ?
+                        (
+                            userPersistenceManager.getUserByUsername(newUserDTO.getUsername()).orElseGet(User::new)
+                        )
+
+                            :
+
+                        (
+                            new User()
+                        )
+                );
+        return user;
+    }
+    
+    
 
     /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
     /* TODO - IMPORTANT!!!!! REFACTOR ALL BELOW THIS LINE */
@@ -445,7 +472,7 @@ public class UserManagementController implements UserManagement {
     Set<String> permisionString= new HashSet<>();
     allPermisionsForAnUser.addAll(allPermisssion);
     for(Permission p : allPermisionsForAnUser)
-    {permisionString.add(p.getType());}
+    {permisionString.add(p.getType2());}
     return permisionString;
     }
 

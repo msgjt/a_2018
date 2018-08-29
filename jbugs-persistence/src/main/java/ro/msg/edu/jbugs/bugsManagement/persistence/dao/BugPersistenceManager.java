@@ -39,9 +39,11 @@ public class BugPersistenceManager {
      */
     public Bug updateBug(@NotNull Bug bug) {
         CustomLogger.logEnter(this.getClass(),"updateBug",bug.toString());
-        Bug result = em.merge(bug);
-        CustomLogger.logExit(this.getClass(),"updateBug",result.toString());
-        return result;
+
+        em.persist(bug);
+
+        CustomLogger.logExit(this.getClass(),"updateBug",bug.toString());
+        return bug;
     }
 
 

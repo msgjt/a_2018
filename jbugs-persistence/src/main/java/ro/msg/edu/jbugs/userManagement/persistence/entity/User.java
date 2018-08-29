@@ -1,7 +1,10 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 
+import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +28,7 @@ public class User extends BaseEntity<Long> {
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
-    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS ="GET_NOTIFICATIONS_BY_USER_AND_STATUS";
+    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS = "GET_NOTIFICATIONS_BY_USER_AND_STATUS";
 
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;
@@ -48,27 +51,16 @@ public class User extends BaseEntity<Long> {
     @Column(name = "isActive", length = MAX_STRING_LENGTH, nullable = false)
     private Boolean isActive;
 
-    @ManyToMany
-    private List<Role> roles;
-    @OneToMany
-    private List<Notification> notifications;
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<Role> roles = new ArrayList<>();
 
-    public User() {
-        roles = new ArrayList<>();
-        notifications=new ArrayList<>();
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "bug_id")
+    private List<Bug> assignedBugs = new ArrayList<>();
 
-    public User copy(User user){
-        this.id = user.getId() != null ? user.getId() : this.id;
-        this.firstName = user.getFirstName() != null ? user.getFirstName() : this.firstName;
-        this.lastName = user.getLastName() != null ? user.getLastName() : this.lastName;
-        this.username = user.getUsername() != null ? user.getUsername() : this.username;
-        this.password = user.getPassword() != null ? user.getPassword() : this.password;
-        this.phoneNumber = user.getPhoneNumber() != null ? user.getPhoneNumber() : this.phoneNumber;
-        this.email = user.getEmail() != null ? user.getEmail() : this.email;
-        this.isActive = user.getIsActive() != null ? user.getIsActive() : this.isActive;
-        return this;
-    }
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<Notification> notifications = new ArrayList<>();
 
     public String getFirstName() {
         return firstName;
@@ -133,6 +125,7 @@ public class User extends BaseEntity<Long> {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
     public List<Notification> getNotifications() {
         return notifications;
     }
@@ -177,4 +170,11 @@ public class User extends BaseEntity<Long> {
     }
 
 
+    public List<Bug> getAssignedBugs() {
+        return assignedBugs;
+    }
+
+    public void setAssignedBugs(List<Bug> assignedBugs) {
+        this.assignedBugs = assignedBugs;
+    }
 }

@@ -8,11 +8,11 @@ export interface Bug {
   id: number;
   title: string;
   description: string;
-  status: string;
-  severity: string;
-  fixedVersion: string;
-  targetDate: string;
   version: string;
+  targetDate: string;
+  status: string;
+  fixedVersion: string;
+  severity: string;
   attachment: string;
   assignedTo: User;
   createdBy: User;
