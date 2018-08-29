@@ -86,6 +86,10 @@ insert into notifications(URL,message,status,type) values("ulr.com","you have be
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
 
+INSERT INTO users_notifications(date,notification_id,user_id) VALUES("2018-10-10",1,1);
+INSERT INTO users_notifications(date,notification_id,user_id) VALUES("2018-10-12",2,1);
+INSERT INTO users_notifications(date,notification_id,user_id) VALUES("2018-10-13",3,1);
+
 
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (1,1);
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (2,1);

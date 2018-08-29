@@ -64,6 +64,8 @@ import {FilterPipe} from './filter.pipe';
 import {EditBugComponent} from './bug-management/edit-bug/edit-bug.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrModule} from "ngx-toastr";
+import { NotificationComponent } from './notifications/notification/notification.component';
+import {NotificationService} from "./notifications/services/notification.service";
 
 const appRoutes: Routes = [
   {
@@ -153,7 +155,8 @@ export class MaterialModule {}
     HomeComponent,
     UserProfileComponent,
     RolesComponent,
-    FilterPipe
+    FilterPipe,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -184,6 +187,7 @@ export class MaterialModule {}
     })
   ],
   providers: [
+    NotificationService,
     {
       provide: RECAPTCHA_LANGUAGE,
       useValue: 'en'

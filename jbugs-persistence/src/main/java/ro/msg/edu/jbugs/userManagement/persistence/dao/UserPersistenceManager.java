@@ -307,38 +307,6 @@ public class UserPersistenceManager {
         return (Role) q.getSingleResult();
     }
 
-    /**
-     * Get the notification having a specific type
-     *
-     * @param type
-     * @return
-     */
-    public Notification getNotificationByType(String type) {
-        Query q = em.createQuery("SELECT n FROM Notification n WHERE n.type='" + type + "'");
-        return (Notification) q.getSingleResult();
-    }
-
-    public List<Notification> getAllNotificationsForUser(@NotNull Long id) {
-
-        List<Notification> filteredList= new ArrayList<>();
-
-        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
-                .setParameter("status","not_read").setParameter("userId",id);
-        filteredList=tq.getResultList();
 
 
-        return filteredList;
-    }
-
-    public List<Notification> getOldNotificationsForUser(@NotNull Long id) {
-
-        List<Notification> filteredList= new ArrayList<>();
-
-        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
-                .setParameter("status","read").setParameter("userId",id);
-        filteredList=tq.getResultList();
-
-
-        return filteredList;
-    }
 }

@@ -23,9 +23,8 @@ public class UserManagementApplication extends Application {
         classes.add(BugsFilter.class);
         classes.add(CheckedExceptionMapper.class);
         classes.add(LoggedIn.class);
-        classes.add(GetNotifications.class);
+        classes.add(NotificationResource.class);
         classes.add(MultiPartFeature.class);
-        classes.add(GetOldNotifications.class);
         return classes;
     }
 

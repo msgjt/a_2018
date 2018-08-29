@@ -2,7 +2,6 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "../../../../node_modules/@angular/common/http";
-import {NotificationService} from "../../notification.service";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -28,7 +27,7 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient,
-              private notificationService: NotificationService, private toastrService: ToastrService) {
+              private toastrService: ToastrService) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -117,15 +116,17 @@ export class LoginComponent implements OnInit {
   }
 
   getUsersNotifications(){
+    /*
     this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
       .subscribe(notifications=>{this.notificationsList=notifications,
         console.log(this.notificationsList),
         this.getUsersNotifications()
         },
         ()=>{this.getOldUsersNotifications()});
-  }
+        */  }
 
   getOldUsersNotifications(){
+    /*
     this.notificationService.getOldNotificationForUser(Number(localStorage.getItem('id')))
       .subscribe(notifications=>{this.oldNotificationsList=notifications,
         this.toastrService.info(this.oldNotificationsList[0]["type"],this.oldNotificationsList[0]["type"])
@@ -135,5 +136,6 @@ export class LoginComponent implements OnInit {
           console.log(this.oldNotificationsList[0])
         })
         });
+        */
   }
 }

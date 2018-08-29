@@ -524,6 +524,8 @@ public class UserManagementController implements UserManagement {
     }
 
     public void createWelcomeNotification(User user) {
+        //TODO
+        /*
         Notification notification = new Notification();
         notification.setStatus("not_read");
         notification.setMessage("Welcome");
@@ -534,5 +536,6 @@ public class UserManagementController implements UserManagement {
         notifications.add(notification);
         user.setNotifications(notifications);
         userPersistenceManager.updateUser(user);
+        */
     }
 }

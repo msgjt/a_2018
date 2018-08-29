@@ -16,8 +16,10 @@ import java.util.Objects;
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
                 @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
                 @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id"),
-                @NamedQuery(name = User.GET_NOTIFICATIONS_BY_USER_AND_STATUS, query = "SELECT n FROM User u, Notification n WHERE n MEMBER OF u.notifications AND n.status=:status AND u.id =:userId")
+                @NamedQuery(name = User.GET_NOTIFICATIONS, query =
+                        "SELECT u FROM User u JOIN FETCH u.notifications ntfs JOIN FETCH ntfs.notification n WHERE u.id=:id")
         }
+
 )
 public class User extends BaseEntity<Long> {
 
@@ -27,7 +29,7 @@ public class User extends BaseEntity<Long> {
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
-    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS = "GET_NOTIFICATIONS_BY_USER_AND_STATUS";
+    public static final String GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;
@@ -57,9 +59,8 @@ public class User extends BaseEntity<Long> {
     @JoinColumn(name = "bug_id")
     private List<Bug> assignedBugs = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Notification> notifications = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsersNotifications> notifications = new ArrayList<>();
 
     public String getFirstName() {
         return firstName;
@@ -125,11 +126,11 @@ public class User extends BaseEntity<Long> {
         this.roles = roles;
     }
 
-    public List<Notification> getNotifications() {
+    public List<UsersNotifications> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(List<Notification> notifications) {
+    public void setNotifications(List<UsersNotifications> notifications) {
         this.notifications = notifications;
     }
 
@@ -145,13 +146,16 @@ public class User extends BaseEntity<Long> {
                 Objects.equals(email, user.email) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(isActive, user.isActive);
+                Objects.equals(isActive, user.isActive) &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(assignedBugs, user.assignedBugs) &&
+                Objects.equals(notifications, user.notifications);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), firstName, lastName, phoneNumber, email, username, password, isActive);
+        return Objects.hash(super.hashCode(), firstName, lastName, phoneNumber, email, username, password, isActive, roles, assignedBugs, notifications);
     }
 
     @Override

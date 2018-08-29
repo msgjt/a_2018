@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +25,9 @@ public class Notification extends BaseEntity<Long>{
 
     @Column(name = "status")
     private String status;
+
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsersNotifications> users = new ArrayList<>();
 
     public String getStatus() {
         return status;
@@ -59,4 +63,30 @@ public class Notification extends BaseEntity<Long>{
     }
 
 
+    public List<UsersNotifications> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UsersNotifications> users) {
+        this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Notification that = (Notification) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(URL, that.URL) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(users, that.users);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), type, message, URL, status, users);
+    }
 }
