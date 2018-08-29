@@ -14,7 +14,6 @@
         <form class="form-signin text-center"
               (ngSubmit)="submitEditForm()"
               #formControl="ngForm">
-          <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit bug</h1><br>
 
           <span class="form-group has-float-label">
             <span class="help-block"
@@ -25,12 +24,10 @@
                   <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
           </span>
 
-          <span class="form-group has-float-label">
-                  <input name="description" #description="ngModel" #descriptionId id="descriptionInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.description" placeholder="{{bug.description}}">
-                  <label for="descriptionInput" translate style="margin-top: 15px">demo.Description</label>
-          </span>
+          <div class="form-group">
+            <label for="descriptionInput" translate>demo.Description</label>
+            <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control" id="descriptionInput" rows="3" required placeholder="{{bug.description}}"></textarea>
+          </div>
 
           <span class="form-group has-float-label">
                   <input name="version" #version="ngModel" #versionId id="versionInput"
@@ -43,7 +40,7 @@
                   <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}">
-                  <label for="fixedVersionInput" translate style="margin-top: 15px">demo.FixedVersion</label>
+                  <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
           </span>
 
           <span class="form-group has-float-label">
@@ -64,18 +61,13 @@
                   <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}">
-                  <label for="assignedToInput" translate style="margin-top: 15px">demo.AssignedTo</label>
+                  <label for="assignedToInput" translate style="margin-top: 15px">demo.Assigned to</label>
           </span>
 
           <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                   style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
-          >demo.Edit
-          </button>
-          <button type="button" class="btn btn-block" data-dismiss="modal"
-                  style="background-color: darkred; color: white; color: whitesmoke;
-                  font-size: 15px; position: center" translate>
-            demo.Back
+          >demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>

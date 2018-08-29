@@ -1,6 +1,8 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
 
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 
 public class BugDTOHelper {
 
@@ -13,8 +15,8 @@ public class BugDTOHelper {
         bugDTO.setFixedVersion(bug.getFixedVersion());
         bugDTO.setVersion(bug.getVersion());
         bugDTO.setSeverity(bug.getSeverity());
-        bugDTO.setCreatedBy(bug.getCreatedBy());
-        bugDTO.setAssignedTo(bug.getAssignedTo());
+        bugDTO.setCreatedBy(UserDTOHelper.fromEntity(bug.getCreatedBy()));
+        bugDTO.setAssignedTo(UserDTOHelper.fromEntity(bug.getAssignedTo()));
         bugDTO.setDescription(bug.getDescription());
         bugDTO.setId(bug.getId());
         bugDTO.setAttachment(bug.getAttachment());
@@ -31,8 +33,8 @@ public class BugDTOHelper {
         bug.setFixedVersion(bugDTO.getFixedVersion());
         bug.setVersion(bugDTO.getVersion());
         bug.setSeverity(bugDTO.getSeverity());
-        bug.setCreatedBy(bugDTO.getCreatedBy());
-        bug.setAssignedTo(bugDTO.getAssignedTo());
+        bug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy()));
+        bug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo()));
         bug.setDescription(bugDTO.getDescription());
         bug.setId(bugDTO.getId());
         bug.setAttachment(bugDTO.getAttachment());

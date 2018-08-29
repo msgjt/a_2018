@@ -14,7 +14,7 @@ import java.util.Set;
 //This filter check if the user have rights to perform any actions which comes to the following address
 //http://localhost:8080/jbugs/rest/bugs
 @WebFilter(filterName = "BugsFilter",
-        urlPatterns = "/rest/bugs")
+        urlPatterns = "/rest/bugs/*")
 public class BugsFilter implements Filter {
     @EJB
     private UserManagement userManagement;

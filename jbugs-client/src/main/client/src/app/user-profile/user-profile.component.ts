@@ -36,6 +36,8 @@ export class UserProfileComponent implements OnInit {
     this.showInfoDiv = false;
     this.showUpdate = false;
     this.showPassword = false;
+    this.userModel.username = localStorage.getItem('currentUser');
+    this.userModel.id = Number(localStorage.getItem('id'));
   }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class UserProfileComponent implements OnInit {
 
 
   submitEditForm() {
+
     this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
         (response) => {

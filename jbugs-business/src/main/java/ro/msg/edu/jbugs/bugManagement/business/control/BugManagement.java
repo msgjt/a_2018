@@ -2,6 +2,8 @@ package ro.msg.edu.jbugs.bugManagement.business.control;
 
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 
