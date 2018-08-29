@@ -78,6 +78,14 @@ INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,versi
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
 INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"Info needed","2018-08-23","Bug in Screen","version 2",3,"file");
 
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+
 
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (1,1);
 INSERT INTO bugs_creators(bug_id,user_id) VALUES (2,1);
