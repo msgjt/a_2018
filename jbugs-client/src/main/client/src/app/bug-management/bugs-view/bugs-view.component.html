@@ -19,8 +19,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Description
-                <i class="fas fa-plus" *ngIf="!filtersShow['show1']" (click)="filtersShow['show1'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show1']" (click)="filtersShow['show1'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show1']" (click)="filtersShow['show1'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show1']" (click)="filtersShow['show1'] = false;"></i>
               </div>
               <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show1']">
             </div>
@@ -29,8 +29,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Fixed Version
-                <i class="fas fa-plus" *ngIf="!filtersShow['show2']" (click)="filtersShow['show2'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show2']" (click)="filtersShow['show2'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show2']" (click)="filtersShow['show2'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show2']" (click)="filtersShow['show2'] = false;"></i>
               </div>
               <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show2']">
             </div>
@@ -39,8 +39,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Severity
-                <i class="fas fa-plus" *ngIf="!filtersShow['show3']" (click)="filtersShow['show3'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show3']" (click)="filtersShow['show3'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show3']" (click)="filtersShow['show3'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show3']" (click)="filtersShow['show3'] = false;"></i>
               </div>
               <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show3']">
             </div>
@@ -49,8 +49,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Status
-                <i class="fas fa-plus" *ngIf="!filtersShow['show4']" (click)="filtersShow['show4'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show4']" (click)="filtersShow['show4'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show4']" (click)="filtersShow['show4'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show4']" (click)="filtersShow['show4'] = false;"></i>
               </div>
               <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show4']">
             </div>
@@ -59,8 +59,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Target date
-                <i class="fas fa-plus" *ngIf="!filtersShow['show5']" (click)="filtersShow['show5'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show5']" (click)="filtersShow['show5'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show5']" (click)="filtersShow['show5'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show5']" (click)="filtersShow['show5'] = false;"></i>
               </div>
               <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show5']">
             </div>
@@ -69,8 +69,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Title
-                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;"></i>
               </div>
               <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show6']">
             </div>
@@ -79,8 +79,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Version
-                <i class="fas fa-plus" *ngIf="!filtersShow['show7']" (click)="filtersShow['show7'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show7']" (click)="filtersShow['show7'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show7']" (click)="filtersShow['show7'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show7']" (click)="filtersShow['show7'] = false;"></i>
               </div>
               <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show7']">
             </div>
@@ -89,8 +89,8 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Assigned to
-                <i class="fas fa-plus" *ngIf="!filtersShow['show8']" (click)="filtersShow['show8'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show8']" (click)="filtersShow['show8'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show8']" (click)="filtersShow['show8'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show8']" (click)="filtersShow['show8'] = false;"></i>
               </div>
               <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show8']">
             </div>
@@ -99,10 +99,15 @@
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
                 demo.Created by
-                <i class="fas fa-plus" *ngIf="!filtersShow['show9']" (click)="filtersShow['show9'] = true;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show9']" (click)="filtersShow['show9'] = false;" style="font-size: 12px; margin: .25em 0 0 .5em;"></i>
+                <i class="fas fa-plus" *ngIf="!filtersShow['show9']" (click)="filtersShow['show9'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show9']" (click)="filtersShow['show9'] = false;"></i>
               </div>
               <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..." style="margin: .5em auto;" *ngIf="filtersShow['show9']">
+            </div>
+          </th>
+          <th scope="col">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" >
+                {{"demo.Attachment"|translate}}
             </div>
           </th>
           <th scope="col">
@@ -123,8 +128,14 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.assignedTo.username }}</td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.createdBy.username }}</td>
+          <td>
+            <i class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
+            <i class="far fa-file-pdf" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
+            <i class="far fa-file-word" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
+            <i class="far fa-image" (click)="passDataToEditModal(bug)" style="font-size: 24px;" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
+            <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)" style="width: 24px; color: white" *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
+          </td>
           <td> <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)" style="font-size: 24px;"> edit </i> </td>
-
         </tr>
         </tbody>
         <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ? ((config.currentPage - 1) * config.itemsPerPage + 1) : 0) + '-' + ((config.currentPage*config.itemsPerPage) - (((bugList | tableFilter: filter).length > config.currentPage*config.itemsPerPage) ? 0 : (config.currentPage*config.itemsPerPage-(bugList | tableFilter: filter).length))) + ' of ' + (bugList | tableFilter: filter).length }} results.</caption>

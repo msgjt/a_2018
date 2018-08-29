@@ -6,11 +6,7 @@ import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
-import {MyFormatter} from "./datePickerFormatter";
-import {NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrService} from "ngx-toastr";
-import {User} from "../../user-management/services/user.service";
-import {Role} from "../../role-management/entities/role";
 
 //for commit
 @Component({
@@ -65,6 +61,7 @@ export class BugsViewComponent implements OnInit {
         this.bugList = bug;
         this.bugListAux = bug;
         this.selectedBug = bug[0];
+        console.log(this.bugList[0].attachment.split('.'));
       },
       (error) => {
         if (error.status == 403) {
@@ -83,6 +80,7 @@ export class BugsViewComponent implements OnInit {
       fixedVersion: '',
       targetDate: '',
       version: '',
+      attachment: '',
       assignedTo: {
         id: 0,
         firstName: '',

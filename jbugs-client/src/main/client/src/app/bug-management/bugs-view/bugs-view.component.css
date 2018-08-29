@@ -122,3 +122,8 @@ button i {
 /deep/ .table th, .table td {
   vertical-align: inherit;
 }
+
+th i {
+  font-size: 12px;
+  margin: .25em 0 0 .5em;
+}
