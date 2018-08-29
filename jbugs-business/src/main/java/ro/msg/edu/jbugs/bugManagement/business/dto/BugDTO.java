@@ -1,5 +1,6 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
 
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.util.Date;
@@ -7,61 +8,61 @@ import java.util.Date;
 public class BugDTO {
 
     private Long id;
-    private java.lang.String title;
-    private java.lang.String description;
-    private java.lang.String version;
-    private Date targetDate;
-    private java.lang.String status;
-    private java.lang.String fixedVersion;
+    private String title;
+    private String description;
+    private String version;
+    private String targetDate;
+    private String status;
+    private String fixedVersion;
     private String severity;
-    private User createdBy;
-    private User assignedTo;
+    private UserDTO createdBy;
+    private UserDTO assignedTo;
 
-    public java.lang.String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(java.lang.String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public java.lang.String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(java.lang.String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public java.lang.String getVersion() {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(java.lang.String version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 
-    public Date getTargetDate() {
+    public String getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(Date targetDate) {
+    public void setTargetDate(String targetDate) {
         this.targetDate = targetDate;
     }
 
-    public java.lang.String getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(java.lang.String status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public java.lang.String getFixedVersion() {
+    public String getFixedVersion() {
         return fixedVersion;
     }
 
-    public void setFixedVersion(java.lang.String fixedVersion) {
+    public void setFixedVersion(String fixedVersion) {
         this.fixedVersion = fixedVersion;
     }
 
@@ -69,23 +70,23 @@ public class BugDTO {
         return severity;
     }
 
-    public void setSeverity(String string) {
-        this.severity = string;
+    public void setSeverity(String severity) {
+        this.severity = severity;
     }
 
-    public User getCreatedBy() {
+    public UserDTO getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(User createdBy) {
+    public void setCreatedBy(UserDTO createdBy) {
         this.createdBy = createdBy;
     }
 
-    public User getAssignedTo() {
+    public UserDTO getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(User assignedTo) {
+    public void setAssignedTo(UserDTO assignedTo) {
         this.assignedTo = assignedTo;
     }
 
@@ -98,7 +99,7 @@ public class BugDTO {
     }
 
     @Override
-    public java.lang.String toString() {
+    public String toString() {
         return "BugDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
@@ -107,7 +108,7 @@ public class BugDTO {
                 ", targetDate='" + targetDate + '\'' +
                 ", status='" + status + '\'' +
                 ", fixedVersion='" + fixedVersion + '\'' +
-                ", severity=" + severity +
+                ", severity='" + severity + '\'' +
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
                 '}';

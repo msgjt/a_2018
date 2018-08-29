@@ -1,5 +1,6 @@
 package resources;
 
+import org.glassfish.jersey.internal.inject.Custom;
 import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
@@ -23,7 +24,12 @@ public class BugResource {
 
     @GET
     public List<BugDTO> getBugs(){
-        return bugManagement.getAllBugs();
+        CustomLogger.logEnter(this.getClass(),"getBugs","");
+
+        List<BugDTO> bugs = bugManagement.getAllBugs();
+
+        CustomLogger.logExit(this.getClass(),"getBugs",bugs.toString());
+        return bugs;
     }
 
     @POST

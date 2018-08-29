@@ -26,11 +26,13 @@ public class RolesFilter implements Filter {
         CustomLogger.logEnter(this.getClass(),"doFilter",
                 "req: " + req.toString(),"chain: " +chain.toString());
 
+
         System.out.println("+++++++++++++++Inside ROLES FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
         String reqHead = httReq.getHeader("Access-Control-Allow-Origin");
         HttpServletResponse httpServletResponse = (HttpServletResponse)resp;
+
 
         //The filter checks if the request is OPTION, in this case the filter ignore the request
         if(((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")){
