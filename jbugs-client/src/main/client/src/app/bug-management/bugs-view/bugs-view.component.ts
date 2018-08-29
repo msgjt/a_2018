@@ -46,6 +46,7 @@ export class BugsViewComponent implements OnInit {
   ascendingSort = { description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
   bugModel: Bug;
   showInfoDiv: boolean = false;
+  formData: FormData;
 
   //Pagination
   public filter = { };
@@ -382,28 +383,34 @@ export class BugsViewComponent implements OnInit {
 
 
   submitAddData(){
-    // this.roles.forEach(role =>
-    // {
-    //   if (role.selected){
-    //     role.selected = false;
-    //     this.userModel.roles.push(role);
-    //   }
-    // });
-    // this.bugService.createBug(this.bugModel)
-    //   .subscribe(
-    //     (response) => {
-    //       this.userService.getAllUsers().subscribe((user)=>this.userList=user);
-    //       this.errorOccurred = false;
-    //       this.positiveResponse = true;
-    //       this.clearUserModelFields();
-    //     },
-    //     (error) => {
-    //       this.errorMessage = error['error'];
-    //       this.positiveResponse = false;
-    //       this.errorOccurred = true;
-    //     }
-    //   );
-    // this.userModel.roles = [];
+    this.bugService.sendFile(this.formData)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.bugService.createBug(this.bugModel,this.formData)
+
+        },
+        (error) =>{
+          console.log(error);
+          //TODO show error to user
+        }
+      );
+    // this.bugService.createBug(this.bugModel,this.formData);
+      /*.subscribe(
+        (response) => {
+         /!* this.userService.getAllUsers().subscribe((user)=>this.userList=user);
+          this.errorOccurred = false;
+          this.positiveResponse = true;
+          this.clearUserModelFields();*!/
+         console.log(response);
+        },
+        (error) => {
+      /!*    this.errorMessage = error['error'];
+          this.positiveResponse = false;
+          this.errorOccurred = true;*!/
+      console.log(error);
+        }
+      );*/
   }
 
   showInfo() {
@@ -418,5 +425,13 @@ export class BugsViewComponent implements OnInit {
     this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.');
     let snd = new Audio("../../assets/mai.mp3");
     snd.play();
+  }
+
+  fileChange(event){
+    let files = event.target.files;
+    if (files.length > 0) {
+      this.formData = new FormData();
+      this.formData.append('file', files[0]);
+    }
   }
 }

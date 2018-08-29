@@ -38,8 +38,35 @@ export class BugService {
     return this.http.get<Bug[]>(this.baseURL + '/bugs',{headers});
   }
 
-  createBug(bug: Bug) {
+  sendFile(formData: FormData){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.post<boolean>(this.baseURL + '/bugs/upload', formData, {headers});
+  }
 
+  createBug(bug: Bug, formData: FormData) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let body = {
+      'id' : bug.id,
+      'title' : bug.title,
+      'description' : bug.description,
+      'version' : bug.version,
+      'targetDate' : bug.targetDate,
+      'status' : bug.status,
+      'fixedVersion' : bug.fixedVersion,
+      'severity' : bug.severity,
+      'createdBy' : bug.createdBy,
+      'assignedTo' : bug.assignedTo,
+      'attachment' : bug.attachment
+    };
+    return this.http.post(this.baseURL + '/bugs', body, {headers});
   }
 
   updateBug(bug: Bug) {
