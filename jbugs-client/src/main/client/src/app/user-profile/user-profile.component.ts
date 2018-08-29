@@ -3,6 +3,7 @@ import {User, UserService} from "../user-management/services/user.service";
 
 import {Role} from "../role-management/entities/role";
 import {Router} from "@angular/router";
+import {NotificationService} from "../notification.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -14,10 +15,10 @@ export class UserProfileComponent implements OnInit {
   userModel: User;
   userList: User[];
   errorMessage: string;
+  notificationsList : Notification[];
 
-
-
-  constructor(private userService: UserService, private router:Router) {
+  constructor(private userService: UserService, private router:Router,
+              private notificationService: NotificationService) {
     this.userModel = {
       id: 0,
       firstName: '',
@@ -34,7 +35,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoggedInOnServer()
+    this.isLoggedInOnServer();
+    this.getUsersNotifications()
+
   }
 
 
@@ -59,6 +62,13 @@ export class UserProfileComponent implements OnInit {
     }else{
       this.router.navigate(['/norights']);
     }})
+  }
+
+  getUsersNotifications(){
+    this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
+      .subscribe(notifications=>{this.notificationsList=notifications,
+        console.log(this.notificationsList),
+        this.getUsersNotifications()});
   }
 
 
