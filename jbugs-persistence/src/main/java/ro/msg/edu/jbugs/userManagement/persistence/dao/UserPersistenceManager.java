@@ -319,11 +319,23 @@ public class UserPersistenceManager {
     }
 
     public List<Notification> getAllNotificationsForUser(@NotNull Long id) {
-        
+
         List<Notification> filteredList= new ArrayList<>();
 
         TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
                 .setParameter("status","not_read").setParameter("userId",id);
+        filteredList=tq.getResultList();
+
+
+        return filteredList;
+    }
+
+    public List<Notification> getOldNotificationsForUser(@NotNull Long id) {
+
+        List<Notification> filteredList= new ArrayList<>();
+
+        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
+                .setParameter("status","read").setParameter("userId",id);
         filteredList=tq.getResultList();
 
 

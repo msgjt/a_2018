@@ -25,6 +25,7 @@ public class UserManagementApplication extends Application {
         classes.add(LoggedIn.class);
         classes.add(GetNotifications.class);
         classes.add(MultiPartFeature.class);
+        classes.add(GetOldNotifications.class);
         return classes;
     }
 

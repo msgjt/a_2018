@@ -74,6 +74,7 @@ INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,versi
 
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
+insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","read","USER_UPDATED");
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
 insert into notifications(URL,message,status,type) values("ulr.com","you have been notified","not_read","USER_UPDATED");
@@ -83,6 +84,7 @@ insert into notifications(URL,message,status,type) values("ulr.com","you have be
 
 insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,1);
 insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",1,2);
+insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",3,1);
 insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,2);
 insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",3,2);
 insert into users_notifications(date,notifications_ID,User_ID) values("28-11-18",2,1);

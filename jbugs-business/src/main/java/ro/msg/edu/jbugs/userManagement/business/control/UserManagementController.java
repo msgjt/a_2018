@@ -8,6 +8,7 @@ import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.dto.*;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
@@ -87,6 +88,7 @@ public class UserManagementController implements UserManagement {
         
         User createdUser = userPersistenceManager.createUser(user);
         UserDTO result = UserDTOHelper.fromEntity(createdUser);
+        createWelcomeNotification(createdUser);
 
         CustomLogger.logExit(this.getClass(), "createUser", result.toString());
         return result;
@@ -341,6 +343,10 @@ public class UserManagementController implements UserManagement {
        return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
     }
 
+    public boolean checkLoggedUserByUsername(@NotNull String username){
+        return loggedUsers.containsKey(username);
+    }
+
     /**
      * Remove the user with the given username from the loggedIn map.
      * @param username the key to be removed
@@ -467,5 +473,18 @@ public class UserManagementController implements UserManagement {
         List<Permission> permisionsList= new ArrayList<>();
         permisionsList.addAll(allPermission);
         return permisionsList;
+    }
+
+    public void createWelcomeNotification(User user){
+        Notification notification= new Notification();
+        notification.setStatus("not_read");
+        notification.setMessage("Welcome");
+        notification.setType("WELCOME_NEW_USER");
+        notification.setURL("Welcome new user");
+        userPersistenceManager.createNotification(notification);
+        List<Notification> notifications= user.getNotifications();
+        notifications.add(notification);
+        user.setNotifications(notifications);
+        userPersistenceManager.updateUser(user);
     }
 }

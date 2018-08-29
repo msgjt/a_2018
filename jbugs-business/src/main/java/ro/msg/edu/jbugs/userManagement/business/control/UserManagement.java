@@ -23,5 +23,6 @@ public interface UserManagement {
     Set<String> getAllUserPermission(String username);
     List<Permission> getAllUserPermissionAsList(String username);
     boolean logout(String username);
+    boolean checkLoggedUserByUsername(@NotNull String username);
 
 }

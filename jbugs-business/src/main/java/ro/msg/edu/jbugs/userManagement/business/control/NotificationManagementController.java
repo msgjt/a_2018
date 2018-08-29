@@ -18,6 +18,9 @@ public class NotificationManagementController implements NotificationManagement 
     @EJB
     private UserPersistenceManager userPersistenceManager;
 
+    @EJB
+    private UserManagement userManagementController;
+
     @Override
     public List<NotificationDTO> getAllNotifications() {
         CustomLogger.logEnter(this.getClass(),"getAllNotifications","");
@@ -31,6 +34,9 @@ public class NotificationManagementController implements NotificationManagement 
     }
 
     public List<NotificationDTO> getNewNotifications(Long id){
+        Thread t1= new Thread();
+        t1.setPriority(Thread.MIN_PRIORITY);
+        t1.start();
         List<Notification> newNotifications= new ArrayList<>();
         List<NotificationDTO> newNotificationsDTO = new ArrayList<>();
 
@@ -53,8 +59,19 @@ public class NotificationManagementController implements NotificationManagement 
             }
         } while(newNotifications.size() ==0);
 
-
-
         return newNotificationsDTO;
+    }
+
+
+    public List<NotificationDTO> getOldNotifications(Long id){
+        List<Notification> newNotifications= new ArrayList<>();
+        List<NotificationDTO> oldNotificationsDTO = new ArrayList<>();
+
+            newNotifications = userPersistenceManager.getOldNotificationsForUser(id);
+            oldNotificationsDTO = newNotifications.stream()
+                    .map(NotificationDTOHelper::fromEntity)
+                    .collect(Collectors.toList());
+
+        return oldNotificationsDTO;
     }
 }
