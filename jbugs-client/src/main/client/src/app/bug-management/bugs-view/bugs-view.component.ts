@@ -7,8 +7,12 @@ import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
 import {ActiveToast, ToastrService} from "ngx-toastr";
+import {switchMap} from "rxjs/operators";
+import {Observable} from "rxjs/internal/Observable";
+import {ObservableInput} from "rxjs/internal/types";
+import {flatMap} from "rxjs/internal/operators";
+import {User, UserService} from "../../user-management/services/user.service";
 
-//for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
@@ -47,6 +51,8 @@ export class BugsViewComponent implements OnInit {
   ascendingSort = { id: true, description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
   bugModel: Bug;
   showInfoDiv: boolean = false;
+  formData: FormData;
+  userList: User[];
   sortWanted = false;
 
   //Pagination
@@ -57,7 +63,7 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
+  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService, private userService: UserService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
 
@@ -110,6 +116,10 @@ export class BugsViewComponent implements OnInit {
 
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
+    this.formData = new FormData();
+    this.userService.getAllUsers().subscribe(
+      (users) => {this.userList = users;}
+    );
   }
 
   exportToExcel() {
@@ -408,28 +418,39 @@ export class BugsViewComponent implements OnInit {
 
 
   submitAddData(){
-    // this.roles.forEach(role =>
-    // {
-    //   if (role.selected){
-    //     role.selected = false;
-    //     this.userModel.roles.push(role);
-    //   }
-    // });
-    // this.bugService.createBug(this.bugModel)
-    //   .subscribe(
-    //     (response) => {
-    //       this.userService.getAllUsers().subscribe((user)=>this.userList=user);
-    //       this.errorOccurred = false;
-    //       this.positiveResponse = true;
-    //       this.clearUserModelFields();
-    //     },
-    //     (error) => {
-    //       this.errorMessage = error['error'];
-    //       this.positiveResponse = false;
-    //       this.errorOccurred = true;
-    //     }
-    //   );
-    // this.userModel.roles = [];
+
+    //TODO show error when not finding users
+    let currentUsername = localStorage.getItem("currentUser");
+    let currentUser = this.userList.find(user => user.username == currentUsername);
+    this.bugModel.createdBy = currentUser;
+    let assignedUsername = this.bugModel.assignedTo.username;
+    this.bugModel.assignedTo = this.userList.find(user => user.username == assignedUsername);
+
+    this.bugService.createBug(this.bugModel)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.setBugId(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+    if(this.formData.has('file')) {
+      this.formData.append('bugId', this.bugModel.id.toString());
+      this.bugService.sendFile(this.formData)
+        .subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+            //TODO show error to user
+          }
+        );
+    }
+
   }
 
   showInfo() {
@@ -446,4 +467,18 @@ export class BugsViewComponent implements OnInit {
       snd.play();
     });
   }
+
+  fileChange(event){
+    let files = event.target.files;
+    if (files.length > 0) {
+      this.formData = new FormData();
+      this.formData.append('file', files[0]);
+      this.bugModel.attachment = files[0].name;
+    }
+  }
+
+  setBugId(bug: Bug){
+    this.bugModel.id = bug.id;
+  }
+
 }

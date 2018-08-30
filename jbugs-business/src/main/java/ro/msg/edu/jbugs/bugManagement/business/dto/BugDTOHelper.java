@@ -1,7 +1,12 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
-
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -17,7 +22,7 @@ public class BugDTOHelper {
      * @param bug not null
      * @return the resulted bugDTO
      */
-    public static BugDTO fromEntity(@NotNull Bug bug) {
+    public static BugDTO fromEntity(@NotNull Bug bug){
         BugDTO bugDTO = new BugDTO();
 
         bugDTO.setTitle(bug.getTitle());
@@ -25,7 +30,7 @@ public class BugDTOHelper {
         bugDTO.setStatus(bug.getStatus());
         bugDTO.setFixedVersion(bug.getFixedVersion());
         bugDTO.setVersion(bug.getVersion());
-        bugDTO.setSeverity(bug.getSeverity());
+        bugDTO.setSeverity(bug.getSeverity().toString());
         bugDTO.setCreatedBy(UserDTOHelper.fromEntity(bug.getCreatedBy()));
         bugDTO.setAssignedTo(UserDTOHelper.fromEntity(bug.getAssignedTo()));
         bugDTO.setDescription(bug.getDescription());
@@ -43,17 +48,21 @@ public class BugDTOHelper {
      * @param oldBug not null
      * @return the resulted Bug entity
      */
-    public static Bug toEntity(@NotNull BugDTO bugDTO,@NotNull Bug oldBug) {
+    public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
 
         oldBug.setTitle(bugDTO.getTitle());
         oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
         oldBug.setStatus(bugDTO.getStatus());
         oldBug.setFixedVersion(bugDTO.getFixedVersion());
         oldBug.setVersion(bugDTO.getVersion());
-        oldBug.setSeverity(bugDTO.getSeverity());
-
-        oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(), oldBug.getCreatedBy()));
-        oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(), oldBug.getAssignedTo()));
+        if (isValidSeverity(bugDTO.getSeverity())) {
+            oldBug.setSeverity(Severity.valueOf(bugDTO.getSeverity()));
+        }
+        else {
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_SEVERITY_NOT_VALID);
+        }
+        oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),oldBug.getCreatedBy()));
+        oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),oldBug.getAssignedTo()));
 
         oldBug.setDescription(bugDTO.getDescription());
         oldBug.setId(bugDTO.getId());
@@ -62,5 +71,14 @@ public class BugDTOHelper {
         return oldBug;
 
 
+    }
+
+    private static boolean isValidSeverity(String severity){
+        for(Severity s : Severity.values()){
+            if (s.name().equals(severity)){
+                return true;
+            }
+        }
+        return false;
     }
 }

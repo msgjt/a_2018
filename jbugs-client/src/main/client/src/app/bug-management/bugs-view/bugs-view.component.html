@@ -357,17 +357,13 @@
                 >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
-          <div class="form-group">
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd" required readonly
-                     name="dp" id="datepicker" [(ngModel)]="bugModel.targetDate" ngbDatepicker #d="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
-                  class="far fa-calendar-alt" style="font-size: 20px;"></i></button>
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="date" class="form-control" placeholder="yyyy-mm-dd"
+                         name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
+                </div>
               </div>
-            </div>
-          </div>
-          <span class="form-group has-float-label">
+              <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
                       style="margin-top: 15px">Title is required.</span>
                 <input type="text"
@@ -408,14 +404,14 @@
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
-            <input  name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file">
+            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
           </div>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
-          <!--<label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>-->
-          <!--<label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>-->
+          <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
+          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
         </form>
       </div>
     </div>

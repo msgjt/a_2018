@@ -5,35 +5,35 @@ import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
 import ro.msg.edu.jbugs.bugManagement.business.validator.BugValidator;
 import ro.msg.edu.jbugs.bugsManagement.persistence.dao.BugPersistenceManager;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Stateless
 public class BugManagementController implements BugManagement {
 
-
-
     @EJB
     private BugPersistenceManager bugPersistenceManager;
 
     @EJB
+    private UserManagement userManagement;
+
+    @EJB
     private BugValidator bugValidator;
-
-
-
 
     /**
      * Gets all the bugs in the form of a list.
-     *
      * @return the list of all the bugs, empty if no bugs found.
      */
     @Override
@@ -62,13 +62,14 @@ public class BugManagementController implements BugManagement {
         bugValidator.validateCreate(bugDTO);
         bugDTO.setStatus("Open");
 
-        if (bugDTO.getAttachment() != null) {
-            File file = new File(bugDTO.getAttachment());
-            if (!file.exists()) {
-                throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
-            }
-        }
-        Bug bug = BugDTOHelper.toEntity(bugDTO, new Bug());
+        Bug dummyBug = new Bug();
+        dummyBug.setCreatedBy(new User());
+        dummyBug.setAssignedTo(new User());
+        Bug bug = BugDTOHelper.toEntity(bugDTO,dummyBug);
+        User userCreatedBy = userManagement.getOldUserFields(bugDTO.getCreatedBy());
+        User userAssignedTo = userManagement.getOldUserFields(bugDTO.getAssignedTo());
+        bug.setCreatedBy(userCreatedBy);
+        bug.setAssignedTo(userAssignedTo);
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
 
@@ -78,7 +79,6 @@ public class BugManagementController implements BugManagement {
 
     /**
      * Updates a bug by receiving a bugDTO, which it will validate and persist in the DB.
-     *
      * @param bugDTO an object of type BugDTO or null
      * @return the resulted bugDTO persisted in the DB (its id will be set)
      */
@@ -109,7 +109,6 @@ public class BugManagementController implements BugManagement {
 
     /**
      * Checks if the desired update of the status can be done.
-     *
      * @param bug not null, the updated bug
      * @return true if the status can be changed, false otherwise
      */

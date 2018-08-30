@@ -12,9 +12,9 @@ public class BugDTO {
     private String targetDate;
     private String status;
     private String fixedVersion;
+    private String severity;
     private UserDTO createdBy;
     private UserDTO assignedTo;
-    private Severity severity;
     private String attachment;
 
     public String getTitle() {
@@ -65,11 +65,11 @@ public class BugDTO {
         this.fixedVersion = fixedVersion;
     }
 
-    public Severity getSeverity() {
+    public String getSeverity() {
         return severity;
     }
 
-    public void setSeverity(Severity severity) {
+    public void setSeverity(String severity) {
         this.severity = severity;
     }
 
