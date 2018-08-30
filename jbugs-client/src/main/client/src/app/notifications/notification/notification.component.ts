@@ -4,6 +4,7 @@ import {NotificationService} from "../services/notification.service";
 import {interval} from "rxjs/internal/observable/interval";
 import {Notification} from "../entities/Notification";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-notification',
@@ -14,11 +15,12 @@ export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
   public oldNotifications: Notification[];
-  public displayedOldNotifications: Notification[]=[];
+  public displayedAllNotifications: Notification[]=[];
   public displayedNewNotifications: Notification[]=[];
   private NOTIFICATION_DELAY: number = 5000;
 
-  constructor(private notificationService: NotificationService, private toastrService: ToastrService) {
+  constructor(private notificationService: NotificationService, private toastrService: ToastrService,
+              private router:Router) {
 
   }
 
@@ -27,6 +29,7 @@ export class NotificationComponent implements OnInit {
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
+      this.displayedNewNotifications=[];
 
       source.subscribe(() => {
         let id = localStorage.getItem("id");
@@ -35,6 +38,7 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications = notifications;
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
+                this.displayedAllNotifications.push(n)
                 this.displayedNewNotifications.push(n)
               })
             }
@@ -45,6 +49,13 @@ export class NotificationComponent implements OnInit {
                   sound.play();
               });
             });
+          },(error)=>{
+            if(error.status == 403){
+              this.router.navigate(['/error']);
+            }
+            if(error.status == 401){
+              this.router.navigate(['/norights']);
+            }
           });
         }
       });
@@ -63,12 +74,20 @@ export class NotificationComponent implements OnInit {
             this.oldNotifications = notifications;
             if(this.oldNotifications.length!=0){
               this.oldNotifications.forEach(n=>{
-                this.displayedOldNotifications.push(n)
+                this.displayedAllNotifications.push(n)
               })
               subscriber.unsubscribe()
-              console.log(this.displayedOldNotifications)
+              console.log(this.displayedAllNotifications)
             }
-          });
+          },
+            (error)=>{
+              if(error.status == 403){
+                this.router.navigate(['/error']);
+              }
+              if(error.status == 401){
+                this.router.navigate(['/norights']);
+              }
+            });
         }
       });
     }
