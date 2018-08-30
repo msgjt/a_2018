@@ -10,7 +10,7 @@
           </h5>
 
           <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
-                  aria-label="Close"
+                  aria-label="Close" #btnClose
                   (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -18,7 +18,7 @@
         </div>
 
           <div class="modal-body">
-            <div *ngIf="bugUpdatedToClosed == false">
+            <div *ngIf="true">
             <form class="form-signin text-center"
                   (ngSubmit)="submitEditForm()"
                   #formControl="ngForm">
@@ -82,21 +82,21 @@
             </mat-form-field>
           </span>
 
-
               <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                       style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                       [disabled]="formControl.invalid" translate
-              >demo.Submit
+                      (click)="btnClose.click()"
+              >
+                demo.Submit
               </button>
               <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
               <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
             </form>
           </div>
-            <div *ngIf="bugUpdatedToClosed == true">
+            <div *ngIf="false">
               <h1 class="h1 mb-3 font-weight-normal">
                 {{ "demo.Not able to edit this bug anymore, it was closed."| translate}}
               </h1><br>
-
             </div>
         </div>
       </div>

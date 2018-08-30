@@ -3,7 +3,11 @@
 
 <div *ngIf="selectedBug">
   <app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"
-                [statusFormControl]="getStatusFormControl(selectedBug)"></app-edit-bug>
+                [statusFormControl]="getStatusFormControl(selectedBug)"
+
+  >
+
+  </app-edit-bug>
 </div>
 
 <div class="column justify-content-center">
@@ -158,7 +162,7 @@
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
           </td>
           <td>
-            <div *ngIf="bug.status != 'Closed'">
+            <div *ngIf=" bug.status !='Closed' ">
               <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
                  style="font-size: 24px;"> edit </i>
             </div>

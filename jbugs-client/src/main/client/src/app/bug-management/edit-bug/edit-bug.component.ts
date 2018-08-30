@@ -1,6 +1,6 @@
 import {Bug, BugService} from "../services/bug.service";
 import {Router} from "@angular/router";
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
 
@@ -19,7 +19,10 @@ export class EditBugComponent implements OnInit {
   positiveResponse: boolean;
   errorMessage: string;
   possibleSeverities: string[] = ['LOW','MEDIUM','HIGH','CRITICAL'];
-  bugUpdatedToClosed = false;
+  oldStatus: string = null;
+
+
+
 
   constructor(private bugService: BugService,private userService: UserService, private router: Router) {
 
@@ -36,11 +39,13 @@ export class EditBugComponent implements OnInit {
   }
 
   updateBugStatus(status: string) {
+    if(this.oldStatus == null) {
+      this.oldStatus = this.bug.status;
+    }
     this.bug.status = status;
   }
 
   submitEditForm() {
-
     this.userService.getAllUsers().subscribe( users => {
       this.bug.assignedTo = users.find(user => user.username === this.bug.assignedTo.username )
     });
@@ -50,10 +55,7 @@ export class EditBugComponent implements OnInit {
     this.bugService.updateBug(this.bug).subscribe( () => {
       this.severityFormControl = new FormControl(this.bug.severity);
       this.statusFormControl = new FormControl(this.bug.status);
-
-      if(this.bug.status == 'Closed'){
-        this.bugUpdatedToClosed = true;
-      }
+      this.oldStatus = null;
     });
   }
 
@@ -66,8 +68,14 @@ export class EditBugComponent implements OnInit {
       {key: 'InfoNeeded', values: ['InfoNeeded','InProgress']},
       {key: 'Closed', values: ['Closed']}
     ];
+    let status;
+    if(this.oldStatus != null){
+      status = this.oldStatus;
+    } else {
+      status = bug.status;
+    }
 
-    return allStates.find(s => s.key == bug.status).values;
+    return allStates.find(s => s.key == status).values;
   }
 
 

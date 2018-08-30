@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {FormControl} from "@angular/forms";
 import {PaginationInstance} from "ngx-pagination";
@@ -42,6 +42,9 @@ export class BugsViewComponent implements OnInit {
   errorMessage: string;
   errorOccurred: boolean = false;
   positiveResponse: boolean = false;
+
+
+
 
   //Pagination
   public filter = { };
@@ -398,6 +401,8 @@ export class BugsViewComponent implements OnInit {
     this.selectedBug = bug;
   }
 
+
+
   isBUG_EXPORT_PDF(): boolean {
     return localStorage.getItem('BUG_EXPORT_PDF') != null;}
 
@@ -454,6 +459,7 @@ export class BugsViewComponent implements OnInit {
 
   }
 
+
   showInfo() {
     this.showInfoDiv = true;
   }
@@ -497,6 +503,10 @@ export class BugsViewComponent implements OnInit {
       this.formData.append('file', files[0]);
       this.bugModel.attachment = files[0].name;
     }
+  }
+
+  getFalse() {
+    return false;
   }
 
 }

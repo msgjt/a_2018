@@ -29,6 +29,7 @@ export class NotificationComponent implements OnInit {
       console.log("BBBB 2");
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
+
       source.subscribe(() => {
         let id = localStorage.getItem("id");
         if( id != null ) {
@@ -51,6 +52,9 @@ export class NotificationComponent implements OnInit {
           });
         }
       });
+
+
+      source.subscribe( () => {})
     }
   }
 }
