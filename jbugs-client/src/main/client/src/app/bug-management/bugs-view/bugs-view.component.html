@@ -23,45 +23,41 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
-          <th scope="col" (click)="doSort('id')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['id'] && askedForSort['id'], 'descendingSort': ascendingSort['id'] && askedForSort['id'] }" (click)="doSort('id')" class="sortable">
               <span translate>ID</span>
           </th>
-          <th scope="col" (click)="doSort('title')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['title'] && askedForSort['title'], 'descendingSort': ascendingSort['title'] && askedForSort['title'] }" (click)="doSort('title')" class="sortable">
               <span translate>demo.Title</span>
           </th>
-          <th scope="col" (click)="doSort('description')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['description'] && askedForSort['description'], 'descendingSort': ascendingSort['description'] && askedForSort['description'] }" (click)="doSort('description')" class="sortable">
               <span translate>demo.Description</span>
           </th>
-          <th scope="col" (click)="doSort('fixedVersion')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['fixedVersion'] && askedForSort['fixedVersion'], 'descendingSort': ascendingSort['fixedVersion'] && askedForSort['fixedVersion'] }" (click)="doSort('fixedVersion')" class="sortable">
               <span translate>demo.Fixed Version</span>
           </th>
-          <th scope="col" (click)="doSort('severity')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['severity'] && askedForSort['severity'], 'descendingSort': ascendingSort['severity'] && askedForSort['severity'] }" (click)="doSort('severity')" class="sortable">
               <span translate>demo.Severity</span>
           </th>
-          <th scope="col" (click)="doSort('status')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['status'] && askedForSort['status'], 'descendingSort': ascendingSort['status'] && askedForSort['status'] }" (click)="doSort('status')" class="sortable">
               <span translate>demo.Status</span>
           </th>
-          <th scope="col" (click)="doSort('targetDate')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['targetDate'] && askedForSort['targetDate'], 'descendingSort': ascendingSort['targetDate'] && askedForSort['targetDate'] }" (click)="doSort('targetDate')" class="sortable">
               <span translate>demo.Target date</span>
           </th>
-          <th scope="col" (click)="doSort('version')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['versiom'] && askedForSort['version'], 'descendingSort': ascendingSort['versiom'] && askedForSort['version'] }" (click)="doSort('version')" class="sortable">
               <span translate>demo.Version</span>
           </th>
-          <th scope="col" (click)="doSort('assignedTo')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['assignedTo'] && askedForSort['assignedTo'], 'descendingSort': ascendingSort['assignedTo'] && askedForSort['assignedTo'] }" (click)="doSort('assignedTo')" class="sortable">
               <span translate>demo.Assigned to</span>
           </th>
-          <th scope="col" (click)="doSort('createdBy')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['createdBy'] && askedForSort['createdBy'], 'descendingSort': ascendingSort['createdBy'] && askedForSort['createdBy'] }" (click)="doSort('createdBy')" class="sortable">
               <span translate>demo.Created by</span>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               {{"demo.Attachment"|translate}}
-            </div>
           </th>
           <th scope="col">
-            <div tyle="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               {{"demo.Actions" | translate }}
-            </div>
           </th>
         </tr>
         </thead>

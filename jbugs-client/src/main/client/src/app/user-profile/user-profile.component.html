@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-
 <div class="sidenav">
   <p > Welcome back, {{userModel.username}}</p>
   <a (click)="showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
@@ -59,8 +58,7 @@
                    placeholder=" ">
             <label for="inputPhoneNumber" translate>demo.Phone number</label>
           </span>
-    <span class="form-group has-float-label"
-    >
+    <span class="form-group has-float-label">
             <input type="text" id="inputEmail" class="form-control"
                    name="email"
                    pattern="^[a-zA-Z]*@msggroup.com$"
@@ -84,8 +82,6 @@
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
-
-
 
 <div class="modal-body"
      id="passwordDiv"
@@ -129,6 +125,3 @@
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
-
-
-

@@ -93,7 +93,7 @@ const appRoutes: Routes = [
     path: 'norights', component: NorightsComponent
   },
   {
-    path: 'userProfile', component: UserProfileComponent, canActivate: [AuthenticatedGuard]
+    path: 'user_profile', component: UserProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: '**', component: ErrorComponent

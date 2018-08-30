@@ -25,6 +25,9 @@ td {
 
 th {
   color: white;
+}
+
+.sortable {
   cursor: pointer;
 }
 
@@ -161,4 +164,12 @@ table {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.ascendingSort {
+  background: url("../../../assets/asc.png") no-repeat center right;
+}
+
+.descendingSort {
+  background: url("../../../assets/desc.png") no-repeat center right;
 }
