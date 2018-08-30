@@ -59,6 +59,15 @@ export class UserService {
     return this.http.get<User[]>(this.baseURL + '/users',{headers});
   }
 
+  getAllUsersForUserProfile(): Observable<User[]> {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.get<User[]>(this.baseURL + '/userprofile',{headers});
+  }
+
   updateUser( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, roles: Role[]) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");
@@ -79,11 +88,40 @@ export class UserService {
     };
     return this.http.put<boolean>(this.baseURL + '/users', body,options);
   }
+
+  updateUserForUserProfile( id: number, firstname: string, lastname: string, email: string, mobileNumber: string, roles: Role[]) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let body = {
+      'id': id,
+      'firstName': firstname,
+      'lastName': lastname,
+      'email': email,
+      'phoneNumber': mobileNumber,
+      'roles': roles
+    };
+    let options = {
+      headers: headers,
+      params: new HttpParams().set('id',localStorage.getItem("id"))
+    };
+    return this.http.put<boolean>(this.baseURL + '/userprofile', body,options);
+  }
+
   updateUserPassword( id: number, password: string){
     let body = {
       'id': id,
       'password': password};
     return this.http.put<boolean>(this.baseURL + '/users/changePassword', body);
+  }
+
+  updateUserPasswordForUserProfile( id: number, password: string){
+    let body = {
+      'id': id,
+      'password': password};
+    return this.http.put<boolean>(this.baseURL + '/userprofile/changePassword', body);
   }
 
   deactivateUser(id: number){

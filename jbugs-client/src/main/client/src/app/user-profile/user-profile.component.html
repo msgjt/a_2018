@@ -3,9 +3,9 @@
 
 <div class="sidenav">
   <p > Welcome back, {{userModel.username}}</p>
-  <a (click)="showInfoDiv=true;showUpdate=false;showPassword=false;">Display data </a>
-  <a (click)="showInfoDiv=false;showUpdate=true;showPassword=false;">Change data</a>
-  <a (click)="showInfoDiv=false;showUpdate=false;showPassword=true;">Change password</a>
+  <a (click)="showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
+  <a (click)="showInfoDiv=false;showUpdate=true;showPassword=false;refresh()">Change data</a>
+  <a (click)="showInfoDiv=false;showUpdate=false;showPassword=true;refresh()">Change password</a>
 </div>
 
 <div
@@ -100,6 +100,7 @@
                    minlength="2"
                    required
                    [(ngModel)]="newPassword"
+                   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                    placeholder=" ">
             <label for="inputNewPassword" translate>demo.New Password</label>
           </span>
@@ -108,6 +109,7 @@
                    name="passwordconfirm"
                    required
                    [(ngModel)]="newPasswordConfirmed"
+                   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                    placeholder=" ">
             <label for="inputNewPasswordConfirm" translate>demo.Confirm Password</label>
           </span>
@@ -127,3 +129,6 @@
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
+
+
+

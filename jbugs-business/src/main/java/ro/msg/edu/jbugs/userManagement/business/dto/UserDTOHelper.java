@@ -43,13 +43,14 @@ public class UserDTOHelper {
      */
     public static User toEntity(@NotNull UserDTO userDTO, @NotNull User oldUser) {
 
-        oldUser.setFirstName(userDTO.getFirstName() != null ? userDTO.getFirstName() : oldUser.getFirstName());
-        oldUser.setLastName(userDTO.getLastName() != null ? userDTO.getLastName() : oldUser.getLastName());
+        oldUser.setId(userDTO.getId() != null ? userDTO.getId() : oldUser.getId());
+        oldUser.setFirstName(userDTO.getFirstName() != null && !userDTO.getFirstName().isEmpty() && userDTO.getFirstName()!="null" && userDTO.getFirstName()!=" "  ? userDTO.getFirstName() : oldUser.getFirstName());
+        oldUser.setLastName(userDTO.getLastName() != null && !userDTO.getLastName().isEmpty()  && userDTO.getLastName()!="null" && userDTO.getLastName()!=" "  ? userDTO.getLastName() : oldUser.getLastName());
         oldUser.setEmail(userDTO.getEmail() != null ? userDTO.getEmail() : oldUser.getEmail());
-        oldUser.setPassword(userDTO.getPassword() != null ? userDTO.getPassword() : oldUser.getPassword());
-        oldUser.setUsername(userDTO.getUsername() != null ? userDTO.getUsername() : oldUser.getUsername());
+        oldUser.setPassword(userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()  && userDTO.getPassword()!="null" && userDTO.getPassword()!=" "  ? userDTO.getPassword() : oldUser.getPassword());
+        oldUser.setUsername(userDTO.getUsername() != null && !userDTO.getUsername().isEmpty()  && userDTO.getUsername()!="null" && userDTO.getUsername()!=" "  ? userDTO.getUsername() : oldUser.getUsername());
         oldUser.setIsActive(userDTO.getIsActive() != null ? userDTO.getIsActive() : oldUser.getIsActive());
-        oldUser.setPhoneNumber(userDTO.getPhoneNumber() != null ? userDTO.getPhoneNumber() : oldUser.getPhoneNumber());
+        oldUser.setPhoneNumber(userDTO.getPhoneNumber() != null && !userDTO.getPhoneNumber().isEmpty()  && userDTO.getPhoneNumber()!="null" && userDTO.getPhoneNumber()!=" "  ? userDTO.getPhoneNumber() : oldUser.getPhoneNumber());
         oldUser.setRoles(userDTO.getRoles() != null ?
                 userDTO.getRoles().stream().map(RoleDTOHelper::toEntity).collect(Collectors.toList()) :
                 oldUser.getRoles());

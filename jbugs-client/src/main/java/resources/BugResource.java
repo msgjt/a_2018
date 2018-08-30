@@ -106,11 +106,20 @@ public class BugResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadFile(@DefaultValue("true") @FormDataParam("enabled") boolean enabled,
                                @FormDataParam("file") InputStream uploadedInputStream,
-                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
+                               @FormDataParam("file") FormDataContentDisposition fileDetail,
+                               @FormDataParam("bugId") String bugId) {
 
         File objFile = new File(fileDetail.getFileName());
         isValidForSaving(objFile);
         saveToFile(uploadedInputStream, objFile);
+        Long id;
+        try{
+            id = new Long(Integer.parseInt(bugId));
+        }
+        catch (Exception e){
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
+        }
+        bugManagement.getBugById(id).setAttachment(fileDetail.getFileName());
         String output = "File uploaded to: " + objFile.getAbsolutePath();
 
         return Response.status(Response.Status.CREATED).entity(output).build();
