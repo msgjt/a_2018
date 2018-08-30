@@ -26,11 +26,15 @@ public class BugDTOHelper {
         BugDTO bugDTO = new BugDTO();
 
         bugDTO.setTitle(bug.getTitle());
-        bugDTO.setTargetDate(bug.getTargetDate().format(formatter));
+        if(bug.getTargetDate() != null) {
+            bugDTO.setTargetDate(bug.getTargetDate().format(formatter));
+        }
         bugDTO.setStatus(bug.getStatus());
         bugDTO.setFixedVersion(bug.getFixedVersion());
         bugDTO.setVersion(bug.getVersion());
-        bugDTO.setSeverity(bug.getSeverity().toString());
+        if(bug.getSeverity() != null) {
+            bugDTO.setSeverity(bug.getSeverity().toString());
+        }
         bugDTO.setCreatedBy(UserDTOHelper.fromEntity(bug.getCreatedBy()));
         bugDTO.setAssignedTo(UserDTOHelper.fromEntity(bug.getAssignedTo()));
         bugDTO.setDescription(bug.getDescription());
@@ -76,6 +80,35 @@ public class BugDTOHelper {
         return oldBug;
 
 
+    }
+
+    public static Bug toEntityOneParam(@NotNull BugDTO bugDTO){
+        Bug bug = new Bug();
+        bug.setCreatedBy(new User());
+        bug.setAssignedTo(new User());
+
+        bug.setTitle(bugDTO.getTitle());
+            try {
+                bug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
+            } catch (Exception e) {
+                throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_TARGET_DATE_NOT_VALID);
+            }
+        bug.setStatus(bugDTO.getStatus());
+        bug.setFixedVersion(bugDTO.getFixedVersion());
+        bug.setVersion(bugDTO.getVersion());
+        if (isValidSeverity(bugDTO.getSeverity())) {
+            bug.setSeverity(Severity.valueOf(bugDTO.getSeverity()));
+        } else {
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_SEVERITY_NOT_VALID);
+        }
+        bug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),bug.getCreatedBy()));
+        bug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),bug.getAssignedTo()));
+
+        bug.setDescription(bugDTO.getDescription());
+        bug.setId(bugDTO.getId());
+        bug.setAttachment(bugDTO.getAttachment());
+
+        return bug;
     }
 
     private static boolean isValidSeverity(String severity){
