@@ -210,7 +210,7 @@ public class UserManagementController implements UserManagement {
      * @param username the username for which the suffix will be created, not null
      * @return the suffix generated for the username
      */
-    private String generateUsernameSuffix(@NotNull String username) {
+    private String generateUsernameSuffix(String username) {
 
         Optional<Integer> max = userPersistenceManager.getUsernamesLike(username)
                 .stream()
@@ -235,7 +235,7 @@ public class UserManagementController implements UserManagement {
      * @param lastName  not null
      * @return generated username
      */
-    private String generateUsernamePrefix(@NotNull final String firstName, @NotNull final String lastName) {
+    private String generateUsernamePrefix(final String firstName, final String lastName) {
 
         StringBuilder username = new StringBuilder();
 
@@ -351,7 +351,7 @@ public class UserManagementController implements UserManagement {
      * @param username not null
      * @return true if the user is in the failed counter, false otherwise
      */
-    private boolean isInFailedCounter(@NotNull String username) {
+    private boolean isInFailedCounter(String username) {
         CustomLogger.logEnter(this.getClass(), "isInFailedCounter", username);
 
         boolean result = failedCounter.containsKey(username);
@@ -368,7 +368,7 @@ public class UserManagementController implements UserManagement {
      * @param username not null
      * @param token    the session token, not null
      */
-    public void addInLoggedUsers(@NotNull String username, @NotNull String token) {
+    public void addInLoggedUsers(String username, String token) {
 
         loggedUsers.put(username, token);
 
@@ -382,7 +382,7 @@ public class UserManagementController implements UserManagement {
      * @param token    not null, the value that must be present at the search key
      * @return true if the username @username is present in the loggedUsers map and contains the value @token
      */
-    public boolean checkLoggedUser(@NotNull String username, @NotNull String token) {
+    public boolean checkLoggedUser(String username, String token) {
 
         return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
 
@@ -394,7 +394,7 @@ public class UserManagementController implements UserManagement {
      * @param username not null, the search key in the loggedUsera map
      * @return true if the username @username is present in the loggedUsers map and contains the value @token
      */
-    public boolean checkLoggedUserByUsername(@NotNull String username) {
+    public boolean checkLoggedUserByUsername(String username) {
 
         return loggedUsers.containsKey(username);
 
@@ -418,7 +418,7 @@ public class UserManagementController implements UserManagement {
      * @return the updated userDTO
      */
     @Override
-    public UserDTO updateUserPassword(@NotNull Long id,@NotNull String password) {
+    public UserDTO updateUserPassword(Long id, String password) {
         UserDTO user = getUserById(id);
         user.setPassword(password);
         return updateUser(user);
