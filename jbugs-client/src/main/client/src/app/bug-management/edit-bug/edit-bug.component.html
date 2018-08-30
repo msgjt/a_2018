@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true" *ngIf="bug">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
@@ -46,13 +46,6 @@
           </span>
 
           <span class="form-group has-float-label">
-                  <input name="string" #string="ngModel" #severityId id="severityInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.string" placeholder="{{bug.string}}">
-                  <label for="severityInput" translate style="margin-top: 15px">demo.Severity</label>
-          </span>
-
-          <span class="form-group has-float-label">
                   <input name="status" #status="ngModel" #statusId id="statusInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.status" placeholder="{{bug.status}}">
@@ -65,6 +58,16 @@
                          [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}">
                   <label for="assignedToInput" translate style="margin-top: 15px">demo.Assigned to</label>
           </span>
+
+
+          <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder= '{{ "demo.Click to edit severity"| translate}}' style="color: white" [formControl]="severityFormControl" (selectionChange)="updateBugSeverity(severityFormControl.value)">
+                <mat-option *ngFor="let severity of possibleSeverities"  [value]="severity" >{{ severity }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+
 
           <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                   style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"

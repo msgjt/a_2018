@@ -17,7 +17,8 @@ import java.util.Optional;
 @Stateless
 public class UserPersistenceManager {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 0L;
+
 
     @PersistenceContext(unitName = "jbugs-persistence")
     private EntityManager em;

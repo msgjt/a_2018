@@ -2,6 +2,7 @@ import {BugService} from "../services/bug.service";
 import {Router} from "@angular/router";
 import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../../user-management/services/user.service";
+import {Form, FormControl} from "@angular/forms";
 
 
 @Component({
@@ -12,31 +13,26 @@ import {UserService} from "../../user-management/services/user.service";
 export class EditBugComponent implements OnInit {
 
   @Input() bug;
+  @Input() severityFormControl: FormControl;
+  @Input() statusFormControl: FormControl;
   errorOccurred: boolean;
   positiveResponse: boolean;
   errorMessage: string;
+  possibleSeverities: string[] = ['LOW','MEDIUM','HIGH'];
 
   constructor(private bugService: BugService,private userService: UserService, private router: Router) {
 
   }
 
+
   ngOnInit() {
-    this.bug = {
-      id: -1,
-    title: '',
-    description: '',
-    status: '',
-    severity: '',
-    fixedVersion: '',
-    targetDate: '',
-    version: '',
-    assignedTo: '',
-    createdBy: ''
-    };
+
+
   }
 
-
-
+  updateBugSeverity(severity: string) {
+    this.bug.severity = severity;
+  }
 
   submitEditForm() {
 
@@ -46,7 +42,6 @@ export class EditBugComponent implements OnInit {
     if( this.bug.assignedTo == null){
       // error
     }
-    console.log(this.bug);
     this.bugService.updateBug(this.bug).subscribe( () => {});
   }
 

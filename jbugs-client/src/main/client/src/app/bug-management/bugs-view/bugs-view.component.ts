@@ -18,7 +18,7 @@ import {ActiveToast, ToastrService} from "ngx-toastr";
 })
 export class BugsViewComponent implements OnInit {
 
-  selectedBug;
+  selectedBug: Bug;
   bugList: Bug[];
   pagesFormControl : FormControl;
   filtersShow = [
@@ -417,5 +417,19 @@ export class BugsViewComponent implements OnInit {
       let snd = new Audio("../../assets/notificationsound.mp3");
       snd.play();
     });
+  }
+
+  getSeverityFormControl(bug: Bug){
+    let possibleSeverities = ['LOW','MEDIUM','HIGH'];
+    let s = possibleSeverities.find(s => s == bug.severity);
+    return new FormControl(s);
+  }
+
+  getStatusFormControl(bug: Bug){
+    let possibleStates = [
+      {key: 'Open', value: 'InProgress'},
+      {key: ''}
+    ];
+    return new FormControl();
   }
 }

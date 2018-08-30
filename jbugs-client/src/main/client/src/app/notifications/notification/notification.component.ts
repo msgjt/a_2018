@@ -37,7 +37,8 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
                 .onShown.subscribe(() => {
-
+                  let sound = new Audio("../../../assets/notificationsound.mp3");
+                  sound.play();
               });
             });
           });
