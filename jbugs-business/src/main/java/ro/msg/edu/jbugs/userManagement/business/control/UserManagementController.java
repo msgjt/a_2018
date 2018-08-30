@@ -47,6 +47,8 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Returns the list of all the users from the persistence layer.
+     * METHOD LOGGED WITH CustomLogger
+     *
      *
      * @return the list of all the userDTOs present (enabled or disabled).
      */
@@ -68,6 +70,7 @@ public class UserManagementController implements UserManagement {
     /**
      * Creates a new user from a userDTO. Will call a validation method for the parameter and will set the other
      * fields accordingly (isActive = true, username = generated, password = encrypted, roles = default if none)
+     * METHOD LOGGED WITH CustomLogger
      *
      * @param userDTO contains the required user information in its fields, will be validated
      * @return : the persisted userDTO
@@ -111,6 +114,7 @@ public class UserManagementController implements UserManagement {
     /**
      * Updates a user from a userDTO. Will call a validation method for the parameter and will set the other
      * fields accordingly (by calling the copy method from the user class)
+     * METHOD LOGGED WITH CustomLogger
      *
      * @param userDTO contains the required user information in its fields, will be validated
      * @return : the persisted userDTO
@@ -173,12 +177,10 @@ public class UserManagementController implements UserManagement {
      * @param userDTO not null
      */
     private UserDTO normalizeUserDTO(@NotNull UserDTO userDTO) {
-        CustomLogger.logEnter(this.getClass(), "normalizeUserDTO", userDTO.toString());
 
         userDTO.setFirstName(userDTO.getFirstName().trim());
         userDTO.setLastName(userDTO.getLastName().trim());
 
-        CustomLogger.logExit(this.getClass(), "normalizeUserDTO", userDTO.toString());
         return userDTO;
 
     }
@@ -193,14 +195,10 @@ public class UserManagementController implements UserManagement {
      * @return the full username
      */
     private String generateFullUsername(@NotNull String firstName, @NotNull String lastName) {
-        CustomLogger.logEnter(this.getClass(), "generateFullUsername", firstName, lastName);
 
         String prefix = generateUsernamePrefix(firstName, lastName);
         String suffix = generateUsernameSuffix(prefix);
-        String result = prefix + suffix;
-
-        CustomLogger.logExit(this.getClass(), "generateFullUsername", result);
-        return result;
+        return  prefix + suffix;
 
     }
 
@@ -213,7 +211,6 @@ public class UserManagementController implements UserManagement {
      * @return the suffix generated for the username
      */
     private String generateUsernameSuffix(@NotNull String username) {
-        CustomLogger.logEnter(this.getClass(), "generateUsernameSuffix", username);
 
         Optional<Integer> max = userPersistenceManager.getUsernamesLike(username)
                 .stream()
@@ -222,10 +219,7 @@ public class UserManagementController implements UserManagement {
                 .max(Comparator.naturalOrder())
                 .map(x -> x + 1);
 
-        String result = max.map(Object::toString).orElse("");
-
-        CustomLogger.logExit(this.getClass(), "generateUsernameSuffix", result);
-        return result;
+        return max.map(Object::toString).orElse("");
 
     }
 
@@ -242,7 +236,6 @@ public class UserManagementController implements UserManagement {
      * @return generated username
      */
     private String generateUsernamePrefix(@NotNull final String firstName, @NotNull final String lastName) {
-        CustomLogger.logEnter(this.getClass(), "generateUsernamePrefix", firstName, lastName);
 
         StringBuilder username = new StringBuilder();
 
@@ -258,16 +251,14 @@ public class UserManagementController implements UserManagement {
                 username.append("0");
         }
 
-        String result = username.toString().toLowerCase();
-
-        CustomLogger.logExit(this.getClass(), "generateUsernamePrefix", result);
-        return result;
+        return  username.toString().toLowerCase();
 
     }
 
 
     /**
      * Activates a user (sets isActive to true)
+     *
      *
      * @param id will be validated for null values, or not present
      * @return the persisted userDTO
@@ -295,6 +286,7 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Sets the given active status to a user. Will check if the user corresponding to the id is present.
+     * METHOD LOGGED WITH CustomLogger
      *
      * @param id    the id of the user
      * @param value the desired active status
@@ -354,11 +346,11 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Checks if a user is already in the failed counter map.
+     * METHOD LOGGED WITH CustomLogger
      *
      * @param username not null
      * @return true if the user is in the failed counter, false otherwise
      */
-    // check if a specific user already exist in the failedCounter map
     private boolean isInFailedCounter(@NotNull String username) {
         CustomLogger.logEnter(this.getClass(), "isInFailedCounter", username);
 
@@ -391,24 +383,42 @@ public class UserManagementController implements UserManagement {
      * @return true if the username @username is present in the loggedUsers map and contains the value @token
      */
     public boolean checkLoggedUser(@NotNull String username, @NotNull String token) {
-        return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
-    }
 
-    public boolean checkLoggedUserByUsername(@NotNull String username) {
-        return loggedUsers.containsKey(username);
+        return loggedUsers.containsKey(username) && loggedUsers.get(username).equals(token);
+
     }
 
     /**
-     * Remove the user with the given username from the loggedIn map.
+     * Checks if the user with the given username  is present in the loggedUsers map.
+     *
+     * @param username not null, the search key in the loggedUsera map
+     * @return true if the username @username is present in the loggedUsers map and contains the value @token
+     */
+    public boolean checkLoggedUserByUsername(@NotNull String username) {
+
+        return loggedUsers.containsKey(username);
+
+    }
+
+
+    /**
+     * Removes the user with the given username from the loggedIn map.
      *
      * @param username the key to be removed
      */
     public void removeUserInLogged(String username) {
+
         loggedUsers.remove(username);
     }
 
+    /**
+     * Updates the password for a user;
+     * @param id not null
+     * @param password not null
+     * @return the updated userDTO
+     */
     @Override
-    public UserDTO updateUserPassword(Long id, String password) {
+    public UserDTO updateUserPassword(@NotNull Long id,@NotNull String password) {
         UserDTO user = getUserById(id);
         user.setPassword(password);
         return updateUser(user);
@@ -460,6 +470,7 @@ public class UserManagementController implements UserManagement {
     /**
      * Takes the username and password of a user and if they are correct, it returns the
      * corresponding DTOHelper. Otherwise it will throw an exception.
+     * METHOD LOGGED WITH CustomLogger
      *
      * @param username .
      * @param password .

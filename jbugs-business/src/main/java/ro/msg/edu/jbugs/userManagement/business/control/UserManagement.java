@@ -81,24 +81,70 @@ public interface UserManagement {
      */
     void addInLoggedUsers(@NotNull String username, @NotNull String token);
 
-    UserDTO login(String username, String password) throws CheckedBusinessException;
 
-
-
-
+    /**
+     * Checks if the user with the given username and token is present in the loggedUsers map.
+     *
+     * @param username not null, the search key in the loggedUsera map
+     * @param token    not null, the value that must be present at the search key
+     * @return true if the username @username is present in the loggedUsers map and contains the value @token
+     */
     boolean checkLoggedUser(@NotNull String username, @NotNull String token);
 
+    /**
+     * Checks if the user with the given username  is present in the loggedUsers map.
+     *
+     * @param username not null, the search key in the loggedUsera map
+     * @return true if the username @username is present in the loggedUsers map and contains the value @token
+     */
+    boolean checkLoggedUserByUsername(@NotNull String username);
+
+
+    /**
+     * Removes the user with the given username from the loggedIn map.
+     *
+     * @param username the key to be removed
+     */
     void removeUserInLogged(String username);
 
+
+    /**
+     * Updates the password for a user;
+     * @param id not null
+     * @param password not null
+     * @return the updated userDTO
+     */
     UserDTO updateUserPassword(Long id, String password);
+
+
+    /**
+     * Logout method for a username. Will remove the user from the loggedUsers map.
+     *
+     * @param username the username of the user that must log out
+     * @return false
+     */
+    boolean logout(String username);
+
+
+    /**
+     * Takes the username and password of a user and if they are correct, it returns the
+     * corresponding DTOHelper. Otherwise it will throw an exception.
+     *
+     * @param username .
+     * @param password .
+     * @return a user DTOHelper if it succeeds.
+     */
+    UserDTO login(String username, String password) throws CheckedBusinessException;
 
     Set<String> getAllUserPermission(String username);
 
     List<Permission> getAllUserPermissionAsList(String username);
 
-    boolean logout(String username);
 
-    boolean checkLoggedUserByUsername(@NotNull String username);
+
+
+
+
 
 
 }
