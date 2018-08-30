@@ -35,14 +35,10 @@ export class BugsViewComponent implements OnInit {
   ascendingSort = { id: true, description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
   askedForSort = { id: false, description: false, fixedVersion: false, severity: false, status: false, targetDate: false, title: false, version: false, assignedTo: false, createdBy: false };
   bugModel: Bug;
-  showInfoDiv: boolean = false;
   formData: FormData;
   errorMessage: string;
   errorOccurred: boolean = false;
   positiveResponse: boolean = false;
-
-
-
 
   //Pagination
   public filter = { };
@@ -383,30 +379,8 @@ export class BugsViewComponent implements OnInit {
     }
   }
 
-
-
   passDataToEditModal(bug: Bug) {
     this.selectedBug = bug;
-  }
-
-
-
-
-
-
-  showInfo() {
-    this.showInfoDiv = true;
-  }
-
-  hideInfo() {
-    this.showInfoDiv = false;
-  }
-
-  showNotif() {
-    this.toastr.info('-Nelson Mondialu\'', 'Daca-mi face figuri, ii arat si io figuri.').onShown.subscribe(() => {
-      let snd = new Audio("../../assets/notificationsound.mp3");
-      snd.play();
-    });
   }
 
   getSeverityFormControl(bug: Bug){
@@ -429,11 +403,4 @@ export class BugsViewComponent implements OnInit {
 
     return new FormControl(possibleStates.find(s => bug.status == s));
   }
-
-
-
-  getFalse() {
-    return false;
-  }
-
 }
