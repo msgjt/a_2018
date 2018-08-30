@@ -45,8 +45,7 @@
 
     <ul class="navbar nav ml-auto">
       <li class="nav-item">
-        <a tabindex="0" data-toggle="popover" title="Notifications" data-content="You don't have any notifications."
-           data-placement="bottom" class="nav-link"
+        <a tabindex="0" data-toggle="modal" data-target="#notificationsModal" class="nav-link"
            style="margin: 0 .7em 0 0;cursor: pointer; font-size: 26px; color: #420000" *ngIf="isUserLoggedIn()"><i
           class="fas fa-bell"></i></a>
       </li>
@@ -87,4 +86,25 @@
       </div>
     </div>
   </footer>
+</div>
+
+<!--Notifications-->
+<div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-labelledby="notificationsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
+        <h5 class="modal-title" id="notificationsModalTitle" style="color: whitesmoke;font-size: 20px; ">Notifications</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff; font-size: 20px">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You don't have any notifications.
+      </div>
+      <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      <!--</div>-->
+    </div>
+  </div>
 </div>

@@ -68,6 +68,11 @@
     "Username is required":"Username is required",
     "Username not valid":"Username is not valid",
     "Password is required":"Password is required",
-    "Attachment":"Attachment"
+    "Attachment":"Attachment",
+    "LOW": "LOW",
+    "MEDIUM": "MEDIUM",
+    "HIGH": "HIGH",
+    "CRITICAL": "CRITICAL",
+    "Open": "Open"
   }
 }
