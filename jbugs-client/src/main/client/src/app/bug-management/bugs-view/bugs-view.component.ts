@@ -5,7 +5,6 @@ import {PaginationInstance} from "ngx-pagination";
 import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
-import * as jsPDF from 'jspdf';
 import {ToastrService} from "ngx-toastr";
 import {User, UserService} from "../../user-management/services/user.service";
 
@@ -38,7 +37,6 @@ export class BugsViewComponent implements OnInit {
   bugModel: Bug;
   showInfoDiv: boolean = false;
   formData: FormData;
-  userList: User[];
   errorMessage: string;
   errorOccurred: boolean = false;
   positiveResponse: boolean = false;
@@ -108,9 +106,7 @@ export class BugsViewComponent implements OnInit {
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
     this.formData = new FormData();
-    this.userService.getAllUsers().subscribe(
-      (users) => {this.userList = users;}
-    );
+
   }
 
   exportToExcel() {
@@ -387,25 +383,7 @@ export class BugsViewComponent implements OnInit {
     }
   }
 
-  exportToPdf(description: string, fixedVersion :string, severity: string, status: string, targetDate: string,
-              title :string, version :string){
-    let doc = new jsPDF('p' ,'pt' ,'a4');
-    doc.text(doc.splitTextToSize('MSG ROMANIA: BUG '+title , 180), 10, 10);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 20);
-    doc.text(doc.splitTextToSize('DESCRIPTION: '+description, 580),  10, 30);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 40);
-    doc.text('FIXED VERSION: '+fixedVersion, 10, 50);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 60);
-    doc.text('SEVERITY: '+severity, 10, 70);
-    doc.text('-----------------------------------------------------------------------------------------------------',10, 80);
-    doc.text('STATUS: '+status, 10, 90);
-    doc.text('TARGET DATE: '+targetDate, 10, 110);
-    doc.text('TITLE: '+title, 10, 130);
-    doc.text('VERSION: '+version, 10, 150);
-    doc.text('TEAM A ',10, 170);
-    doc.save(title+'_'+version+'.pdf');
 
-  }
 
   passDataToEditModal(bug: Bug) {
     this.selectedBug = bug;
@@ -413,61 +391,7 @@ export class BugsViewComponent implements OnInit {
 
 
 
-  isBUG_EXPORT_PDF(): boolean {
-    return localStorage.getItem('BUG_EXPORT_PDF') != null;}
 
-
-  submitAddData(){
-
-    let currentUsername = localStorage.getItem("currentUser");
-    let currentUser = this.userList.find(user => user.username == currentUsername);
-    if (currentUser === undefined){
-      this.errorMessage = 'Current user could not be retrieved';
-      this.errorOccurred = true;
-      return;
-    }
-    this.bugModel.createdBy = currentUser;
-    let assignedUsername = this.bugModel.assignedTo.username;
-    let assignedUser = this.userList.find(user => user.username == assignedUsername);
-    if (assignedUser === undefined){
-      this.errorMessage = 'Cannot find the assigned user';
-      this.errorOccurred = true;
-      return;
-    }
-    this.bugModel.assignedTo = assignedUser;
-
-    this.bugService.createBug(this.bugModel)
-      .subscribe(
-        (response) => {
-          if(this.formData.has('file')) {
-            this.formData.append('bugId', response.id.toString());
-            this.bugService.sendFile(this.formData)
-              .subscribe(
-                () => {
-                  this.errorOccurred = false;
-                  this.positiveResponse = true;
-                },
-                (error) => {
-                  this.positiveResponse = false;
-                  this.errorMessage = error['error'];
-                  this.errorOccurred = true;
-                }
-              );
-          }
-          else {
-            this.errorOccurred = false;
-            this.positiveResponse = true;
-          }
-        },
-        (error) => {
-          this.positiveResponse = false;
-          this.errorMessage = error['error'];
-          this.errorOccurred = true;
-        }
-      );
-
-
-  }
 
 
   showInfo() {
@@ -506,14 +430,7 @@ export class BugsViewComponent implements OnInit {
     return new FormControl(possibleStates.find(s => bug.status == s));
   }
 
-  fileChange(event){
-    let files = event.target.files;
-    if (files.length > 0) {
-      this.formData = new FormData();
-      this.formData.append('file', files[0]);
-      this.bugModel.attachment = files[0].name;
-    }
-  }
+
 
   getFalse() {
     return false;

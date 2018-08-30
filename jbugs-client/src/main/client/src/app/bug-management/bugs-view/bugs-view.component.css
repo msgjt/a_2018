@@ -160,13 +160,7 @@ table {
   table-layout: fixed;
 }
 
-.descriptionCells {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.titleCells {
+.descriptionCells, .titleCells {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
