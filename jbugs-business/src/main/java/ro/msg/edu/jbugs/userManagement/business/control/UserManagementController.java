@@ -10,11 +10,9 @@ import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
+import ro.msg.edu.jbugs.userManagement.persistence.dao.NotificationPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,6 +35,9 @@ public class UserManagementController implements UserManagement {
 
     @EJB
     private UserPersistenceManager userPersistenceManager;
+
+    @EJB
+    private NotificationPersistenceManager notificationPersistenceManager;
 
 
     /**
@@ -90,12 +91,17 @@ public class UserManagementController implements UserManagement {
         }
 
         User createdUser = userPersistenceManager.createUser(user);
+
         UserDTO result = UserDTOHelper.fromEntity(createdUser);
-        createWelcomeNotification(createdUser);
+
+
+        sendNotification("WELCOME_NEW_USER",result.toString(),"",createdUser.getId());
+
 
         CustomLogger.logExit(this.getClass(), "createUser", result.toString());
         return result;
     }
+
 
     /**
      * Updates a user from a userDTO. Will call a validation method for the parameter and will set the other
@@ -457,7 +463,18 @@ public class UserManagementController implements UserManagement {
                 //if the counder is greather then 4 (that means the user tried to login with wrong credentials up to 5 times) the user is deactivated
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
                     //TODO this will rollback after the runtime exception is thrown
-                    deactivateUser(userOptional.get().getId());
+                    User disabledUser = userOptional.get();
+                    deactivateUser(disabledUser.getId());
+
+                    List<Long> ids = userPersistenceManager.getAllUsers().stream()
+                            .filter(u -> u.getRoles().contains(userPersistenceManager.getRoleByType("ADM")))
+                            .map(BaseEntity::getId)
+                            .collect(Collectors.toList());
+
+                    UserDTO disabledUserDTO = UserDTOHelper.fromEntity(disabledUser);
+                    sendNotification("USER_DISABLED",disabledUserDTO.toString(),"",ids.toArray(new Long[]{}));
+
+
                     CustomLogger.logException(this.getClass(), "login", DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES.toString());
                     throw new CheckedBusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
                             DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES);
@@ -473,6 +490,7 @@ public class UserManagementController implements UserManagement {
             System.out.println("Username:  " + userOptional.get().getUsername() + "tried wrong password:   " + failedCounter.get(userOptional.get().getUsername()));
             failedCounter.remove(userOptional.get().getUsername());
         }
+
         UserDTO result = UserDTOHelper.fromEntity(userOptional.get());
 
         CustomLogger.logExit(this.getClass(), "login", result.toString());
@@ -537,5 +555,26 @@ public class UserManagementController implements UserManagement {
         user.setNotifications(notifications);
         userPersistenceManager.updateUser(user);
         */
+    }
+
+    private void sendNotification(String notificationType,String notificationMessage,
+                                 String notificationURL, Long... userIds) {
+
+        Arrays.stream(userIds).forEach(userId -> {
+            User user = userPersistenceManager.getUserById(userId)
+                    .orElseThrow(() -> new BusinessException(
+                            ExceptionCode.USER_VALIDATION_EXCEPTION,
+                            DetailedExceptionCode.USER_NOT_FOUND
+                    ));
+            Notification notification = new Notification();
+            notification.setStatus("not_read");
+            notification.setMessage(notificationMessage);
+            notification.setType(notificationType);
+            notification.setURL(notificationURL);
+
+            Notification added = notificationPersistenceManager.add(notification);
+            user.addNotification(added);
+            userPersistenceManager.updateUser(user);
+        });
     }
 }

@@ -19,7 +19,7 @@ public class Role extends BaseEntity<Long> {
 
     public static final String GET_ALL_ROLES = "get_all_roles";
 
-    @Column(name = "type", length = MAX_STRING_LENGTH)
+    @Column(name = "type", length = MAX_STRING_LENGTH, updatable = false)
     private String type1;
 
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)

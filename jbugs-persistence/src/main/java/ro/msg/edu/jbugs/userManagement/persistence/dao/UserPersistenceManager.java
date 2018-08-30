@@ -48,10 +48,12 @@ public class UserPersistenceManager {
     public User updateUser(@NotNull User user) {
         CustomLogger.logEnter(this.getClass(), "updateUser", user.toString());
 
-        User result = em.merge(user);
+        User old = em.find(User.class,user.getId());
+        old.copyFieldsFrom(user);
+        em.persist(old);
 
-        CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
-        return result;
+        CustomLogger.logExit(this.getClass(), "updateUser", old.toString());
+        return old;
     }
 
     /**
@@ -250,7 +252,7 @@ public class UserPersistenceManager {
     public List<Notification> getAllNotifications() {
         CustomLogger.logEnter(this.getClass(), "getAllNotifications", "");
 
-        TypedQuery<Notification> q = em.createNamedQuery(Notification.GET_ALL_NOTIFICATIONS, Notification.class);
+        TypedQuery<Notification> q = em.createNamedQuery(Notification.GET, Notification.class);
         List<Notification> result = q.getResultList();
 
         CustomLogger.logExit(this.getClass(), "getAllNotifications", result.toString());

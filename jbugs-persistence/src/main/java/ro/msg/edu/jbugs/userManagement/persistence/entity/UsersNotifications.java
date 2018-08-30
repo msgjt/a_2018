@@ -19,14 +19,19 @@ public class UsersNotifications implements Serializable {
     @MapsId("notificationId")
     private Notification notification;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date", nullable = false, updatable = false)
     private LocalDate date;
+
+    @Column(name = "received", nullable = false)
+    private Boolean received;
 
     public UsersNotifications() {}
 
     public UsersNotifications(User user, Notification notification){
         this.user = user;
         this.notification = notification;
+        this.received = false;
+        this.date = LocalDate.now();
         this.id = new UsersNotificationsId(user.getId(),notification.getId());
     }
 
@@ -54,6 +59,10 @@ public class UsersNotifications implements Serializable {
         this.date = date;
     }
 
+    public Boolean getReceived() { return received; }
+
+    public void setReceived(Boolean received) { this.received = received; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,12 +71,24 @@ public class UsersNotifications implements Serializable {
         return Objects.equals(id, that.id) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(notification, that.notification) &&
-                Objects.equals(date, that.date);
+                Objects.equals(date, that.date) &&
+                Objects.equals(received, that.received);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, user, notification, date);
+        return Objects.hash(id, user, notification, date, received);
+    }
+
+    @Override
+    public String toString() {
+        return "UsersNotifications{" +
+                "id=" + id +
+                ", user=" + user +
+                ", notification=" + notification +
+                ", date=" + date +
+                ", received=" + received +
+                '}';
     }
 }

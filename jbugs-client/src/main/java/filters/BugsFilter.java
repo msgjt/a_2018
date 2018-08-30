@@ -23,8 +23,7 @@ public class BugsFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        CustomLogger.logEnter(this.getClass(), "doFilter",
-                "req: " + req.toString(), "chain: " + chain.toString());
+
 
 
         System.out.println("+++++++++++++++Inside BUGS FILTER.+++++++++++++++++");
@@ -67,7 +66,6 @@ public class BugsFilter implements Filter {
             return;
         }
         chain.doFilter(req, resp);
-        CustomLogger.logExit(this.getClass(), "doFilter", resp.toString());
     }
 
     public void init(FilterConfig config) throws ServletException {

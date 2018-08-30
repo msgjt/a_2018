@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
@@ -73,7 +73,11 @@ export class UserService {
       'phoneNumber': mobileNumber,
       'roles': roles
     };
-    return this.http.put<boolean>(this.baseURL + '/users', body,{headers});
+    let options = {
+      headers: headers,
+      params: new HttpParams().set('id',localStorage.getItem("id"))
+    };
+    return this.http.put<boolean>(this.baseURL + '/users', body,options);
   }
   updateUserPassword( id: number, password: string){
     let body = {

@@ -41,4 +41,5 @@ public interface UserManagement {
     boolean logout(String username);
     boolean checkLoggedUserByUsername(@NotNull String username);
 
+
 }

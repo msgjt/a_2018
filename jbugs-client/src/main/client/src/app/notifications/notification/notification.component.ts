@@ -23,21 +23,25 @@ export class NotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log("AAAA 1");
     if (this.notificationService.wasInstantiated() == false) {
+      console.log("BBBB 2");
       this.notificationService.instantiate();
-
       const source = interval(this.NOTIFICATION_DELAY);
       source.subscribe(() => {
-        this.notificationService.getNewNotifications().subscribe(notifications => {
-          this.currentNotifications = notifications;
-          this.currentNotifications.forEach(n => {
-            this.toastrService.info(n.type, n.message)
-              .onShown.subscribe(() => {
+        let id = localStorage.getItem("id");
+        if( id != null ) {
+          console.log("WILL SHOW NOTIFICATIONS");
+          this.notificationService.getNewNotifications().subscribe(notifications => {
+            this.currentNotifications = notifications;
+            this.currentNotifications.forEach(n => {
+              this.toastrService.info(n.type, n.message)
+                .onShown.subscribe(() => {
 
+              });
             });
           });
-        });
+        }
       });
     }
   }

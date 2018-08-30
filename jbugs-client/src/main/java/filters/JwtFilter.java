@@ -18,7 +18,6 @@ public class JwtFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        CustomLogger.logEnter(this.getClass(),"doFilter",req.toString(),chain.toString());
 
         String tokenHeader = ((HttpServletRequest)req).getHeader("Authorization");
         if (tokenHeader != null && tokenHeader.startsWith("Bearer ")){
@@ -31,8 +30,6 @@ public class JwtFilter implements Filter {
             }
         }
         chain.doFilter(req, resp);
-
-        CustomLogger.logExit(this.getClass(),"doFilter",resp.toString());
     }
 
     public void init(FilterConfig config) throws ServletException {

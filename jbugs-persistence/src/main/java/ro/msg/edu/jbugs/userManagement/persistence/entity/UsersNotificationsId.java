@@ -1,12 +1,12 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class UsersNotificationsId implements Serializable {
+public class UsersNotificationsId implements Serializable  {
+
 
     @Column(name="user_id")
     private Long userId;

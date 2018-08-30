@@ -10,10 +10,10 @@ public class Permission extends BaseEntity<Long>{
     @Transient
     private final static int MAX_STRING_LENGTH = 127;
 
-    @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true)
+    @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true, updatable = false)
     private String type2;
 
-    @Column(name = "description")
+    @Column(name = "description", updatable = false)
     private String description;
 
     public String getType2() {

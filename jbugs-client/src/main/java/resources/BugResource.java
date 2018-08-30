@@ -8,6 +8,7 @@ import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.business.control.NotifiManagement;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -23,6 +24,9 @@ public class BugResource {
 
     @EJB
     private BugManagement bugManagement;
+
+    @EJB
+    private NotifiManagement notifiManagement;
 
 
     @GET
@@ -40,9 +44,14 @@ public class BugResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBug(BugDTO bugDTO) {
 
-        return Response.status(Response.Status.CREATED)
+        Response response = Response.status(Response.Status.CREATED)
                 .entity(bugManagement.createBug(bugDTO))
                 .build();
+
+        notifiManagement.sendNotification("BUG_UPDATED","New bug was created",
+                "",bugDTO.getCreatedBy().getId(),bugDTO.getAssignedTo().getId());
+
+        return response;
 
 
     }
@@ -51,14 +60,37 @@ public class BugResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBug(BugDTO bugDTO) {
-        CustomLogger.logEnter(this.getClass(), "updateBug", bugDTO.toString());
 
+        BugDTO oldBug = bugManagement.getBugById(bugDTO.getId());
         BugDTO result = bugManagement.updateBug(bugDTO);
 
-        CustomLogger.logExit(this.getClass(), "updateBug", result.toString());
-        return Response.status(Response.Status.OK)
+        Response response = Response.status(Response.Status.OK)
                 .entity(result)
                 .build();
+
+        if(result.getStatus().equals("Closed")){
+            notifiManagement.sendNotification("BUG_CLOSED",result.toString(),"",
+                    result.getAssignedTo().getId(),result.getCreatedBy().getId());
+            return response;
+        }
+
+        String message = "Bug successfully updated. ";
+        if(oldBug.getTitle().equals(result.getTitle()) &&
+                oldBug.getDescription().equals(result.getDescription()) &&
+                oldBug.getVersion().equals(result.getVersion()) &&
+                oldBug.getFixedVersion().equals(result.getFixedVersion()) &&
+                oldBug.getSeverity().toString().equals(result.getSeverity().toString()) &&
+                (oldBug.getAssignedTo().getUsername()).equals(result.getAssignedTo().getUsername()) &&
+                ! oldBug.getStatus().equals(result.getStatus())){
+            message += "Old status was <" + oldBug.getStatus() + "> and it was changed to <" + result.getStatus()+">";
+            notifiManagement.sendNotification("BUG_STATUS_UPDATED",
+                    message,"",result.getAssignedTo().getId(),result.getCreatedBy().getId());
+        }
+        else{
+            notifiManagement.sendNotification("BUG_UPDATED",message,"",
+                    result.getAssignedTo().getId(),result.getCreatedBy().getId());
+        }
+        return response;
     }
 
     @Path("/{id}")
