@@ -30,7 +30,7 @@ body {
   margin-left: 400px;
 }
 
-#errorLabel,#errorLabel2 {
+#errorLabel,#errorLabel2 ,#errorLabel3,#errorLabel4{
 
   color: red;
   font-weight: bold;
