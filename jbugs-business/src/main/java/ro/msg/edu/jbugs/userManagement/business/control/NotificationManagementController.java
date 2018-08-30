@@ -54,6 +54,20 @@ public class NotificationManagementController implements NotificationManagement 
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<NotificationDTO> getReadNotificationsForUser(Long id) {
+
+
+        List<Notification> notifications = notificationPersistenceManager.getNotificationsForUser(id);
+
+        return notifications.stream()
+                .filter(n -> n.getStatus().equals("read"))
+                .map(n -> {
+                    return NotificationDTOHelper.fromEntity(n);
+                })
+                .collect(Collectors.toList());
+    }
+
     /**
      * Creates a notification from a notificationDTO by calling the add method from the persistence layer,
      * and the NotificationDTOHelper methods.
