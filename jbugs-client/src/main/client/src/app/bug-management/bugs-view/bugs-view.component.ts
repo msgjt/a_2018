@@ -38,6 +38,10 @@ export class BugsViewComponent implements OnInit {
   showInfoDiv: boolean = false;
   formData: FormData;
   userList: User[];
+  sortWanted = false;
+  errorMessage: string;
+  errorOccurred: boolean = false;
+  positiveResponse: boolean = false;
 
   //Pagination
   public filter = { };
@@ -400,37 +404,53 @@ export class BugsViewComponent implements OnInit {
 
   submitAddData(){
 
-    //TODO show error when not finding users
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
+    if (currentUser === undefined){
+      this.errorMessage = 'Current user could not be retrieved';
+      this.errorOccurred = true;
+      return;
+    }
     this.bugModel.createdBy = currentUser;
     let assignedUsername = this.bugModel.assignedTo.username;
-    this.bugModel.assignedTo = this.userList.find(user => user.username == assignedUsername);
+    let assignedUser = this.userList.find(user => user.username == assignedUsername);
+    if (assignedUser === undefined){
+      this.errorMessage = 'Cannot find the assigned user';
+      this.errorOccurred = true;
+      return;
+    }
+    this.bugModel.assignedTo = assignedUser;
 
     this.bugService.createBug(this.bugModel)
       .subscribe(
         (response) => {
-          console.log(response);
-          this.setBugId(response);
+          if(this.formData.has('file')) {
+            this.formData.append('bugId', response.id.toString());
+            this.bugService.sendFile(this.formData)
+              .subscribe(
+                () => {
+                  this.errorOccurred = false;
+                  this.positiveResponse = true;
+                },
+                (error) => {
+                  this.positiveResponse = false;
+                  this.errorMessage = error['error'];
+                  this.errorOccurred = true;
+                }
+              );
+          }
+          else {
+            this.errorOccurred = false;
+            this.positiveResponse = true;
+          }
         },
         (error) => {
-          console.log(error);
+          this.positiveResponse = false;
+          this.errorMessage = error['error'];
+          this.errorOccurred = true;
         }
       );
 
-    if(this.formData.has('file')) {
-      this.formData.append('bugId', this.bugModel.id.toString());
-      this.bugService.sendFile(this.formData)
-        .subscribe(
-          (response) => {
-            console.log(response);
-          },
-          (error) => {
-            console.log(error);
-            //TODO show error to user
-          }
-        );
-    }
 
   }
 
@@ -456,11 +476,18 @@ export class BugsViewComponent implements OnInit {
   }
 
   getStatusFormControl(bug: Bug){
-    let possibleStates = [
-      {key: 'Open', value: 'InProgress'},
-      {key: ''}
+    let allStates = [
+      {key: 'Open', values: ['Open','InProgress','Rejected']},
+      {key: 'InProgress', values: ['InProgress','Rejected','Fixed','InfoNeeded']},
+      {key: 'Rejected', values: ['Rejected','Closed']},
+      {key: 'Fixed', values: ['Fixed','Closed']},
+      {key: 'InfoNeeded', values: ['InfoNeeded','InProgress']},
+      {key: 'Closed', values: []}
     ];
-    return new FormControl();
+
+    let possibleStates = allStates.find(s => s.values.findIndex( v => v == bug.status) != -1).values;
+
+    return new FormControl(possibleStates.find(s => bug.status == s));
   }
 
   fileChange(event){
@@ -470,10 +497,6 @@ export class BugsViewComponent implements OnInit {
       this.formData.append('file', files[0]);
       this.bugModel.attachment = files[0].name;
     }
-  }
-
-  setBugId(bug: Bug){
-    this.bugModel.id = bug.id;
   }
 
 }

@@ -2,14 +2,15 @@
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
 <div *ngIf="selectedBug">
-<app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"></app-edit-bug>
+  <app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"
+                [statusFormControl]="getStatusFormControl(selectedBug)"></app-edit-bug>
 </div>
 
 <div class="column justify-content-center">
   <button data-target="#addBugsModal" data-toggle="modal" class="btn btn-default"
-          style="width: 120px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
-    <i class="fas fa-bug" style="font-size: 14px; color: white; margin-right: .25em;"></i>
-    Add a bug
+          style="width: 12vw; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
+    <i class="fas fa-bug" style="font-size: 14px; color: white; margin-right: .25em; "></i>
+    {{'demo.Add a bug' | translate }}
   </button>
   <button (click)="exportToExcel()" class="btn btn-default"
           style="width: 90px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkgreen; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
@@ -58,8 +59,8 @@
             </div>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" translate>
-              demo.Actions
+            <div tyle="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              {{"demo.Actions" | translate }}
             </div>
           </th>
         </tr>
@@ -116,16 +117,19 @@
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal"
               data-target="#bugDetailsModal">{{ bug.title }}
           </td>
-          <td class="descriptionCells"  (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal"
+              data-target="#bugDetailsModal">{{
             bug.description }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.fixedVersion
             }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
             demo.{{ bug.severity }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
+            demo.{{ bug.status
             }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
@@ -153,8 +157,12 @@
                  style="width: 24px; color: white"
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
           </td>
-          <td><i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
-                 style="font-size: 24px;"> edit </i></td>
+          <td>
+            <div *ngIf="bug.status != 'Closed'">
+              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
+                 style="font-size: 24px;"> edit </i>
+            </div>
+          </td>
         </tr>
         </tbody>
         <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ?
@@ -323,13 +331,13 @@
                 >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
-              <div class="form-group">
-                <div class="input-group">
-                  <input type="date" class="form-control" placeholder="yyyy-mm-dd"
-                         name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
-                </div>
-              </div>
-              <span class="form-group has-float-label">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="date" class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
+            </div>
+          </div>
+          <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
                       style="margin-top: 15px">Title is required.</span>
                 <input type="text"
@@ -352,7 +360,8 @@
                        class="form-control"
                        required
                        [(ngModel)]="bugModel.version"
-                       placeholder=" ">
+                       placeholder=" "
+                       pattern="^\w+(\.\w*)*$">
                 <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
               </span>
           <span class="form-group has-float-label">
@@ -370,7 +379,8 @@
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
-            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
+            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
+                   (change)="fileChange($event)">
           </div>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
