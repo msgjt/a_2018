@@ -40,6 +40,16 @@
                 >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
+       <!--   <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder='{{ "demo.Click to add severity"| translate}}' style="color: white"
+                          [formControl]="severityFormControl"
+                          (selectionChange)="addBugSeverity(severityFormControl.value)">
+                <mat-option *ngFor="let severity of possibleSeverities" [value]="severity">{{ 'demo.' + severity| translate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>-->
+
           <div class="form-group">
             <div class="input-group">
               <input type="date" class="form-control" placeholder="yyyy-mm-dd"

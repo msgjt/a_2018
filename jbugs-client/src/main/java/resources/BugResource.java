@@ -109,7 +109,7 @@ public class BugResource {
                                @FormDataParam("file") FormDataContentDisposition fileDetail,
                                @FormDataParam("bugId") String bugId) {
 
-        File objFile = new File(fileDetail.getFileName());
+        File objFile = new File(bugId + "-" + fileDetail.getFileName());
         isValidForSaving(objFile);
         saveToFile(uploadedInputStream, objFile);
         Long id;
@@ -119,7 +119,9 @@ public class BugResource {
         catch (Exception e){
             throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
         }
-        bugManagement.getBugById(id).setAttachment(fileDetail.getFileName());
+        BugDTO oldBug = bugManagement.getBugById(id);
+        oldBug.setAttachment(fileDetail.getFileName());
+        bugManagement.updateBug(oldBug);
 
         return Response.status(Response.Status.CREATED).build();
 

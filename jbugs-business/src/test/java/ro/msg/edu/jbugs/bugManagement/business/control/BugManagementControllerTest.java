@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -122,26 +123,43 @@ public class BugManagementControllerTest {
                 .collect(Collectors.toList());
         assertEquals(actuals, bugs);
     }
-/*
+
     @Test
     public void getBugByIdTest() {
         Bug bug = new Bug();
         bug.setId((long) 8);
-
+        bug.setAssignedTo(user);
+        bug.setCreatedBy(user);
+        bug.setSeverity(Severity.MEDIUM);
+        bug.setFixedVersion("2.3");
+        bug.setStatus("in progress");
+        bug.setVersion("3.4");
+        bug.setDescription("description");
+        bug.setTitle("bug1");
+        bug.setTargetDate(LocalDate.parse("2018-02-13"));
 
         when(bugPersistenceManager.getBugById((long) 8)).thenReturn(Optional.of(bug));
-        assertEquals(bug, BugDTOHelper.toEntity(bugManagementController.getBugById((long) 8)));
+        assertEquals(bug, BugDTOHelper.toEntityOneParam(bugManagementController.getBugById((long) 8)));
     }
 
     @Test
     public void getBugByTitleTest() {
         Bug bug = new Bug();
+        bug.setId((long) 8);
+        bug.setAssignedTo(user);
+        bug.setCreatedBy(user);
+        bug.setSeverity(Severity.MEDIUM);
+        bug.setFixedVersion("2.3");
+        bug.setStatus("in progress");
+        bug.setVersion("3.4");
+        bug.setDescription("description");
         bug.setTitle("test");
-
+        bug.setTargetDate(LocalDate.parse("2018-02-13"));
 
         when(bugPersistenceManager.getBugByTitle("test")).thenReturn(Optional.of(bug));
-        assertEquals(bug, BugDTOHelper.toEntity(bugManagementController.getBugByTitle("test")));
+        assertEquals(bug, BugDTOHelper.toEntityOneParam(bugManagementController.getBugByTitle("test")));
     }
+/*
 
     @Test
     public void isValidVersionTest_Success(){
@@ -160,6 +178,7 @@ public class BugManagementControllerTest {
         boolTest = VALID_VERSION_REGEX.matcher("v2.v8.22").find();
         assertTrue(boolTest);
     }
+*/
 
     /*
     @Test
