@@ -1,0 +1,15 @@
+#notificationsModal.modal-body {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+p {
+  margin-top: 1em;
+}
+
+i {
+  position: relative;
+  float: right;
+  right: 0;
+  cursor: pointer;
+}

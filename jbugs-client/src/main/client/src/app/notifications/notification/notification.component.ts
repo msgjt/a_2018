@@ -25,7 +25,7 @@ export class NotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getOldNotifications()
+    this.getOldNotifications();
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
@@ -75,8 +75,8 @@ export class NotificationComponent implements OnInit {
             if(this.oldNotifications.length!=0){
               this.oldNotifications.forEach(n=>{
                 this.displayedAllNotifications.push(n)
-              })
-              subscriber.unsubscribe()
+              });
+              subscriber.unsubscribe();
               console.log(this.displayedAllNotifications)
             }
           },
