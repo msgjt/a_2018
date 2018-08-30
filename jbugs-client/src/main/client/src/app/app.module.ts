@@ -64,7 +64,7 @@ import {FilterPipe} from './filter.pipe';
 import {EditBugComponent} from './bug-management/edit-bug/edit-bug.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ToastrModule} from "ngx-toastr";
-import { NotificationComponent } from './notifications/notification/notification.component';
+import {NotificationComponent} from './notifications/notification/notification.component';
 import {NotificationService} from "./notifications/services/notification.service";
 
 const appRoutes: Routes = [
@@ -93,7 +93,7 @@ const appRoutes: Routes = [
     path: 'norights', component: NorightsComponent
   },
   {
-    path: 'userProfile', component: UserProfileComponent,canActivate: [AuthenticatedGuard]
+    path: 'userProfile', component: UserProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: '**', component: ErrorComponent
@@ -142,7 +142,8 @@ const appRoutes: Routes = [
   ],
   declarations: [NorightsComponent]
 })
-export class MaterialModule {}
+export class MaterialModule {
+}
 
 @NgModule({
   declarations: [
@@ -198,7 +199,8 @@ export class MaterialModule {}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {

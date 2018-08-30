@@ -13,7 +13,6 @@ import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.NotificationPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.*;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
@@ -30,6 +29,9 @@ public class UserManagementController implements UserManagement {
     @SuppressWarnings("all")
     private static Map<String, String> loggedUsers = new HashMap<>();
 
+
+
+
     @EJB
     private UserValidator userValidator;
 
@@ -40,8 +42,11 @@ public class UserManagementController implements UserManagement {
     private NotificationPersistenceManager notificationPersistenceManager;
 
 
+
+
+
     /**
-     * Getter method for all the users.
+     * Returns the list of all the users from the persistence layer.
      *
      * @return the list of all the userDTOs present (enabled or disabled).
      */
@@ -56,7 +61,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "getAllUsers", result.toString());
         return result;
+
     }
+
 
     /**
      * Creates a new user from a userDTO. Will call a validation method for the parameter and will set the other
@@ -95,11 +102,9 @@ public class UserManagementController implements UserManagement {
         UserDTO result = UserDTOHelper.fromEntity(createdUser);
 
 
-        sendNotification("WELCOME_NEW_USER",result.toString(),"",createdUser.getId());
-
-
         CustomLogger.logExit(this.getClass(), "createUser", result.toString());
         return result;
+
     }
 
 
@@ -137,7 +142,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
         return result;
+
     }
+
 
     /**
      * Checks if the roles of a userDTO are present in the DB.
@@ -156,7 +163,9 @@ public class UserManagementController implements UserManagement {
                         DetailedExceptionCode.USER_ROLES_NOT_VALID);
             }
         }
+
     }
+
 
     /**
      * Trims firstName and lastName of the userDTO.
@@ -171,7 +180,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "normalizeUserDTO", userDTO.toString());
         return userDTO;
+
     }
+
 
     /**
      * Will generate the username for the given firstName and lastName. Will call methods
@@ -190,7 +201,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "generateFullUsername", result);
         return result;
+
     }
+
 
     /**
      * Creates a suffix for the username, if the username already exists. The suffix consists
@@ -213,7 +226,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "generateUsernameSuffix", result);
         return result;
+
     }
+
 
     /**
      * Generates a username, taking the first 5 letters of the last name and the first
@@ -247,7 +262,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "generateUsernamePrefix", result);
         return result;
+
     }
+
 
     /**
      * Activates a user (sets isActive to true)
@@ -259,6 +276,7 @@ public class UserManagementController implements UserManagement {
     public UserDTO activateUser(Long id) {
         userValidator.validateId(id);
         return setActiveStatus(id, true);
+
     }
 
     /**
@@ -271,7 +289,9 @@ public class UserManagementController implements UserManagement {
     public UserDTO deactivateUser(Long id) {
         userValidator.validateId(id);
         return setActiveStatus(id, false);
+
     }
+
 
     /**
      * Sets the given active status to a user. Will check if the user corresponding to the id is present.
@@ -296,9 +316,13 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "setActiveStatus", result.toString());
         return result;
+
     }
 
+
     /**
+     * Returns a userDTO from the user with the given id.
+     *
      * @param id the id of the desired user, will be validated for null values
      * @return the required userDTO
      */
@@ -309,7 +333,9 @@ public class UserManagementController implements UserManagement {
         return UserDTOHelper.fromEntity(userPersistenceManager.getUserById(id).orElseThrow(
                 () -> new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION, DetailedExceptionCode.USER_NOT_FOUND)
         ));
+
     }
+
 
     /**
      * @param username the username of the desired user, will be validated for null values
@@ -322,7 +348,9 @@ public class UserManagementController implements UserManagement {
         return UserDTOHelper.fromEntity(userPersistenceManager.getUserByUsername(username).orElseThrow(
                 () -> new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION, DetailedExceptionCode.USER_NOT_FOUND)
         ));
+
     }
+
 
     /**
      * Checks if a user is already in the failed counter map.
@@ -338,7 +366,9 @@ public class UserManagementController implements UserManagement {
 
         CustomLogger.logExit(this.getClass(), "isInFailedCounter", String.valueOf(result));
         return result;
+
     }
+
 
     /**
      * Adds the value "token" to the key "username" in the logged users map.
@@ -347,8 +377,11 @@ public class UserManagementController implements UserManagement {
      * @param token    the session token, not null
      */
     public void addInLoggedUsers(@NotNull String username, @NotNull String token) {
+
         loggedUsers.put(username, token);
+
     }
+
 
     /**
      * Checks if the user with the given username and token is present in the loggedUsers map.
@@ -472,7 +505,7 @@ public class UserManagementController implements UserManagement {
                             .collect(Collectors.toList());
 
                     UserDTO disabledUserDTO = UserDTOHelper.fromEntity(disabledUser);
-                    sendNotification("USER_DISABLED",disabledUserDTO.toString(),"",ids.toArray(new Long[]{}));
+                    sendNotification("USER_DISABLED", disabledUserDTO.toString(), "", ids.toArray(new Long[]{}));
 
 
                     CustomLogger.logException(this.getClass(), "login", DetailedExceptionCode.USER_LOGIN_FAILED_FIVE_TIMES.toString());
@@ -487,7 +520,6 @@ public class UserManagementController implements UserManagement {
         }
         //in case the user login with success the username is reoved from the map
         if (isInFailedCounter(userOptional.get().getUsername())) {
-            System.out.println("Username:  " + userOptional.get().getUsername() + "tried wrong password:   " + failedCounter.get(userOptional.get().getUsername()));
             failedCounter.remove(userOptional.get().getUsername());
         }
 
@@ -541,24 +573,10 @@ public class UserManagementController implements UserManagement {
         return permisionsList;
     }
 
-    public void createWelcomeNotification(User user) {
-        //TODO
-        /*
-        Notification notification = new Notification();
-        notification.setStatus("not_read");
-        notification.setMessage("Welcome");
-        notification.setType("WELCOME_NEW_USER");
-        notification.setURL("Welcome new user");
-        userPersistenceManager.createNotification(notification);
-        List<Notification> notifications = user.getNotifications();
-        notifications.add(notification);
-        user.setNotifications(notifications);
-        userPersistenceManager.updateUser(user);
-        */
-    }
 
-    private void sendNotification(String notificationType,String notificationMessage,
-                                 String notificationURL, Long... userIds) {
+    @SuppressWarnings("all")
+    private void sendNotification(String notificationType, String notificationMessage,
+                                  String notificationURL, Long... userIds) {
 
         Arrays.stream(userIds).forEach(userId -> {
             User user = userPersistenceManager.getUserById(userId)

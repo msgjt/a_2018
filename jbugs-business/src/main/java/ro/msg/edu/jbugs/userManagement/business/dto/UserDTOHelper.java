@@ -1,13 +1,15 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
 import javax.validation.constraints.NotNull;
 import java.util.stream.Collectors;
 
 public class UserDTOHelper {
 
     /**
-     *  Converts a user to a userDTO
+     * Converts a user to a userDTO
+     *
      * @param user not null
      * @return the user entity
      */
@@ -29,7 +31,8 @@ public class UserDTOHelper {
     }
 
     /**
-     *  Converts a userDTO to a user
+     * Converts a userDTO to a user
+     *
      * @param userDTO not null, contains the updated information
      * @param oldUser not null, IMPORTANT:
      *                FOR UPDATE: must be a detached user from the persistence layer, it has to role
@@ -38,7 +41,7 @@ public class UserDTOHelper {
      *                FOR ADD: can be a new User entity
      * @return the user entity
      */
-    public static User toEntity(@NotNull UserDTO userDTO,@NotNull User oldUser){
+    public static User toEntity(@NotNull UserDTO userDTO, @NotNull User oldUser) {
 
         oldUser.setFirstName(userDTO.getFirstName() != null ? userDTO.getFirstName() : oldUser.getFirstName());
         oldUser.setLastName(userDTO.getLastName() != null ? userDTO.getLastName() : oldUser.getLastName());

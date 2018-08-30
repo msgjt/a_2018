@@ -3,7 +3,6 @@ package resources;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTOHelper;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -17,6 +16,7 @@ import java.util.stream.Collectors;
 public class UserPermissions {
     @EJB
     private UserManagement userManagement;
+
     @Path("/{username}")
     @GET
     public List<PermissionDTO> getUsersPermissions(@PathParam("username") String username) {

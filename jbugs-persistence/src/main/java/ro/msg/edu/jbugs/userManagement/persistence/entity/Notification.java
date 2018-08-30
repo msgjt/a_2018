@@ -1,6 +1,5 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,14 +10,14 @@ import java.util.Objects;
 @Table(name = "notifications")
 @NamedQueries(
         {
-                @NamedQuery(name = Notification.GET,query =
+                @NamedQuery(name = Notification.GET, query =
                         "SELECT n FROM Notification n"),
                 @NamedQuery(name = Notification.GET_WITH_USERS, query =
                         "SELECT u FROM Notification n JOIN FETCH n.usersNotifications usr_not JOIN FETCH usr_not.user u WHERE n.id=:id"),
                 @NamedQuery(name = Notification.GET_BY_TYPE, query =
-                    "SELECT n FROM Notification n WHERE n.type=:type")
+                        "SELECT n FROM Notification n WHERE n.type=:type")
         })
-public class Notification extends BaseEntity<Long>{
+public class Notification extends BaseEntity<Long> {
     public static final String GET = "GET";
     public static final String GET_WITH_USERS = "GET_WITH_USERS";
     public static final String GET_BY_TYPE = "GET_BY_TYPE";
@@ -26,7 +25,7 @@ public class Notification extends BaseEntity<Long>{
     @Column(name = "type")
     private String type;
 
-    @Column(name = "message",length = 2000)
+    @Column(name = "message", length = 2000)
     private String message;
 
     @Column(name = "URL")
@@ -39,12 +38,12 @@ public class Notification extends BaseEntity<Long>{
     private List<UsersNotifications> usersNotifications = new ArrayList<>();
 
 
-    public void addUser(User user){
-        UsersNotifications join = new UsersNotifications(user,this);
+    public void addUser(User user) {
+        UsersNotifications join = new UsersNotifications(user, this);
         this.usersNotifications.add(join);
     }
 
-    public void removeUser(User user){
+    public void removeUser(User user) {
         for (Iterator<UsersNotifications> iterator = this.usersNotifications.iterator(); iterator.hasNext(); ) {
 
             UsersNotifications join = iterator.next();
@@ -92,7 +91,7 @@ public class Notification extends BaseEntity<Long>{
     }
 
 
-    public void copyFieldsFrom(Notification n){
+    public void copyFieldsFrom(Notification n) {
         status = n.status != null ? n.status : status;
         type = n.type != null ? n.type : type;
         message = n.message != null ? n.message : message;

@@ -8,7 +8,7 @@ import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
-import ro.msg.edu.jbugs.userManagement.business.control.NotifiManagement;
+import ro.msg.edu.jbugs.userManagement.business.control.NotificationManagement;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -26,16 +26,16 @@ public class BugResource {
     private BugManagement bugManagement;
 
     @EJB
-    private NotifiManagement notifiManagement;
+    private NotificationManagement notificationManagement;
 
 
     @GET
-    public List<BugDTO> getBugs(){
-        CustomLogger.logEnter(this.getClass(),"getBugs","");
+    public List<BugDTO> getBugs() {
+        CustomLogger.logEnter(this.getClass(), "getBugs", "");
 
         List<BugDTO> bugs = bugManagement.getAllBugs();
 
-        CustomLogger.logExit(this.getClass(),"getBugs",bugs.toString());
+        CustomLogger.logExit(this.getClass(), "getBugs", bugs.toString());
         return bugs;
     }
 
@@ -48,8 +48,8 @@ public class BugResource {
                 .entity(bugManagement.createBug(bugDTO))
                 .build();
 
-        notifiManagement.sendNotification("BUG_UPDATED","New bug was created",
-                "",bugDTO.getCreatedBy().getId(),bugDTO.getAssignedTo().getId());
+        notificationManagement.sendNotification("BUG_UPDATED", "New bug was created",
+                "", bugDTO.getCreatedBy().getId(), bugDTO.getAssignedTo().getId());
 
         return response;
 
@@ -68,27 +68,26 @@ public class BugResource {
                 .entity(result)
                 .build();
 
-        if(result.getStatus().equals("Closed")){
-            notifiManagement.sendNotification("BUG_CLOSED",result.toString(),"",
-                    result.getAssignedTo().getId(),result.getCreatedBy().getId());
+        if (result.getStatus().equals("Closed")) {
+            notificationManagement.sendNotification("BUG_CLOSED", result.toString(), "",
+                    result.getAssignedTo().getId(), result.getCreatedBy().getId());
             return response;
         }
 
         String message = "Bug successfully updated. ";
-        if(oldBug.getTitle().equals(result.getTitle()) &&
+        if (oldBug.getTitle().equals(result.getTitle()) &&
                 oldBug.getDescription().equals(result.getDescription()) &&
                 oldBug.getVersion().equals(result.getVersion()) &&
                 oldBug.getFixedVersion().equals(result.getFixedVersion()) &&
                 oldBug.getSeverity().toString().equals(result.getSeverity().toString()) &&
                 (oldBug.getAssignedTo().getUsername()).equals(result.getAssignedTo().getUsername()) &&
-                ! oldBug.getStatus().equals(result.getStatus())){
-            message += "Old status was <" + oldBug.getStatus() + "> and it was changed to <" + result.getStatus()+">";
-            notifiManagement.sendNotification("BUG_STATUS_UPDATED",
-                    message,"",result.getAssignedTo().getId(),result.getCreatedBy().getId());
-        }
-        else{
-            notifiManagement.sendNotification("BUG_UPDATED",message,"",
-                    result.getAssignedTo().getId(),result.getCreatedBy().getId());
+                !oldBug.getStatus().equals(result.getStatus())) {
+            message += "Old status was <" + oldBug.getStatus() + "> and it was changed to <" + result.getStatus() + ">";
+            notificationManagement.sendNotification("BUG_STATUS_UPDATED",
+                    message, "", result.getAssignedTo().getId(), result.getCreatedBy().getId());
+        } else {
+            notificationManagement.sendNotification("BUG_UPDATED", message, "",
+                    result.getAssignedTo().getId(), result.getCreatedBy().getId());
         }
         return response;
     }
@@ -107,9 +106,9 @@ public class BugResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadFile(@DefaultValue("true") @FormDataParam("enabled") boolean enabled,
                                @FormDataParam("file") InputStream uploadedInputStream,
-                               @FormDataParam("file") FormDataContentDisposition fileDetail){
+                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
-        File objFile=new File(fileDetail.getFileName());
+        File objFile = new File(fileDetail.getFileName());
         isValidForSaving(objFile);
         saveToFile(uploadedInputStream, objFile);
         String output = "File uploaded to: " + objFile.getAbsolutePath();
@@ -130,25 +129,25 @@ public class BugResource {
             out = new FileOutputStream(uploadedFile);
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 size = size + bytes.length;
-                if(size > 25000000){
-                    throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_FILE_TOO_BIG);
+                if (size > 25000000) {
+                    throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_FILE_TOO_BIG);
                 }
                 out.write(bytes, 0, read);
             }
             out.flush();
             out.close();
         } catch (IOException e) {
-            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_COULD_NOT_WRITE_FILE);
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_COULD_NOT_WRITE_FILE);
         }
 
     }
 
-    private boolean isValidForSaving(File file){
+    private boolean isValidForSaving(File file) {
         String extension = "";
 
         int i = file.getName().lastIndexOf('.');
         if (i > 0) {
-            extension = file.getName().substring(i+1);
+            extension = file.getName().substring(i + 1);
         }
         List<String> validExtensions = new ArrayList<String>() {{
             add("jpg");
@@ -161,8 +160,8 @@ public class BugResource {
             add("txt");
             add("odt");
         }};
-        if(!validExtensions.contains(extension)){
-            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_EXTENSION_NOT_VALID);
+        if (!validExtensions.contains(extension)) {
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_EXTENSION_NOT_VALID);
         }
         return true;
     }

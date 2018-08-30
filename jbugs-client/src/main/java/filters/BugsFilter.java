@@ -19,14 +19,12 @@ import java.util.Set;
 public class BugsFilter implements Filter {
     @EJB
     private UserManagement userManagement;
+
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
 
-
-
-        System.out.println("+++++++++++++++Inside BUGS FILTER.+++++++++++++++++");
 
         HttpServletRequest httReq = (HttpServletRequest) req;
         String reqHead = httReq.getHeader("Access-Control-Allow-Origin");
@@ -34,15 +32,12 @@ public class BugsFilter implements Filter {
 
         //The filter checks if the request is OPTION, in this case the filter ignore the request
         if (((HttpServletRequest) req).getMethod().equalsIgnoreCase("OPTIONS")) {
-            System.out.println("Received Options");
             chain.doFilter(req, resp);
             CustomLogger.logExit(this.getClass(), "doFilter", resp.toString());
             return;
         }
         String currentUser = ((HttpServletRequest) req).getHeader("currentUser");
         String webToken = ((HttpServletRequest) req).getHeader("webtoken");
-        System.out.println("+++++++++++++CURENT USER++++++++++++" + currentUser);
-        System.out.println("+++++++++++++CURENT TOKEN++++++++++++" + webToken);
         String userPermision = "BUG_MANAGEMENT";
         Set<String> permissions;
         //Check if the user is logged in
@@ -54,7 +49,6 @@ public class BugsFilter implements Filter {
             CustomLogger.logExit(this.getClass(), "doFilter", HttpServletResponse.SC_FORBIDDEN + "");
             return;
         }
-        System.out.println("USER ALLOWED");
         permissions = userManagement.getAllUserPermission(currentUser);
         //Check if the user do not have rights to perform the action
         if (!permissions.contains(userPermision)) {

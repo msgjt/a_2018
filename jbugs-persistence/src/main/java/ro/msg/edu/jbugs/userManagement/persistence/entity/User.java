@@ -24,14 +24,13 @@ import java.util.Objects;
 )
 public class User extends BaseEntity<Long> {
 
-    @Transient
-    private final static int MAX_STRING_LENGTH = 127;
     public static final String GET_ALL_USERS = "getAllUsers";
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
     public static final String GET_NOTIFICATIONS_FOR_USER = "GET_NOTIFICATIONS_FOR_USER";
-
+    @Transient
+    private final static int MAX_STRING_LENGTH = 127;
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;
 
@@ -135,7 +134,7 @@ public class User extends BaseEntity<Long> {
         this.usersNotifications = notifications;
     }
 
-    public void copyFieldsFrom(User u){
+    public void copyFieldsFrom(User u) {
         firstName = u.firstName != null ? u.firstName : firstName;
         lastName = u.lastName != null ? u.lastName : lastName;
         username = u.username != null ? u.username : username;

@@ -1,14 +1,13 @@
 package ro.msg.edu.jbugs.userManagement.persistence.dao;
 
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +47,7 @@ public class UserPersistenceManager {
     public User updateUser(@NotNull User user) {
         CustomLogger.logEnter(this.getClass(), "updateUser", user.toString());
 
-        User old = em.find(User.class,user.getId());
+        User old = em.find(User.class, user.getId());
         old.copyFieldsFrom(user);
         em.persist(old);
 
@@ -133,6 +132,7 @@ public class UserPersistenceManager {
 
     /**
      * Persists a notification in the database.
+     *
      * @param notification
      * @return
      */
@@ -159,6 +159,7 @@ public class UserPersistenceManager {
 
         CustomLogger.logExit(this.getClass(), "removeRole", role.toString());
     }
+
     /**
      * Removes a notification from the database.
      *
@@ -187,6 +188,7 @@ public class UserPersistenceManager {
         CustomLogger.logExit(this.getClass(), "updateRole", result.toString());
         return result;
     }
+
     /**
      * Updates a notification in the database using the given Notification entity.
      *
@@ -244,6 +246,7 @@ public class UserPersistenceManager {
         CustomLogger.logExit(this.getClass(), "getAllRoles", result.toString());
         return result;
     }
+
     /**
      * Get a list of all notifications stored in the database.
      *
@@ -308,7 +311,6 @@ public class UserPersistenceManager {
         Query q = em.createQuery("SELECT r FROM Role r WHERE r.type1='" + type + "'");
         return (Role) q.getSingleResult();
     }
-
 
 
 }

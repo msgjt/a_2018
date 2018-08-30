@@ -1,17 +1,15 @@
 package resources;
 
-import ro.msg.edu.jbugs.userManagement.business.control.NotifiManagement;
-import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import ro.msg.edu.jbugs.userManagement.business.control.NotificationManagement;
+import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +23,7 @@ public class UserResource {
     private UserManagement userManagement;
 
     @EJB
-    private NotifiManagement notifiManagement;
+    private NotificationManagement notificationManagement;
 
     @GET
     public List<UserDTO> getUsers() {
@@ -36,9 +34,14 @@ public class UserResource {
     public Response createUser(UserDTO userDTO) throws BusinessException {
         CustomLogger.logEnter(this.getClass(), "createUser", userDTO.toString());
 
+        UserDTO createdUser = userManagement.createUser(userDTO);
+
         Response response = Response.status(Response.Status.CREATED)
-                .entity(userManagement.createUser(userDTO))
+                .entity(createdUser)
                 .build();
+
+        notificationManagement.sendNotification("WELCOME_NEW_USER", createdUser.toString(), "", createdUser.getId());
+
         CustomLogger.logExit(this.getClass(), "createUser", response.toString());
         return response;
     }
@@ -67,7 +70,7 @@ public class UserResource {
         Response result = Response.status(Response.Status.OK)
                 .entity(newUser)
                 .build();
-        notifiManagement.sendNotification("USER_UPDATED",message,"",userDTO.getId(),id);
+        notificationManagement.sendNotification("USER_UPDATED", message, "", userDTO.getId(), id);
         return result;
     }
 
@@ -87,7 +90,7 @@ public class UserResource {
                 .map(UserDTO::getId)
                 .collect(Collectors.toList());
 
-        notifiManagement.sendNotification("USER_DELETED",deactivated.toString(),"",ids.toArray(new Long[]{}));
+        notificationManagement.sendNotification("USER_DELETED", deactivated.toString(), "", ids.toArray(new Long[]{}));
         return result;
     }
 

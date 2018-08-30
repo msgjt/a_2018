@@ -12,15 +12,9 @@ public class History extends BaseEntity<Long> {
 
     @Transient
     private final static int MAX_STRING_LENGTH = 127;
-
-
-    public History() {
-    }
-
     @JoinColumn(name = "bug_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Bug bug;
-
     @Column(name = "modifiedDate", length = MAX_STRING_LENGTH, nullable = false)
     private Date modifiedDate;
     @Column(name = "afterStatus", length = MAX_STRING_LENGTH, nullable = false)
@@ -29,4 +23,6 @@ public class History extends BaseEntity<Long> {
     private String beforeStatus;
     @Column(name = "modifiedBy", length = MAX_STRING_LENGTH, nullable = false)
     private String modifiedBy;
+    public History() {
+    }
 }

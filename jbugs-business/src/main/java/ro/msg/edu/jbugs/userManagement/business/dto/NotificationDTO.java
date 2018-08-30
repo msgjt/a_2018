@@ -1,16 +1,11 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class NotificationDTO {
     private Long id;
     private String message;
     private String URL;
     private String type;
     private String status;
-
 
 
     public Long getId() {

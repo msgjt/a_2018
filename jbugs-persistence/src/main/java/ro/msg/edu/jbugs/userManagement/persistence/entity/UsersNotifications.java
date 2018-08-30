@@ -1,4 +1,5 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -25,14 +26,15 @@ public class UsersNotifications implements Serializable {
     @Column(name = "received", nullable = false)
     private Boolean received;
 
-    public UsersNotifications() {}
+    public UsersNotifications() {
+    }
 
-    public UsersNotifications(User user, Notification notification){
+    public UsersNotifications(User user, Notification notification) {
         this.user = user;
         this.notification = notification;
         this.received = false;
         this.date = LocalDate.now();
-        this.id = new UsersNotificationsId(user.getId(),notification.getId());
+        this.id = new UsersNotificationsId(user.getId(), notification.getId());
     }
 
     public User getUser() {
@@ -59,9 +61,13 @@ public class UsersNotifications implements Serializable {
         this.date = date;
     }
 
-    public Boolean getReceived() { return received; }
+    public Boolean getReceived() {
+        return received;
+    }
 
-    public void setReceived(Boolean received) { this.received = received; }
+    public void setReceived(Boolean received) {
+        this.received = received;
+    }
 
     @Override
     public boolean equals(Object o) {

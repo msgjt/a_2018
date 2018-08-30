@@ -19,6 +19,7 @@ import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class UserPersistenceManagerBeanTest {
 
 
     private static Object invoke(Object obj, String methodName,
-                                             Object... params) {
+                                 Object... params) {
         int paramCount = params.length;
         Method method;
         Object requiredObj = null;
@@ -70,25 +71,25 @@ public class UserPersistenceManagerBeanTest {
     public void generateFullUsername_expectedMarini() {
 
 
-        String username = (String) invoke(userManagementController,"generateFullUsername","Ion","Marin");
+        String username = (String) invoke(userManagementController, "generateFullUsername", "Ion", "Marin");
         assertEquals("marini", username);
     }
 
     @Test
     public void generateFullUsername_expectedIonion() {
-        String username = (String) invoke(userManagementController,"generateFullUsername","Ion","Ion");
+        String username = (String) invoke(userManagementController, "generateFullUsername", "Ion", "Ion");
         assertEquals("ionion", username);
     }
 
     @Test
     public void generateFullUsername_expectedPetric() {
-        String username = (String) invoke(userManagementController,"generateFullUsername","Calin","Petrindean");
+        String username = (String) invoke(userManagementController, "generateFullUsername", "Calin", "Petrindean");
         assertEquals("petric", username);
     }
 
     @Test
     public void generateFullUsername_expectedba0000() {
-        String username = (String) invoke(userManagementController,"generateFullUsername","a","b");
+        String username = (String) invoke(userManagementController, "generateFullUsername", "a", "b");
         assertEquals("ba0000", username);
     }
 
@@ -96,7 +97,7 @@ public class UserPersistenceManagerBeanTest {
     public void generateUsernameSuffix_expectedEmpty() {
         when(userPersistenceManager.getUsernamesLike(any(String.class))).thenReturn(new ArrayList<>());
 
-        String suffix = (String) invoke(userManagementController,"generateUsernameSuffix","dorel0");
+        String suffix = (String) invoke(userManagementController, "generateUsernameSuffix", "dorel0");
         assertEquals("", suffix);
     }
 
@@ -112,7 +113,7 @@ public class UserPersistenceManagerBeanTest {
                             add("dorel03");
                         }}
                 );
-        String suffix = (String) invoke(userManagementController,"generateUsernameSuffix","dorel0");
+        String suffix = (String) invoke(userManagementController, "generateUsernameSuffix", "dorel0");
         assertEquals("4", suffix);
 
     }
@@ -128,7 +129,7 @@ public class UserPersistenceManagerBeanTest {
                             add("dorel06");
                         }}
                 );
-        String suffix = (String) invoke(userManagementController,"generateUsernameSuffix","dorel0");
+        String suffix = (String) invoke(userManagementController, "generateUsernameSuffix", "dorel0");
         assertEquals("7", suffix);
 
     }
@@ -143,7 +144,7 @@ public class UserPersistenceManagerBeanTest {
                             add("marini");
                         }}
                 );
-        String suffix = (String) invoke(userManagementController,"generateUsernameSuffix","marini");
+        String suffix = (String) invoke(userManagementController, "generateUsernameSuffix", "marini");
         assertEquals("1", suffix);
     }
 
@@ -174,7 +175,7 @@ public class UserPersistenceManagerBeanTest {
         try {
             UserDTO userDTO = userManagementController.login("ioani", "not1234");
             fail("Shouldn't reach this point");
-        } catch (BusinessException e ) {
+        } catch (BusinessException e) {
             assertEquals(ExceptionCode.USER_VALIDATION_EXCEPTION, e.getExceptionCode());
         } catch (CheckedBusinessException e) {
             assertEquals(ExceptionCode.USER_VALIDATION_EXCEPTION, e.getExceptionCode());
@@ -212,8 +213,8 @@ public class UserPersistenceManagerBeanTest {
             UserDTO userDTO = userManagementController.login("salut", "secret");
             fail("FAILED");
         } catch (BusinessException e) {
-            assertEquals(e.getExceptionCode(),ExceptionCode.USER_VALIDATION_EXCEPTION);
-            assertEquals(e.getDetailedExceptionCode(),DetailedExceptionCode.USER_DISABLED);
+            assertEquals(e.getExceptionCode(), ExceptionCode.USER_VALIDATION_EXCEPTION);
+            assertEquals(e.getDetailedExceptionCode(), DetailedExceptionCode.USER_DISABLED);
         } catch (CheckedBusinessException e) {
             fail("FAILED");
         }
@@ -241,10 +242,13 @@ public class UserPersistenceManagerBeanTest {
         userDTO.setEmail("dinamo@msggroup.com");
         userDTO.setPhoneNumber("0720512346");
         userDTO.setPassword("IloveSteaua");
-        userDTO.setRoles(new ArrayList<>(Arrays.asList(new RoleDTO(){{
-            setId(1L); setType("DEV"); setPermissions(new ArrayList<>());}} )));
+        userDTO.setRoles(new ArrayList<>(Arrays.asList(new RoleDTO() {{
+            setId(1L);
+            setType("DEV");
+            setPermissions(new ArrayList<>());
+        }})));
 
-        User result   = UserDTOHelper.toEntity(userDTO,new User());
+        User result = UserDTOHelper.toEntity(userDTO, new User());
         result.setUsername("borcec");
 
         //Mockito.doThrow(new RuntimeException()).when(userValidator).validateCreate(userDTO);
@@ -263,7 +267,7 @@ public class UserPersistenceManagerBeanTest {
     }
 
     @Test
-    public void testCreateUser_DuplicateEmail(){
+    public void testCreateUser_DuplicateEmail() {
         Role role = new Role();
         role.setId(1L);
         role.setType1("DEV");
@@ -283,10 +287,13 @@ public class UserPersistenceManagerBeanTest {
         userDTO.setEmail("dinamo@msggroup.com");
         userDTO.setPhoneNumber("0720512346");
         userDTO.setPassword("IloveSteaua");
-        userDTO.setRoles(new ArrayList<>(Arrays.asList(new RoleDTO(){{
-            setId(1L); setType("DEV"); setPermissions(new ArrayList<>());}} )));
+        userDTO.setRoles(new ArrayList<>(Arrays.asList(new RoleDTO() {{
+            setId(1L);
+            setType("DEV");
+            setPermissions(new ArrayList<>());
+        }})));
 
-        User result   = UserDTOHelper.toEntity(userDTO,new User());
+        User result = UserDTOHelper.toEntity(userDTO, new User());
         result.setUsername("borcec");
 
         //Mockito.doThrow(new RuntimeException()).when(userValidator).validateCreate(userDTO);
@@ -297,8 +304,8 @@ public class UserPersistenceManagerBeanTest {
             UserDTO createdUser = userManagementController.createUser(userDTO);
             fail("FAIL");
         } catch (BusinessException e) {
-            assertEquals(e.getExceptionCode(),ExceptionCode.USER_VALIDATION_EXCEPTION);
-            assertEquals(e.getDetailedExceptionCode(),DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+            assertEquals(e.getExceptionCode(), ExceptionCode.USER_VALIDATION_EXCEPTION);
+            assertEquals(e.getDetailedExceptionCode(), DetailedExceptionCode.USER_DUPLICATE_EMAIL);
         }
     }
 
@@ -344,7 +351,7 @@ public class UserPersistenceManagerBeanTest {
     public void getAllUsers_expectedList() {
         User u1 = new User();
         User u2 = new User();
-        u1.setId((long)6);
+        u1.setId((long) 6);
         u1.setFirstName("dorel");
         u1.setLastName("dorel");
         u1.setEmail("doreldorel@msggroup.com");
@@ -353,7 +360,7 @@ public class UserPersistenceManagerBeanTest {
         u1.setIsActive(true);
         u1.setRoles(new ArrayList<>());
 
-        u2.setId((long)7);
+        u2.setId((long) 7);
         u2.setFirstName("dorel");
         u2.setLastName("dorel");
         u2.setEmail("doreldorel@msggroup.com");
@@ -367,13 +374,13 @@ public class UserPersistenceManagerBeanTest {
 
         List<User> actuals = userManagementController.getAllUsers()
                 .stream()
-                .map(u -> UserDTOHelper.toEntity(u,new User()))
+                .map(u -> UserDTOHelper.toEntity(u, new User()))
                 .collect(Collectors.toList());
-        assertEquals(users,actuals);
+        assertEquals(users, actuals);
     }
 
     @Test
-    public void testUpdateUser_Success(){
+    public void testUpdateUser_Success() {
         Role role = new Role();
         role.setId(1L);
         role.setType1("DEV");
@@ -404,7 +411,7 @@ public class UserPersistenceManagerBeanTest {
         userDTO1.setRoles(new ArrayList<>());
 
         when(userPersistenceManager.getUserById(any(Long.class)))
-                .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO,new User())));
+                .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO, new User())));
 
         try {
             UserDTO updatedUser = userManagementController.updateUser(userDTO1);
