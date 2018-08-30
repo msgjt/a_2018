@@ -360,7 +360,8 @@
                        class="form-control"
                        required
                        [(ngModel)]="bugModel.version"
-                       placeholder=" ">
+                       placeholder=" "
+                       pattern="^\w+(\.\w*)*$">
                 <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
               </span>
           <span class="form-group has-float-label">

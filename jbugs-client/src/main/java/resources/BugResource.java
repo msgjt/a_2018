@@ -120,9 +120,8 @@ public class BugResource {
             throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
         }
         bugManagement.getBugById(id).setAttachment(fileDetail.getFileName());
-        String output = "File uploaded to: " + objFile.getAbsolutePath();
 
-        return Response.status(Response.Status.CREATED).entity(output).build();
+        return Response.status(Response.Status.CREATED).build();
 
     }
 
