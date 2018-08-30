@@ -4,6 +4,10 @@ body {
 
 }
 
+/deep/ .cdk-overlay-container {
+  z-index: 1500;
+}
+
 body {
   display: -ms-flexbox;
   display: -webkit-box;

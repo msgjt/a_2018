@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getAllUsers().subscribe((user) => {
+    this.userService.getAllUsersForUserProfile().subscribe((user) => {
       this.userList = user;
     });
     this.userModel.username = localStorage.getItem('currentUser');
@@ -52,7 +52,7 @@ export class UserProfileComponent implements OnInit {
   }
   refresh(){
     this.userList = [];
-    this.userService.getAllUsers().subscribe((user) => {
+    this.userService.getAllUsersForUserProfile().subscribe((user) => {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
@@ -69,7 +69,7 @@ export class UserProfileComponent implements OnInit {
     this.userModel.email = this.changeToEmptyString(this.userModel.email);
     this.userModel.phoneNumber = this.changeToEmptyString(this.userModel.phoneNumber);
 
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
+    this.userService.updateUserForUserProfile(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
         (response) => {
           console.log('response ' + JSON.stringify(response));
@@ -87,7 +87,7 @@ export class UserProfileComponent implements OnInit {
 
   submitEditPasswordForm() {
     if (this.newPassword == this.newPasswordConfirmed) {
-      this.userService.updateUserPassword(this.userModel.id, this.newPassword)
+      this.userService.updateUserPasswordForUserProfile(this.userModel.id, this.newPassword)
         .subscribe(
           (response) => {
             console.log('response ' + JSON.stringify(response));

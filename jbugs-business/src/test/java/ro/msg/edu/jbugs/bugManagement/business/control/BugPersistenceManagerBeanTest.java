@@ -1,5 +1,4 @@
 package ro.msg.edu.jbugs.bugManagement.business.control;
-
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
