@@ -100,4 +100,14 @@ export class BugService {
         'webtoken':webtoken});
     return this.http.put<boolean>(this.baseURL + '/bugs', bug,{headers});
   }
+
+  deleteAttachment(id) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let url = `${this.baseURL}/bugs/upload/${id}`;
+    return this.http.delete(url,{headers});
+  }
 }
