@@ -91,7 +91,7 @@ public interface UserManagement {
      * @param token    not null, the value that must be present at the search key
      * @return true if the username @username is present in the loggedUsers map and contains the value @token
      */
-    boolean checkLoggedUser(@NotNull String username, @NotNull String token);
+    boolean checkLoggedUser(String username, String token);
 
     /**
      * Checks if the user with the given username  is present in the loggedUsers map.

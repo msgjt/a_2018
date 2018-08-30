@@ -124,15 +124,25 @@ export class UserService {
   }
 
   deactivateUser(id: number){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'id': id};
-    return this.http.put<boolean>(this.baseURL + '/users/deactivate', body);
+    return this.http.put<boolean>(this.baseURL + '/users/deactivate', body,{headers});
   }
 
   activateUser(id: number){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'id': id};
-    return this.http.put<boolean>(this.baseURL + '/users/activate', body);
+    return this.http.put<boolean>(this.baseURL + '/users/activate', body,{headers});
   }
 
   validateUserCredentials(username: string, password: string): Observable<any> {
