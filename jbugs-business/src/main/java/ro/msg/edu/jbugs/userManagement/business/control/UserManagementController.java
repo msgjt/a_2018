@@ -420,7 +420,7 @@ public class UserManagementController implements UserManagement {
     @Override
     public UserDTO updateUserPassword(Long id, String password) {
         UserDTO user = getUserById(id);
-        user.setPassword(password);
+        user.setPassword(Encryptor.encrypt(password));
         return updateUser(user);
     }
 

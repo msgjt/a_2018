@@ -6,11 +6,7 @@ import {Router} from "@angular/router";
 import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
-import {ActiveToast, ToastrService} from "ngx-toastr";
-import {switchMap} from "rxjs/operators";
-import {Observable} from "rxjs/internal/Observable";
-import {ObservableInput} from "rxjs/internal/types";
-import {flatMap} from "rxjs/internal/operators";
+import {ToastrService} from "ngx-toastr";
 import {User, UserService} from "../../user-management/services/user.service";
 
 @Component({
@@ -25,17 +21,6 @@ export class BugsViewComponent implements OnInit {
   selectedBug: Bug;
   bugList: Bug[];
   pagesFormControl : FormControl;
-  filtersShow = [
-    { show1: false },
-    { show2: false },
-    { show3: false },
-    { show4: false },
-    { show5: false },
-    { show6: false },
-    { show7: false },
-    { show8: false },
-    { show9: false }
-  ];
   filter1 = '';
   filter2 = '';
   filter3 = '';
@@ -53,7 +38,6 @@ export class BugsViewComponent implements OnInit {
   showInfoDiv: boolean = false;
   formData: FormData;
   userList: User[];
-  sortWanted = false;
 
   //Pagination
   public filter = { };
@@ -128,7 +112,6 @@ export class BugsViewComponent implements OnInit {
   }
 
   addFilters(filterBy: string) {
-    this.sortWanted = false;
     switch (filterBy) {
       case 'id' : {
         this.filter[filterBy] = this.filter10;
@@ -209,182 +192,180 @@ export class BugsViewComponent implements OnInit {
   }
 
   doSort(sortBy: string) {
-    if(this.sortWanted) {
-      let startIndex = (this.config.currentPage-1)*25;
-      let endIndex = ((this.config.currentPage*this.config.itemsPerPage) - ((this.bugList.length > this.config.currentPage*this.config.itemsPerPage) ? 0 : (this.config.currentPage*this.config.itemsPerPage-this.bugList.length)));
-      let bugListCopy = this.bugList;
-      let toSortBugList = bugListCopy.slice(startIndex, endIndex);
-      switch (sortBy) {
-        case 'id' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.id - bug2.id;
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.id - bug1.id;
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+    let startIndex = (this.config.currentPage-1)*25;
+    let endIndex = ((this.config.currentPage*this.config.itemsPerPage) - ((this.bugList.length > this.config.currentPage*this.config.itemsPerPage) ? 0 : (this.config.currentPage*this.config.itemsPerPage-this.bugList.length)));
+    let bugListCopy = this.bugList;
+    let toSortBugList = bugListCopy.slice(startIndex, endIndex);
+    switch (sortBy) {
+      case 'id' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.id - bug2.id;
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
-        }
-        case 'description' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.description.toLowerCase().localeCompare(bug2.description.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.description.toLowerCase().localeCompare(bug1.description.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.id - bug1.id;
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
         }
-        case 'fixedVersion' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.fixedVersion.toLowerCase().localeCompare(bug2.fixedVersion.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.fixedVersion.toLowerCase().localeCompare(bug1.fixedVersion.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'description' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.description.toLowerCase().localeCompare(bug2.description.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
-        }
-        case 'severity' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.severity.toLowerCase().localeCompare(bug2.severity.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.severity.toLowerCase().localeCompare(bug1.severity.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.description.toLowerCase().localeCompare(bug1.description.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
         }
-        case 'status' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.status.toLowerCase().localeCompare(bug2.status.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.status.toLowerCase().localeCompare(bug1.status.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'fixedVersion' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.fixedVersion.toLowerCase().localeCompare(bug2.fixedVersion.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
-        }
-        case 'targetDate' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.targetDate.toLowerCase().localeCompare(bug2.targetDate.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.targetDate.toLowerCase().localeCompare(bug1.targetDate.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.fixedVersion.toLowerCase().localeCompare(bug1.fixedVersion.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
         }
-        case 'title' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.title.toLowerCase().localeCompare(bug2.title.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.title.toLowerCase().localeCompare(bug1.title.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'severity' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.severity.toLowerCase().localeCompare(bug2.severity.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
-        }
-        case 'version' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.version.toLowerCase().localeCompare(bug2.version.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.version.toLowerCase().localeCompare(bug1.version.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.severity.toLowerCase().localeCompare(bug1.severity.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
         }
-        case 'assignedTo' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.assignedTo.username.toLowerCase().localeCompare(bug2.assignedTo.username.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.assignedTo.username.toLowerCase().localeCompare(bug1.assignedTo.username.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'status' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.status.toLowerCase().localeCompare(bug2.status.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
-        }
-        case 'createdBy' : {
-          if(this.ascendingSort[sortBy]) {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug1.createdBy.username.toLowerCase().localeCompare(bug2.createdBy.username.toLowerCase());
-            });
-          } else {
-            toSortBugList.sort(function (bug1, bug2) {
-              return bug2.createdBy.username.toLowerCase().localeCompare(bug1.createdBy.username.toLowerCase());
-            });
-          }
-          let i = startIndex;
-          toSortBugList.forEach((element) => {
-            this.bugList[i++] = element;
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.status.toLowerCase().localeCompare(bug1.status.toLowerCase());
           });
-          this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
-          break;
         }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'targetDate' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.targetDate.toLowerCase().localeCompare(bug2.targetDate.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.targetDate.toLowerCase().localeCompare(bug1.targetDate.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'title' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.title.toLowerCase().localeCompare(bug2.title.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.title.toLowerCase().localeCompare(bug1.title.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'version' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.version.toLowerCase().localeCompare(bug2.version.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.version.toLowerCase().localeCompare(bug1.version.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'assignedTo' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.assignedTo.username.toLowerCase().localeCompare(bug2.assignedTo.username.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.assignedTo.username.toLowerCase().localeCompare(bug1.assignedTo.username.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
+      }
+      case 'createdBy' : {
+        if(this.ascendingSort[sortBy]) {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug1.createdBy.username.toLowerCase().localeCompare(bug2.createdBy.username.toLowerCase());
+          });
+        } else {
+          toSortBugList.sort(function (bug1, bug2) {
+            return bug2.createdBy.username.toLowerCase().localeCompare(bug1.createdBy.username.toLowerCase());
+          });
+        }
+        let i = startIndex;
+        toSortBugList.forEach((element) => {
+          this.bugList[i++] = element;
+        });
+        this.ascendingSort[sortBy] = !this.ascendingSort[sortBy];
+        break;
       }
     }
   }

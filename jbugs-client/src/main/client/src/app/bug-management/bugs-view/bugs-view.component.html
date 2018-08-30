@@ -24,134 +24,34 @@
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
           <th scope="col" (click)="doSort('id')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>ID</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show10']"
-                   (click)="filtersShow['show10'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show10']"
-                   (click)="filtersShow['show10'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show10']" (click)="sortWanted=false;">
-            </div>
+              <span translate>ID</span>
           </th>
           <th scope="col" (click)="doSort('title')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Title</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show6']"
-                   (click)="filtersShow['show6'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show6']"
-                   (click)="filtersShow['show6'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show6']">
-            </div>
+              <span translate>demo.Title</span>
           </th>
           <th scope="col" (click)="doSort('description')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Description</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show1']"
-                   (click)="filtersShow['show1'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show1']"
-                   (click)="filtersShow['show1'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show1']">
-            </div>
+              <span translate>demo.Description</span>
           </th>
           <th scope="col" (click)="doSort('fixedVersion')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Fixed Version</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show2']"
-                   (click)="filtersShow['show2'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show2']"
-                   (click)="filtersShow['show2'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show2']">
-            </div>
+              <span translate>demo.Fixed Version</span>
           </th>
           <th scope="col" (click)="doSort('severity')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Severity</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show3']"
-                   (click)="filtersShow['show3'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show3']"
-                   (click)="filtersShow['show3'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show3']">
-            </div>
+              <span translate>demo.Severity</span>
           </th>
           <th scope="col" (click)="doSort('status')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Status</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show4']"
-                   (click)="filtersShow['show4'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show4']"
-                   (click)="filtersShow['show4'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show4']">
-            </div>
+              <span translate>demo.Status</span>
           </th>
           <th scope="col" (click)="doSort('targetDate')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Target date</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show5']"
-                   (click)="filtersShow['show5'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show5']"
-                   (click)="filtersShow['show5'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show5']">
-            </div>
+              <span translate>demo.Target date</span>
           </th>
           <th scope="col" (click)="doSort('version')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Version</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show7']"
-                   (click)="filtersShow['show7'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show7']"
-                   (click)="filtersShow['show7'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show7']">
-            </div>
+              <span translate>demo.Version</span>
           </th>
           <th scope="col" (click)="doSort('assignedTo')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Assigned to</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show8']"
-                   (click)="filtersShow['show8'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show8']"
-                   (click)="filtersShow['show8'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show8']">
-            </div>
+              <span translate>demo.Assigned to</span>
           </th>
           <th scope="col" (click)="doSort('createdBy')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Created by</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show9']"
-                   (click)="filtersShow['show9'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show9']"
-                   (click)="filtersShow['show9'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show9']">
-            </div>
+              <span translate>demo.Created by</span>
           </th>
           <th scope="col">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
@@ -166,6 +66,50 @@
         </tr>
         </thead>
         <tbody>
+        <tr>
+          <td>
+            <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
+                   style="margin: .5em auto;" >
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
         <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;">
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
             bug.id }}
