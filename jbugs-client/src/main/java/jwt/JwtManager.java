@@ -7,6 +7,9 @@ import java.security.Key;
 
 public class JwtManager {
 
+    private static final String CLAIM_ROLE = "role";
+    private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
+    private static final Key SECRET_KEY = Keys.secretKeyFor(SIGNATURE_ALGORITHM);
     private static JwtManager instance;
 
     public static JwtManager getInstance() {
@@ -15,12 +18,6 @@ public class JwtManager {
         }
         return instance;
     }
-
-    private static final String CLAIM_ROLE = "role";
-
-    private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SIGNATURE_ALGORITHM);
-
 
     public String createToken(String user) {
 

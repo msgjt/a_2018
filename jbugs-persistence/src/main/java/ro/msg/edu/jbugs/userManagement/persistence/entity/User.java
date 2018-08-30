@@ -4,8 +4,8 @@ package ro.msg.edu.jbugs.userManagement.persistence.entity;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,21 +15,22 @@ import java.util.Objects;
         {
                 @NamedQuery(name = User.GET_ALL_USERS, query = "SELECT u FROM User u"),
                 @NamedQuery(name = User.GET_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username=:username"),
-                @NamedQuery(name= User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
-                @NamedQuery(name= User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id"),
-                @NamedQuery(name = User.GET_NOTIFICATIONS_BY_USER_AND_STATUS, query = "SELECT n FROM User u, Notification n WHERE n MEMBER OF u.notifications AND n.status=:status AND u.id =:userId")
+                @NamedQuery(name = User.GET_USER_BY_EMAIL, query = "SELECT u from User u where u.email = :email "),
+                @NamedQuery(name = User.GET_USER_BY_ID, query = "SELECT u FROM User u WHERE u.id = :id"),
+                @NamedQuery(name = User.GET_NOTIFICATIONS_FOR_USER, query =
+                        "SELECT n FROM User u JOIN FETCH u.usersNotifications ntfs JOIN FETCH ntfs.notification n WHERE u.id=:id")
         }
+
 )
 public class User extends BaseEntity<Long> {
 
-    @Transient
-    private final static int MAX_STRING_LENGTH = 127;
     public static final String GET_ALL_USERS = "getAllUsers";
     public static final String GET_USER_BY_USERNAME = "getUserByUsername";
     public static final String GET_USER_BY_EMAIL = "getUserByEmail";
     public static final String GET_USER_BY_ID = "getUserById";
-    public static final String GET_NOTIFICATIONS_BY_USER_AND_STATUS = "GET_NOTIFICATIONS_BY_USER_AND_STATUS";
-
+    public static final String GET_NOTIFICATIONS_FOR_USER = "GET_NOTIFICATIONS_FOR_USER";
+    @Transient
+    private final static int MAX_STRING_LENGTH = 127;
     @Column(name = "firstName", length = MAX_STRING_LENGTH, nullable = false)
     private String firstName;
 
@@ -42,7 +43,7 @@ public class User extends BaseEntity<Long> {
     @Column(name = "email", length = MAX_STRING_LENGTH, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "username", length = MAX_STRING_LENGTH, nullable = false, unique = true)
+    @Column(name = "username", length = MAX_STRING_LENGTH, nullable = false, unique = true, updatable = false)
     private String username;
 
     @Column(name = "password", length = MAX_STRING_LENGTH, nullable = false)
@@ -58,9 +59,8 @@ public class User extends BaseEntity<Long> {
     @JoinColumn(name = "bug_id")
     private List<Bug> assignedBugs = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private List<Notification> notifications = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UsersNotifications> usersNotifications = new ArrayList<>();
 
     public String getFirstName() {
         return firstName;
@@ -126,12 +126,25 @@ public class User extends BaseEntity<Long> {
         this.roles = roles;
     }
 
-    public List<Notification> getNotifications() {
-        return notifications;
+    public List<UsersNotifications> getUsersNotifications() {
+        return usersNotifications;
     }
 
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
+    public void setUsersNotifications(List<UsersNotifications> notifications) {
+        this.usersNotifications = notifications;
+    }
+
+    public void copyFieldsFrom(User u) {
+        firstName = u.firstName != null ? u.firstName : firstName;
+        lastName = u.lastName != null ? u.lastName : lastName;
+        username = u.username != null ? u.username : username;
+        password = u.password != null ? u.password : password;
+        roles = u.roles != null ? u.roles : roles;
+        email = u.email != null ? u.email : email;
+        usersNotifications = u.usersNotifications != null ? u.usersNotifications : usersNotifications;
+        phoneNumber = u.phoneNumber != null ? u.phoneNumber : phoneNumber;
+        isActive = u.isActive != null ? u.isActive : isActive;
+        assignedBugs = u.assignedBugs != null ? u.assignedBugs : assignedBugs;
     }
 
     @Override
@@ -146,13 +159,16 @@ public class User extends BaseEntity<Long> {
                 Objects.equals(email, user.email) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(isActive, user.isActive);
+                Objects.equals(isActive, user.isActive) &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(assignedBugs, user.assignedBugs) &&
+                Objects.equals(usersNotifications, user.usersNotifications);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), firstName, lastName, phoneNumber, email, username, password, isActive);
+        return Objects.hash(super.hashCode(), firstName, lastName, phoneNumber, email, username, password, isActive, roles, assignedBugs, usersNotifications);
     }
 
     @Override
@@ -177,4 +193,26 @@ public class User extends BaseEntity<Long> {
     public void setAssignedBugs(List<Bug> assignedBugs) {
         this.assignedBugs = assignedBugs;
     }
+
+
+    public void addNotification(Notification notification) {
+        UsersNotifications join = new UsersNotifications(this, notification);
+        this.usersNotifications.add(join);
+    }
+
+    public void removeNotification(Notification notification) {
+        for (Iterator<UsersNotifications> iterator = this.usersNotifications.iterator(); iterator.hasNext(); ) {
+
+            UsersNotifications join = iterator.next();
+
+            if (join.getUser().equals(this) && join.getNotification().equals(notification)) {
+                iterator.remove();
+                join.setNotification(null);
+                join.setUser(null);
+            }
+        }
+
+    }
+
+
 }

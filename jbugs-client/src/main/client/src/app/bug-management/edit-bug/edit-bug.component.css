@@ -1,3 +1,66 @@
+html,
+body {
+  height: 100%;
+
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 100%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+
+input[type=text] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  margin-left: 1em;
+  margin-bottom: .5em;
+  border-bottom: 1px solid black;
+  height: 20px;
+  font-size: 16px;
+  width: 90%;
+  color: black;
+  padding: 20px;
+}
+
+input[type=text]:focus {
+  box-shadow: 0 4px 2px -2px #8b0000;
+}
+
+
+
+.has-float-label .form-control:placeholder-shown:not(:focus) + * {
+  font-size: 100%;
+  opacity: .5;
+  top: .3em;
+  font-weight: 400;
+  height: 40px;
+  margin-top: 30px;
+}
+
+
 textarea {
   border-radius: 20px;
   outline: none;
@@ -10,7 +73,14 @@ textarea {
   -moz-transition: border 0.5s;
   -o-transition: border 0.5s;
   border: solid 1px #8b0000;
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  box-sizing:border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+.descriptionCells {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

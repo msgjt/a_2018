@@ -19,7 +19,7 @@ public class UserDTO {
 
     public UserDTO() {
         roles = new ArrayList<>();
-        notifications= new ArrayList<>();
+        notifications = new ArrayList<>();
     }
 
     public Long getId() {
@@ -121,7 +121,7 @@ public class UserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(isActive,userDTO.isActive) &&
+        return Objects.equals(isActive, userDTO.isActive) &&
                 Objects.equals(id, userDTO.id) &&
                 Objects.equals(firstName, userDTO.firstName) &&
                 Objects.equals(lastName, userDTO.lastName) &&

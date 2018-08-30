@@ -13,7 +13,7 @@ public class RoleDTOHelper {
 
     public static RoleDTO fromEntity(@NotNull Role role) {
 
-        if( role == null || role.getPermissions() == null )
+        if (role == null || role.getPermissions() == null)
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);
 
         RoleDTO roleDTO = new RoleDTO();
@@ -30,7 +30,7 @@ public class RoleDTOHelper {
 
     public static Role toEntity(@NotNull RoleDTO roleDTO) {
 
-        if( roleDTO == null || roleDTO.getPermissions() == null )
+        if (roleDTO == null || roleDTO.getPermissions() == null)
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION);
 
         Role role = new Role();

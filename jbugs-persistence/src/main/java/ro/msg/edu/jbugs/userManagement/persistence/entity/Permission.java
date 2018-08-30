@@ -1,19 +1,22 @@
 package ro.msg.edu.jbugs.userManagement.persistence.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Objects;
 
 @Entity
 @Table(name = "permissions")
-public class Permission extends BaseEntity<Long>{
+public class Permission extends BaseEntity<Long> {
 
     @Transient
     private final static int MAX_STRING_LENGTH = 127;
 
-    @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true)
+    @Column(name = "type", nullable = false, length = MAX_STRING_LENGTH, unique = true, updatable = false)
     private String type2;
 
-    @Column(name = "description")
+    @Column(name = "description", updatable = false)
     private String description;
 
     public String getType2() {
@@ -40,7 +43,7 @@ public class Permission extends BaseEntity<Long>{
         Permission that = (Permission) o;
         return Objects.equals(type2, that.type2) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(id,that.id);
+                Objects.equals(id, that.id);
     }
 
     @Override

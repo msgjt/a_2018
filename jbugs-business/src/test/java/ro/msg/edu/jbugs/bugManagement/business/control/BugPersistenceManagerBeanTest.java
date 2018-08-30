@@ -1,30 +1,12 @@
 package ro.msg.edu.jbugs.bugManagement.business.control;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
-import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
 import ro.msg.edu.jbugs.bugManagement.business.validator.BugValidator;
 import ro.msg.edu.jbugs.bugsManagement.persistence.dao.BugPersistenceManager;
-import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
-import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BugPersistenceManagerBeanTest {

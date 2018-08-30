@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+
 import javax.validation.constraints.NotNull;
 
 public class PermissionDTOHelper {

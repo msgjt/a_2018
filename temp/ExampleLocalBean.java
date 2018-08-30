@@ -18,13 +18,13 @@ public class ExampleLocalBean {
     private Logger logger = Logger.getLogger(ExampleLocalBean.class.getName());
 
 
-    public String doSmthElse(){
+    public String doSmthElse() {
         return exampleNoAnnotation.doSmth() + " \n I also did something. ";
     }
 
     @PostConstruct
-    public void f(){
-        logger.log(Level.INFO,"I also did something");
+    public void f() {
+        logger.log(Level.INFO, "I also did something");
     }
 
 }

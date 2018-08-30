@@ -1,22 +1,8 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTOHelper;
-import ro.msg.edu.jbugs.userManagement.persistence.dao.PermissionPersistenceManager;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionManagementControllerTest {

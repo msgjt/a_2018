@@ -1,15 +1,18 @@
 package resources;
 
-import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
-import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.business.control.NotificationManagement;
+import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/users")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -19,6 +22,9 @@ public class UserResource {
     @EJB
     private UserManagement userManagement;
 
+    @EJB
+    private NotificationManagement notificationManagement;
+
     @GET
     public List<UserDTO> getUsers() {
         return userManagement.getAllUsers();
@@ -26,12 +32,17 @@ public class UserResource {
 
     @POST
     public Response createUser(UserDTO userDTO) throws BusinessException {
-        CustomLogger.logEnter(this.getClass(),"createUser",userDTO.toString());
+        CustomLogger.logEnter(this.getClass(), "createUser", userDTO.toString());
+
+        UserDTO createdUser = userManagement.createUser(userDTO);
 
         Response response = Response.status(Response.Status.CREATED)
-                .entity(userManagement.createUser(userDTO))
+                .entity(createdUser)
                 .build();
-        CustomLogger.logExit(this.getClass(),"createUser",response.toString());
+
+        notificationManagement.sendNotification("WELCOME_NEW_USER", createdUser.toString(), "", createdUser.getId());
+
+        CustomLogger.logExit(this.getClass(), "createUser", response.toString());
         return response;
     }
 
@@ -42,21 +53,47 @@ public class UserResource {
         return userManagement.getUserById(id);
     }
 
+    @Path("/changePassword")
+    @PUT
+    public UserDTO updateUserPassword(UserDTO userDTO) {
+
+        return userManagement.updateUserPassword(userDTO.getId(), userDTO.getPassword());
+    }
 
     @PUT
-    public Response updateUser(UserDTO userDTO) throws BusinessException {
-        return Response.status(Response.Status.OK)
-                .entity(userManagement.updateUser(userDTO))
+    public Response updateUser(UserDTO userDTO, @QueryParam("id") Long id) throws BusinessException {
+
+        UserDTO oldUser = userManagement.getUserById(userDTO.getId());
+        UserDTO newUser = userManagement.updateUser(userDTO);
+        String message = Arrays.toString(new String[]{oldUser.toString(), newUser.toString()});
+
+        Response result = Response.status(Response.Status.OK)
+                .entity(newUser)
                 .build();
+        notificationManagement.sendNotification("USER_UPDATED", message, "", userDTO.getId(), id);
+        return result;
     }
 
     @Path("/deactivate")
     @PUT
     public Response deactivateUser(UserDTO userDTO) throws BusinessException {
-        return Response.status(Response.Status.OK)
-                .entity(userManagement.deactivateUser(userDTO.getId()))
+        UserDTO deactivated = userManagement.deactivateUser(userDTO.getId());
+
+        Response result = Response.status(Response.Status.OK)
+                .entity(deactivated)
                 .build();
+
+
+        List<Long> ids = userManagement.getAllUsers().stream()
+                .filter(u -> userManagement.getAllUserPermissionAsList(u.getUsername()).stream()
+                        .anyMatch(p -> p.getType2().equals("USER_MANAGEMENT")))
+                .map(UserDTO::getId)
+                .collect(Collectors.toList());
+
+        notificationManagement.sendNotification("USER_DELETED", deactivated.toString(), "", ids.toArray(new Long[]{}));
+        return result;
     }
+
 
     @Path("/activate")
     @PUT

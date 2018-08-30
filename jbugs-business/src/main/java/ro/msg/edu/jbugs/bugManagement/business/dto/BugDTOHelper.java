@@ -13,6 +13,12 @@ public class BugDTOHelper {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    /**
+     * Convers a bug entity to a bugDTO.
+     *
+     * @param bug not null
+     * @return the resulted bugDTO
+     */
     public static BugDTO fromEntity(@NotNull Bug bug){
         BugDTO bugDTO = new BugDTO();
 
@@ -31,6 +37,14 @@ public class BugDTOHelper {
         return bugDTO;
     }
 
+    /**
+     * Converts a bugDTO to a Bug entity. Will call UserDTOHelper to convert the user fields.
+     *
+     * @see BugDTOHelper
+     * @param bugDTO not null
+     * @param oldBug not null
+     * @return the resulted Bug entity
+     */
     public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
 
         oldBug.setTitle(bugDTO.getTitle());

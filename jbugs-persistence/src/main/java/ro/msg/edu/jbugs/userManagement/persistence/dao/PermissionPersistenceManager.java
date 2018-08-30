@@ -1,16 +1,11 @@
 package ro.msg.edu.jbugs.userManagement.persistence.dao;
 
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
-import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.ejb.*;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -23,6 +18,7 @@ public class PermissionPersistenceManager {
 
     /**
      * Getter method for the permissions in the DB.
+     *
      * @return a list of permissions, empty if no permissions found
      */
     public List<Permission> getAllPermissions() {

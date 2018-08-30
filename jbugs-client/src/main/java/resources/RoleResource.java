@@ -3,7 +3,6 @@ package resources;
 
 import ro.msg.edu.jbugs.userManagement.business.control.RoleManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
-import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -25,24 +24,20 @@ public class RoleResource {
      * @return
      */
     @GET
-    public List<RoleDTO> getRoles() { return roleManagement.getAllRoles(); }
+    public List<RoleDTO> getRoles() {
+        return roleManagement.getAllRoles();
+    }
 
     /**
-     *
      * @param roleDTO
      * @return
      */
     @POST
     public Response updateRole(RoleDTO roleDTO) {
-        try{
-            return Response.status(Response.Status.OK)
-                    .entity(roleManagement.updateRole(roleDTO))
-                    .build();
-        }
-        catch (BusinessException e){
-            return Response.status(Response.Status.NOT_MODIFIED)
-                    .build();
-        }
+        return Response.status(Response.Status.OK)
+                .entity(roleManagement.updateRole(roleDTO))
+                .build();
+
     }
 
 }

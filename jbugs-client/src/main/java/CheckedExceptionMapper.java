@@ -6,8 +6,11 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class CheckedExceptionMapper implements ExceptionMapper<CheckedBusinessException> {
+
     @Override
     public Response toResponse(CheckedBusinessException e) {
+
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+
     }
 }
