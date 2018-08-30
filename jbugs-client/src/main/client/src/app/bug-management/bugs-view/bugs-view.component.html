@@ -20,6 +20,28 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
+          <th scope="col" (click)="doSort('id')">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                ID
+                <i class="fas fa-plus" *ngIf="!filtersShow['show10']" (click)="filtersShow['show10'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show10']" (click)="filtersShow['show10'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show10']">
+            </div>
+          </th>
+          <th scope="col" (click)="doSort('title')">
+            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
+                demo.Title
+                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;"></i>
+                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;"></i>
+              </div>
+              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
+                     style="margin: .5em auto;" *ngIf="filtersShow['show6']">
+            </div>
+          </th>
           <th scope="col" (click)="doSort('description')">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
@@ -75,17 +97,6 @@
                      style="margin: .5em auto;" *ngIf="filtersShow['show5']">
             </div>
           </th>
-          <th scope="col" (click)="doSort('title')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;" translate>
-                demo.Title
-                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false;"></i>
-              </div>
-              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show6']">
-            </div>
-          </th>
           <th scope="col" (click)="doSort('version')">
             <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               <div style="display: flex; flex-direction: row; justify-content: center;" translate>
@@ -133,23 +144,26 @@
         </thead>
         <tbody>
         <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;">
-          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal"
-              data-target="#bugDetailsModal">{{ bug.description }}
-          </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
-            bug.fixedVersion }}
+            bug.id }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.severity
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal"
+              data-target="#bugDetailsModal">{{ bug.title }}
+          </td>
+          <td class="descriptionCells"  (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.description }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion
             }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
-            demo.{{ bug.status }}
+            demo.{{ bug.severity }}
+          </td>
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status
+            }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
             bug.targetDate.split('T')[0] }}
-          </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.title
-            }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.version
             }}

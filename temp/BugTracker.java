@@ -16,7 +16,7 @@ public class BugTracker implements Serializable {
     @PersistenceContext(unitName = "jbugs-persistence")
     private EntityManager em;
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         Query q = em.createQuery("SELECT u FROM User u");
         return q.getResultList();
 

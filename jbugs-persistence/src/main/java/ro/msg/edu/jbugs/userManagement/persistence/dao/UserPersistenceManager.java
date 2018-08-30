@@ -1,14 +1,13 @@
 package ro.msg.edu.jbugs.userManagement.persistence.dao;
 
+import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
-import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,10 +47,12 @@ public class UserPersistenceManager {
     public User updateUser(@NotNull User user) {
         CustomLogger.logEnter(this.getClass(), "updateUser", user.toString());
 
-        User result = em.merge(user);
+        User old = em.find(User.class, user.getId());
+        old.copyFieldsFrom(user);
+        em.persist(old);
 
-        CustomLogger.logExit(this.getClass(), "updateUser", result.toString());
-        return result;
+        CustomLogger.logExit(this.getClass(), "updateUser", old.toString());
+        return old;
     }
 
     /**
@@ -131,6 +132,7 @@ public class UserPersistenceManager {
 
     /**
      * Persists a notification in the database.
+     *
      * @param notification
      * @return
      */
@@ -157,6 +159,7 @@ public class UserPersistenceManager {
 
         CustomLogger.logExit(this.getClass(), "removeRole", role.toString());
     }
+
     /**
      * Removes a notification from the database.
      *
@@ -185,6 +188,7 @@ public class UserPersistenceManager {
         CustomLogger.logExit(this.getClass(), "updateRole", result.toString());
         return result;
     }
+
     /**
      * Updates a notification in the database using the given Notification entity.
      *
@@ -242,6 +246,7 @@ public class UserPersistenceManager {
         CustomLogger.logExit(this.getClass(), "getAllRoles", result.toString());
         return result;
     }
+
     /**
      * Get a list of all notifications stored in the database.
      *
@@ -250,7 +255,7 @@ public class UserPersistenceManager {
     public List<Notification> getAllNotifications() {
         CustomLogger.logEnter(this.getClass(), "getAllNotifications", "");
 
-        TypedQuery<Notification> q = em.createNamedQuery(Notification.GET_ALL_NOTIFICATIONS, Notification.class);
+        TypedQuery<Notification> q = em.createNamedQuery(Notification.GET, Notification.class);
         List<Notification> result = q.getResultList();
 
         CustomLogger.logExit(this.getClass(), "getAllNotifications", result.toString());
@@ -307,38 +312,5 @@ public class UserPersistenceManager {
         return (Role) q.getSingleResult();
     }
 
-    /**
-     * Get the notification having a specific type
-     *
-     * @param type
-     * @return
-     */
-    public Notification getNotificationByType(String type) {
-        Query q = em.createQuery("SELECT n FROM Notification n WHERE n.type='" + type + "'");
-        return (Notification) q.getSingleResult();
-    }
 
-    public List<Notification> getAllNotificationsForUser(@NotNull Long id) {
-
-        List<Notification> filteredList= new ArrayList<>();
-
-        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
-                .setParameter("status","not_read").setParameter("userId",id);
-        filteredList=tq.getResultList();
-
-
-        return filteredList;
-    }
-
-    public List<Notification> getOldNotificationsForUser(@NotNull Long id) {
-
-        List<Notification> filteredList= new ArrayList<>();
-
-        TypedQuery<Notification> tq =em.createNamedQuery(User.GET_NOTIFICATIONS_BY_USER_AND_STATUS,Notification.class)
-                .setParameter("status","read").setParameter("userId",id);
-        filteredList=tq.getResultList();
-
-
-        return filteredList;
-    }
 }

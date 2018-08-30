@@ -1,6 +1,5 @@
 package resources;
 
-import javax.json.Json;
 import javax.net.ssl.HttpsURLConnection;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -29,7 +28,6 @@ public class CaptchaResource {
         con.setRequestProperty("User-Agent", USER_AGENT);
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        System.out.println();
         String urlParameters = "secret=6LdwLWsUAAAAAOykfULfv209nmDQDx-EnpKttzFO&response=" + captchaResponse;
 
         con.setDoOutput(true);
@@ -37,11 +35,6 @@ public class CaptchaResource {
         wr.writeBytes(urlParameters);
         wr.flush();
         wr.close();
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));

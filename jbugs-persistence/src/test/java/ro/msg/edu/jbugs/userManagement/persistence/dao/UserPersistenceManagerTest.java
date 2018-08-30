@@ -8,14 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserPersistenceManagerTest {
@@ -25,7 +26,6 @@ public class UserPersistenceManagerTest {
 
     @Mock
     private EntityManager em;
-
 
 
     @Before
@@ -39,14 +39,20 @@ public class UserPersistenceManagerTest {
     @Test
     public void getAllUsers() {
         List<User> result = new ArrayList<User>() {{
-            add( new User() {{ id=1L; }});
-            add( new User() {{ id=2L; }});
-            add( new User() {{ id=3L; }});
+            add(new User() {{
+                id = 1L;
+            }});
+            add(new User() {{
+                id = 2L;
+            }});
+            add(new User() {{
+                id = 3L;
+            }});
         }};
 
 
         TypedQuery query = mock(TypedQuery.class);
-        when(em.createNamedQuery(User.GET_ALL_USERS,User.class)).thenReturn(query);
+        when(em.createNamedQuery(User.GET_ALL_USERS, User.class)).thenReturn(query);
         when(query.getResultList()).thenReturn(result);
     }
 
@@ -64,7 +70,6 @@ public class UserPersistenceManagerTest {
     public void updateUser() {
 
     }
-
 
 
     @Test

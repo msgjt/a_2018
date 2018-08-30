@@ -9,22 +9,19 @@ import java.util.Objects;
 @Table(name = "roles")
 @NamedQueries(
         {
-              @NamedQuery(name = Role.GET_ALL_ROLES,query = "SELECT r FROM Role r")
+                @NamedQuery(name = Role.GET_ALL_ROLES, query = "SELECT r FROM Role r")
         }
 )
 public class Role extends BaseEntity<Long> {
 
+    public static final String GET_ALL_ROLES = "get_all_roles";
     @Transient
     private final static int MAX_STRING_LENGTH = 127;
-
-    public static final String GET_ALL_ROLES = "get_all_roles";
-
-    @Column(name = "type", length = MAX_STRING_LENGTH)
+    @Column(name = "type", length = MAX_STRING_LENGTH, updatable = false)
     private String type1;
 
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Permission> permissions = new ArrayList<>();
-
 
 
     public String getType1() {

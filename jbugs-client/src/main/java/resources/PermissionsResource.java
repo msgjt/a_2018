@@ -1,7 +1,6 @@
 package resources;
 
 import ro.msg.edu.jbugs.userManagement.business.control.PermissionManagement;
-import ro.msg.edu.jbugs.userManagement.business.control.RoleManagement;
 import ro.msg.edu.jbugs.userManagement.business.dto.PermissionDTO;
 
 import javax.ejb.EJB;
@@ -21,6 +20,8 @@ public class PermissionsResource {
 
     @GET
     public List<PermissionDTO> getPermissions() {
+
         return permissionManagement.getAllPermissions();
+
     }
 }

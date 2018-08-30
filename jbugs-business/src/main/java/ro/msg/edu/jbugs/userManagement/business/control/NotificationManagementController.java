@@ -1,77 +1,149 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
-import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.dto.NotificationDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.NotificationDTOHelper;
+import ro.msg.edu.jbugs.userManagement.persistence.dao.NotificationPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Notification;
-
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
 public class NotificationManagementController implements NotificationManagement {
 
+
+
+
+    @EJB
+    private NotificationPersistenceManager notificationPersistenceManager;
+
     @EJB
     private UserPersistenceManager userPersistenceManager;
 
-    @EJB
-    private UserManagement userManagementController;
 
+
+
+    /**
+     * Forms a list of all the notifications with status "non_read" for a given user while
+     * changing each non_read status to "read".
+     *
+     * @param id not null, the id of the user for which to check the notifications
+     * @return the list of all unread notifications
+     */
     @Override
-    public List<NotificationDTO> getAllNotifications() {
-        CustomLogger.logEnter(this.getClass(),"getAllNotifications","");
+    public List<NotificationDTO> getUnreadNotificationsForUser(Long id) {
 
-        List<NotificationDTO> result = userPersistenceManager.getAllNotifications().stream()
-                .map(NotificationDTOHelper::fromEntity)
+
+        List<Notification> notifications = notificationPersistenceManager.getNotificationsForUser(id);
+
+        return notifications.stream()
+                .filter(n -> n.getStatus().equals("not_read"))
+                .map(n -> {
+                    n.setStatus("read");
+                    notificationPersistenceManager.update(n);
+                    return NotificationDTOHelper.fromEntity(n);
+                })
                 .collect(Collectors.toList());
-
-        CustomLogger.logExit(this.getClass(),"getAllNotifications",result.toString());
-        return result;
     }
 
-    public List<NotificationDTO> getNewNotifications(Long id){
-        Thread t1= new Thread();
-        t1.setPriority(Thread.MIN_PRIORITY);
-        t1.start();
-        List<Notification> newNotifications= new ArrayList<>();
-        List<NotificationDTO> newNotificationsDTO = new ArrayList<>();
+    /**
+     * Creates a notification from a notificationDTO by calling the add method from the persistence layer,
+     * and the NotificationDTOHelper methods.
+     *
+     * @param notificationDTO not null, the dto to be persisted
+     * @return the persisted dto
+     */
+    @Override
+    public NotificationDTO createNotification(NotificationDTO notificationDTO) {
 
-        do {
-            newNotifications = userPersistenceManager.getAllNotificationsForUser(id);
-            newNotificationsDTO = newNotifications.stream()
-                    .map(NotificationDTOHelper::fromEntity)
-                    .collect(Collectors.toList());
+        return NotificationDTOHelper.fromEntity(
+                notificationPersistenceManager.add(NotificationDTOHelper.toEntity(notificationDTO))
+        );
 
-            newNotifications.stream()
-                    .forEach(notification -> {
-                        notification.setStatus("read");
-                        userPersistenceManager.updateNotification(notification);
-                    });
+    }
 
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while(newNotifications.size() ==0);
+    /**
+     * Returns a notification for a given id. Should not be used outside the business layer.
+     *
+     * @param id not null, the search key
+     * @return the detached entity from the persistence layer
+     */
+    @Override
+    public Notification getNotificationById(Long id) {
 
-        return newNotificationsDTO;
+        return notificationPersistenceManager.getById(id)
+                .orElseThrow(() -> new BusinessException(
+                        ExceptionCode.NOTIFICATION_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.NOTIFICATION_NOT_FOUND)
+                );
+
+    }
+
+    /**
+     * Assigns a user to a notification, thus adding a new join entity (UsersNotifications)
+     *
+     * @param notificationId not null, the id of the notification
+     * @param userId not null, the id of the user
+     * @return the persisted notification entity
+     */
+    @Override
+    public Notification assignUserToNotification(Long notificationId, Long userId) {
+
+        Notification notification = notificationPersistenceManager.getNotificationWithUsers(notificationId)
+                .orElseThrow(() -> new BusinessException(
+                        ExceptionCode.NOTIFICATION_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.NOTIFICATION_NOT_FOUND)
+                );
+
+        User user = userPersistenceManager.getUserById(userId)
+                .orElseThrow(() -> new BusinessException(
+                        ExceptionCode.USER_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.USER_NOT_FOUND)
+                );
+
+        notification.addUser(user);
+
+        return notificationPersistenceManager.update(notification);
+    }
+
+    /**
+     * Creates a new notification and add its to the user described by the userIds params.
+     *
+     * @param notificationType not null, the type of the notification
+     * @param notificationMessage not null, the message of the notification
+     * @param notificationURL not null, the url of the notification
+     * @param userIds not null, variable number of params, each describing a user id
+     */
+    @SuppressWarnings("all")
+    public void sendNotification(String notificationType, String notificationMessage,
+                                  String notificationURL, Long... userIds) {
+
+        Arrays.stream(userIds).forEach(userId -> {
+            User user = userPersistenceManager.getUserById(userId)
+                    .orElseThrow(() -> new BusinessException(
+                            ExceptionCode.USER_VALIDATION_EXCEPTION,
+                            DetailedExceptionCode.USER_NOT_FOUND
+                    ));
+            Notification notification = new Notification();
+            notification.setStatus("not_read");
+            notification.setMessage(notificationMessage);
+            notification.setType(notificationType);
+            notification.setURL(notificationURL);
+
+            Notification added = notificationPersistenceManager.add(notification);
+            user.addNotification(added);
+            userPersistenceManager.updateUser(user);
+        });
     }
 
 
-    public List<NotificationDTO> getOldNotifications(Long id){
-        List<Notification> newNotifications= new ArrayList<>();
-        List<NotificationDTO> oldNotificationsDTO = new ArrayList<>();
-
-            newNotifications = userPersistenceManager.getOldNotificationsForUser(id);
-            oldNotificationsDTO = newNotifications.stream()
-                    .map(NotificationDTOHelper::fromEntity)
-                    .collect(Collectors.toList());
-
-        return oldNotificationsDTO;
-    }
 }

@@ -5,9 +5,7 @@ import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,12 +21,11 @@ import java.util.List;
 @Converter(autoApply = true)
 public class Bug extends BaseEntity<Long> {
 
+    public static final String GET_ALL_BUGS = "get_All_Bugs";
+    public static final String GET_BUG_BY_TITLE = "get_Bug_By_Title";
+    public static final String GET_BUG_BY_ID = "get_Bug_By_Id";
     @Transient
     private final static int MAX_STRING_LENGTH = 127;
-    public static final String GET_ALL_BUGS = "get_All_Bugs";
-    public static final String GET_BUG_BY_TITLE= "get_Bug_By_Title";
-    public static final String GET_BUG_BY_ID= "get_Bug_By_Id";
-
     @Column(name = "title", length = MAX_STRING_LENGTH, nullable = false)
     private String title;
     @Column(name = "description", length = 2000, nullable = false)

@@ -1,6 +1,8 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
+
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +11,13 @@ public class BugDTOHelper {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public static BugDTO fromEntity(@NotNull Bug bug){
+    /**
+     * Convers a bug entity to a bugDTO.
+     *
+     * @param bug not null
+     * @return the resulted bugDTO
+     */
+    public static BugDTO fromEntity(@NotNull Bug bug) {
         BugDTO bugDTO = new BugDTO();
 
         bugDTO.setTitle(bug.getTitle());
@@ -27,7 +35,15 @@ public class BugDTOHelper {
         return bugDTO;
     }
 
-    public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
+    /**
+     * Converts a bugDTO to a Bug entity. Will call UserDTOHelper to convert the user fields.
+     *
+     * @see BugDTOHelper
+     * @param bugDTO not null
+     * @param oldBug not null
+     * @return the resulted Bug entity
+     */
+    public static Bug toEntity(@NotNull BugDTO bugDTO,@NotNull Bug oldBug) {
 
         oldBug.setTitle(bugDTO.getTitle());
         oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
@@ -36,8 +52,8 @@ public class BugDTOHelper {
         oldBug.setVersion(bugDTO.getVersion());
         oldBug.setSeverity(bugDTO.getSeverity());
 
-        oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),oldBug.getCreatedBy()));
-        oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),oldBug.getAssignedTo()));
+        oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(), oldBug.getCreatedBy()));
+        oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(), oldBug.getAssignedTo()));
 
         oldBug.setDescription(bugDTO.getDescription());
         oldBug.setId(bugDTO.getId());

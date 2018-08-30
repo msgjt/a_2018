@@ -1,12 +1,13 @@
 package ro.msg.edu.jbugs.shared.business.exceptions;
 
 /**
- * Provides exception codes and description.
+ *  Provides information about the controller that threw the exception.
  */
 public enum ExceptionCode {
     USER_VALIDATION_EXCEPTION(1000, "USER_VALIDATION_EXCEPTION"),
     ROLE_VALIDATION_EXCEPTION(2000, "ROLE_VALIDATION_EXCEPTION"),
-    BUG_VALIDATION_EXCEPTION(3000,"BUG_VALIDATION_EXCEPTION");
+    BUG_VALIDATION_EXCEPTION(3000, "BUG_VALIDATION_EXCEPTION"),
+    NOTIFICATION_VALIDATION_EXCEPTION(4000, "NOTIFICATION_VALIDATION_EXCEPTION");
     int id;
     String message;
 

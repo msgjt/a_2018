@@ -1,17 +1,18 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
-import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
-import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
-import javax.ejb.EJB;
 import javax.validation.constraints.NotNull;
 import java.util.stream.Collectors;
 
 public class UserDTOHelper {
-    @EJB
-    private UserPersistenceManager userPersistenceManager;
 
+    /**
+     * Converts a user to a userDTO
+     *
+     * @param user not null
+     * @return the user entity
+     */
     public static UserDTO fromEntity(@NotNull User user) {
 
         UserDTO userDTO = new UserDTO();
@@ -29,7 +30,18 @@ public class UserDTOHelper {
         return userDTO;
     }
 
-    public static User toEntity(@NotNull UserDTO userDTO,@NotNull User oldUser){
+    /**
+     * Converts a userDTO to a user
+     *
+     * @param userDTO not null, contains the updated information
+     * @param oldUser not null, IMPORTANT:
+     *                FOR UPDATE: must be a detached user from the persistence layer, it has to role
+     *                of a business guard for not allowing null fields (that must have non-null values)
+     *                in the persistence layer
+     *                FOR ADD: can be a new User entity
+     * @return the user entity
+     */
+    public static User toEntity(@NotNull UserDTO userDTO, @NotNull User oldUser) {
 
         oldUser.setFirstName(userDTO.getFirstName() != null && !userDTO.getFirstName().isEmpty() && userDTO.getFirstName()!="null" && userDTO.getFirstName()!=" "  ? userDTO.getFirstName() : oldUser.getFirstName());
         oldUser.setLastName(userDTO.getLastName() != null && !userDTO.getLastName().isEmpty()  && userDTO.getLastName()!="null" && userDTO.getLastName()!=" "  ? userDTO.getLastName() : oldUser.getLastName());
