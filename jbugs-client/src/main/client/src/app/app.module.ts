@@ -7,7 +7,7 @@ import {LoginComponent} from './user-management/login/login.component';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthenticatedGuard} from "./user-management/guards/authenticated.guard";
 import {ErrorComponent} from './error/error.component';
-import {ProfileComponent} from './user-management/profile/profile.component';
+import {UsersComponent} from './user-management/users/users.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BugsViewComponent} from './bug-management/bugs-view/bugs-view.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -87,13 +87,13 @@ const appRoutes: Routes = [
     path: 'error', component: ErrorComponent
   },
   {
-    path: 'profile', component: ProfileComponent, canActivate: [AuthenticatedGuard]
+    path: 'users', component: UsersComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: 'norights', component: NorightsComponent
   },
   {
-    path: 'userProfile', component: UserProfileComponent, canActivate: [AuthenticatedGuard]
+    path: 'user_profile', component: UserProfileComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: '**', component: ErrorComponent
@@ -150,7 +150,7 @@ export class MaterialModule {
     AppComponent,
     LoginComponent,
     ErrorComponent,
-    ProfileComponent,
+    UsersComponent,
     BugsViewComponent,
     EditBugComponent,
     HomeComponent,

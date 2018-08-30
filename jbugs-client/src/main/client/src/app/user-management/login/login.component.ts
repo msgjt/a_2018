@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
-import {HttpClient} from "../../../../node_modules/@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
   oldNotificationsList: Notification[];
 
   @ViewChild('container-login-username') containerUsername: ElementRef;
-
-
 
   constructor(private userService: UserService, private router: Router, private http: HttpClient,
               private toastrService: ToastrService) {
@@ -62,7 +60,7 @@ export class LoginComponent implements OnInit {
               this.loggedIn = true;
               this.getOldUsersNotifications();
               this.getUsersNotifications();
-              this.router.navigate(['./profile']);
+              this.router.navigate(['./user_profile']);
           },
           (error) => {
             console.log('ERROR: ' + JSON.stringify(error['error']));
@@ -85,13 +83,8 @@ export class LoginComponent implements OnInit {
             }
             this.errorOccurred = true;
             this.loggedIn = false;
-            console.log(JSON.stringify(error));
-
           });
-      }
-
-
-
+  }
 
   login(token: string) {
     localStorage.setItem(LSKEY, this.userModel.username);

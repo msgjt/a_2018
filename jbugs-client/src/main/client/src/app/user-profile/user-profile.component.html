@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-
 <div class="sidenav">
   <p > Welcome back, {{userModel.username}}</p>
   <a (click)="showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
@@ -59,8 +58,7 @@
                    placeholder=" ">
             <label for="inputPhoneNumber" translate>demo.Phone number</label>
           </span>
-    <span class="form-group has-float-label"
-    >
+    <span class="form-group has-float-label">
             <input type="text" id="inputEmail" class="form-control"
                    name="email"
                    pattern="^[a-zA-Z]*@msggroup.com$"
@@ -85,8 +83,6 @@
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
 
-
-
 <div class="modal-body"
      id="passwordDiv"
      [hidden]="!showPassword">
@@ -94,32 +90,41 @@
         (ngSubmit)="submitEditPasswordForm()"
         #formControl="ngForm">
     <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit</h1><br>
+    <span class="form-group has-float-label" >
+              <input type="password"
+                     name="password1"
+                     id="passwordInput1"
+                     #password="ngModel"
+                     class="form-control"
+                     required
+                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
+                     [(ngModel)]="newPassword"
+                     placeholder=" ">
+              <label for="passwordInput1" translate style="margin-top:  -1px">demo.Password</label>
+            </span>
     <span class="form-group has-float-label">
-            <input type="password" id="inputNewPassword" class="form-control"
-                   name="newpassword"
-                   minlength="2"
-                   required
-                   [(ngModel)]="newPassword"
-                   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
-                   placeholder=" ">
-            <label for="inputNewPassword" translate>demo.New Password</label>
-          </span>
-    <span class="form-group has-float-label">
-            <input type="password" id="inputNewPasswordConfirm" class="form-control"
-                   name="passwordconfirm"
-                   required
-                   [(ngModel)]="newPasswordConfirmed"
-                   pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
-                   placeholder=" ">
-            <label for="inputNewPasswordConfirm" translate>demo.Confirm Password</label>
-          </span>
+              <input type="password"
+                     name="password2"
+                     id="passwordInput2"
+                     #password="ngModel"
+                     class="form-control"
+                     required
+                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
+                     [(ngModel)]="newPasswordConfirmed"
+                     placeholder=" ">
+              <label for="passwordInput2" translate style="margin-top: -1px">demo.Password</label>
+            </span>
 
-    <span *ngIf="newPassword && newPasswordConfirmed">
-    <button  class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;" >
+    <label id="errorLabel3" *ngIf="password.errors?.pattern && password.touched &&(newPasswordConfirmed && newPassword)" class="errorLabel" translate >demo.Password is invalid.</label>
+    <label id="errorLabel3" *ngIf="newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword" class="errorLabel" translate >demo.Passwords do not match.</label>
+
+
+    <span *ngIf="newPassword && newPasswordConfirmed && !(newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword) && !(password.errors?.pattern && password.touched)">
+    <button  class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 3em;" >
     {{ 'demo.Edit' | translate }}
     </button>
       </span>
-    <span *ngIf="!newPassword || !newPasswordConfirmed">
+    <span *ngIf="!newPassword || !newPasswordConfirmed || (newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword) || (password.errors?.pattern && password.touched)">
     <button  class="btn btn-lg btn-block" type="submit" style="background-color: darkred; color: white; margin-bottom: 1em;" disabled >
     {{ 'demo.Edit' | translate }}
     </button>
@@ -129,6 +134,3 @@
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;" *ngIf="pressedEdit" translate>demo.Back</button>
 </div>
-
-
-

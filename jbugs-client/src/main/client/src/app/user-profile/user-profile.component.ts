@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
-import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
@@ -72,7 +71,6 @@ export class UserProfileComponent implements OnInit {
     this.userService.updateUserForUserProfile(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
         (response) => {
-          console.log('response ' + JSON.stringify(response));
           this.errorOccurred = false;
           this.positiveResponse = true;
         },
@@ -90,7 +88,6 @@ export class UserProfileComponent implements OnInit {
       this.userService.updateUserPasswordForUserProfile(this.userModel.id, this.newPassword)
         .subscribe(
           (response) => {
-            console.log('response ' + JSON.stringify(response));
             this.errorOccurred = false;
             this.positiveResponse = true;
           },
@@ -122,5 +119,4 @@ export class UserProfileComponent implements OnInit {
       value = "";
     return value;
   }
-
 }

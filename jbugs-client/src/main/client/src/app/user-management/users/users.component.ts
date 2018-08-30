@@ -6,10 +6,10 @@ import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class UsersComponent implements OnInit {
   loggedIn = true;
   userList: User[];
   pressedEdit: boolean = false;
@@ -124,7 +124,6 @@ export class ProfileComponent implements OnInit {
   passDataToModal(user: User) {
     this.pressedEdit = true;
     this.userModel = user;
-    console.log(this.userModel.roles);
     let selectedRoles = [];
     this.roles.forEach( role => {
       if( this.userModel.roles.findIndex(r => r.id === role.id) != -1){
@@ -187,5 +186,4 @@ export class ProfileComponent implements OnInit {
       password: ''
     };
   }
-
 }

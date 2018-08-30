@@ -34,11 +34,11 @@ export class BugsViewComponent implements OnInit {
   bugListAux = [];
   detailedBug: Bug;
   ascendingSort = { id: true, description: true, fixedVersion: true, severity: true, status: true, targetDate: true, title: true, version: true, assignedTo: true, createdBy: true };
+  askedForSort = { id: false, description: false, fixedVersion: false, severity: false, status: false, targetDate: false, title: false, version: false, assignedTo: false, createdBy: false };
   bugModel: Bug;
   showInfoDiv: boolean = false;
   formData: FormData;
   userList: User[];
-  sortWanted = false;
   errorMessage: string;
   errorOccurred: boolean = false;
   positiveResponse: boolean = false;
@@ -205,6 +205,7 @@ export class BugsViewComponent implements OnInit {
     let toSortBugList = bugListCopy.slice(startIndex, endIndex);
     switch (sortBy) {
       case 'id' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.id - bug2.id;
@@ -222,6 +223,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'description' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.description.toLowerCase().localeCompare(bug2.description.toLowerCase());
@@ -239,6 +241,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'fixedVersion' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.fixedVersion.toLowerCase().localeCompare(bug2.fixedVersion.toLowerCase());
@@ -256,6 +259,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'severity' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.severity.toLowerCase().localeCompare(bug2.severity.toLowerCase());
@@ -273,6 +277,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'status' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.status.toLowerCase().localeCompare(bug2.status.toLowerCase());
@@ -290,6 +295,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'targetDate' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.targetDate.toLowerCase().localeCompare(bug2.targetDate.toLowerCase());
@@ -307,6 +313,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'title' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.title.toLowerCase().localeCompare(bug2.title.toLowerCase());
@@ -324,6 +331,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'version' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.version.toLowerCase().localeCompare(bug2.version.toLowerCase());
@@ -341,6 +349,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'assignedTo' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.assignedTo.username.toLowerCase().localeCompare(bug2.assignedTo.username.toLowerCase());
@@ -358,6 +367,7 @@ export class BugsViewComponent implements OnInit {
         break;
       }
       case 'createdBy' : {
+        this.askedForSort[sortBy] = true;
         if(this.ascendingSort[sortBy]) {
           toSortBugList.sort(function (bug1, bug2) {
             return bug1.createdBy.username.toLowerCase().localeCompare(bug2.createdBy.username.toLowerCase());
