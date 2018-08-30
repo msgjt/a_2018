@@ -15,6 +15,7 @@ import {ToastrService} from "ngx-toastr";
 export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
+  public displayedNotifications: Notification[]=[];
   private NOTIFICATION_DELAY: number = 5000;
 
 
@@ -34,10 +35,15 @@ export class NotificationComponent implements OnInit {
           console.log("WILL SHOW NOTIFICATIONS");
           this.notificationService.getNewNotifications().subscribe(notifications => {
             this.currentNotifications = notifications;
+            if(this.currentNotifications.length!=0){
+              this.currentNotifications.forEach(n=>{
+                this.displayedNotifications.push(n)
+              })
+              console.log(this.displayedNotifications)
+            }
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
                 .onShown.subscribe(() => {
-
               });
             });
           });

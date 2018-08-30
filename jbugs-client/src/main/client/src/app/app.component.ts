@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {LSKEY, UserService} from "./user-management/services/user.service";
 import {Router} from "@angular/router";
 import {TranslateService} from '@ngx-translate/core';
+import {NotificationService} from "./notifications/services/notification.service";
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,10 @@ import {TranslateService} from '@ngx-translate/core';
 export class AppComponent {
   title = 'JBugs';
   loggedIn = true;
+  newNotificationList;
 
-  constructor(private router: Router, private translate: TranslateService, private userService: UserService) {
+  constructor(private router: Router, private translate: TranslateService,
+              private userService: UserService, private notificationService : NotificationService) {
     translate.setDefaultLang('en');
   }
 
@@ -57,5 +60,11 @@ export class AppComponent {
 
   useLanguage(language: string) {
     this.translate.use(language);
+  }
+
+  getNewNotifications(){
+    this.notificationService.getNewNotifications().subscribe(notification=>{
+      this.newNotificationList=notification;
+    })
   }
 }
