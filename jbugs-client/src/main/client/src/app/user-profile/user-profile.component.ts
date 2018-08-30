@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
@@ -18,7 +19,8 @@ export class UserProfileComponent implements OnInit {
   showUpdate: boolean;
   showPassword: boolean;
   newPassword: string;
-  newPasswordConfirmed:string;
+  newPasswordConfirmed: string;
+
   constructor(private userService: UserService, private router: Router) {
     this.userModel = {
       id: 0,
@@ -48,9 +50,24 @@ export class UserProfileComponent implements OnInit {
     this.userModel.id = Number(localStorage.getItem('id'));
     this.isLoggedInOnServer()
   }
-
+  refresh(){
+    this.userList = [];
+    this.userService.getAllUsers().subscribe((user) => {
+      this.userList = user;
+    },(error)=>{
+      if(error.status == 403){
+        this.router.navigate(['/error']);
+      }
+      if(error.status == 401){
+        this.router.navigate(['/norights']);
+      }
+    });}
 
   submitEditForm() {
+    this.userModel.firstName = this.changeToEmptyString(this.userModel.firstName);
+    this.userModel.lastName = this.changeToEmptyString(this.userModel.lastName);
+    this.userModel.email = this.changeToEmptyString(this.userModel.email);
+    this.userModel.phoneNumber = this.changeToEmptyString(this.userModel.phoneNumber);
 
     this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.userModel.roles)
       .subscribe(
@@ -69,8 +86,8 @@ export class UserProfileComponent implements OnInit {
 
 
   submitEditPasswordForm() {
-    if ( this.newPassword==this.newPasswordConfirmed) {
-      this.userService.updateUserPassword(this.userModel.id,this.newPassword)
+    if (this.newPassword == this.newPasswordConfirmed) {
+      this.userService.updateUserPassword(this.userModel.id, this.newPassword)
         .subscribe(
           (response) => {
             console.log('response ' + JSON.stringify(response));
@@ -100,5 +117,10 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+  changeToEmptyString(value: string): string {
+    if (value == "null" || value == " " || value == null)
+      value = "";
+    return value;
+  }
 
 }

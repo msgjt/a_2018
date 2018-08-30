@@ -115,7 +115,6 @@ import java.util.stream.Collectors;
                             ExceptionCode.USER_VALIDATION_EXCEPTION,
                             DetailedExceptionCode.USER_NOT_FOUND)
                     );
-
             oldUser = UserDTOHelper.toEntity(userDTO,oldUser);
 
             if (oldUser.getRoles() == null || oldUser.getRoles().isEmpty()) {
@@ -123,16 +122,16 @@ import java.util.stream.Collectors;
                 oldUser.setRoles(new ArrayList<>(Collections.singleton(defaultRole)));
             }
 
-            if (userDTO.getFirstName() != null && !userDTO.getFirstName().isEmpty() ) {
+            if (userDTO.getFirstName() != null && !userDTO.getFirstName().isEmpty() && userDTO.getFirstName()!="null" && userDTO.getFirstName()!=" "  ) {
                 oldUser.setFirstName(userDTO.getFirstName());
             }
-            if (userDTO.getLastName() != null && !userDTO.getLastName().isEmpty()) {
+            if (userDTO.getLastName() != null && !userDTO.getLastName().isEmpty()  && userDTO.getLastName()!="null" && userDTO.getFirstName()!=" " ) {
                 oldUser.setLastName(userDTO.getLastName());
             }
-            if (userDTO.getEmail() != null && !userDTO.getEmail().isEmpty()) {
+            if (userDTO.getEmail() != null && !userDTO.getEmail().isEmpty()  && userDTO.getEmail()!="null" && userDTO.getFirstName()!=" " ) {
                 oldUser.setEmail(userDTO.getEmail());
             }
-            if (userDTO.getPhoneNumber() != null && !userDTO.getPhoneNumber().isEmpty()) {
+            if (userDTO.getPhoneNumber() != null && !userDTO.getPhoneNumber().isEmpty()  && userDTO.getPhoneNumber()!="null" && userDTO.getFirstName()!=" " ) {
                 oldUser.setPhoneNumber(userDTO.getPhoneNumber());
             }
 
