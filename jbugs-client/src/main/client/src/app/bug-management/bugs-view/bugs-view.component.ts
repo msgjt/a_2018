@@ -54,6 +54,7 @@ export class BugsViewComponent implements OnInit {
     itemsPerPage: 25,
     currentPage: 1
   };
+  filter10: '';
 
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
     this.bugList = [];

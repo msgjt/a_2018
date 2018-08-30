@@ -40,7 +40,7 @@ public class NotificationManagementController implements NotificationManagement 
      * @return the list of all unread notifications
      */
     @Override
-    public List<NotificationDTO> getUnreadNotificationsForUser(@NotNull Long id) {
+    public List<NotificationDTO> getUnreadNotificationsForUser(Long id) {
 
 
         List<Notification> notifications = notificationPersistenceManager.getNotificationsForUser(id);
@@ -63,7 +63,7 @@ public class NotificationManagementController implements NotificationManagement 
      * @return the persisted dto
      */
     @Override
-    public NotificationDTO createNotification(@NotNull NotificationDTO notificationDTO) {
+    public NotificationDTO createNotification(NotificationDTO notificationDTO) {
 
         return NotificationDTOHelper.fromEntity(
                 notificationPersistenceManager.add(NotificationDTOHelper.toEntity(notificationDTO))
@@ -78,7 +78,7 @@ public class NotificationManagementController implements NotificationManagement 
      * @return the detached entity from the persistence layer
      */
     @Override
-    public Notification getNotificationById(@NotNull Long id) {
+    public Notification getNotificationById(Long id) {
 
         return notificationPersistenceManager.getById(id)
                 .orElseThrow(() -> new BusinessException(
@@ -96,7 +96,7 @@ public class NotificationManagementController implements NotificationManagement 
      * @return the persisted notification entity
      */
     @Override
-    public Notification assignUserToNotification(@NotNull Long notificationId,@NotNull Long userId) {
+    public Notification assignUserToNotification(Long notificationId, Long userId) {
 
         Notification notification = notificationPersistenceManager.getNotificationWithUsers(notificationId)
                 .orElseThrow(() -> new BusinessException(
@@ -124,8 +124,8 @@ public class NotificationManagementController implements NotificationManagement 
      * @param userIds not null, variable number of params, each describing a user id
      */
     @SuppressWarnings("all")
-    public void sendNotification(@NotNull String notificationType,@NotNull  String notificationMessage,
-                                 @NotNull  String notificationURL,@NotNull  Long... userIds) {
+    public void sendNotification(String notificationType, String notificationMessage,
+                                  String notificationURL, Long... userIds) {
 
         Arrays.stream(userIds).forEach(userId -> {
             User user = userPersistenceManager.getUserById(userId)
