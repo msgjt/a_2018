@@ -25,6 +25,9 @@ td {
 
 th {
   color: white;
+}
+
+.sortable {
   cursor: pointer;
 }
 
@@ -105,7 +108,7 @@ input[type=text]:focus {
   box-shadow: 0 4px 2px -2px #8b0000;
 }
 
-th input[type=text] {
+td input[type=text] {
   border-bottom: 1px solid white;
   color: white;
 }
@@ -135,6 +138,7 @@ th i {
   margin: .25em 0 0 .5em;
 }
 
+
 textarea {
   border-radius: 20px;
   outline: none;
@@ -160,4 +164,18 @@ table {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.titleCells {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ascendingSort {
+  background: url("../../../assets/asc.png") no-repeat center right;
+}
+
+.descendingSort {
+  background: url("../../../assets/desc.png") no-repeat center right;
 }

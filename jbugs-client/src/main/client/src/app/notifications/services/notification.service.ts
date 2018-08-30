@@ -43,12 +43,10 @@ export class NotificationService {
       {'currentUser':currentUser,
         'webtoken':webtoken});
 
-
     let options = {
       headers: headers,
       params: new HttpParams().set('id',id)
     };
-
 
     return this.http.get<Notification[]>
       (this.baseURL + "/notifications",options);

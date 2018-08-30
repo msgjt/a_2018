@@ -2,12 +2,9 @@
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
   <a class="navbar-brand" routerLink="/" style="font-size: 36px;">
-
     <div style="animation: tracking-in-expand 1.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0s 1 normal both running;">
       JBugs
     </div>
-
-
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
           aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +19,7 @@
       </li>
       <li class="nav-item">
 
-        <a class="nav-link" routerLink="userProfile" *ngIf="isUserLoggedIn()"><i class="material-icons"
+        <a class="nav-link" routerLink="user_profile" *ngIf="isUserLoggedIn()"><i class="material-icons"
                                                                                  style="font-size: 36px;margin: 3px 10px 0 ;">account_circle</i></a>
       </li>
       <li class="nav-item">
@@ -30,7 +27,7 @@
            translate>demo.Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="profile" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i
+        <a class="nav-link" routerLink="users" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i
           class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
       </li>
       <li class="nav-item">

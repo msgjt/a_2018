@@ -2,14 +2,19 @@
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
 <div *ngIf="selectedBug">
-<app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"></app-edit-bug>
+  <app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"
+                [statusFormControl]="getStatusFormControl(selectedBug)"
+
+  >
+
+  </app-edit-bug>
 </div>
 
 <div class="column justify-content-center">
   <button data-target="#addBugsModal" data-toggle="modal" class="btn btn-default"
-          style="width: 120px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
-    <i class="fas fa-bug" style="font-size: 14px; color: white; margin-right: .25em;"></i>
-    Add a bug
+          style="width: 12vw; position: relative; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
+    <i class="fas fa-bug" style="font-size: 14px; color: white; margin-right: .25em; "></i>
+    {{'demo.Add a bug' | translate }}
   </button>
   <button (click)="exportToExcel()" class="btn btn-default"
           style="width: 90px; position: relative; height: 40px; margin-bottom: .75em; background-color: darkgreen; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px; margin-right: 1em;">
@@ -22,146 +27,109 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
-          <th scope="col" (click)="doSort('id')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>ID</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show10']" (click)="filtersShow['show10'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show10']" (click)="filtersShow['show10'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show10']" (click)="sortWanted=false;">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['id'] && askedForSort['id'], 'descendingSort': ascendingSort['id'] && askedForSort['id'] }" (click)="doSort('id')" class="sortable">
+              <span translate>ID</span>
           </th>
-          <th scope="col" (click)="doSort('title')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Title</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show6']" (click)="filtersShow['show6'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show6']" (click)="filtersShow['show6'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show6']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['title'] && askedForSort['title'], 'descendingSort': ascendingSort['title'] && askedForSort['title'] }" (click)="doSort('title')" class="sortable">
+              <span translate>demo.Title</span>
           </th>
-          <th scope="col" (click)="doSort('description')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Description</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show1']" (click)="filtersShow['show1'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show1']" (click)="filtersShow['show1'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show1']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['description'] && askedForSort['description'], 'descendingSort': ascendingSort['description'] && askedForSort['description'] }" (click)="doSort('description')" class="sortable">
+              <span translate>demo.Description</span>
           </th>
-          <th scope="col" (click)="doSort('fixedVersion')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Fixed Version</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show2']" (click)="filtersShow['show2'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show2']" (click)="filtersShow['show2'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show2']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['fixedVersion'] && askedForSort['fixedVersion'], 'descendingSort': ascendingSort['fixedVersion'] && askedForSort['fixedVersion'] }" (click)="doSort('fixedVersion')" class="sortable">
+              <span translate>demo.Fixed Version</span>
           </th>
-          <th scope="col" (click)="doSort('severity')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Severity</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show3']" (click)="filtersShow['show3'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show3']" (click)="filtersShow['show3'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show3']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['severity'] && askedForSort['severity'], 'descendingSort': ascendingSort['severity'] && askedForSort['severity'] }" (click)="doSort('severity')" class="sortable">
+              <span translate>demo.Severity</span>
           </th>
-          <th scope="col" (click)="doSort('status')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Status</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show4']" (click)="filtersShow['show4'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show4']" (click)="filtersShow['show4'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show4']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['status'] && askedForSort['status'], 'descendingSort': ascendingSort['status'] && askedForSort['status'] }" (click)="doSort('status')" class="sortable">
+              <span translate>demo.Status</span>
           </th>
-          <th scope="col" (click)="doSort('targetDate')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Target date</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show5']" (click)="filtersShow['show5'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show5']" (click)="filtersShow['show5'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show5']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['targetDate'] && askedForSort['targetDate'], 'descendingSort': ascendingSort['targetDate'] && askedForSort['targetDate'] }" (click)="doSort('targetDate')" class="sortable">
+              <span translate>demo.Target date</span>
           </th>
-          <th scope="col" (click)="doSort('version')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Version</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show7']" (click)="filtersShow['show7'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show7']" (click)="filtersShow['show7'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show7']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['versiom'] && askedForSort['version'], 'descendingSort': ascendingSort['versiom'] && askedForSort['version'] }" (click)="doSort('version')" class="sortable">
+              <span translate>demo.Version</span>
           </th>
-          <th scope="col" (click)="doSort('assignedTo')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Assigned to</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show8']" (click)="filtersShow['show8'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show8']" (click)="filtersShow['show8'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show8']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['assignedTo'] && askedForSort['assignedTo'], 'descendingSort': ascendingSort['assignedTo'] && askedForSort['assignedTo'] }" (click)="doSort('assignedTo')" class="sortable">
+              <span translate>demo.Assigned to</span>
           </th>
-          <th scope="col" (click)="doSort('createdBy')">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
-              <div style="display: flex; flex-direction: row; justify-content: center;">
-                <span (click)="sortWanted=true;" translate>demo.Created by</span>
-                <i class="fas fa-plus" *ngIf="!filtersShow['show9']" (click)="filtersShow['show9'] = true; sortWanted=false;"></i>
-                <i class="fas fa-minus" *ngIf="filtersShow['show9']" (click)="filtersShow['show9'] = false; sortWanted=false;"></i>
-              </div>
-              <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
-                     style="margin: .5em auto;" *ngIf="filtersShow['show9']">
-            </div>
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['createdBy'] && askedForSort['createdBy'], 'descendingSort': ascendingSort['createdBy'] && askedForSort['createdBy'] }" (click)="doSort('createdBy')" class="sortable">
+              <span translate>demo.Created by</span>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               {{"demo.Attachment"|translate}}
-            </div>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;" translate>
-              demo.Actions
-            </div>
+              {{"demo.Actions" | translate }}
           </th>
         </tr>
         </thead>
         <tbody>
+        <tr>
+          <td>
+            <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;">
+          </td>
+          <td>
+            <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
+                   style="margin: 0 auto;" >
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
         <tr #row *ngFor="let bug of bugList | paginate: config" style="cursor: pointer;">
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
             bug.id }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal"
+          <td class="titleCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal"
               data-target="#bugDetailsModal">{{ bug.title }}
           </td>
-          <td class="descriptionCells"  (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+          <td class="descriptionCells" (click)="passUserToDetailedModal(bug)" data-toggle="modal"
+              data-target="#bugDetailsModal">{{
             bug.description }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{ bug.fixedVersion
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
+            bug.fixedVersion
             }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
             demo.{{ bug.severity }}
           </td>
-          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>demo.{{ bug.status
+          <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal" translate>
+            demo.{{ bug.status
             }}
           </td>
           <td (click)="passUserToDetailedModal(bug)" data-toggle="modal" data-target="#bugDetailsModal">{{
@@ -189,8 +157,12 @@
                  style="width: 24px; color: white"
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
           </td>
-          <td><i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
-                 style="font-size: 24px;"> edit </i></td>
+          <td>
+            <div *ngIf=" bug.status !='Closed' ">
+              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
+                 style="font-size: 24px;"> edit </i>
+            </div>
+          </td>
         </tr>
         </tbody>
         <caption style="margin-left: 1em; color: white; font-style: italic;">Showing {{ ((bugList.length>0) ?
@@ -359,13 +331,13 @@
                 >
                 <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
               </span>
-              <div class="form-group">
-                <div class="input-group">
-                  <input type="date" class="form-control" placeholder="yyyy-mm-dd"
-                         name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
-                </div>
-              </div>
-              <span class="form-group has-float-label">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="date" class="form-control" placeholder="yyyy-mm-dd"
+                     name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
+            </div>
+          </div>
+          <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
                       style="margin-top: 15px">Title is required.</span>
                 <input type="text"
@@ -388,7 +360,8 @@
                        class="form-control"
                        required
                        [(ngModel)]="bugModel.version"
-                       placeholder=" ">
+                       placeholder=" "
+                       pattern="^\w+(\.\w*)*$">
                 <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
               </span>
           <span class="form-group has-float-label">
@@ -406,7 +379,8 @@
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
-            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
+            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
+                   (change)="fileChange($event)">
           </div>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"

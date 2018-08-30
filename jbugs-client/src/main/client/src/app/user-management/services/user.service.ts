@@ -28,7 +28,6 @@ export class UserService {
 
   baseURL = 'http://localhost:8080/jbugs/rest';
 
-
   constructor(private router: Router,private http: HttpClient, private roleService: RoleService) {
   }
 
@@ -175,7 +174,4 @@ export class UserService {
   getUsersPermissions(currentUser: string): Observable<any> {
     return this.http.get<String[]>(this.baseURL+'/userpermissions/'+currentUser);
   }
-
-
-
 }
