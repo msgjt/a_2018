@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+.toast-info {
+  background-color: #BD362F !important;
+}
+
 body {
   padding-top: 7rem;
 }
@@ -34,7 +38,4 @@ nav {
   background-color: darkred;
 }
 
-/deep/
-.toast-info {
-  background-color: #BD362F;
-}
+

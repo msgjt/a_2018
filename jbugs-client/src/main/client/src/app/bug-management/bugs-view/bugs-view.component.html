@@ -1,7 +1,9 @@
 <link rel="stylesheet"
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
-<app-edit-bug [bug]="selectedBug"></app-edit-bug>
+<div *ngIf="selectedBug">
+<app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"></app-edit-bug>
+</div>
 
 <div class="column justify-content-center">
   <button data-target="#addBugsModal" data-toggle="modal" class="btn btn-default"
