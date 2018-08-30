@@ -10,6 +10,7 @@ export class NotificationService {
 
   private baseURL = 'http://localhost:8080/jbugs/rest';
   private instantiated: boolean = false;
+  private instantiatedForOld: boolean = false;
 
   constructor(private http: HttpClient) {
 
@@ -21,6 +22,14 @@ export class NotificationService {
 
   instantiate() {
     this.instantiated = true;
+  }
+
+  wasInstantiatedForOld(): boolean {
+    return this.instantiatedForOld == true;
+  }
+
+  instantiateForOld() {
+    this.instantiatedForOld = true;
   }
 
 
@@ -43,6 +52,25 @@ export class NotificationService {
 
     return this.http.get<Notification[]>
       (this.baseURL + "/notifications",options);
+  }
+
+  getOldNotifications(): Observable<Notification[]>{
+    let currentUser = localStorage.getItem("currentUser");
+    let id = localStorage.getItem("id");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+
+
+    let options = {
+      headers: headers,
+      params: new HttpParams().set('id',id)
+    };
+
+
+    return this.http.get<Notification[]>
+    (this.baseURL + "/oldnotifications",options);
   }
 
 }

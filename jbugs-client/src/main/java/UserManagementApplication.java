@@ -29,6 +29,7 @@ public class UserManagementApplication extends Application {
         classes.add(NotificationResource.class);
         classes.add(MultiPartFeature.class);
         classes.add(UserProfileResource.class);
+        classes.add(OldNotificationResource.class);
         return classes;
 
     }

@@ -15,7 +15,9 @@ import {ToastrService} from "ngx-toastr";
 export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
-  public displayedNotifications: Notification[]=[];
+  public oldNotifications: Notification[];
+  public displayedOldNotifications: Notification[]=[];
+  public displayedNewNotifications: Notification[]=[];
   private NOTIFICATION_DELAY: number = 5000;
 
 
@@ -24,6 +26,7 @@ export class NotificationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getOldNotifications()
     console.log("AAAA 1");
     if (this.notificationService.wasInstantiated() == false) {
       console.log("BBBB 2");
@@ -37,9 +40,9 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications = notifications;
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
-                this.displayedNotifications.push(n)
+                this.displayedNewNotifications.push(n)
               })
-              console.log(this.displayedNotifications)
+              console.log(this.displayedNewNotifications)
             }
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
@@ -48,6 +51,30 @@ export class NotificationComponent implements OnInit {
                   sound.play();
               });
             });
+          });
+        }
+      });
+    }
+  }
+
+
+  getOldNotifications() {
+    if (this.notificationService.wasInstantiatedForOld() == false) {
+      this.notificationService.instantiateForOld();
+      const source = interval(this.NOTIFICATION_DELAY);
+       let subscriber=source.subscribe(() => {
+        let id = localStorage.getItem("id");
+        if( id != null ) {
+          console.log("WILL SHOW OLD NOTIFICATIONS");
+          this.notificationService.getOldNotifications().subscribe(notifications => {
+            this.oldNotifications = notifications;
+            if(this.oldNotifications.length!=0){
+              this.oldNotifications.forEach(n=>{
+                this.displayedOldNotifications.push(n)
+              })
+              subscriber.unsubscribe()
+              console.log(this.displayedOldNotifications)
+            }
           });
         }
       });

@@ -16,6 +16,7 @@ public interface NotificationManagement {
      * @return the list of all unread notifications
      */
     List<NotificationDTO> getUnreadNotificationsForUser(Long id);
+    List<NotificationDTO> getReadNotificationsForUser(Long id);
 
 
     /**
@@ -45,6 +46,7 @@ public interface NotificationManagement {
      * @return the persisted notification entity
      */
     Notification assignUserToNotification(Long notificationId, Long userId);
+
 
 
     /**
