@@ -1,83 +1,109 @@
+<div *ngIf="bug">
 
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true" *ngIf="bug">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="editModalTitle" translate style="color: whitesmoke;font-size: 20px; ">demo.Edit bug</h5>
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
+          <h5 class="modal-title" id="editModalTitle" style="color: whitesmoke;font-size: 20px; ">
+            {{ "demo.Edit a bug"| translate}}
+          </h5>
 
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" aria-label="Close"
-                (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;">
-          <span aria-hidden="true">&times;</span>
-        </button>
+          <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
+                  aria-label="Close"
+                  (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;">
+            <span aria-hidden="true">&times;</span>
+          </button>
 
-      </div>
-      <div class="modal-body">
-        <form class="form-signin text-center"
-              (ngSubmit)="submitEditForm()"
-              #formControl="ngForm">
+        </div>
 
-          <span class="form-group has-float-label">
+          <div class="modal-body">
+            <div *ngIf="bugUpdatedToClosed == false">
+            <form class="form-signin text-center"
+                  (ngSubmit)="submitEditForm()"
+                  #formControl="ngForm">
+              <h1 class="h1 mb-3 font-weight-normal">
+                {{ "demo.Edit a bug"| translate}}
+              </h1><br>
+              <span class="form-group has-float-label">
             <span class="help-block"
                   *ngIf="title.errors?.required && title.touched" translate style="margin-top: 15px">demo.First name is required.</span>
                   <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
-                          class="form-control" required
+                         class="form-control" required
                          [(ngModel)]="bug.title" placeholder="{{bug.title}}">
                   <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
           </span>
 
-          <div class="form-group ">
-            <label for="descriptionInput" translate>demo.Description</label>
-            <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control" id="descriptionInput" rows="3" required placeholder="{{bug.description}}"></textarea>
-          </div>
+              <div class="form-group ">
+                <label for="descriptionInput" translate>demo.Description</label>
+                <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control"
+                          id="descriptionInput" rows="3" required placeholder="{{bug.description}}"></textarea>
+              </div>
 
-          <span class="form-group has-float-label">
+              <span class="form-group has-float-label">
                   <input name="version" #version="ngModel" #versionId id="versionInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.version" placeholder="{{bug.version}}">
                   <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
           </span>
 
-          <span class="form-group has-float-label">
+              <span class="form-group has-float-label">
                   <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}">
                   <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
           </span>
 
-          <span class="form-group has-float-label">
-                  <input name="status" #status="ngModel" #statusId id="statusInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.status" placeholder="{{bug.status}}">
-                  <label for="statusInput" translate style="margin-top: 15px">demo.Status</label>
-          </span>
 
-          <span class="form-group has-float-label">
+              <span class="form-group has-float-label">
                   <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
                          type="text" class="form-control" required
                          [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}">
                   <label for="assignedToInput" translate style="margin-top: 15px">demo.Assigned to</label>
           </span>
 
-
-          <span class="form-group has-float-label">
+              <span class="form-group has-float-label">
             <mat-form-field>
-              <mat-select placeholder= '{{ "demo.Click to edit severity"| translate}}' style="color: white" [formControl]="severityFormControl" (selectionChange)="updateBugSeverity(severityFormControl.value)">
-                <mat-option *ngFor="let severity of possibleSeverities"  [value]="severity" >{{ severity }}</mat-option>
+              <mat-select placeholder='{{ "demo.Click to edit status"| translate}}' style="color: white"
+                          [formControl]="statusFormControl"
+                          (selectionChange)="updateBugStatus(statusFormControl.value)">
+                <mat-option *ngFor="let status of getPossibleStates(bug)" [value]="status">{{ 'demo.' + status | translate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </span>
+
+              <span class="form-group has-float-label">
+            <mat-form-field>
+              <mat-select placeholder='{{ "demo.Click to edit severity"| translate}}' style="color: white"
+                          [formControl]="severityFormControl"
+                          (selectionChange)="updateBugSeverity(severityFormControl.value)">
+                <mat-option *ngFor="let severity of possibleSeverities" [value]="severity">{{ 'demo.' + severity| translate}}</mat-option>
               </mat-select>
             </mat-form-field>
           </span>
 
 
-          <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
-                  style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate
-          >demo.Submit
-          </button>
-          <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
-        </form>
+              <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
+                      style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
+                      [disabled]="formControl.invalid" translate
+              >demo.Submit
+              </button>
+              <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
+              <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+            </form>
+          </div>
+            <div *ngIf="bugUpdatedToClosed == true">
+              <h1 class="h1 mb-3 font-weight-normal">
+                {{ "demo.Not able to edit this bug anymore, it was closed."| translate}}
+              </h1><br>
+
+            </div>
+        </div>
       </div>
+
     </div>
   </div>
+
+
+
 </div>

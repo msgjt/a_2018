@@ -475,11 +475,18 @@ export class BugsViewComponent implements OnInit {
   }
 
   getStatusFormControl(bug: Bug){
-    let possibleStates = [
-      {key: 'Open', value: 'InProgress'},
-      {key: ''}
+    let allStates = [
+      {key: 'Open', values: ['Open','InProgress','Rejected']},
+      {key: 'InProgress', values: ['InProgress','Rejected','Fixed','InfoNeeded']},
+      {key: 'Rejected', values: ['Rejected','Closed']},
+      {key: 'Fixed', values: ['Fixed','Closed']},
+      {key: 'InfoNeeded', values: ['InfoNeeded','InProgress']},
+      {key: 'Closed', values: []}
     ];
-    return new FormControl();
+
+    let possibleStates = allStates.find(s => s.values.findIndex( v => v == bug.status) != -1).values;
+
+    return new FormControl(possibleStates.find(s => bug.status == s));
   }
 
   fileChange(event){
