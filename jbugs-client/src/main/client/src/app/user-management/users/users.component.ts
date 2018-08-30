@@ -6,10 +6,10 @@ import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class UsersComponent implements OnInit {
   loggedIn = true;
   userList: User[];
   pressedEdit: boolean = false;
