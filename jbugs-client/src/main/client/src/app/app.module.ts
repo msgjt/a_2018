@@ -67,6 +67,7 @@ import {ToastrModule} from "ngx-toastr";
 import {NotificationComponent} from './notifications/notification/notification.component';
 import {NotificationService} from "./notifications/services/notification.service";
 import { NewBugComponent } from './bug-management/new-bug/new-bug.component';
+import { DetailBugComponent } from './bug-management/detail-bug/detail-bug.component';
 
 const appRoutes: Routes = [
   {
@@ -159,6 +160,7 @@ export class MaterialModule {
     UserProfileComponent,
     RolesComponent,
     FilterPipe,
+    DetailBugComponent,
     NotificationComponent
   ],
   imports: [
