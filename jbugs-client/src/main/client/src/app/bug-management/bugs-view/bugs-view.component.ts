@@ -38,7 +38,6 @@ export class BugsViewComponent implements OnInit {
   bugModel: Bug;
   showInfoDiv: boolean = false;
   formData: FormData;
-  userList: User[];
   errorMessage: string;
   errorOccurred: boolean = false;
   positiveResponse: boolean = false;
@@ -108,9 +107,7 @@ export class BugsViewComponent implements OnInit {
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
     this.formData = new FormData();
-    this.userService.getAllUsers().subscribe(
-      (users) => {this.userList = users;}
-    );
+
   }
 
   exportToExcel() {
@@ -417,57 +414,6 @@ export class BugsViewComponent implements OnInit {
     return localStorage.getItem('BUG_EXPORT_PDF') != null;}
 
 
-  submitAddData(){
-
-    let currentUsername = localStorage.getItem("currentUser");
-    let currentUser = this.userList.find(user => user.username == currentUsername);
-    if (currentUser === undefined){
-      this.errorMessage = 'Current user could not be retrieved';
-      this.errorOccurred = true;
-      return;
-    }
-    this.bugModel.createdBy = currentUser;
-    let assignedUsername = this.bugModel.assignedTo.username;
-    let assignedUser = this.userList.find(user => user.username == assignedUsername);
-    if (assignedUser === undefined){
-      this.errorMessage = 'Cannot find the assigned user';
-      this.errorOccurred = true;
-      return;
-    }
-    this.bugModel.assignedTo = assignedUser;
-
-    this.bugService.createBug(this.bugModel)
-      .subscribe(
-        (response) => {
-          if(this.formData.has('file')) {
-            this.formData.append('bugId', response.id.toString());
-            this.bugService.sendFile(this.formData)
-              .subscribe(
-                () => {
-                  this.errorOccurred = false;
-                  this.positiveResponse = true;
-                },
-                (error) => {
-                  this.positiveResponse = false;
-                  this.errorMessage = error['error'];
-                  this.errorOccurred = true;
-                }
-              );
-          }
-          else {
-            this.errorOccurred = false;
-            this.positiveResponse = true;
-          }
-        },
-        (error) => {
-          this.positiveResponse = false;
-          this.errorMessage = error['error'];
-          this.errorOccurred = true;
-        }
-      );
-
-
-  }
 
 
   showInfo() {
@@ -506,14 +452,7 @@ export class BugsViewComponent implements OnInit {
     return new FormControl(possibleStates.find(s => bug.status == s));
   }
 
-  fileChange(event){
-    let files = event.target.files;
-    if (files.length > 0) {
-      this.formData = new FormData();
-      this.formData.append('file', files[0]);
-      this.bugModel.attachment = files[0].name;
-    }
-  }
+
 
   getFalse() {
     return false;
