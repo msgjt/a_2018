@@ -23,9 +23,6 @@ export class NotificationService {
     this.instantiated = true;
   }
 
-
-
-
   getNewNotifications(): Observable<Notification[]> {
     let currentUser = localStorage.getItem("currentUser");
     let id = localStorage.getItem("id");
@@ -34,15 +31,12 @@ export class NotificationService {
       {'currentUser':currentUser,
         'webtoken':webtoken});
 
-
     let options = {
       headers: headers,
       params: new HttpParams().set('id',id)
     };
 
-
     return this.http.get<Notification[]>
       (this.baseURL + "/notifications",options);
   }
-
 }

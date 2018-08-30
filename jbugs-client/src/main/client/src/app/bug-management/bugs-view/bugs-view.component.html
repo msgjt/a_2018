@@ -3,7 +3,11 @@
 
 <div *ngIf="selectedBug">
   <app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"
-                [statusFormControl]="getStatusFormControl(selectedBug)"></app-edit-bug>
+                [statusFormControl]="getStatusFormControl(selectedBug)"
+
+  >
+
+  </app-edit-bug>
 </div>
 
 <div class="column justify-content-center">
@@ -23,45 +27,41 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
-          <th scope="col" (click)="doSort('id')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['id'] && askedForSort['id'], 'descendingSort': ascendingSort['id'] && askedForSort['id'] }" (click)="doSort('id')" class="sortable">
               <span translate>ID</span>
           </th>
-          <th scope="col" (click)="doSort('title')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['title'] && askedForSort['title'], 'descendingSort': ascendingSort['title'] && askedForSort['title'] }" (click)="doSort('title')" class="sortable">
               <span translate>demo.Title</span>
           </th>
-          <th scope="col" (click)="doSort('description')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['description'] && askedForSort['description'], 'descendingSort': ascendingSort['description'] && askedForSort['description'] }" (click)="doSort('description')" class="sortable">
               <span translate>demo.Description</span>
           </th>
-          <th scope="col" (click)="doSort('fixedVersion')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['fixedVersion'] && askedForSort['fixedVersion'], 'descendingSort': ascendingSort['fixedVersion'] && askedForSort['fixedVersion'] }" (click)="doSort('fixedVersion')" class="sortable">
               <span translate>demo.Fixed Version</span>
           </th>
-          <th scope="col" (click)="doSort('severity')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['severity'] && askedForSort['severity'], 'descendingSort': ascendingSort['severity'] && askedForSort['severity'] }" (click)="doSort('severity')" class="sortable">
               <span translate>demo.Severity</span>
           </th>
-          <th scope="col" (click)="doSort('status')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['status'] && askedForSort['status'], 'descendingSort': ascendingSort['status'] && askedForSort['status'] }" (click)="doSort('status')" class="sortable">
               <span translate>demo.Status</span>
           </th>
-          <th scope="col" (click)="doSort('targetDate')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['targetDate'] && askedForSort['targetDate'], 'descendingSort': ascendingSort['targetDate'] && askedForSort['targetDate'] }" (click)="doSort('targetDate')" class="sortable">
               <span translate>demo.Target date</span>
           </th>
-          <th scope="col" (click)="doSort('version')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['versiom'] && askedForSort['version'], 'descendingSort': ascendingSort['versiom'] && askedForSort['version'] }" (click)="doSort('version')" class="sortable">
               <span translate>demo.Version</span>
           </th>
-          <th scope="col" (click)="doSort('assignedTo')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['assignedTo'] && askedForSort['assignedTo'], 'descendingSort': ascendingSort['assignedTo'] && askedForSort['assignedTo'] }" (click)="doSort('assignedTo')" class="sortable">
               <span translate>demo.Assigned to</span>
           </th>
-          <th scope="col" (click)="doSort('createdBy')">
+          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['createdBy'] && askedForSort['createdBy'], 'descendingSort': ascendingSort['createdBy'] && askedForSort['createdBy'] }" (click)="doSort('createdBy')" class="sortable">
               <span translate>demo.Created by</span>
           </th>
           <th scope="col">
-            <div style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               {{"demo.Attachment"|translate}}
-            </div>
           </th>
           <th scope="col">
-            <div tyle="display: flex; flex-direction: column; justify-content: center; text-align: center;">
               {{"demo.Actions" | translate }}
-            </div>
           </th>
         </tr>
         </thead>
@@ -69,43 +69,43 @@
         <tr>
           <td>
             <input [(ngModel)]="filter10" (keyup)="addFilters('id')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter6" (keyup)="addFilters('title')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter1" (keyup)="addFilters('description')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter2" (keyup)="addFilters('fixedVersion')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter3" (keyup)="addFilters('severity')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter4" (keyup)="addFilters('status')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter5" (keyup)="addFilters('targetDate')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter7" (keyup)="addFilters('version')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter8" (keyup)="addFilters('assignedTo')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;">
+                   style="margin: 0 auto;">
           </td>
           <td>
             <input [(ngModel)]="filter9" (keyup)="addFilters('createdBy')" type="text" placeholder="Filter..."
-                   style="margin: .5em auto;" >
+                   style="margin: 0 auto;" >
           </td>
           <td></td>
           <td></td>
@@ -158,7 +158,7 @@
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
           </td>
           <td>
-            <div *ngIf="bug.status != 'Closed'">
+            <div *ngIf=" bug.status !='Closed' ">
               <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
                  style="font-size: 24px;"> edit </i>
             </div>

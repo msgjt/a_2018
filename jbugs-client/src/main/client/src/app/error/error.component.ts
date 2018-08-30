@@ -12,4 +12,7 @@ export class ErrorComponent implements OnInit {
   ngOnInit() {
   }
 
+  isUserLoggedIn() {
+    return localStorage.getItem('id') != null;
+  }
 }
