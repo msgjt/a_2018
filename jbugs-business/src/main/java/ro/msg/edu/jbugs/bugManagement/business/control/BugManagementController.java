@@ -62,13 +62,10 @@ public class BugManagementController implements BugManagement {
         bugValidator.validateCreate(bugDTO);
         bugDTO.setStatus("Open");
 
-        if(bugDTO.getAttachment() != null && !bugDTO.getAttachment().equals("")){
-            File file = new File(bugDTO.getAttachment());
-            if (!file.exists()) {
-                throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
-            }
-        }
-        Bug bug = BugDTOHelper.toEntity(bugDTO,new Bug());
+        Bug dummyBug = new Bug();
+        dummyBug.setCreatedBy(new User());
+        dummyBug.setAssignedTo(new User());
+        Bug bug = BugDTOHelper.toEntity(bugDTO,dummyBug);
         User userCreatedBy = userManagement.getOldUserFields(bugDTO.getCreatedBy());
         User userAssignedTo = userManagement.getOldUserFields(bugDTO.getAssignedTo());
         bug.setCreatedBy(userCreatedBy);

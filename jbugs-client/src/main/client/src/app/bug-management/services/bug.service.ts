@@ -89,7 +89,7 @@ export class BugService {
       'assignedTo' : bug.assignedTo,
       'attachment' : bug.attachment
     };
-    return this.http.post(this.baseURL + '/bugs', body, {headers});
+    return this.http.post<Bug>(this.baseURL + '/bugs', body, {headers});
   }
 
   updateBug(bug: Bug) {

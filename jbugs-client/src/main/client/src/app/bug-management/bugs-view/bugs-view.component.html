@@ -410,8 +410,8 @@
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
-          <!--<label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>-->
-          <!--<label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>-->
+          <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
+          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
         </form>
       </div>
     </div>

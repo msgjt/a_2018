@@ -390,7 +390,27 @@ export class BugsViewComponent implements OnInit {
 
 
   submitAddData(){
+
+    //TODO show error when not finding users
+    let currentUsername = localStorage.getItem("currentUser");
+    let currentUser = this.userList.find(user => user.username == currentUsername);
+    this.bugModel.createdBy = currentUser;
+    let assignedUsername = this.bugModel.assignedTo.username;
+    this.bugModel.assignedTo = this.userList.find(user => user.username == assignedUsername);
+
+    this.bugService.createBug(this.bugModel)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.setBugId(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
     if(this.formData.has('file')) {
+      this.formData.append('bugId', this.bugModel.id.toString());
       this.bugService.sendFile(this.formData)
         .subscribe(
           (response) => {
@@ -402,58 +422,7 @@ export class BugsViewComponent implements OnInit {
           }
         );
     }
-   /* this.bugService.getUserForBugCreation().subscribe(
-      (response) => {
-        this.bugModel.createdBy = response;
-        console.log(this.bugModel.createdBy);
-      },
-        (error) => {
-          console.log(error);
-        });
-    console.log(this.bugModel.createdBy);*/
-/*this.bugService.getUserForBugCreation().pipe(
-  flatMap((response) => {
-    this.bugModel.createdBy = response;
-    return this.bugService.getUserAssigned(this.bugModel.assignedTo.username);
-  }).subscribe((response) => {
-      console.log(response);
-      this.bugModel.assignedTo = response;
-    },
-    (error) => {
-      console.log(error);
-    });
-},
-(error) => {
-  console.log(error);
-}));*/
-   // console.log(this.bugModel.createdBy);
-   /* this.bugService.getUserAssigned(this.bugModel.assignedTo.username)
-      .subscribe((response) => {
-        //  console.log(response);
-          this.bugModel.assignedTo = response;
-        },
-        (error) => {
-          console.log(error);
-        });*/
-   // console.log(this.bugModel.assignedTo);
 
-    let currentUsername = localStorage.getItem("currentUser");
-    let currentUser = this.userList.find(user => user.username == currentUsername);
-    console.log(currentUser);
-    this.bugModel.createdBy = currentUser;
-    let assignedUsername = this.bugModel.assignedTo.username;
-    this.bugModel.assignedTo = this.userList.find(user => user.username == assignedUsername);
-    console.log(this.bugModel);
-
-    this.bugService.createBug(this.bugModel)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
   }
 
   showInfo() {
@@ -479,4 +448,9 @@ export class BugsViewComponent implements OnInit {
       this.bugModel.attachment = files[0].name;
     }
   }
+
+  setBugId(bug: Bug){
+    this.bugModel.id = bug.id;
+  }
+
 }

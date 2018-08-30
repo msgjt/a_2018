@@ -1,6 +1,9 @@
 package ro.msg.edu.jbugs.bugManagement.business.dto;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
+import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
+import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
+import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
@@ -52,11 +55,13 @@ public class BugDTOHelper {
         oldBug.setStatus(bugDTO.getStatus());
         oldBug.setFixedVersion(bugDTO.getFixedVersion());
         oldBug.setVersion(bugDTO.getVersion());
-        oldBug.setSeverity(Severity.MEDIUM);
-
-        oldBug.setCreatedBy(new User());
+        if (isValidSeverity(bugDTO.getSeverity())) {
+            oldBug.setSeverity(Severity.valueOf(bugDTO.getSeverity()));
+        }
+        else {
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_SEVERITY_NOT_VALID);
+        }
         oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),oldBug.getCreatedBy()));
-        oldBug.setAssignedTo(new User());
         oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),oldBug.getAssignedTo()));
 
         oldBug.setDescription(bugDTO.getDescription());
@@ -66,5 +71,14 @@ public class BugDTOHelper {
         return oldBug;
 
 
+    }
+
+    private static boolean isValidSeverity(String severity){
+        for(Severity s : Severity.values()){
+            if (s.name().equals(severity)){
+                return true;
+            }
+        }
+        return false;
     }
 }
