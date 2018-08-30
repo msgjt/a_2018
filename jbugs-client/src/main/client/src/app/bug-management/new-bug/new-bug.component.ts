@@ -18,6 +18,7 @@ export class NewBugComponent implements OnInit {
   formData: FormData;
   positiveResponse: boolean = false;
   possibleSeverities: string[] = ['LOW','MEDIUM','HIGH','CRITICAL'];
+  showInfoDiv: boolean = false;
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
@@ -63,10 +64,7 @@ export class NewBugComponent implements OnInit {
     this.formData = new FormData();
   }
 
-
-
   submitAddData(){
-
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
     if (currentUser === undefined){
@@ -113,8 +111,6 @@ export class NewBugComponent implements OnInit {
           this.errorOccurred = true;
         }
       );
-
-
   }
 
   fileChange(event){
@@ -130,4 +126,11 @@ export class NewBugComponent implements OnInit {
     this.bugModel.severity = severity;
   }
 
+  showInfo() {
+    this.showInfoDiv = true;
+  }
+
+  hideInfo() {
+    this.showInfoDiv = false;
+  }
 }

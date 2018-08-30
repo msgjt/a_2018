@@ -110,17 +110,27 @@ export class UserService {
   }
 
   updateUserPassword( id: number, password: string){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'id': id,
       'password': password};
-    return this.http.put<boolean>(this.baseURL + '/users/changePassword', body);
+    return this.http.put<boolean>(this.baseURL + '/users/changePassword', body,{headers});
   }
 
   updateUserPasswordForUserProfile( id: number, password: string){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body = {
       'id': id,
       'password': password};
-    return this.http.put<boolean>(this.baseURL + '/userprofile/changePassword', body);
+    return this.http.put<boolean>(this.baseURL + '/userprofile/changePassword', body,{headers});
   }
 
   deactivateUser(id: number){
@@ -171,7 +181,12 @@ export class UserService {
     return this.roleService.getAllRoles();
   }
 
-  getUsersPermissions(currentUser: string): Observable<any> {
-    return this.http.get<String[]>(this.baseURL+'/userpermissions/'+currentUser);
+  getUsersPermissions(currentuser: string): Observable<any> {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    return this.http.get<String[]>(this.baseURL+'/userpermissions/'+currentuser,{headers});
   }
 }

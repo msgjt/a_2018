@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "NotificationsFilter",
-        urlPatterns = {"/rest/notifications/*","/rest/oldnotifications/*"})
-public class NotificationsFilter implements Filter {
+@WebFilter(filterName = "NotLoggedFilter",
+        urlPatterns = {"/rest/notifications/*","/rest/oldnotifications/*",
+                "/rest/userprofile/*","/rest/userpermissions/*"})
+public class NotLoggedFilter implements Filter {
 
     @EJB
     //This filter check if the user have rights to perform any actions which comes to the following address

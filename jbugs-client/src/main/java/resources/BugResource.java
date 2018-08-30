@@ -49,7 +49,7 @@ public class BugResource {
                 .build();
 
         notificationManagement.sendNotification("BUG_UPDATED", "New bug was created",
-                "", bugDTO.getCreatedBy().getId(), bugDTO.getAssignedTo().getId());
+                "http://localhost:8080/jbugs/rest/bugs", bugDTO.getCreatedBy().getId(), bugDTO.getAssignedTo().getId());
 
         return response;
 
@@ -69,12 +69,12 @@ public class BugResource {
                 .build();
 
         if (result.getStatus().equals("Closed")) {
-            notificationManagement.sendNotification("BUG_CLOSED", result.toString(), "",
+            notificationManagement.sendNotification("BUG_CLOSED", result.toString(), "http://localhost:8080/jbugs/rest/bugs",
                     result.getAssignedTo().getId(), result.getCreatedBy().getId());
             return response;
         }
 
-        String message = "Bug successfully updated. ";
+        String message = "Bug with id "+oldBug.getId()+" successfully updated. ";
         if (oldBug.getTitle().equals(result.getTitle()) &&
                 oldBug.getDescription().equals(result.getDescription()) &&
                 oldBug.getVersion().equals(result.getVersion()) &&
@@ -84,9 +84,9 @@ public class BugResource {
                 !oldBug.getStatus().equals(result.getStatus())) {
             message += "Old status was <" + oldBug.getStatus() + "> and it was changed to <" + result.getStatus() + ">";
             notificationManagement.sendNotification("BUG_STATUS_UPDATED",
-                    message, "", result.getAssignedTo().getId(), result.getCreatedBy().getId());
+                    message, "http://localhost:8080/jbugs/rest/bugs", result.getAssignedTo().getId(), result.getCreatedBy().getId());
         } else {
-            notificationManagement.sendNotification("BUG_UPDATED", message, "",
+            notificationManagement.sendNotification("BUG_UPDATED", message, "http://localhost:8080/jbugs/rest/bugs",
                     result.getAssignedTo().getId(), result.getCreatedBy().getId());
         }
         return response;

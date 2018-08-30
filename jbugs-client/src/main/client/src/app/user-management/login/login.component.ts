@@ -56,10 +56,7 @@ export class LoginComponent implements OnInit {
           (response) => {
               this.login(response.token);
               localStorage.setItem("id",response.id);
-              this.getUsersPermissions(this.userModel.username);
               this.loggedIn = true;
-              this.getOldUsersNotifications();
-              this.getUsersNotifications();
               this.router.navigate(['./user_profile']);
           },
           (error) => {
@@ -91,6 +88,7 @@ export class LoginComponent implements OnInit {
     console.log('saving token: ' + token);
     localStorage.setItem(TOKENKEY, token);
     this.loggedIn = true;
+    this.getUsersPermissions(this.userModel.username);
   }
 
   resolved(captchaResponse: string) {
@@ -106,29 +104,5 @@ export class LoginComponent implements OnInit {
         }
       }
     )
-  }
-
-  getUsersNotifications(){
-    /*
-    this.notificationService.getNewNotificationForUser(Number(localStorage.getItem('id')))
-      .subscribe(notifications=>{this.notificationsList=notifications,
-        console.log(this.notificationsList),
-        this.getUsersNotifications()
-        },
-        ()=>{this.getOldUsersNotifications()});
-        */  }
-
-  getOldUsersNotifications(){
-    /*
-    this.notificationService.getOldNotificationForUser(Number(localStorage.getItem('id')))
-      .subscribe(notifications=>{this.oldNotificationsList=notifications,
-        this.toastrService.info(this.oldNotificationsList[0]["type"],this.oldNotificationsList[0]["type"])
-          .onShown.subscribe(()=>{
-           // let sound =new Audio('../../assets/notificationsound.mp3');
-           // sound.play();
-          console.log(this.oldNotificationsList[0])
-        })
-        });
-        */
   }
 }
