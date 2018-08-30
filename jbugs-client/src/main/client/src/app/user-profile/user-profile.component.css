@@ -30,13 +30,13 @@ body {
   margin-left: 400px;
 }
 
-#errorLabel {
+#errorLabel,#errorLabel2 {
 
   color: red;
   font-weight: bold;
 }
 
-#succesLabel {
+#succesLabel,#succesLabel2 {
   color: green;
 }
 

@@ -18,7 +18,7 @@ import {User, UserService} from "../../user-management/services/user.service";
 })
 export class BugsViewComponent implements OnInit {
 
-  selectedBug;
+  selectedBug: Bug;
   bugList: Bug[];
   pagesFormControl : FormControl;
   filter1 = '';
@@ -447,6 +447,20 @@ export class BugsViewComponent implements OnInit {
       let snd = new Audio("../../assets/notificationsound.mp3");
       snd.play();
     });
+  }
+
+  getSeverityFormControl(bug: Bug){
+    let possibleSeverities = ['LOW','MEDIUM','HIGH'];
+    let s = possibleSeverities.find(s => s == bug.severity);
+    return new FormControl(s);
+  }
+
+  getStatusFormControl(bug: Bug){
+    let possibleStates = [
+      {key: 'Open', value: 'InProgress'},
+      {key: ''}
+    ];
+    return new FormControl();
   }
 
   fileChange(event){

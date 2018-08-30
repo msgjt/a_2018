@@ -125,10 +125,6 @@ button i {
   cursor: pointer;
 }
 
-/deep/
-.toast-info {
-  background-color: #BD362F;
-}
 
 /deep/ .table th, .table td {
   vertical-align: inherit;

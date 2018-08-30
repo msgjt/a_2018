@@ -17,19 +17,19 @@ public class NotificationPersistenceManager {
 
     private static final long serialVersionUID = 1L;
 
+
     @PersistenceContext(unitName = "jbugs-persistence")
     private EntityManager em;
 
-    public List<Notification> getNotificationsForUser(@NotNull Long id) {
-        CustomLogger.logEnter(this.getClass(), "getNotificationsForUser", id + "");
 
+
+
+    public List<Notification> getNotificationsForUser(@NotNull Long id) {
 
         TypedQuery<Notification> tq = em.createNamedQuery(User.GET_NOTIFICATIONS_FOR_USER, Notification.class)
                 .setParameter("id", id);
         List<Notification> result = tq.getResultList();
 
-
-        CustomLogger.logExit(this.getClass(), "getNotificationsForUser", result.toString());
         return result;
 
     }
