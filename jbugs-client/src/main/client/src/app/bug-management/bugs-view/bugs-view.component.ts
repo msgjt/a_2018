@@ -433,7 +433,7 @@ export class BugsViewComponent implements OnInit {
                   this.positiveResponse = true;
                 },
                 (error) => {
-                  console.log(error);
+                  this.positiveResponse = false;
                   this.errorMessage = error['error'];
                   this.errorOccurred = true;
                 }
@@ -445,7 +445,7 @@ export class BugsViewComponent implements OnInit {
           }
         },
         (error) => {
-          console.log(error);
+          this.positiveResponse = false;
           this.errorMessage = error['error'];
           this.errorOccurred = true;
         }
