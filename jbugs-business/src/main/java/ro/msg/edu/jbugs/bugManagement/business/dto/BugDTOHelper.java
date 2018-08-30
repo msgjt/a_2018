@@ -51,7 +51,12 @@ public class BugDTOHelper {
     public static Bug toEntity(@NotNull BugDTO bugDTO,Bug oldBug){
 
         oldBug.setTitle(bugDTO.getTitle());
-        oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
+        try {
+            oldBug.setTargetDate(LocalDate.parse(bugDTO.getTargetDate()));
+        }
+        catch(Exception e){
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_TARGET_DATE_NOT_VALID);
+        }
         oldBug.setStatus(bugDTO.getStatus());
         oldBug.setFixedVersion(bugDTO.getFixedVersion());
         oldBug.setVersion(bugDTO.getVersion());

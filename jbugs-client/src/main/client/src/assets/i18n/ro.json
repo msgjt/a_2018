@@ -59,9 +59,6 @@
     "New": "Nou",
     "In progress":"In Progres",
     "Info needed":"Necesita informatii",
-    "Fixed": "Reparat",
-    "Closed":"Inchis",
-    "Rejected":"Respins",
     "Filer":"Filtrare",
     "Filter items":"Filtreaza elementele",
     "Your personal data":"Datele tale curente",
@@ -73,6 +70,16 @@
     "MEDIUM": "Medie",
     "HIGH": "Ridicata",
     "CRITICAL": "Critica",
-    "Open": "Deschis"
+    "Open": "Deschis",
+    "InProgress": "In progres",
+    "InfoNeeded": "Informatii aditionale necesare",
+    "Fixed": "Fixat",
+    "Closed":"Inchis",
+    "Rejected":"Respins",
+    "Edit a bug": "Edtiteaza un bug",
+    "Click to edit status": "Click pentru a edita statusul",
+    "Click to edit severity": "Click pentru a edit gravitatea",
+    "Add a bug": "Adauga un bug",
+    "Not able to edit this bug anymore, it was closed.": "Editarea acestui bug nu mai este posibila."
   }
 }

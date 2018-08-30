@@ -1,14 +1,12 @@
-html,
-body {
-  height: 100%;
-
-}
 
 /deep/ .cdk-overlay-container {
   z-index: 1500;
 }
 
+
+
 body {
+  height: 100%;
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
@@ -19,10 +17,27 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
   padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
+  padding-bottom: 50px;
 }
 
+td {
+  color: white;
+}
+
+th {
+  color: white;
+  border: 0;
+  font-size: large;
+}
+
+table {
+  text-align: center;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
 
 .form-control:focus + .form-control-placeholder,
 .form-control:valid + .form-control-placeholder {
@@ -39,23 +54,39 @@ input[type=text] {
   border: 0;
   outline: 0;
   background: transparent;
-  margin-left: 1em;
-  margin-bottom: .5em;
   border-bottom: 1px solid black;
-  height: 20px;
-  font-size: 16px;
-  width: 90%;
-  color: black;
-  padding: 20px;
+  height: 40px;
+  font-size: 18px;
 }
 
 input[type=text]:focus {
-  box-shadow: 0 4px 2px -2px #8b0000;
+  box-shadow:  0 4px 2px -2px  #8b0000;
+  height: 40px;
+  font-size: 18px;
 }
 
+input[type=password] {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 0;
+  margin-bottom: 2em;
+  outline: 0;
+  padding-top: 1.5em;
+  background: transparent;
+  border-bottom: 1px solid black;
+  height: 40px;
+  font-size: 18px;
+}
 
+input[type=password]:focus {
+  box-shadow:  0 4px 2px -2px  #8b0000;
+  height: 40px;
+  font-size: 18px;
+}
 
-.has-float-label .form-control:placeholder-shown:not(:focus) + * {
+.has-float-label .form-control:placeholder-shown:not(:focus)+* {
   font-size: 100%;
   opacity: .5;
   top: .3em;
@@ -64,27 +95,78 @@ input[type=text]:focus {
   margin-top: 30px;
 }
 
+i {
+  cursor: pointer;
+  margin-right: 1em;
+}
 
-textarea {
-  border-radius: 20px;
-  outline: none;
-  padding: 10px;
-  font-family: 'Sniglet', cursive;
-  font-size: 1em;
-  color: black;
-  transition: border 0.5s;
-  -webkit-transition: border 0.5s;
-  -moz-transition: border 0.5s;
-  -o-transition: border 0.5s;
-  border: solid 1px #8b0000;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+.errorLabel {
+  color: red;
+  margin: 10px;
+}
+
+.successLabel {
+  color: green;
+  margin: 10px;
 }
 
 
-.descriptionCells {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/*/deep/ .mat-select-content {*/
+/*z-index: 1000;*/
+/*position: absolute;*/
+/*}*/
+
+/*/deep/ .ng-trigger {*/
+/*z-index: 3000;*/
+/*position: relative;*/
+
+/*}*/
+
+.has-float-label label, .has-float-label>span {
+  position: absolute;
+  cursor: text;
+  font-size: 75%;
+  opacity: 1;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  top: -2em;
+  left: 12px;
+  z-index: 3;
+  line-height: 1;
+  padding: 0 1px;
 }
+
+/* Buttons */
+
+
+
+/* Table */
+
+/deep/ .table th, .table td {
+  vertical-align: inherit;
+}
+
+/deep/ i[_ngcontent-c1] {
+  vertical-align: inherit;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* DROPDOWN */
+
+/deep/ .cdk-overlay-container {
+  z-index: 1500;
+}
+
+/deep/ .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: darkred;
+}
+
+/deep/ .mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
+  background: darkred;
+}
+
+/deep/ .mat-form-field.mat-focused .mat-form-field-label {
+  color: darkred;
+}
+
