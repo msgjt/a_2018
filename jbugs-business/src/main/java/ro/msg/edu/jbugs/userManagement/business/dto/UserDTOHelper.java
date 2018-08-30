@@ -31,6 +31,7 @@ public class UserDTOHelper {
 
     public static User toEntity(@NotNull UserDTO userDTO,@NotNull User oldUser){
 
+        oldUser.setId(userDTO.getId() != null ? userDTO.getId() : oldUser.getId());
         oldUser.setFirstName(userDTO.getFirstName() != null ? userDTO.getFirstName() : oldUser.getFirstName());
         oldUser.setLastName(userDTO.getLastName() != null ? userDTO.getLastName() : oldUser.getLastName());
         oldUser.setEmail(userDTO.getEmail() != null ? userDTO.getEmail() : oldUser.getEmail());

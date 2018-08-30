@@ -66,6 +66,12 @@ public class UserResource {
                 .build();
     }
 
+    @Path("/username/{username}")
+    @GET
+    public UserDTO getUserByUsername(@PathParam("username") String username) {
+        return userManagement.getUserByUsername(username);
+    }
+
 }
 
 

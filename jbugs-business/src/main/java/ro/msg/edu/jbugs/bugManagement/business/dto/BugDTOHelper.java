@@ -3,6 +3,8 @@ import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +40,9 @@ public class BugDTOHelper {
         oldBug.setVersion(bugDTO.getVersion());
         oldBug.setSeverity(Severity.MEDIUM);
 
+        oldBug.setCreatedBy(new User());
         oldBug.setCreatedBy(UserDTOHelper.toEntity(bugDTO.getCreatedBy(),oldBug.getCreatedBy()));
+        oldBug.setAssignedTo(new User());
         oldBug.setAssignedTo(UserDTOHelper.toEntity(bugDTO.getAssignedTo(),oldBug.getAssignedTo()));
 
         oldBug.setDescription(bugDTO.getDescription());

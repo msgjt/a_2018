@@ -3,6 +3,8 @@ package ro.msg.edu.jbugs.userManagement.business.control;
 import ro.msg.edu.jbugs.shared.business.exceptions.CheckedBusinessException;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
@@ -23,5 +25,6 @@ public interface UserManagement {
     Set<String> getAllUserPermission(String username);
     List<Permission> getAllUserPermissionAsList(String username);
     boolean logout(String username);
+    User getOldUserFields(UserDTO newUserDTO);
 
 }

@@ -7,8 +7,12 @@ import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import * as jsPDF from 'jspdf';
 import {ActiveToast, ToastrService} from "ngx-toastr";
+import {switchMap} from "rxjs/operators";
+import {Observable} from "rxjs/internal/Observable";
+import {ObservableInput} from "rxjs/internal/types";
+import {flatMap} from "rxjs/internal/operators";
+import {User, UserService} from "../../user-management/services/user.service";
 
-//for commit
 @Component({
   selector: 'app-bugs-view',
   templateUrl: './bugs-view.component.html',
@@ -47,6 +51,7 @@ export class BugsViewComponent implements OnInit {
   bugModel: Bug;
   showInfoDiv: boolean = false;
   formData: FormData;
+  userList: User[];
 
   //Pagination
   public filter = { };
@@ -56,7 +61,7 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService) {
+  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService, private userService: UserService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
 
@@ -109,6 +114,10 @@ export class BugsViewComponent implements OnInit {
 
   ngOnInit() {
     this.pagesFormControl = new FormControl(0);
+    this.formData = new FormData();
+    this.userService.getAllUsers().subscribe(
+      (users) => {this.userList = users;}
+    );
   }
 
   exportToExcel() {
@@ -380,41 +389,70 @@ export class BugsViewComponent implements OnInit {
 
 
   submitAddData(){
-    this.bugService.sendFile(this.formData)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) =>{
-          console.log(error);
-          //TODO show error to user
-        }
-      );
-    this.bugService.createBug(this.bugModel,this.formData)
-      .subscribe(
-        (response) => {
-          console.log(response);
-        },
+    if(this.formData.has('file')) {
+      this.bugService.sendFile(this.formData)
+        .subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+            //TODO show error to user
+          }
+        );
+    }
+   /* this.bugService.getUserForBugCreation().subscribe(
+      (response) => {
+        this.bugModel.createdBy = response;
+        console.log(this.bugModel.createdBy);
+      },
         (error) => {
           console.log(error);
-        }
-      );
-    // this.bugService.createBug(this.bugModel,this.formData);
-      /*.subscribe(
-        (response) => {
-         /!* this.userService.getAllUsers().subscribe((user)=>this.userList=user);
-          this.errorOccurred = false;
-          this.positiveResponse = true;
-          this.clearUserModelFields();*!/
-         console.log(response);
-        },
-        (error) => {
-      /!*    this.errorMessage = error['error'];
-          this.positiveResponse = false;
-          this.errorOccurred = true;*!/
+        });
+    console.log(this.bugModel.createdBy);*/
+/*this.bugService.getUserForBugCreation().pipe(
+  flatMap((response) => {
+    this.bugModel.createdBy = response;
+    return this.bugService.getUserAssigned(this.bugModel.assignedTo.username);
+  }).subscribe((response) => {
+      console.log(response);
+      this.bugModel.assignedTo = response;
+    },
+    (error) => {
       console.log(error);
+    });
+},
+(error) => {
+  console.log(error);
+}));*/
+   // console.log(this.bugModel.createdBy);
+   /* this.bugService.getUserAssigned(this.bugModel.assignedTo.username)
+      .subscribe((response) => {
+        //  console.log(response);
+          this.bugModel.assignedTo = response;
+        },
+        (error) => {
+          console.log(error);
+        });*/
+   // console.log(this.bugModel.assignedTo);
+
+    let currentUsername = localStorage.getItem("currentUser");
+    let currentUser = this.userList.find(user => user.username == currentUsername);
+    console.log(currentUser);
+    this.bugModel.createdBy = currentUser;
+    let assignedUsername = this.bugModel.assignedTo.username;
+    this.bugModel.assignedTo = this.userList.find(user => user.username == assignedUsername);
+    console.log(this.bugModel);
+
+    this.bugService.createBug(this.bugModel)
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
         }
-      );*/
+      );
   }
 
   showInfo() {

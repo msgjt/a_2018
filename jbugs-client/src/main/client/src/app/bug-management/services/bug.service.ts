@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
@@ -47,7 +47,30 @@ export class BugService {
     return this.http.post<boolean>(this.baseURL + '/bugs/upload', formData, {headers});
   }
 
-  createBug(bug: Bug, formData: FormData) {
+  getUserForBugCreation(){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let id = localStorage.getItem("id");
+    //check if id exists
+    let url =  `${this.baseURL}/users/${id}`;
+    return this.http.get<User>(url, {headers:headers});
+
+  }
+
+  getUserAssigned(username){
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let url =  `${this.baseURL}/users/username/${username}`;
+    return this.http.get<User>(url, {headers:headers});
+  }
+
+  createBug(bug: Bug) {
     let currentUser = localStorage.getItem("currentUser");
     let webtoken = localStorage.getItem("webtoken");
     let headers = new HttpHeaders(

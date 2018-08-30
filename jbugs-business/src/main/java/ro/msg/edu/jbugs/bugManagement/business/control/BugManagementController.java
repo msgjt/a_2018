@@ -9,6 +9,8 @@ import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 
 import javax.ejb.EJB;
@@ -23,6 +25,9 @@ public class BugManagementController implements BugManagement {
 
     @EJB
     private BugPersistenceManager bugPersistenceManager;
+
+    @EJB
+    private UserManagement userManagement;
 
     @EJB
     private BugValidator bugValidator;
@@ -56,13 +61,17 @@ public class BugManagementController implements BugManagement {
         bugValidator.validateCreate(bugDTO);
         bugDTO.setStatus("Open");
 
-        if(bugDTO.getAttachment() != null){
+        if(bugDTO.getAttachment() != null && !bugDTO.getAttachment().equals("")){
             File file = new File(bugDTO.getAttachment());
             if(!file.exists()){
                 throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
             }
         }
         Bug bug = BugDTOHelper.toEntity(bugDTO,new Bug());
+        User userCreatedBy = userManagement.getOldUserFields(bugDTO.getCreatedBy());
+        User userAssignedTo = userManagement.getOldUserFields(bugDTO.getAssignedTo());
+        bug.setCreatedBy(userCreatedBy);
+        bug.setAssignedTo(userAssignedTo);
         bug = bugPersistenceManager.createBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
 

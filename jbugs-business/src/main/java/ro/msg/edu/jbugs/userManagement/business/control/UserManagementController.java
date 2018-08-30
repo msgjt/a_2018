@@ -361,7 +361,7 @@ public class UserManagementController implements UserManagement {
     
     
     
-    private User getOldUserFields(UserDTO newUserDTO){
+    public User getOldUserFields(UserDTO newUserDTO){
         User user =
             newUserDTO.getId() != null ?
                 (
