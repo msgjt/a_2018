@@ -4,7 +4,6 @@ import {NotificationService} from "../services/notification.service";
 import {interval} from "rxjs/internal/observable/interval";
 import {Notification} from "../entities/Notification";
 import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-notification',
@@ -15,21 +14,27 @@ export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
   public oldNotifications: Notification[];
-  public displayedAllNotifications: Notification[]=[];
-  public displayedNewNotifications: Notification[]=[];
+  public displayedAllNotifications: Notification[] = [];
+  public displayedNewNotifications: Notification[] = [];
   private NOTIFICATION_DELAY: number = 5000;
 
   constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router:Router) {
+              private router: Router) {
 
   }
 
+
   ngOnInit() {
-    this.getOldNotifications()
+    this.getOldNotifications();
+
+
+  }
+
+  getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
-      this.displayedNewNotifications=[];
+      this.displayedNewNotifications = [];
 
       source.subscribe(() => {
         let id = localStorage.getItem("id");
@@ -38,7 +43,6 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications = notifications;
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
-                this.displayedAllNotifications.push(n)
                 this.displayedNewNotifications.push(n)
               })
             }
@@ -63,33 +67,37 @@ export class NotificationComponent implements OnInit {
   }
 
 
-  getOldNotifications() {
+  getOldNotifications(){
     if (this.notificationService.wasInstantiatedForOld() == false) {
       this.notificationService.instantiateForOld();
       const source = interval(this.NOTIFICATION_DELAY);
-       let subscriber=source.subscribe(() => {
+      let subscriber = source.subscribe(() => {
         let id = localStorage.getItem("id");
-        if( id != null ) {
+        if (id != null) {
           this.notificationService.getOldNotifications().subscribe(notifications => {
-            this.oldNotifications = notifications;
-            if(this.oldNotifications.length!=0){
-              this.oldNotifications.forEach(n=>{
-                this.displayedAllNotifications.push(n)
-              })
-              subscriber.unsubscribe()
-              console.log(this.displayedAllNotifications)
-            }
-          },
-            (error)=>{
-              if(error.status == 403){
-                this.router.navigate(['/error']);
+              this.oldNotifications = notifications;
+              if (this.oldNotifications.length != 0) {
+                this.oldNotifications.forEach(n => {
+                  this.displayedAllNotifications.push(n)
+                });
+                subscriber.unsubscribe();
+                console.log(this.displayedAllNotifications);
               }
-              if(error.status == 401){
+            },
+            (error) => {
+              if (error.status == 403) {
+                localStorage.clear();
+                this.router.navigate(['/login']);
+              }
+              if (error.status == 401) {
                 this.router.navigate(['/norights']);
               }
-            });
+            },
+            ()=>this.getNewNotifications())
         }
       });
     }
   }
 }
+
+import {Router} from "@angular/router";

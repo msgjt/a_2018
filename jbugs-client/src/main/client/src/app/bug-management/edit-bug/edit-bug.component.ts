@@ -56,6 +56,14 @@ export class EditBugComponent implements OnInit {
       this.severityFormControl = new FormControl(this.bug.severity);
       this.statusFormControl = new FormControl(this.bug.status);
       this.oldStatus = null;
+    },(error)=>{
+      if(error.status == 403){
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      }
+      if(error.status == 401){
+        this.router.navigate(['/norights']);
+      }
     });
   }
 
