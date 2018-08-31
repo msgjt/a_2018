@@ -1,0 +1,9 @@
+<div class="alert alert-danger" role="alert">
+  Error occurred [{{errorMessage.id}}]: {{ errorMessage.type }}
+  <div *ngIf="errorMessage.details">
+    <div *ngFor="let d of getDetails()">
+      {{ d.detail }}
+    </div>
+  </div>
+</div>
+

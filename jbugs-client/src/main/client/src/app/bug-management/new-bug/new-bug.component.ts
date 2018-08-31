@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
 import {FormControl} from "@angular/forms";
@@ -10,25 +10,29 @@ import {FormControl} from "@angular/forms";
 })
 export class NewBugComponent implements OnInit {
 
-  @Input() severityFormControl: FormControl;
+  severityFormControl: FormControl;
   bugModel;
-  errorMessage: string;
+  errorMessage: any;
+  fileSendAttempted: boolean = false;
   errorOccurred: boolean = false;
   userList: User[];
   formData: FormData;
   positiveResponse: boolean = false;
   possibleSeverities: string[] = ['LOW','MEDIUM','HIGH','CRITICAL'];
   showInfoDiv: boolean = false;
+  submitAddPerformed: boolean = false;
+  @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
-  ngOnInit() {
+
+  resetBugModel(){
     this.bugModel = {
       id: 0,
       title: '',
       description: '',
       status: '',
-      severity: '',
+      severity: 'MEDIUM',
       fixedVersion: '',
       targetDate: '',
       version: '',
@@ -57,27 +61,46 @@ export class NewBugComponent implements OnInit {
       }
     };
 
+    this.severityFormControl = new FormControl(this.possibleSeverities.find(s => s === 'MEDIUM'));
+    this.formData = new FormData();
+
+  }
+
+  ngOnInit() {
+
+    this.resetBugModel();
+
+
     this.userService.getAllUsers().subscribe(
       (users) => {this.userList = users;}
     );
 
-    this.formData = new FormData();
   }
 
   submitAddData(){
+    this.submitAddPerformed = true;
+    this.errorOccurred = false;
+    this.errorMessage = "";
+    this.fileSendAttempted = false;
+
+
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
     if (currentUser === undefined){
-      this.errorMessage = 'Current user could not be retrieved';
+      this.errorMessage = {id: "5001",type: "Current user could not be retrieved"};
       this.errorOccurred = true;
+      this.submitAddPerformed = true;
+      this.resetBugModel();
       return;
     }
     this.bugModel.createdBy = currentUser;
     let assignedUsername = this.bugModel.assignedTo.username;
     let assignedUser = this.userList.find(user => user.username == assignedUsername);
     if (assignedUser === undefined){
-      this.errorMessage = 'Cannot find the assigned user';
+      this.errorMessage = { id:"5002",type: "Can not find the assigned user.",details:[]};
       this.errorOccurred = true;
+      this.submitAddPerformed = true;
+      this.resetBugModel();
       return;
     }
     this.bugModel.assignedTo = assignedUser;
@@ -92,23 +115,34 @@ export class NewBugComponent implements OnInit {
                 () => {
                   this.errorOccurred = false;
                   this.positiveResponse = true;
+                  this.fileSendAttempted = true;
+                  this.submitAddPerformed = true;
+                  this.resetBugModel();
+                  this.submitAdd();
                 },
                 (error) => {
                   this.positiveResponse = false;
                   this.errorMessage = error['error'];
                   this.errorOccurred = true;
+                  this.fileSendAttempted = true;
+                  this.resetBugModel();
                 }
               );
           }
           else {
             this.errorOccurred = false;
             this.positiveResponse = true;
+            this.submitAddPerformed = true;
+            this.resetBugModel();
+            this.submitAdd();
           }
         },
         (error) => {
           this.positiveResponse = false;
           this.errorMessage = error['error'];
           this.errorOccurred = true;
+          this.submitAddPerformed = true;
+          this.resetBugModel();
         }
       );
   }
@@ -132,5 +166,19 @@ export class NewBugComponent implements OnInit {
 
   hideInfo() {
     this.showInfoDiv = false;
+  }
+
+  submitAdd(){
+    if(this.errorOccurred == false && this.fileSendAttempted == true) {
+      this.closeBtn.nativeElement.click();
+    }
+    else {
+    }
+  }
+
+  startedEditing(): boolean {
+    return this.bugModel.title != '' || this.bugModel.fixedVersion != '' ||
+      this.bugModel.version != '' ||  this.bugModel.targetDate != '' ||
+      this.bugModel.description != '';
   }
 }

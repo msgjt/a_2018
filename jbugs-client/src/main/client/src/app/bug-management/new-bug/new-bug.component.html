@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
         <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">Submit a bug</h5>
-        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
+        <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" #closeBtn
                 aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -26,21 +26,8 @@
             <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description"
                       name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
           </div>
+
           <span class="form-group has-float-label">
-                <span class="help-block"
-                      *ngIf="severityAdd.errors?.required && severityAdd.touched" translate style="margin-top: 15px">demo.Severity is required.</span>
-                <input type="text"
-                       name="severityAdd"
-                       id="severityInputAdd"
-                       #severityAdd="ngModel"
-                       class="form-control"
-                       required
-                       placeholder=" "
-                       [(ngModel)]="bugModel.severity"
-                >
-                <label for="severityInputAdd" translate style="margin-top: 15px">demo.Severity</label>
-              </span>
-       <!--   <span class="form-group has-float-label">
             <mat-form-field>
               <mat-select placeholder='{{ "demo.Click to add severity"| translate}}' style="color: white"
                           [formControl]="severityFormControl"
@@ -48,7 +35,7 @@
                 <mat-option *ngFor="let severity of possibleSeverities" [value]="severity">{{ 'demo.' + severity| translate}}</mat-option>
               </mat-select>
             </mat-form-field>
-          </span>-->
+          </span>
 
           <div class="form-group">
             <div class="input-group">
@@ -103,10 +90,24 @@
           </div>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate>demo.Submit
+                  [disabled]="formControl.invalid" translate
+          >
+            demo.Submit
           </button>
-          <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
+          <div *ngIf="submitAddPerformed">
+          <label *ngIf="errorOccurred && ! startedEditing()" class="errorLabel">
+            <app-error-message [errorMessage]="errorMessage"> </app-error-message>
+          </label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+          <div class="alert alert-info" role="alert" *ngIf="fileSendAttempted==false && errorOccurred==false
+           && submitAddPerformed==true">
+            Please wait while we are validating the file...
+          </div>
+          </div>
+          <div class="alert alert-info" role="alert" *ngIf="formControl.invalid">
+            Information is not valid.
+          </div>
+
         </form>
       </div>
     </div>
