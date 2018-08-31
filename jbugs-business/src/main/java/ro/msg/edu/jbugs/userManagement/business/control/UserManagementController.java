@@ -289,7 +289,7 @@ public class UserManagementController implements UserManagement {
                 CustomLogger.logException(this.getClass(), "deactivateUser",
                         ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DISABLED);
                 throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
-                        DetailedExceptionCode.USER_DISABLED);
+                        DetailedExceptionCode.USER_COULD_NOT_BE_DISABLED);
             } else {
                 setActiveStatus(id, false);
             }
