@@ -3,6 +3,15 @@ body {
   padding-bottom: 30px;
 }
 
+#updateDiv,#passwordDiv{
+  background-color: whitesmoke;
+  align-self: center;
+  margin-top: 100px;
+}
+input{
+  height: 30px;
+font-size: 20px;
+}
 .sidenav {
   height: 100%;
   width: 280px;
@@ -30,7 +39,7 @@ body {
   margin-left: 400px;
 }
 
-#errorLabel,#errorLabel2 ,#errorLabel3,#errorLabel4{
+#errorLabel,#errorLabel1 ,#errorLabel2 ,#errorLabel3,#errorLabel4,#errorLabel5,#errorLabel6{
 
   color: red;
   font-weight: bold;
