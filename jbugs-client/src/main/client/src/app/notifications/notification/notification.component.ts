@@ -17,6 +17,7 @@ export class NotificationComponent implements OnInit {
   public oldNotifications: Notification[];
   public displayedAllNotifications: Notification[] = [];
   public displayedNewNotifications: Notification[] = [];
+  public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
 
   constructor(private notificationService: NotificationService, private toastrService: ToastrService,
@@ -38,7 +39,8 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications = notifications;
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
-                this.displayedNewNotifications.push(n)
+                this.displayedNewNotifications.push(n);
+                NotificationComponent.notifSize = this.displayedNewNotifications.length;
               })
             }
             this.currentNotifications.forEach(n => {
@@ -97,5 +99,17 @@ export class NotificationComponent implements OnInit {
   seeNotification(notification: Notification) {
     let index = this.displayedNewNotifications.findIndex(notif => notif.id == notification.id);
     this.displayedNewNotifications.splice(index,1);
+    this.displayedAllNotifications.push(notification);
+    NotificationComponent.notifSize--;
+  }
+
+  seeAllNotifications() {
+    this.displayedNewNotifications.forEach(notification => this.displayedAllNotifications.push(notification));
+    this.displayedNewNotifications.splice(0, this.displayedNewNotifications.length);
+    NotificationComponent.notifSize = 0;
+  }
+
+  static size(): number {
+    return NotificationComponent.notifSize;
   }
 }

@@ -13,7 +13,10 @@
           [mode]="'indeterminate'"
           [diameter]="24">
         </mat-progress-spinner>
-        <p *ngIf="displayedNewNotifications.length>0">Latest notifications</p>
+        <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
+          <span style="position: absolute; float: left; left: .5em;">Latest notifications</span>
+          <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">Mark all as read</a>
+        </div>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedNewNotifications.reverse()">
             <div class="card text-center background-tint">
@@ -31,7 +34,7 @@
             </div>
           </li>
         </ul>
-        <p *ngIf="displayedAllNotifications.length>0">All notifications</p>
+        <p *ngIf="displayedAllNotifications.length>0">Older notifications</p>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedAllNotifications.reverse()">
             <div class="card text-center">
