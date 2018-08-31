@@ -148,7 +148,7 @@ public class BugResource {
         }
         throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_COULD_NOT_DELETE_FILE);
     }
-    
+
     @GET
     @Path("/download/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
