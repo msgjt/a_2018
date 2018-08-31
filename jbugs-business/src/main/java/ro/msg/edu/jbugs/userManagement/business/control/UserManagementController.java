@@ -523,7 +523,12 @@ public class UserManagementController implements UserManagement {
                 if (failedCounter.get(userOptional.get().getUsername()) >= 4) {
                     //TODO this will rollback after the runtime exception is thrown
                     User disabledUser = userOptional.get();
-                    deactivateUser(disabledUser.getId());
+                    User user = userPersistenceManager.getUserById(disabledUser.getId())
+                            .orElseThrow(() -> new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                                    DetailedExceptionCode.USER_NOT_FOUND));
+                    user.setIsActive(false);
+                    userPersistenceManager.updateUser(user);
+
 
                     List<Long> ids = userPersistenceManager.getAllUsers().stream()
                             .filter(u -> u.getRoles().contains(userPersistenceManager.getRoleByType("ADM")))
