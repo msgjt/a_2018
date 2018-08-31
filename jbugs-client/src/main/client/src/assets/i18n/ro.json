@@ -81,6 +81,8 @@
     "Click to edit severity": "Click pentru a edit gravitatea",
     "Add a bug": "Adauga un bug",
     "Not able to edit this bug anymore, it was closed.": "Editarea acestui bug nu mai este posibila.",
-    "Delete attachment": "Sterge atasament"
+    "Delete attachment": "Sterge atasament",
+    "Passwords do not match": "Parolele nu corespund",
+    "Action completed successfully":"Actiune finalizata cu succes"
   }
 }

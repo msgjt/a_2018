@@ -112,10 +112,10 @@
     <label id="errorLabel6" *ngIf="lastName.errors?.minlength && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
     <label id="errorLabel5" *ngIf="phone.errors?.minlength && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
     <label id="errorLabel4" *ngIf="email.errors?.pattern && email.touched" translate
-          style="margin-top: 15px">E-mail is invalid.</label>
+          style="margin-top: 15px">demo.E-mail is invalid.</label>
 
     <label id="errorLabel" *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
-    <label id="succesLabel" *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+    <label id="succesLabel" *ngIf="positiveResponse" class="successLabel" translate="">demo.Action completed successfully</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back
@@ -157,7 +157,7 @@
     <label id="errorLabel3" *ngIf="password.errors?.pattern && password.touched &&(newPasswordConfirmed && newPassword)"
            class="errorLabel" translate>demo.Password is invalid.</label>
     <label id="errorLabel3" *ngIf="newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword"
-           class="errorLabel" translate>demo.Passwords do not match.</label>
+           class="errorLabel" translate>demo.Passwords do not match</label>
 
 
     <span

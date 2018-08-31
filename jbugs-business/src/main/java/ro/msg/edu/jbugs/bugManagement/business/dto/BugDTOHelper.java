@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 public class BugDTOHelper {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     /**
      * Convers a bug entity to a bugDTO.
      *
