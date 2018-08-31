@@ -181,4 +181,5 @@ export class NewBugComponent implements OnInit {
       this.bugModel.version != '' ||  this.bugModel.targetDate != '' ||
       this.bugModel.description != '';
   }
+
 }

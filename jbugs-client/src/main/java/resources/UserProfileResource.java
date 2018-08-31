@@ -33,7 +33,8 @@ public class UserProfileResource {
 
         UserDTO oldUser = userManagement.getUserById(userDTO.getId());
         UserDTO newUser = userManagement.updateUser(userDTO);
-        String message = Arrays.toString(new String[]{oldUser.toString(), newUser.toString()});
+        String message = Arrays.toString(new String[]{oldUser.getUsername(),oldUser.getFirstName(),oldUser.getLastName(),oldUser.getEmail(),oldUser.getPhoneNumber(),
+                newUser.getUsername(),newUser.getFirstName(),newUser.getLastName(),newUser.getEmail(), newUser.getPhoneNumber(),});
 
         Response result = Response.status(Response.Status.OK)
                 .entity(newUser)

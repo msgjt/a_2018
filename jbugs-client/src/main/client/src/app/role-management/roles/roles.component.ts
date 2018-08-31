@@ -32,7 +32,6 @@ export class RolesComponent implements OnInit {
     return formControl;
   }
 
-
   ngOnInit() {
     this.formControlList = [];
     this.roleService.getAllRoles().subscribe((roles) => {
@@ -52,7 +51,7 @@ export class RolesComponent implements OnInit {
       });
     },(error)=>{
       if(error.status == 403){
-        this.router.navigate(['/error']);
+        this.router.navigate(['/login']);
       }
       if(error.status == 401){
         this.router.navigate(['/norights']);

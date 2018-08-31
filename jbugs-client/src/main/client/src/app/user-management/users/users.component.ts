@@ -36,6 +36,13 @@ export class UsersComponent implements OnInit {
     this.refresh();
   }
 
+  isLoggedIn() {
+    let result = localStorage.getItem(LSKEY) != null;
+    if(result == false)
+      this.router.navigate(['/login']);
+    return result;
+  }
+
   refresh(){
     this.editRolesFormControl = new FormControl();
     this.userService.getAllUsers().subscribe((user) => {

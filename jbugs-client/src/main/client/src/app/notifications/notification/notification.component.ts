@@ -21,16 +21,13 @@ export class NotificationComponent implements OnInit {
   public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
 
-  constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router: Router) {
+  constructor(private notificationService: NotificationService, private toastrService: ToastrService, private router: Router) {
 
   }
 
   ngOnInit() {
     this.getOldNotifications();
-
   }
-
 
   getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
@@ -60,7 +57,8 @@ export class NotificationComponent implements OnInit {
             });
           },(error)=>{
             if(error.status == 403){
-              this.router.navigate(['/error']);
+              localStorage.clear();
+              this.router.navigate(['/login']);
             }
             if(error.status == 401){
               this.router.navigate(['/norights']);
@@ -70,7 +68,6 @@ export class NotificationComponent implements OnInit {
       });
     }
   }
-
 
   toHide(notification) {
     return this.displayedNewNotifications.findIndex(n => n.id == notification.id) == -1;
@@ -90,7 +87,6 @@ export class NotificationComponent implements OnInit {
                 this.displayedAllNotifications.push(n)
               });
               subscriber.unsubscribe();
-              console.log('OLD: ' + this.displayedAllNotifications)
             }
           },
             (error)=>{
