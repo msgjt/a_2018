@@ -55,7 +55,8 @@ export class UserProfileComponent implements OnInit {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
-        this.router.navigate(['/error']);
+        localStorage.clear();
+        this.router.navigate(['/login']);
       }
       if(error.status == 401){
         this.router.navigate(['/norights']);
@@ -118,5 +119,12 @@ export class UserProfileComponent implements OnInit {
     if (value == "null" || value == " " || value == null)
       value = "";
     return value;
+  }
+
+  isLoggedIn() {
+    let result = localStorage.getItem("currentUser") != null;
+    if(result == false)
+      this.router.navigate(['/login']);
+    return result;
   }
 }

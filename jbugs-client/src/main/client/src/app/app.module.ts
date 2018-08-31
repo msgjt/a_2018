@@ -82,7 +82,7 @@ const appRoutes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path: 'roles', component: RolesComponent
+    path: 'roles', component: RolesComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: 'bugs', component: BugsViewComponent, canActivate: [AuthenticatedGuard]
