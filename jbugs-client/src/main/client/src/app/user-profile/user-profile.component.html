@@ -3,9 +3,9 @@
 
 <div class="sidenav">
   <p> Welcome back, {{userModel.username}}</p>
-  <a (click)="errorOccurred=false;showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
-  <a (click)="errorOccurred=false;showInfoDiv=false;showUpdate=true;showPassword=false;refresh()">Change data</a>
-  <a (click)="errorOccurred=false;showInfoDiv=false;showUpdate=false;showPassword=true;refresh()">Change password</a>
+  <a (click)="positiveResponse=false;errorOccurred=false;showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
+  <a (click)="positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=true;showPassword=false;refresh()">Change data</a>
+  <a (click)="positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=false;showPassword=true;refresh()">Change password</a>
 </div>
 
 <div
