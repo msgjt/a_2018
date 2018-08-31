@@ -40,7 +40,8 @@ export class UsersComponent implements OnInit {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
-        this.router.navigate(['/error']);
+        localStorage.clear();
+        this.router.navigate(['/login']);
       }
       if(error.status == 401){
         this.router.navigate(['/norights']);
