@@ -117,7 +117,8 @@ public class BugResource {
             id = new Long(Integer.parseInt(bugId));
         }
         catch (Exception e){
-            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.BUG_NOT_FOUND);
         }
         BugDTO oldBug = bugManagement.getBugById(id);
         oldBug.setAttachment(fileDetail.getFileName());
