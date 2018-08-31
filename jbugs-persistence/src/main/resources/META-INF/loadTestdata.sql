@@ -8,6 +8,8 @@ DELETE FROM ROLES_PERMISSIONS;
 INSERT INTO USERS (firstname, lastname, phoneNumber, email, username, password, isActive) VALUES ('Ioan', 'Ioan', '0720512346', 'ioan@msggroup.com','ioani', 'ëØ[SŽL›@@í+<nS·', 1);
 INSERT INTO USERS (firstname, lastname, phoneNumber, email, username, password, isActive) VALUES ('Gigi', 'Gigi', '0720512346', 'gigi@msggroup.com','gigig', 'ëØ[SŽL›@@í+<nS·', 1 );
 INSERT INTO USERS (firstname, lastname, phoneNumber, email, username, password, isActive) VALUES ('Titus', 'Titus', '0720512346', 'titus3@msggroup.com','titust', 'ëØ[SŽL›@@í+<nS·', 1);
+
+
 -- other tables TODO
 INSERT INTO ROLES (type) VALUES ('ADM');
 INSERT INTO ROLES (type) VALUES ('PM');
@@ -44,40 +46,40 @@ INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,3);
 INSERT INTO roles_permissions (Role_ID, permissions_ID) VALUES (4,4);
 
 
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file.xls");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"InProgress","2018-08-21","Bug in Screen","version 2",3,"file.pdf");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-22","Bug in Screen","version 2",3,"file.odf");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file.png");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file.xlsx");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file.doc");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"InProgress","2018-08-23","Bug in Screen","version 2",3,"file.jpg");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file.docx");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"InProgress","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"InProgress","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-22","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",2,"Open","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"InProgress","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-21","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-22","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-21","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",3,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","version 1",1,"Rejected","2018-08-23","Bug in Screen","version 2",3,"file");
-INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","version 1",2,"InfoNeeded","2018-08-23","Bug in Screen","version 2",3,"file");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",2,"Open","2018-08-23","Bug in Screen","v1.1",3,"file.xls");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",1,"InProgress","2018-08-21","Bug in Screen","v1.1",3,"file.pdf");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-22","Bug in Screen","v1.1",3,"file.odf");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3,"file.png");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3,"file.xlsx");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",2,"Open","2018-08-23","Bug in Screen","v1.1",3,"file.doc");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",1,"InProgress","2018-08-23","Bug in Screen","v1.1",3,"file.jpg");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo,attachment) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3,"file.docx");
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",2,"Open","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"InProgress","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",2,"Open","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"InProgress","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-22","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",2,"Open","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"InProgress","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-21","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-22","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-21","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",3,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) VALUES("screen flickers","v1.1",1,"Rejected","2018-08-23","Bug in Screen","v1.1",3);
+INSERT INTO bugs(description,fixedVersion,severity,status,targetDate,title,version,assignedTo) values("screen flickers","v1.1",2,"InfoNeeded","2018-08-23","Bug in Screen","v1.1",3);
 
 INSERT INTO notifications(URL,message,status,type) VALUES("www.google.com","Welcome to JBugger!","not_read","WELCOME_NEW_USER");
 INSERT INTO notifications(URL,message,status,type) VALUES("www.google.com","User updated successfully","not_read","USER_UPDATED");

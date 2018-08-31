@@ -65,7 +65,8 @@ public class UserResource {
 
         UserDTO oldUser = userManagement.getUserById(userDTO.getId());
         UserDTO newUser = userManagement.updateUser(userDTO);
-        String message = Arrays.toString(new String[]{oldUser.toString(), newUser.toString()});
+        String message = Arrays.toString(new String[]{oldUser.getUsername(),oldUser.getFirstName(),oldUser.getLastName(),oldUser.getEmail(),oldUser.getPhoneNumber(),
+                newUser.getUsername(),newUser.getFirstName(),newUser.getLastName(),newUser.getEmail(), newUser.getPhoneNumber(),});
 
         Response result = Response.status(Response.Status.OK)
                 .entity(newUser)
@@ -82,7 +83,6 @@ public class UserResource {
         Response result = Response.status(Response.Status.OK)
                 .entity(deactivated)
                 .build();
-
 
         List<Long> ids = userManagement.getAllUsers().stream()
                 .filter(u -> userManagement.getAllUserPermissionAsList(u.getUsername()).stream()

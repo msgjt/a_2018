@@ -1,6 +1,7 @@
 package ro.msg.edu.jbugs.bugManagement.business.control;
 
 import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
+import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 
 import java.util.List;

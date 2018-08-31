@@ -2,12 +2,10 @@ package ro.msg.edu.jbugs.bugsManagement.persistence.dao;
 
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +43,9 @@ public class BugPersistenceManager {
     public Bug updateBug(@NotNull Bug bug) {
         CustomLogger.logEnter(this.getClass(), "updateBug", bug.toString());
 
-        em.persist(bug);
+        Bug old = em.find(Bug.class,bug.getId());
+        old.copyFieldsFrom(bug);
+        em.merge(old);
 
         CustomLogger.logExit(this.getClass(), "updateBug", bug.toString());
         return bug;
@@ -62,6 +62,15 @@ public class BugPersistenceManager {
         List<Bug> result = em.createNamedQuery(Bug.GET_ALL_BUGS, Bug.class)
                 .getResultList();
         CustomLogger.logExit(this.getClass(), "getAllBugs", result.toString());
+        return result;
+    }
+
+    public List<Bug> getAllBugsForUser(User user) {
+
+
+        Query q = em.createQuery("select n from Bug n where n.assignedTo = :user " );
+        q.setParameter("user",user);
+        List<Bug> result = q.getResultList();
         return result;
     }
 
@@ -105,4 +114,6 @@ public class BugPersistenceManager {
         CustomLogger.logExit(this.getClass(), "getBugById", result.toString());
         return result;
     }
+
+
 }
