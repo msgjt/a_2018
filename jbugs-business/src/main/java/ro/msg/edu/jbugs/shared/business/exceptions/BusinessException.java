@@ -1,5 +1,6 @@
 package ro.msg.edu.jbugs.shared.business.exceptions;
 
+import javax.json.Json;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,14 @@ public class BusinessException extends RuntimeException {
      * @param detailedExceptionCode detailed exception code (will describe the reasoning behind the controller fail)
      */
     public BusinessException(ExceptionCode exceptionCode, DetailedExceptionCode detailedExceptionCode) {
-        super("{id=" + exceptionCode.id + detailedExceptionCode.id
-                + ", type=" + exceptionCode.message
-                + ", details={" + detailedExceptionCode.message + "}}");
+        super(new String("{" +
+                "\"id\":\"" + exceptionCode.id + detailedExceptionCode.id + "\"," +
+                "\"type\":\"" + exceptionCode.message + "\"," +
+                "\"details\":[" +
+                "{\"detail\":\"" + detailedExceptionCode.message + "\"}" +
+                "]" +
+                "}"));
+
         this.exceptionCode = exceptionCode;
         this.detailedExceptionCode = detailedExceptionCode;
     }

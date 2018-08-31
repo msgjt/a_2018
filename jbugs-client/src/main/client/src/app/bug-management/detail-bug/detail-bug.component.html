@@ -81,6 +81,10 @@
         </form>
       </div>
       <div class="modal-footer">
+        <button class="btn btn-default"
+                style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;" (click)="downloadAttachment(detailedBug.id)">
+          Attachment
+        </button>
         <button *ngIf="isBUG_EXPORT_PDF()" class="btn btn-default"
                 style="width: 90px; height: 40px; margin-bottom: .75em; background-color: darkred; color: white; padding-right: 1.5em; padding-bottom: .5em; font-size: 14px;" (click)="exportToPdf(detailedBug.description,detailedBug.fixedVersion,
             detailedBug.severity,detailedBug.status,detailedBug.targetDate,

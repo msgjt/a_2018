@@ -1,3 +1,6 @@
+
+<div *ngIf="  isLoggedIn() ">
+
 <link rel="stylesheet"
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
@@ -145,7 +148,7 @@
               <input type="text"
                      name="email"
                      minlength="5"
-                     pattern="^[a-zA-Z0-9]*@msggroup.com$"
+                     pattern="^[a-zA-Z0-9]{2,}@msggroup.com$"
                      id="emailInputUpdate"
                      #email="ngModel"
                      #emailId
@@ -325,4 +328,5 @@
       <!--</div>-->
     </div>
   </div>
+</div>
 </div>

@@ -68,6 +68,7 @@ import {NotificationComponent} from './notifications/notification/notification.c
 import {NotificationService} from "./notifications/services/notification.service";
 import { NewBugComponent } from './bug-management/new-bug/new-bug.component';
 import { DetailBugComponent } from './bug-management/detail-bug/detail-bug.component';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 import {TooltipModule} from "ngx-bootstrap";
 
 const appRoutes: Routes = [
@@ -81,7 +82,7 @@ const appRoutes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path: 'roles', component: RolesComponent
+    path: 'roles', component: RolesComponent, canActivate: [AuthenticatedGuard]
   },
   {
     path: 'bugs', component: BugsViewComponent, canActivate: [AuthenticatedGuard]
@@ -161,6 +162,7 @@ export class MaterialModule {
     UserProfileComponent,
     RolesComponent,
     FilterPipe,
+    ErrorMessageComponent,
     DetailBugComponent,
     NotificationComponent
   ],
