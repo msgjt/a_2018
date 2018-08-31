@@ -77,6 +77,7 @@
     "Click to edit status": "Click to edit status",
     "Click to edit severity": "Click to edit severity",
     "Add a bug": "Add a bug",
-    "Not able to edit this bug anymore, it was closed.": "Not able to edit this bug anymore, it was closed."
+    "Not able to edit this bug anymore, it was closed.": "Not able to edit this bug anymore, it was closed.",
+    "Delete attachment": "Delete attachment"
   }
 }

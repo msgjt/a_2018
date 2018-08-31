@@ -80,6 +80,7 @@
     "Click to edit status": "Click pentru a edita statusul",
     "Click to edit severity": "Click pentru a edit gravitatea",
     "Add a bug": "Adauga un bug",
-    "Not able to edit this bug anymore, it was closed.": "Editarea acestui bug nu mai este posibila."
+    "Not able to edit this bug anymore, it was closed.": "Editarea acestui bug nu mai este posibila.",
+    "Delete attachment": "Sterge atasament"
   }
 }

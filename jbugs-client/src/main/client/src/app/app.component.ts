@@ -3,6 +3,7 @@ import {LSKEY, UserService} from "./user-management/services/user.service";
 import {Router} from "@angular/router";
 import {TranslateService} from '@ngx-translate/core';
 import {NotificationService} from "./notifications/services/notification.service";
+import {NotificationComponent} from "./notifications/notification/notification.component";
 
 @Component({
   selector: 'app-root',
@@ -66,5 +67,9 @@ export class AppComponent {
     this.notificationService.getNewNotifications().subscribe(notification=>{
       this.newNotificationList=notification;
     })
+  }
+
+  size(): number {
+    return NotificationComponent.size();
   }
 }
