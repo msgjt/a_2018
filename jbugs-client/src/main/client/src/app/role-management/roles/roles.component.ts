@@ -30,7 +30,6 @@ export class RolesComponent implements OnInit {
     return formControl;
   }
 
-
   ngOnInit() {
     this.formControlList = [];
     this.roleService.getAllRoles().subscribe((roles) => {

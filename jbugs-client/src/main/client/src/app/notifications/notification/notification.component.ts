@@ -20,8 +20,7 @@ export class NotificationComponent implements OnInit {
   public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
 
-  constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router: Router) {
+  constructor(private notificationService: NotificationService, private toastrService: ToastrService, private router: Router) {
 
   }
 
@@ -63,7 +62,6 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-
   getOldNotifications() {
     if (this.notificationService.wasInstantiatedForOld() == false) {
       this.notificationService.instantiateForOld();
@@ -78,7 +76,6 @@ export class NotificationComponent implements OnInit {
                 this.displayedAllNotifications.push(n)
               });
               subscriber.unsubscribe();
-              console.log(this.displayedAllNotifications)
             }
           },
             (error)=>{
