@@ -68,6 +68,7 @@ import {NotificationComponent} from './notifications/notification/notification.c
 import {NotificationService} from "./notifications/services/notification.service";
 import { NewBugComponent } from './bug-management/new-bug/new-bug.component';
 import { DetailBugComponent } from './bug-management/detail-bug/detail-bug.component';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 import {TooltipModule} from "ngx-bootstrap";
 
 const appRoutes: Routes = [
@@ -161,6 +162,7 @@ export class MaterialModule {
     UserProfileComponent,
     RolesComponent,
     FilterPipe,
+    ErrorMessageComponent,
     DetailBugComponent,
     NotificationComponent
   ],

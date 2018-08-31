@@ -1,5 +1,6 @@
 package resources;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import ro.msg.edu.jbugs.bugManagement.business.control.BugManagement;
@@ -117,7 +118,8 @@ public class BugResource {
             id = new Long(Integer.parseInt(bugId));
         }
         catch (Exception e){
-            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.BUG_NOT_FOUND);
         }
         BugDTO oldBug = bugManagement.getBugById(id);
         oldBug.setAttachment(fileDetail.getFileName());
@@ -146,6 +148,24 @@ public class BugResource {
             return Response.status(Response.Status.OK).build();
         }
         throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_COULD_NOT_DELETE_FILE);
+    }
+
+    @GET
+    @Path("/download/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response downloadFile(@PathParam("id") Long bugId)
+    {
+
+        BugDTO bugDTO = bugManagement.getBugById(bugId);
+        File objFile = new File("" + bugId + "-" + bugDTO.getAttachment());
+        if (objFile.exists()){
+            return Response.ok(objFile,MediaType.APPLICATION_OCTET_STREAM)
+                    .header("Content-Disposition",
+                            "attachment; filename="+objFile.getName())
+                    .header("filename", bugDTO.getAttachment())
+                    .build();
+        }
+        throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
     }
 
     private void saveToFile(InputStream uploadedInputStream,

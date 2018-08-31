@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {toBase64String} from "@angular/compiler/src/output/source_map";
+import {BugService} from "../services/bug.service";
+import { saveAs } from 'file-saver/FileSaver';
 declare var jsPDF: any;
 
 @Component({
@@ -12,7 +14,7 @@ export class DetailBugComponent implements OnInit {
 
   @Input() detailedBug;
 
-  constructor() { }
+  constructor(private bugService: BugService) { }
 
   ngOnInit() {
   }
@@ -71,5 +73,19 @@ export class DetailBugComponent implements OnInit {
       }
     });
     doc.save(title+'_'+version+'.pdf');
+  }
+
+  downloadAttachment(id){
+    this.bugService.downloadAttachment(id)
+      .subscribe(
+        (response) => {
+          //let filename = response.headers.get('filename');
+          console.log(response);
+          //console.log(filename);
+          let filename = 'file';
+          saveAs(response, filename);
+          },
+        (error) => {console.log(error);}
+      );
   }
 }

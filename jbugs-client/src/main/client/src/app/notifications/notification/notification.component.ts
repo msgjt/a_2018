@@ -27,6 +27,11 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit() {
     this.getOldNotifications();
+
+  }
+
+
+  getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
@@ -40,14 +45,16 @@ export class NotificationComponent implements OnInit {
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
                 this.displayedNewNotifications.push(n);
+
                 NotificationComponent.notifSize = this.displayedNewNotifications.length;
               })
             }
+            console.log("NEW: " + this.displayedNewNotifications);
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
                 .onShown.subscribe(() => {
-                  let sound = new Audio("../../../assets/notificationsound.mp3");
-                  sound.play();
+                let sound = new Audio("../../../assets/notificationsound.mp3");
+                sound.play();
               });
             });
           },(error)=>{
@@ -65,6 +72,10 @@ export class NotificationComponent implements OnInit {
   }
 
 
+  toHide(notification) {
+    return this.displayedNewNotifications.findIndex(n => n.id == notification.id) == -1;
+  }
+
   getOldNotifications() {
     if (this.notificationService.wasInstantiatedForOld() == false) {
       this.notificationService.instantiateForOld();
@@ -79,7 +90,7 @@ export class NotificationComponent implements OnInit {
                 this.displayedAllNotifications.push(n)
               });
               subscriber.unsubscribe();
-              console.log(this.displayedAllNotifications)
+              console.log('OLD: ' + this.displayedAllNotifications)
             }
           },
             (error)=>{
@@ -90,7 +101,8 @@ export class NotificationComponent implements OnInit {
               if(error.status == 401){
                 this.router.navigate(['/norights']);
               }
-            });
+            },
+            () => this.getNewNotifications());
         }
       });
     }
