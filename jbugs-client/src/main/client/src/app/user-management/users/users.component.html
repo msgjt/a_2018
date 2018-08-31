@@ -42,12 +42,12 @@
             </button>
           </td>
           <td>
-            <i class="material-icons" *ngIf="user.isActive" style="font-size: 28px; cursor: default;">check_circle_outline</i>
-            <i class="material-icons" *ngIf="!user.isActive" style="font-size: 28px; cursor: default;">highlight_off</i>
+            <i tooltip="Active user" data-placement="right" class="material-icons" *ngIf="user.isActive" style="font-size: 28px; cursor: default;">check_circle_outline</i>
+            <i tooltip="Inactive user" data-placement="right" class="material-icons" *ngIf="!user.isActive" style="font-size: 28px; cursor: default;">highlight_off</i>
           </td>
           <td>
             <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+              <i tooltip="Edit user" data-placement="left" class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
               <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
                       (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
               </button>
@@ -59,6 +59,7 @@
         </tr>
         </tbody>
       </table>
+      <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
     </div>
   </div>
 </div>

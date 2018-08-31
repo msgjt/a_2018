@@ -11,6 +11,7 @@ import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
 import ro.msg.edu.jbugs.shared.business.exceptions.ExceptionCode;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.EJB;
@@ -88,11 +89,10 @@ public class BugManagementController implements BugManagement {
 
         bugValidator.validateUpdate(bugDTO);
 
-        Bug bug = bugPersistenceManager.getBugById(bugDTO.getId()).orElseThrow(() ->
-                new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION,
-                        DetailedExceptionCode.BUG_NOT_FOUND));
 
-        bug = BugDTOHelper.toEntity(bugDTO, bug);
+
+        Bug bug = BugDTOHelper.toEntityOneParam(bugDTO);
+
 
         if (!canChangeStatus(bug)) {
             CustomLogger.logException(this.getClass(), "updateBug", "STATUS_INCOMPATIBLE");
@@ -100,12 +100,18 @@ public class BugManagementController implements BugManagement {
                     DetailedExceptionCode.BUG_STATUS_INCOMPATIBLE);
         }
 
+
+        bug.setAssignedTo(userManagement.getOldUserFields(UserDTOHelper.fromEntity( bug.getAssignedTo())));
+        bug.setCreatedBy(userManagement.getOldUserFields(UserDTOHelper.fromEntity(bug.getCreatedBy())));
+
         bug = bugPersistenceManager.updateBug(bug);
         BugDTO result = BugDTOHelper.fromEntity(bug);
 
         CustomLogger.logExit(this.getClass(), "updateBug", result.toString());
         return result;
     }
+
+
 
     /**
      * Checks if the desired update of the status can be done.

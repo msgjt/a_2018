@@ -9,13 +9,21 @@
         </button>
       </div>
       <div class="modal-body" style="padding: 0; text-align: center;">
-        <p *ngIf="displayedNewNotifications.length>0">Latest notifications</p>
+        <mat-progress-spinner class="spinner" *ngIf="displayedAllNotifications.length==0" style="margin: 1em auto;"
+          [mode]="'indeterminate'"
+          [diameter]="24">
+        </mat-progress-spinner>
+        <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
+          <span style="position: absolute; float: left; left: .5em;">Latest notifications</span>
+          <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">Mark all as read</a>
+        </div>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedNewNotifications.reverse()">
-            <div class="card text-center">
+            <div class="card text-center background-tint">
               <div class="card-header">
                 {{ notification.type }}
-                <i class="fas fa-glasses" [hidden]="toHide(notification)" data-placement="bottom" title="Mark as read" (click)="displayedNewNotifications.splice(displayedNewNotifications.findIndex(notification), 1);"></i>
+
+                <i class="fas fa-glasses" (click)="seeNotification(notification);" data-placement="left" tooltip="Mark as read"></i>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ notification.message }}</h5>
@@ -27,7 +35,7 @@
             </div>
           </li>
         </ul>
-        <p>All notifications</p>
+        <p *ngIf="displayedAllNotifications.length>0">Older notifications</p>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedAllNotifications.reverse()">
             <div class="card text-center">

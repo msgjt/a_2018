@@ -1,7 +1,7 @@
 import {Bug, BugService} from "../services/bug.service";
 import {Router} from "@angular/router";
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserService} from "../../user-management/services/user.service";
+import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
 
 
@@ -21,11 +21,14 @@ export class EditBugComponent implements OnInit {
   possibleSeverities: string[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
   oldStatus: string = null;
   formData: FormData;
+  userList: User[];
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
     this.formData = new FormData();
-
+    this.userService.getAllUsers().subscribe(users => {
+      this.userList = users;
+    });
   }
 
 
@@ -46,12 +49,20 @@ export class EditBugComponent implements OnInit {
   }
 
   submitEditForm() {
-    this.userService.getAllUsers().subscribe(users => {
-      this.bug.assignedTo = users.find(user => user.username === this.bug.assignedTo.username)
-    });
-    if (this.bug.assignedTo == null) {
-      // error
+    let assignedUser: User;
+    assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
+    console.log(assignedUser);
+
+    if (assignedUser === undefined) {
+      this.positiveResponse = false;
+      this.errorMessage = 'Cannot find the assigned user';
+      this.errorOccurred = true;
+      return;
     }
+    else {
+      this.errorMessage = '';
+    }
+    this.bug.assignedTo = assignedUser;
     this.bugService.updateBug(this.bug).subscribe(() => {
       this.severityFormControl = new FormControl(this.bug.severity);
       this.statusFormControl = new FormControl(this.bug.status);
@@ -61,14 +72,31 @@ export class EditBugComponent implements OnInit {
         this.bugService.sendFile(this.formData)
           .subscribe(
             () => {
-              console.log('success');
+              this.errorOccurred = false;
+              this.positiveResponse = true;
             },
             (error) => {
-              console.log(error);
+              this.errorMessage = error['error'];
+              this.positiveResponse = false;
+              this.errorOccurred = true;
             }
           );
       }
-    });
+      this.errorOccurred = false;
+      this.positiveResponse = true;
+    },
+      (error) => {
+        if(error.status == 403){
+          localStorage.clear();
+          this.router.navigate(['/login']);
+        }
+        if(error.status == 401){
+          this.router.navigate(['/norights']);
+        }
+        this.errorMessage = error['error'];
+        this.positiveResponse = false;
+        this.errorOccurred = true;
+      });
   }
 
   getPossibleStates(bug: Bug) {
@@ -93,11 +121,12 @@ export class EditBugComponent implements OnInit {
   deleteAttachment(id) {
     this.bugService.deleteAttachment(id)
       .subscribe(
-        (response) => {
-          console.log(response);
+        () => {
         },
         (error) => {
-          console.log(error);
+          this.errorMessage = error['error'];
+          this.positiveResponse = false;
+          this.errorOccurred = true;
         }
       );
   }

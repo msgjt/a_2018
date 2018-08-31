@@ -14,12 +14,12 @@
   <div class="collapse navbar-collapse " id="navbarsExampleDefault">
     <ul class="nav navbar-nav " style="margin-top: .5em;">
       <li>
-        <a class="nav-link" routerLink="home"><i class="material-icons"
+        <a class="nav-link" tooltip="Home" data-placement="bottom" routerLink="home"><i class="material-icons"
                                                  style="font-size: 36px;margin: 3px 10px 0 20px;">home</i></a>
       </li>
       <li class="nav-item">
 
-        <a class="nav-link" routerLink="user_profile" *ngIf="isUserLoggedIn()"><i class="material-icons"
+        <a class="nav-link" tooltip="User profile" data-placement="bottom" routerLink="user_profile" *ngIf="isUserLoggedIn()"><i class="material-icons"
                                                                                  style="font-size: 36px;margin: 3px 10px 0 ;">account_circle</i></a>
       </li>
       <li class="nav-item">
@@ -27,7 +27,7 @@
            translate>demo.Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="users" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i
+        <a class="nav-link" routerLink="users" tooltip="Users" data-placement="bottom" *ngIf="isUserLoggedIn() && isUSER_MANAGEMENT()"><i
           class="material-icons" style="font-size: 36px; margin: 3px 10px 0 20px;">supervisor_account</i></a>
       </li>
       <li class="nav-item">
@@ -44,7 +44,7 @@
       <li class="nav-item">
         <a tabindex="0" data-toggle="modal" data-target="#notificationsModal" class="nav-link"
            style="margin: 0 .7em 0 0;cursor: pointer; font-size: 26px; color: #420000" *ngIf="isUserLoggedIn()"><i
-          class="fas fa-bell"></i></a>
+          class="fas fa-bell"></i><i class="fa fa-exclamation-circle" aria-hidden="true" style="font-size: 12px; color: white; position: absolute; margin-bottom: 1.2em; margin-left: -.5em;" *ngIf="size() > 0"></i></a>
       </li>
       <li class="dropdown">
         <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle"

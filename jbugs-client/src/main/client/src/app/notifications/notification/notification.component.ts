@@ -15,12 +15,13 @@ export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
   public oldNotifications: Notification[];
-  public displayedAllNotifications: Notification[]=[];
-  public displayedNewNotifications: Notification[]=[];
+  public displayedAllNotifications: Notification[] = [];
+  public displayedNewNotifications: Notification[] = [];
+  public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
 
   constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router:Router) {
+              private router: Router) {
 
   }
 
@@ -44,6 +45,8 @@ export class NotificationComponent implements OnInit {
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
                 this.displayedNewNotifications.push(n);
+
+                NotificationComponent.notifSize = this.displayedNewNotifications.length;
               })
             }
             console.log("NEW: " + this.displayedNewNotifications);
@@ -91,7 +94,8 @@ export class NotificationComponent implements OnInit {
           },
             (error)=>{
               if(error.status == 403){
-                this.router.navigate(['/error']);
+                localStorage.clear();
+                this.router.navigate(['/login']);
               }
               if(error.status == 401){
                 this.router.navigate(['/norights']);
@@ -101,5 +105,22 @@ export class NotificationComponent implements OnInit {
         }
       });
     }
+  }
+
+  seeNotification(notification: Notification) {
+    let index = this.displayedNewNotifications.findIndex(notif => notif.id == notification.id);
+    this.displayedNewNotifications.splice(index,1);
+    this.displayedAllNotifications.push(notification);
+    NotificationComponent.notifSize--;
+  }
+
+  seeAllNotifications() {
+    this.displayedNewNotifications.forEach(notification => this.displayedAllNotifications.push(notification));
+    this.displayedNewNotifications.splice(0, this.displayedNewNotifications.length);
+    NotificationComponent.notifSize = 0;
+  }
+
+  static size(): number {
+    return NotificationComponent.notifSize;
   }
 }

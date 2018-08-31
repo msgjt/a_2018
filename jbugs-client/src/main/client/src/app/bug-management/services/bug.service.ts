@@ -110,4 +110,15 @@ export class BugService {
     let url = `${this.baseURL}/bugs/upload/${id}`;
     return this.http.delete(url,{headers});
   }
+
+  downloadAttachment(id) {
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    headers.append('accept', 'application/octet-stream');
+    let url = `${this.baseURL}/bugs/download/${id}`;
+    return this.http.get(url,{headers: headers, responseType: 'blob', observe: "response"});
+  }
 }

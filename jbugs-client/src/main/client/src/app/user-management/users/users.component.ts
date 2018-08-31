@@ -40,7 +40,8 @@ export class UsersComponent implements OnInit {
       this.userList = user;
     },(error)=>{
       if(error.status == 403){
-        this.router.navigate(['/error']);
+        localStorage.clear();
+        this.router.navigate(['/login']);
       }
       if(error.status == 401){
         this.router.navigate(['/norights']);
@@ -81,14 +82,18 @@ export class UsersComponent implements OnInit {
   disableUser(user: any) {
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
+        this.errorOccurred = false;
+        this.positiveResponse = true;
+        this.userList[user.id - 1].isActive = false;
+        this.activeUser = false;
       },
       (error) => {
+        this.errorOccurred = true;
+        this.positiveResponse = false;
         this.errorMessage = error['error'];
         console.log(this.errorMessage);
       }
     );
-    this.userList[user.id - 1].isActive = false;
-    this.activeUser = false;
   }
 
   enableUser(user: any) {
