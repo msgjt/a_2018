@@ -122,6 +122,7 @@ export class EditBugComponent implements OnInit {
     this.bugService.deleteAttachment(id)
       .subscribe(
         () => {
+          this.bug.attachment = null;
         },
         (error) => {
           this.errorMessage = error['error'];
@@ -139,6 +140,4 @@ export class EditBugComponent implements OnInit {
       this.bug.attachment = files[0].name;
     }
   }
-
-
 }
