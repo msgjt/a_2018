@@ -109,7 +109,7 @@ public class BugResource {
                                @FormDataParam("file") FormDataContentDisposition fileDetail,
                                @FormDataParam("bugId") String bugId) {
 
-        File objFile = new File(fileDetail.getFileName());
+        File objFile = new File(bugId + "-" + fileDetail.getFileName());
         isValidForSaving(objFile);
         saveToFile(uploadedInputStream, objFile);
         Long id;
@@ -119,10 +119,33 @@ public class BugResource {
         catch (Exception e){
             throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION);
         }
-        bugManagement.getBugById(id).setAttachment(fileDetail.getFileName());
+        BugDTO oldBug = bugManagement.getBugById(id);
+        oldBug.setAttachment(fileDetail.getFileName());
+        bugManagement.updateBug(oldBug);
 
         return Response.status(Response.Status.CREATED).build();
 
+    }
+
+    @Path("/upload/{id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteFile(@PathParam("id") Long bugId){
+        BugDTO bugDTO = bugManagement.getBugById(bugId);
+        File objFile = new File("" + bugId + "-" + bugDTO.getAttachment());
+        bugDTO.setAttachment("");
+        bugManagement.updateBug(bugDTO);
+        boolean isDeleted = false;
+        if (objFile.exists()){
+            isDeleted = objFile.delete();
+        }
+        else {
+            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
+        }
+        if (isDeleted) {
+            return Response.status(Response.Status.OK).build();
+        }
+        throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_COULD_NOT_DELETE_FILE);
     }
 
     private void saveToFile(InputStream uploadedInputStream,

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-new-bug',
@@ -9,12 +10,14 @@ import {User, UserService} from "../../user-management/services/user.service";
 })
 export class NewBugComponent implements OnInit {
 
+  @Input() severityFormControl: FormControl;
   bugModel;
   errorMessage: string;
   errorOccurred: boolean = false;
   userList: User[];
   formData: FormData;
   positiveResponse: boolean = false;
+  possibleSeverities: string[] = ['LOW','MEDIUM','HIGH','CRITICAL'];
   showInfoDiv: boolean = false;
 
   constructor(private bugService: BugService, private userService: UserService) { }
@@ -52,11 +55,13 @@ export class NewBugComponent implements OnInit {
         username: '',
         password: ''
       }
-    }
+    };
 
     this.userService.getAllUsers().subscribe(
       (users) => {this.userList = users;}
     );
+
+    this.formData = new FormData();
   }
 
   submitAddData(){
@@ -115,6 +120,10 @@ export class NewBugComponent implements OnInit {
       this.formData.append('file', files[0]);
       this.bugModel.attachment = files[0].name;
     }
+  }
+
+  addBugSeverity(severity: string){
+    this.bugModel.severity = severity;
   }
 
   showInfo() {

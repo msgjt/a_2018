@@ -4,6 +4,7 @@ import {NotificationService} from "../services/notification.service";
 import {interval} from "rxjs/internal/observable/interval";
 import {Notification} from "../entities/Notification";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-notification',
@@ -23,18 +24,12 @@ export class NotificationComponent implements OnInit {
 
   }
 
-
   ngOnInit() {
     this.getOldNotifications();
-
-
-  }
-
-  getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
       const source = interval(this.NOTIFICATION_DELAY);
-      this.displayedNewNotifications = [];
+      this.displayedNewNotifications=[];
 
       source.subscribe(() => {
         let id = localStorage.getItem("id");
@@ -67,37 +62,34 @@ export class NotificationComponent implements OnInit {
   }
 
 
-  getOldNotifications(){
+  getOldNotifications() {
     if (this.notificationService.wasInstantiatedForOld() == false) {
       this.notificationService.instantiateForOld();
       const source = interval(this.NOTIFICATION_DELAY);
-      let subscriber = source.subscribe(() => {
+       let subscriber=source.subscribe(() => {
         let id = localStorage.getItem("id");
-        if (id != null) {
+        if( id != null ) {
           this.notificationService.getOldNotifications().subscribe(notifications => {
-              this.oldNotifications = notifications;
-              if (this.oldNotifications.length != 0) {
-                this.oldNotifications.forEach(n => {
-                  this.displayedAllNotifications.push(n)
-                });
-                subscriber.unsubscribe();
-                console.log(this.displayedAllNotifications);
-              }
-            },
-            (error) => {
-              if (error.status == 403) {
+            this.oldNotifications = notifications;
+            if(this.oldNotifications.length!=0){
+              this.oldNotifications.forEach(n=>{
+                this.displayedAllNotifications.push(n)
+              });
+              subscriber.unsubscribe();
+              console.log(this.displayedAllNotifications)
+            }
+          },
+            (error)=>{
+              if(error.status == 403){
                 localStorage.clear();
                 this.router.navigate(['/login']);
               }
-              if (error.status == 401) {
+              if(error.status == 401){
                 this.router.navigate(['/norights']);
               }
-            },
-            ()=>this.getNewNotifications())
+            });
         }
       });
     }
   }
 }
-
-import {Router} from "@angular/router";

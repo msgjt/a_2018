@@ -81,7 +81,17 @@
               </mat-select>
             </mat-form-field>
           </span>
-
+              <div *ngIf="bug.attachment==''" class="form-group">
+                <label for="attachmentInputAdd">Attachment</label>
+                <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
+                       (change)="fileChange($event)">
+              </div>
+              <button *ngIf="bug.attachment!=''" class="btn btn-lg btn-block" type="button" id="buttonDeleteAttId"
+                      style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
+                      (click)="deleteAttachment(bug.id)"
+              >
+                demo.Delete
+              </button>
               <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                       style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                       [disabled]="formControl.invalid" translate

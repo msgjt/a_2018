@@ -92,8 +92,3 @@
     opacity: 1;
   }
 }
-
-/deep/ #notificationsModal.modal-body {
-  max-height: 300px;
-  overflow-y: auto;
-}

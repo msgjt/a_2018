@@ -8,15 +8,41 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <ul>
-          <li *ngFor="let notification of displayedAllNotifications">{{notification.type}}&emsp;
-            {{notification.message}}&emsp;{{notification.URL}}</li>
+      <div class="modal-body" style="padding: 0; text-align: center;">
+        <p *ngIf="displayedNewNotifications.length>0">Latest notifications</p>
+        <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
+          <li *ngFor="let notification of displayedNewNotifications.reverse()">
+            <div class="card text-center">
+              <div class="card-header">
+                {{ notification.type }}
+                <i class="fas fa-glasses" [hidden]="displayedNewNotifications.findIndex(notification)<0" data-placement="bottom" title="Mark as read" (click)="displayedNewNotifications.splice(displayedNewNotifications.findIndex(notification), 1);"></i>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{ notification.message }}</h5>
+                <p class="card-text"><a href="">{{ notification.URL }}</a></p>
+              </div>
+              <div class="card-footer text-muted">
+                Date
+              </div>
+            </div>
+          </li>
         </ul>
-        <p>------------------------------------------------------------------</p>
-        <ul>
-          <li *ngFor="let notification of displayedNewNotifications">{{notification.type}}&emsp;
-            {{notification.message}}&emsp;{{notification.URL}}</li>
+        <p>All notifications</p>
+        <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
+          <li *ngFor="let notification of displayedAllNotifications.reverse()">
+            <div class="card text-center">
+              <div class="card-header">
+                {{ notification.type }}
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{ notification.message }}</h5>
+                <p class="card-text"><a href="">{{ notification.URL }}</a></p>
+              </div>
+              <div class="card-footer text-muted">
+                Date
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <!--<div class="modal-footer">-->
