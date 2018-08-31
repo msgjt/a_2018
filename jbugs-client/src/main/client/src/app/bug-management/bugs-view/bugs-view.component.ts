@@ -7,6 +7,7 @@ import {ExcelService} from "../services/excel.service";
 import {FilterPipe} from "../../filter.pipe";
 import {ToastrService} from "ngx-toastr";
 import {User, UserService} from "../../user-management/services/user.service";
+import {UtilService} from "../../shared/util.service";
 
 @Component({
   selector: 'app-bugs-view',
@@ -48,7 +49,9 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
-  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,private excelService: ExcelService, private userService: UserService) {
+  constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,
+              private excelService: ExcelService, private userService: UserService,
+              private utilService: UtilService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
 
