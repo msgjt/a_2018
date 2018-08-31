@@ -2,12 +2,10 @@ package ro.msg.edu.jbugs.bugsManagement.persistence.dao;
 
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.shared.persistence.util.CustomLogger;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +65,15 @@ public class BugPersistenceManager {
         return result;
     }
 
+    public List<Bug> getAllBugsForUser(User user) {
+
+
+        Query q = em.createQuery("select n from Bug n where n.assignedTo = :user " );
+        q.setParameter("user",user);
+        List<Bug> result = q.getResultList();
+        return result;
+    }
+
     /**
      * Method returns a bug by its title by using a NamedQuery defined in the Bug class.
      *
@@ -107,4 +114,6 @@ public class BugPersistenceManager {
         CustomLogger.logExit(this.getClass(), "getBugById", result.toString());
         return result;
     }
+
+
 }

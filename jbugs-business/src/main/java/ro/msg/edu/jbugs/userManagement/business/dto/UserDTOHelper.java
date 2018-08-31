@@ -1,5 +1,6 @@
 package ro.msg.edu.jbugs.userManagement.business.dto;
 
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class UserDTOHelper {
         userDTO.setIsActive(user.getIsActive());
         userDTO.setRoles(user.getRoles()
                 .stream().map(RoleDTOHelper::fromEntity).collect(Collectors.toList()));
+
 
         return userDTO;
     }
