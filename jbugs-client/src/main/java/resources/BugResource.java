@@ -148,21 +148,7 @@ public class BugResource {
         }
         throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_COULD_NOT_DELETE_FILE);
     }
-
- /*   @Path("/download/{id}")
-    @GET
-    @Produces(MediaType.MULTIPART_FORM_DATA)
-    public Response downloadFile(@PathParam("id") Long bugId){
-        BugDTO bugDTO = bugManagement.getBugById(bugId);
-        File objFile = new File("" + bugId + "-" + bugDTO.getAttachment());
-        if (objFile.exists()){
-            return Response.status(Response.Status.OK).entity(objFile).build();
-        }
-        else {
-            throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, DetailedExceptionCode.BUG_ATTACHMENT_NOT_ON_SERVER);
-        }
-    }*/
-
+    
     @GET
     @Path("/download/{id}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
