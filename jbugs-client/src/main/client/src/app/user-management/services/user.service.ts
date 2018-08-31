@@ -4,7 +4,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
 import {RoleService} from "../../role-management/services/role.service";
-import {Permission} from "../../role-management/entities/permission";
+import {NotificationComponent} from "../../notifications/notification/notification.component";
 
 export interface User {
   id: number;
@@ -174,6 +174,7 @@ export class UserService {
   }
 
   logout(username: String):Observable<any>{
+
     return this.http.post(this.baseURL + '/logout',username);
   }
 
