@@ -145,6 +145,7 @@
             bug.createdBy.username }}
           </td>
           <td style="cursor: default;">
+            <div *ngIf="bug.attachment">
             <i class="far fa-file-excel" style="font-size: 24px;"
                *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
             <i class="far fa-file-pdf" style="font-size: 24px;"
@@ -156,6 +157,7 @@
             <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)"
                  style="width: 24px; color: white"
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
+            </div>
           </td>
           <td>
             <div *ngIf=" bug.status !='Closed' ">

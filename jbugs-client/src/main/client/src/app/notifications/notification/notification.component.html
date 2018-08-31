@@ -15,7 +15,7 @@
             <div class="card text-center">
               <div class="card-header">
                 {{ notification.type }}
-                <i class="fas fa-glasses" [hidden]="displayedNewNotifications.findIndex(notification)<0" data-placement="bottom" title="Mark as read" (click)="displayedNewNotifications.splice(displayedNewNotifications.findIndex(notification), 1);"></i>
+                <i class="fas fa-glasses" data-placement="bottom" title="Mark as read"></i>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ notification.message }}</h5>
