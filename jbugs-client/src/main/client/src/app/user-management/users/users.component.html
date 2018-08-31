@@ -1,5 +1,4 @@
-
-<div *ngIf="  isLoggedIn() ">
+<span *ngIf="utilService.routeIfNotLoggedIn()">
 
 <link rel="stylesheet"
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
@@ -45,12 +44,15 @@
             </button>
           </td>
           <td>
-            <i tooltip="Active user" data-placement="right" class="material-icons" *ngIf="user.isActive" style="font-size: 28px; cursor: default;">check_circle_outline</i>
-            <i tooltip="Inactive user" data-placement="right" class="material-icons" *ngIf="!user.isActive" style="font-size: 28px; cursor: default;">highlight_off</i>
+            <i tooltip="Active user" data-placement="right" class="material-icons" *ngIf="user.isActive"
+               style="font-size: 28px; cursor: default;">check_circle_outline</i>
+            <i tooltip="Inactive user" data-placement="right" class="material-icons" *ngIf="!user.isActive"
+               style="font-size: 28px; cursor: default;">highlight_off</i>
           </td>
           <td>
             <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-              <i tooltip="Edit user" data-placement="left" class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToModal(user)">edit</i>
+              <i tooltip="Edit user" data-placement="left" class="material-icons" data-toggle="modal"
+                 data-target="#editModal" (click)="passDataToModal(user)">edit</i>
               <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
                       (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
               </button>
@@ -181,7 +183,7 @@
           </button>
           <button type="button" class="btn btn-block" data-dismiss="modal"
                   style="background-color: darkred; color: white; color: whitesmoke; font-size: 15px; position: center"
-                  (click)="pressedEdit=false;"  translate>
+                  (click)="pressedEdit=false;" translate>
             demo.Back
           </button>
           <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
@@ -315,7 +317,8 @@
               </mat-select>
             </mat-form-field>
             </span>
-          <button class="btn btn-lg btn-block" type="submit" style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
+          <button class="btn btn-lg btn-block" type="submit"
+                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
@@ -329,4 +332,4 @@
     </div>
   </div>
 </div>
-</div>
+</span>

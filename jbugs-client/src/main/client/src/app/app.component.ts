@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {TranslateService} from '@ngx-translate/core';
 import {NotificationService} from "./notifications/services/notification.service";
 import {NotificationComponent} from "./notifications/notification/notification.component";
+import {UtilService} from "./shared/util.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent {
   newNotificationList;
 
   constructor(private router: Router, private translate: TranslateService,
-              private userService: UserService, private notificationService : NotificationService) {
+              private userService: UserService, private notificationService : NotificationService,
+              public utilService: UtilService) {
     translate.setDefaultLang('en');
   }
 
