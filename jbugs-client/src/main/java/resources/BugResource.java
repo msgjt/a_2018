@@ -133,9 +133,9 @@ public class BugResource {
     public Response deleteFile(@PathParam("id") Long bugId){
         BugDTO bugDTO = bugManagement.getBugById(bugId);
         File objFile = new File("" + bugId + "-" + bugDTO.getAttachment());
-        bugDTO.setAttachment("");
+        bugDTO.setAttachment(null);
         bugManagement.updateBug(bugDTO);
-        boolean isDeleted = false;
+        boolean isDeleted;
         if (objFile.exists()){
             isDeleted = objFile.delete();
         }
@@ -188,7 +188,6 @@ public class BugResource {
             add("odf");
             add("xls");
             add("xlsx");
-            add("txt");
             add("odt");
         }};
         if (!validExtensions.contains(extension)) {

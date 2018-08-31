@@ -43,14 +43,14 @@
               <span class="form-group has-float-label">
                   <input name="version" #version="ngModel" #versionId id="versionInput"
                          type="text" class="form-control" required
-                         [(ngModel)]="bug.version" placeholder="{{bug.version}}">
+                         [(ngModel)]="bug.version" placeholder="{{bug.version}}" pattern="^\w+(\.\w*)*$">
                   <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
           </span>
 
               <span class="form-group has-float-label">
                   <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
                          type="text" class="form-control" required
-                         [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}">
+                         [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}" pattern="^\w+(\.\w*)*$">
                   <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
           </span>
 
@@ -81,21 +81,20 @@
               </mat-select>
             </mat-form-field>
           </span>
-              <div *ngIf="bug.attachment==''" class="form-group">
+              <div *ngIf="!bug.attachment" class="form-group">
                 <label for="attachmentInputAdd">Attachment</label>
                 <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
                        (change)="fileChange($event)">
               </div>
-              <button *ngIf="bug.attachment!=''" class="btn btn-lg btn-block" type="button" id="buttonDeleteAttId"
+              <button *ngIf="bug.attachment" class="btn btn-lg btn-block" type="button" id="buttonDeleteAttId"
                       style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                       (click)="deleteAttachment(bug.id)"
               >
-                demo.Delete
+                {{'demo.Delete attachment' | translate}}
               </button>
               <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                       style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                       [disabled]="formControl.invalid" translate
-                      (click)="btnClose.click()"
               >
                 demo.Submit
               </button>

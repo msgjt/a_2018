@@ -83,7 +83,6 @@ public class UserResource {
                 .entity(deactivated)
                 .build();
 
-
         List<Long> ids = userManagement.getAllUsers().stream()
                 .filter(u -> userManagement.getAllUserPermissionAsList(u.getUsername()).stream()
                         .anyMatch(p -> p.getType2().equals("USER_MANAGEMENT")))

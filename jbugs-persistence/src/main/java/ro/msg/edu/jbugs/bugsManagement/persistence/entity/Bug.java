@@ -57,12 +57,26 @@ public class Bug extends BaseEntity<Long> {
     )
     private User createdBy;
 
+    public void copyFieldsFrom(Bug bug){
+        title = bug.title != null ? bug.title : title;
+        description = bug.description != null ? bug.description : description;
+        version = bug.version != null ? bug.version : version;
+        targetDate = bug.targetDate != null ? bug.targetDate : targetDate;
+        status = bug.status != null ? bug.status : status;
+        fixedVersion = bug.fixedVersion != null ? bug.fixedVersion : fixedVersion;
+        severity = bug.severity != null ? bug.severity : severity;
+        createdBy = bug.createdBy != null ? bug.createdBy : createdBy;
+        assignedTo = bug.assignedTo != null ? bug.assignedTo : assignedTo;
+        attachment = bug.attachment != null ? bug.attachment : attachment;
+        history = bug.history != null ? bug.history : history;
+    }
+
     @JoinColumn(name = "assignedTo", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User assignedTo;
 
 
-    @Column(name = "attachment", length = MAX_STRING_LENGTH, nullable = false)
+    @Column(name = "attachment", length = MAX_STRING_LENGTH)
     private String attachment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bug", orphanRemoval = true)
