@@ -82,14 +82,18 @@ export class UsersComponent implements OnInit {
   disableUser(user: any) {
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
+        this.errorOccurred = false;
+        this.positiveResponse = true;
+        this.userList[user.id - 1].isActive = false;
+        this.activeUser = false;
       },
       (error) => {
+        this.errorOccurred = true;
+        this.positiveResponse = false;
         this.errorMessage = error['error'];
         console.log(this.errorMessage);
       }
     );
-    this.userList[user.id - 1].isActive = false;
-    this.activeUser = false;
   }
 
   enableUser(user: any) {

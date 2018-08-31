@@ -1,5 +1,8 @@
 package ro.msg.edu.jbugs.userManagement.business.control;
 
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTO;
+import ro.msg.edu.jbugs.bugManagement.business.dto.BugDTOHelper;
+import ro.msg.edu.jbugs.bugsManagement.persistence.dao.BugPersistenceManager;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.CheckedBusinessException;
 import ro.msg.edu.jbugs.shared.business.exceptions.DetailedExceptionCode;
@@ -13,6 +16,7 @@ import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.NotificationPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.*;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
@@ -30,8 +34,6 @@ public class UserManagementController implements UserManagement {
     private static Map<String, String> loggedUsers = new HashMap<>();
 
 
-
-
     @EJB
     private UserValidator userValidator;
 
@@ -39,16 +41,15 @@ public class UserManagementController implements UserManagement {
     private UserPersistenceManager userPersistenceManager;
 
     @EJB
+    private BugPersistenceManager bugPersistenceManager;
+
+    @EJB
     private NotificationPersistenceManager notificationPersistenceManager;
-
-
-
 
 
     /**
      * Returns the list of all the users from the persistence layer.
      * METHOD LOGGED WITH CustomLogger
-     *
      *
      * @return the list of all the userDTOs present (enabled or disabled).
      */
@@ -198,7 +199,7 @@ public class UserManagementController implements UserManagement {
 
         String prefix = generateUsernamePrefix(firstName, lastName);
         String suffix = generateUsernameSuffix(prefix);
-        return  prefix + suffix;
+        return prefix + suffix;
 
     }
 
@@ -251,14 +252,13 @@ public class UserManagementController implements UserManagement {
                 username.append("0");
         }
 
-        return  username.toString().toLowerCase();
+        return username.toString().toLowerCase();
 
     }
 
 
     /**
      * Activates a user (sets isActive to true)
-     *
      *
      * @param id will be validated for null values, or not present
      * @return the persisted userDTO
@@ -279,8 +279,22 @@ public class UserManagementController implements UserManagement {
     @Override
     public UserDTO deactivateUser(Long id) {
         userValidator.validateId(id);
-        return setActiveStatus(id, false);
-
+        UserDTO userDTO = getUserById(id);
+        List<BugDTO> assignedBugs = bugPersistenceManager.getAllBugsForUser(UserDTOHelper.toEntity(userDTO, new User()))
+                .stream()
+                .map(BugDTOHelper::fromEntity)
+                .collect(Collectors.toList());
+        for (BugDTO b : assignedBugs) {
+            if (b.getStatus() != "Fixed" || b.getStatus() != "Closed" || b.getStatus() != "Rejected") {
+                CustomLogger.logException(this.getClass(), "deactivateUser",
+                        ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DISABLED);
+                throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                        DetailedExceptionCode.USER_DISABLED);
+            } else {
+                setActiveStatus(id, false);
+            }
+        }
+        return userDTO;
     }
 
 
@@ -413,7 +427,8 @@ public class UserManagementController implements UserManagement {
 
     /**
      * Updates the password for a user;
-     * @param id not null
+     *
+     * @param id       not null
      * @param password not null
      * @return the updated userDTO
      */
@@ -436,8 +451,7 @@ public class UserManagementController implements UserManagement {
     }
 
 
-
-    public User getOldUserFields(UserDTO newUserDTO){
+    public User getOldUserFields(UserDTO newUserDTO) {
         User user =
                 newUserDTO.getId() != null ?
                         (
