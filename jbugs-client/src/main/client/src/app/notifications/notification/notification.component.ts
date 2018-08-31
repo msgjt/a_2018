@@ -96,5 +96,6 @@ export class NotificationComponent implements OnInit {
   seeNotification(notification: Notification) {
     let index = this.displayedNewNotifications.findIndex(notif => notif.id == notification.id);
     this.displayedNewNotifications.splice(index,1);
+    this.displayedAllNotifications.push(notification);
   }
 }
