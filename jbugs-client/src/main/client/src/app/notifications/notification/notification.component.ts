@@ -15,12 +15,12 @@ export class NotificationComponent implements OnInit {
 
   public currentNotifications: Notification[];
   public oldNotifications: Notification[];
-  public displayedAllNotifications: Notification[]=[];
-  public displayedNewNotifications: Notification[]=[];
+  public displayedAllNotifications: Notification[] = [];
+  public displayedNewNotifications: Notification[] = [];
   private NOTIFICATION_DELAY: number = 5000;
 
   constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router:Router) {
+              private router: Router) {
 
   }
 
@@ -38,7 +38,6 @@ export class NotificationComponent implements OnInit {
             this.currentNotifications = notifications;
             if(this.currentNotifications.length!=0){
               this.currentNotifications.forEach(n=>{
-                this.displayedAllNotifications.push(n)
                 this.displayedNewNotifications.push(n)
               })
             }
@@ -82,7 +81,8 @@ export class NotificationComponent implements OnInit {
           },
             (error)=>{
               if(error.status == 403){
-                this.router.navigate(['/error']);
+                localStorage.clear();
+                this.router.navigate(['/login']);
               }
               if(error.status == 401){
                 this.router.navigate(['/norights']);
@@ -91,5 +91,11 @@ export class NotificationComponent implements OnInit {
         }
       });
     }
+  }
+
+  seeNotification(notification: Notification) {
+    let index = this.displayedNewNotifications.findIndex(notif => notif.id == notification.id);
+    this.displayedNewNotifications.splice(index,1);
+    this.displayedAllNotifications.push(notification);
   }
 }

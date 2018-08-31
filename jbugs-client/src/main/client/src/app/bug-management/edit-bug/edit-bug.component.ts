@@ -62,7 +62,6 @@ export class EditBugComponent implements OnInit {
     else {
       this.errorMessage = '';
     }
-    console.log('de ce ajunge aici?');
     this.bug.assignedTo = assignedUser;
     this.bugService.updateBug(this.bug).subscribe(() => {
       this.severityFormControl = new FormControl(this.bug.severity);
@@ -87,6 +86,13 @@ export class EditBugComponent implements OnInit {
       this.positiveResponse = true;
     },
       (error) => {
+        if(error.status == 403){
+          localStorage.clear();
+          this.router.navigate(['/login']);
+        }
+        if(error.status == 401){
+          this.router.navigate(['/norights']);
+        }
         this.errorMessage = error['error'];
         this.positiveResponse = false;
         this.errorOccurred = true;

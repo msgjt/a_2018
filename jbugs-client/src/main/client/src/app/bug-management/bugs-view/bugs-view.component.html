@@ -146,22 +146,22 @@
           </td>
           <td style="cursor: default;">
             <div *ngIf="bug.attachment">
-            <i class="far fa-file-excel" style="font-size: 24px;"
+            <i tooltip="Excel document" data-placement="right" class="far fa-file-excel" style="font-size: 24px;"
                *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xls' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'xlsx'"></i>
-            <i class="far fa-file-pdf" style="font-size: 24px;"
+            <i tooltip="PDF document" data-placement="right" class="far fa-file-pdf" style="font-size: 24px;"
                *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'pdf'"></i>
-            <i class="far fa-file-word" style="font-size: 24px;"
+            <i tooltip="Word document" data-placement="right" class="far fa-file-word" style="font-size: 24px;"
                *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'doc' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'docx'"></i>
-            <i class="far fa-image" style="font-size: 24px;"
+            <i tooltip="Image file" data-placement="right" class="far fa-image" style="font-size: 24px;"
                *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'png' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpg' || bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'jpeg'"></i>
-            <img src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)"
+            <img tooltip="ODF document" data-placement="right" src="../../../assets/odffile.svg" class="far fa-file-excel" (click)="passDataToEditModal(bug)"
                  style="width: 24px; color: white"
                  *ngIf="bug.attachment.split('.')[bug.attachment.split('.').length-1] === 'odf'">
             </div>
           </td>
           <td>
             <div *ngIf=" bug.status !='Closed' ">
-              <i class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
+              <i tooltip="Edit bug" data-placement="right" class="material-icons" data-toggle="modal" data-target="#editModal" (click)="passDataToEditModal(bug)"
                  style="font-size: 24px;"> edit </i>
             </div>
           </td>

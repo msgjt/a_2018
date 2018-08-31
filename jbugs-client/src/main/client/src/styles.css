@@ -38,4 +38,7 @@ nav {
   background-color: darkred;
 }
 
-
+#notificationsModal .modal-body {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
