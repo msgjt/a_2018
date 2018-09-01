@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl, FormGroup} from "@angular/forms";
+import {Warning} from "../../communication/communication.component";
 
 @Component({
   selector: 'app-new-bug',
@@ -24,6 +25,7 @@ export class NewBugComponent implements OnInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
   validExtensions: string[] = ['jpg','pdf','doc','odf','xlsx','xls'];
   fileNotValid: boolean;
+  warningMessage: Warning;
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
@@ -71,7 +73,11 @@ export class NewBugComponent implements OnInit {
   ngOnInit() {
 
     this.resetBugModel();
-
+    this.warningMessage = {
+      message: "Your file is not supported, so it wasn't added",
+      recommendation: "You can edit the bug later if you want to change the file",
+      display: false
+    };
 
     this.userService.getAllUsers().subscribe(
       (users) => {this.userList = users;}
@@ -97,7 +103,7 @@ export class NewBugComponent implements OnInit {
     this.errorOccurred = false;
     this.errorMessage = "";
     this.fileSendAttempted = false;
-
+    let internalFileSendAttempted = false;
 
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
@@ -132,6 +138,8 @@ export class NewBugComponent implements OnInit {
                   this.positiveResponse = true;
                   this.fileSendAttempted = true;
                   this.submitAddPerformed = true;
+                  this.warningMessage.display = false;
+                  internalFileSendAttempted = true;
                   this.resetBugModel();
                   this.submitAdd();
                 },
@@ -140,6 +148,7 @@ export class NewBugComponent implements OnInit {
                   this.errorMessage = error['error'];
                   this.errorOccurred = true;
                   this.fileSendAttempted = true;
+                  internalFileSendAttempted = true;
                 }
               );
           }
@@ -147,20 +156,24 @@ export class NewBugComponent implements OnInit {
             this.errorOccurred = false;
             this.positiveResponse = true;
             this.submitAddPerformed = true;
-            this.resetBugModel();
             this.submitAdd();
           }
+          if( internalFileSendAttempted == false)
+            this.fileSendAttempted = true;
         },
         (error) => {
           this.positiveResponse = false;
           this.errorMessage = error['error'];
           this.errorOccurred = true;
           this.submitAddPerformed = true;
+          if( internalFileSendAttempted == false)
+            this.fileSendAttempted = true;
         }
       );
   }
 
   fileChange(event){
+    this.warningMessage.display = false;
     let files = event.target.files;
     if (files.length > 0) {
       this.formData = new FormData();
@@ -171,10 +184,10 @@ export class NewBugComponent implements OnInit {
       if (isValidExtension !== undefined) {
         this.formData.append('file', files[0]);
         this.bugModel.attachment = files[0].name;
-        this.fileNotValid = false;
       }
       else {
-        this.fileNotValid = true;
+        this.warningMessage.display = true;
+        this.fileSendAttempted = true;
       }
     }
   }
