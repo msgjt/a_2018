@@ -28,35 +28,65 @@
       <table class="table table-hover table-dark table-striped shadow p-3 mb-5 rounded" id="bugsTable">
         <thead style="background-color: darkred; border-color: darkred;">
         <tr>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['id'] && askedForSort['id'], 'descendingSort': ascendingSort['id'] && askedForSort['id'] }" (click)="doSort('id')" class="sortable">
+          <th scope="col" (click)="doSort('id')" class="sortable">
               <span translate>ID</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['id']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['id'] && !ascendingSort['id']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['id'] && ascendingSort['id']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['title'] && askedForSort['title'], 'descendingSort': ascendingSort['title'] && askedForSort['title'] }" (click)="doSort('title')" class="sortable">
+          <th scope="col" (click)="doSort('title')" class="sortable">
               <span >{{'demo.Title' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['title']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['title'] && !ascendingSort['title']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['title'] && ascendingSort['title']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['description'] && askedForSort['description'], 'descendingSort': ascendingSort['description'] && askedForSort['description'] }" (click)="doSort('description')" class="sortable">
+          <th scope="col" (click)="doSort('description')" class="sortable">
               <span >{{'demo.Description' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['description']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['description'] && !ascendingSort['description']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['description'] && ascendingSort['description']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['fixedVersion'] && askedForSort['fixedVersion'], 'descendingSort': ascendingSort['fixedVersion'] && askedForSort['fixedVersion'] }" (click)="doSort('fixedVersion')" class="sortable">
-              <span >{{'demo.Fixed Version' | translate }}</span>
+          <th scope="col" (click)="doSort('fixedVersion')" class="sortable" style="width: 150px;">
+              <span >{{'demo.Fixed version' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['fixedVersion']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['fixedVersion'] && !ascendingSort['fixedVersion']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['fixedVersion'] && ascendingSort['fixedVersion']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['severity'] && askedForSort['severity'], 'descendingSort': ascendingSort['severity'] && askedForSort['severity'] }" (click)="doSort('severity')" class="sortable">
+          <th scope="col" (click)="doSort('severity')" class="sortable">
               <span >{{'demo.Severity' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['severity']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['severity'] && !ascendingSort['severity']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['severity'] && ascendingSort['severity']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['status'] && askedForSort['status'], 'descendingSort': ascendingSort['status'] && askedForSort['status'] }" (click)="doSort('status')" class="sortable">
+          <th scope="col" (click)="doSort('status')" class="sortable">
               <span >{{'demo.Status' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['status']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['status'] && !ascendingSort['status']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['status'] && ascendingSort['status']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['targetDate'] && askedForSort['targetDate'], 'descendingSort': ascendingSort['targetDate'] && askedForSort['targetDate'] }" (click)="doSort('targetDate')" class="sortable">
-              <span >{{'demo.Target Date' | translate }}</span>
+          <th scope="col" (click)="doSort('targetDate')" class="sortable">
+              <span >{{'demo.Target date' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['targetDate']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['targetDate'] && !ascendingSort['targetDate']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['targetDate'] && ascendingSort['targetDate']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['versiom'] && askedForSort['version'], 'descendingSort': ascendingSort['versiom'] && askedForSort['version'] }" (click)="doSort('version')" class="sortable">
+          <th scope="col" (click)="doSort('version')" class="sortable">
               <span >{{'demo.Version' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['version']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['version'] && !ascendingSort['version']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['version'] && ascendingSort['version']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['assignedTo'] && askedForSort['assignedTo'], 'descendingSort': ascendingSort['assignedTo'] && askedForSort['assignedTo'] }" (click)="doSort('assignedTo')" class="sortable">
+          <th scope="col" (click)="doSort('assignedTo')" class="sortable">
               <span >{{'demo.Assigned to' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['assignedTo']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['assignedTo'] && !ascendingSort['assignedTo']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['assignedTo'] && ascendingSort['assignedTo']"></i>
           </th>
-          <th scope="col" [ngClass]="{ 'ascendingSort': !ascendingSort['createdBy'] && askedForSort['createdBy'], 'descendingSort': ascendingSort['createdBy'] && askedForSort['createdBy'] }" (click)="doSort('createdBy')" class="sortable">
+          <th scope="col" (click)="doSort('createdBy')" class="sortable">
               <span >{{'demo.Created by' | translate }}</span>
+              <i class="fas fa-sort" *ngIf="!askedForSort['createdBy']"></i>
+              <i class="fas fa-sort-up" *ngIf="askedForSort['createdBy'] && !ascendingSort['createdBy']"></i>
+              <i class="fas fa-sort-down" *ngIf="askedForSort['createdBy'] && ascendingSort['createdBy']"></i>
           </th>
           <th scope="col">
               {{"demo.Attachment"|translate}}

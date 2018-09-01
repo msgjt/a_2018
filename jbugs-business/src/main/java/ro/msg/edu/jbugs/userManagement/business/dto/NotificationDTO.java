@@ -48,4 +48,15 @@ public class NotificationDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationDTO{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", URL='" + URL + '\'' +
+                ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

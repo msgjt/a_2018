@@ -32,9 +32,7 @@ public class RoleManagementControllerTest {
     private UserPersistenceManager userPersistenceManager;
 
     @Mock
-    private RoleValidator roleValidator;
-
-    @Test
+    private RoleValidator roleValidator;    @Test
     public void getAllRoles_expectedList() {
         Role r1 = new Role();
         Role r2 = new Role();
@@ -77,7 +75,7 @@ public class RoleManagementControllerTest {
         expected.setId(1L);
         expected.setType1("expected");
         when(userPersistenceManager.updateRole(toBeUpdated)).thenReturn(expected);
-
+     //   when(roleManagementController.validateUpdate(toBeUpdated)).thenReturn(expected);
         try {
             assertEquals(roleManagementController.updateRole(
                     RoleDTOHelper.fromEntity(toBeUpdated)),
