@@ -31,6 +31,7 @@ public class UserManagementApplication extends Application {
         classes.add(UserProfileResource.class);
         classes.add(OldNotificationResource.class);
         classes.add(IsBugExportPdfOnServer.class);
+        classes.add(IsBugCloseOnServer.class);
         return classes;
 
     }

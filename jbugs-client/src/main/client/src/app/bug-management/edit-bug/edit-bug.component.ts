@@ -34,8 +34,7 @@ export class EditBugComponent implements OnInit {
 
 
   ngOnInit() {
-
-
+    this.isBUG_CLOSE_ON_SERVER();
   }
 
   updateBugSeverity(severity: string) {
@@ -164,5 +163,18 @@ export class EditBugComponent implements OnInit {
       this.bug.attachment = files[0].name;
       this.haveToDelete = false;
     }
+  }
+
+  isBUG_CLOSE_ON_SERVER(){
+    this.bugService.is_BUG_CLOSE_ON_SERVER().subscribe(response => {
+      if (response == true) {
+        if(localStorage.getItem("BUG_CLOSE")=="1"){
+        }else {
+          localStorage.setItem("BUG_CLOSE","1");
+        }
+      } else {
+        localStorage.removeItem("BUG_CLOSE");
+      }
+    })
   }
 }
