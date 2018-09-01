@@ -24,6 +24,7 @@ export class EditBugComponent implements OnInit {
   formData: FormData;
   userList: User[];
   haveToDelete: boolean;
+  submitEditPerformed: boolean = false;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
@@ -50,6 +51,7 @@ export class EditBugComponent implements OnInit {
   }
 
   submitEditForm() {
+     this.submitEditPerformed = true;
     let assignedUser: User;
     assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
     console.log(assignedUser);
