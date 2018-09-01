@@ -4,7 +4,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="bugDetailsModalTitle" style="color: whitesmoke;font-size: 20px; ">Bug details</h5>
+        <h5 class="modal-title" id="bugDetailsModalTitle" style="color: whitesmoke;font-size: 20px; ">{{"demo.Bug details"| translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
                 aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -21,10 +21,10 @@
                    class="form-control"
                    [(ngModel)]="detailedBug.title"
                    disabled>
-            <label for="titleInputDetails" style="margin-top: 15px">Title</label>
+            <label for="titleInputDetails" style="margin-top: 15px">{{"demo.Title"| translate}}</label>
           </span>
           <div class="form-group" style="margin-bottom: 1.5em;">
-            <label for="descriptionInputDetails">Description</label>
+            <label for="descriptionInputDetails">{{"demo.Description"| translate}}</label>
             <textarea #description="ngModel" [(ngModel)]="detailedBug.description" name="description"
                       class="form-control" id="descriptionInputDetails" rows="3" disabled></textarea>
           </div>
@@ -36,7 +36,7 @@
                    class="form-control"
                    [(ngModel)]="detailedBug.version"
                    disabled>
-            <label for="versionInputDetails" style="margin-top: 15px">Version</label>
+            <label for="versionInputDetails" style="margin-top: 15px">{{"demo.Version"| translate}}</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text"
@@ -46,7 +46,7 @@
                    #targetDateDetails="ngModel"
                    [(ngModel)]="detailedBug.targetDate.split('T')[0]"
                    disabled>
-            <label for="targetDateInputDetails" style="margin-top: 15px">Target Date</label>
+            <label for="targetDateInputDetails" style="margin-top: 15px">{{"demo.Target Date"| translate}}</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text"
@@ -56,7 +56,7 @@
                    #severityDetails="ngModel"
                    [(ngModel)]="detailedBug.severity"
                    disabled>
-            <label for="severityInputDetails" style="margin-top: 15px">Severity</label>
+            <label for="severityInputDetails" style="margin-top: 15px">{{"demo.Severity"| translate}}</label>
           </span>
           <span class="form-group has-float-label">
             <input type="text"
@@ -76,7 +76,7 @@
                    #fixedVersionDetails="ngModel"
                    [(ngModel)]="detailedBug.fixedVersion"
                    disabled>
-            <label for="fixedVersionInputDetails" style="margin-top: 15px">Fixed Version</label>
+            <label for="fixedVersionInputDetails" style="margin-top: 15px">{{"demo.Fixed Version"| translate}}</label>
           </span>
         </form>
       </div>

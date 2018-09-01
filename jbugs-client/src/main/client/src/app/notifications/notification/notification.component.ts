@@ -5,6 +5,7 @@ import {interval} from "rxjs/internal/observable/interval";
 import {Notification} from "../entities/Notification";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {UtilService} from "../../shared/util.service";
 
 @Component({
   selector: 'app-notification',
@@ -20,16 +21,13 @@ export class NotificationComponent implements OnInit {
   public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
 
-  constructor(private notificationService: NotificationService, private toastrService: ToastrService,
-              private router: Router) {
+  constructor(private notificationService: NotificationService, private toastrService: ToastrService, private router: Router) {
 
   }
 
   ngOnInit() {
     this.getOldNotifications();
-
   }
-
 
   getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
@@ -69,7 +67,6 @@ export class NotificationComponent implements OnInit {
       });
     }
   }
-
 
   toHide(notification) {
     return this.displayedNewNotifications.findIndex(n => n.id == notification.id) == -1;

@@ -13,7 +13,7 @@ export class RedirectGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if ( localStorage.getItem('currentUser') ) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/user_profile']);
       return false;
     } else {
       return true;

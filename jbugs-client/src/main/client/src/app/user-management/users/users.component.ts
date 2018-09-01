@@ -3,6 +3,7 @@ import {LSKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
+import {UtilService} from "../../shared/util.service";
 
 @Component({
   selector: 'app-profile',
@@ -26,12 +27,20 @@ export class UsersComponent implements OnInit {
   @ViewChild('infoDiv') infoDiv: ElementRef;
   showInfoDiv: boolean = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router,
+              public utilService: UtilService) {
     this.refresh();
   }
 
   ngOnInit() {
     this.refresh();
+  }
+
+  isLoggedIn() {
+    let result = localStorage.getItem(LSKEY) != null;
+    if(result == false)
+      this.router.navigate(['/login']);
+    return result;
   }
 
   refresh(){

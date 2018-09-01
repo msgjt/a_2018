@@ -5,6 +5,7 @@ import {RoleService} from "../services/role.service";
 import {LSKEY, TOKENKEY} from "../../user-management/services/user.service";
 import {Permission} from "../entities/permission";
 import {FormControl} from '@angular/forms';
+import {UtilService} from "../../shared/util.service";
 
 @Component({
   selector: 'app-roles',
@@ -20,7 +21,8 @@ export class RolesComponent implements OnInit {
   columnsToDisplay = ['type', 'permissionTypes'];
   isDone = false;
 
-  constructor(private roleService: RoleService, private router: Router) {
+  constructor(private roleService: RoleService, private router: Router,
+              public utilService: UtilService) {
 
   }
 
@@ -29,7 +31,6 @@ export class RolesComponent implements OnInit {
     let formControl = pos === -1 ? null : this.formControlList[pos];
     return formControl;
   }
-
 
   ngOnInit() {
     this.formControlList = [];
@@ -56,6 +57,10 @@ export class RolesComponent implements OnInit {
         this.router.navigate(['/norights']);
       }
     });
+  }
+
+  refresh(){
+
   }
 
   logout() {
