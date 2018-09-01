@@ -2,7 +2,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {User} from "../../user-management/services/user.service";
+import {LSKEY, TOKENKEY, User} from "../../user-management/services/user.service";
 
 export interface Bug {
   id: number;
@@ -120,5 +120,10 @@ export class BugService {
     headers.append('accept', 'application/octet-stream');
     let url = `${this.baseURL}/bugs/download/${id}`;
     return this.http.get(url,{headers: headers, responseType: 'blob', observe: "response"});
+  }
+
+  isBUG_EXPORT_PDF_ON_SERVER():Observable<boolean>{
+    let body=localStorage.getItem(LSKEY)+"   "+localStorage.getItem(TOKENKEY);
+    return this.http.post<boolean>(this.baseURL+'/isbugexportpdf',body);
   }
 }

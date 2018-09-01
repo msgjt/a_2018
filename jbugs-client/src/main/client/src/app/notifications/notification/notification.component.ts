@@ -49,7 +49,6 @@ export class NotificationComponent implements OnInit {
                 NotificationComponent.notifSize = this.displayedNewNotifications.length;
               })
             }
-            console.log("NEW: " + this.displayedNewNotifications);
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
                 .onShown.subscribe(() => {
@@ -90,7 +89,6 @@ export class NotificationComponent implements OnInit {
                 this.displayedAllNotifications.push(n)
               });
               subscriber.unsubscribe();
-              console.log('OLD: ' + this.displayedAllNotifications)
             }
           },
             (error)=>{

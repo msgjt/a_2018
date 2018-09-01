@@ -52,7 +52,7 @@ export class AppComponent {
 
   logout() {
     if (localStorage.getItem(LSKEY)) {
-      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response => console.log(response.toString()));
+      this.userService.logout(localStorage.getItem(LSKEY)).subscribe(response => console.log());
       this.router.navigate(['./login']);
       localStorage.clear();
       this.loggedIn = false;
