@@ -89,8 +89,6 @@ public class BugManagementController implements BugManagement {
 
         bugValidator.validateUpdate(bugDTO);
 
-
-
         Bug bug = BugDTOHelper.toEntityOneParam(bugDTO);
 
 
