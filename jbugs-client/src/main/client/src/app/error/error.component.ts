@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+
+
+
 
 @Component({
   selector: 'app-error',
@@ -7,12 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorComponent implements OnInit {
 
+
   constructor() { }
 
   ngOnInit() {
+
   }
 
   isUserLoggedIn() {
     return localStorage.getItem('id') != null;
   }
+
+
+
 }

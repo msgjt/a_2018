@@ -5,6 +5,10 @@
 
 
 
+.form-error {
+  background-color: darkred;
+}
+
 body {
   height: 100%;
   display: -ms-flexbox;

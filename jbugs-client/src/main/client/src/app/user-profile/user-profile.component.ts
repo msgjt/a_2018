@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
+import {Error} from "../communication/communication.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -11,7 +12,7 @@ export class UserProfileComponent implements OnInit {
   pressedEdit: boolean = false;
   userModel: User;
   userList: User[];
-  errorMessage: string;
+  errorMessage: Error;
   errorOccurred: boolean;
   positiveResponse: boolean;
   showInfoDiv: boolean;
@@ -19,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   showPassword: boolean;
   newPassword: string;
   newPasswordConfirmed: string;
+
 
   constructor(private userService: UserService, private router: Router) {
     this.userModel = {

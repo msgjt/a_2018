@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
-import {FormControl} from "@angular/forms";
+import {Form, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-new-bug',
@@ -79,7 +79,20 @@ export class NewBugComponent implements OnInit {
 
   }
 
-  submitAddData(){
+
+
+  validateAllFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFields(control);
+      }
+    });
+  }
+
+  submitAddData(ngModel){
     this.submitAddPerformed = true;
     this.errorOccurred = false;
     this.errorMessage = "";

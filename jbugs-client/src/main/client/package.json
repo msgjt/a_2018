@@ -40,6 +40,7 @@
     "ng2-ckeditor": "^1.2.1",
     "ng2-opd-popup": "^1.1.21",
     "ng2-toastr": "^4.1.2",
+    "ngx-auto-scroll": "^1.1.0",
     "ngx-bootstrap": "^3.0.1",
     "ngx-editor": "^3.3.0",
     "ngx-pagination": "^3.2.0",

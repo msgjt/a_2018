@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
+import {Error} from "../../communication/communication.component";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class EditBugComponent implements OnInit {
   @Input() statusFormControl: FormControl;
   errorOccurred: boolean;
   positiveResponse: boolean;
-  errorMessage: string;
+  errorMessage: Error;
   possibleSeverities: string[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
   oldStatus: string = null;
   formData: FormData;
@@ -55,12 +56,16 @@ export class EditBugComponent implements OnInit {
 
     if (assignedUser === undefined) {
       this.positiveResponse = false;
-      this.errorMessage = 'Cannot find the assigned user';
+      this.errorMessage = {
+        id: 5000,
+        type: "BUG_VALIDATION_EXCEPTION",
+        details: [{detail: "BUG_ASSIGNED_TO_NOT_FOUND", message: ""}]
+      };
       this.errorOccurred = true;
       return;
     }
     else {
-      this.errorMessage = '';
+      this.errorMessage = null;
     }
     this.bug.assignedTo = assignedUser;
     this.bugService.updateBug(this.bug).subscribe(() => {
