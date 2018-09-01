@@ -40,10 +40,18 @@ public class RoleDTO {
 
     @Override
     public String toString() {
-        return "RoleDTO{" +
-                "type='" + type + '\'' +
-                ", permissions=" + permissions +
-                '}';
+        String message="";
+        if(type.equals("ADM"))
+            message=message.concat(" ADMIN ");
+        if(type.equals("DEV"))
+            message=message.concat(" DEVELOPER ");
+        if(type.equals("TM"))
+            message=message.concat(" TEST MANAGER ");
+        if(type.equals("TESTER"))
+            message=message.concat(" TESTER ");
+        if(type.equals("PM"))
+            message=message.concat(" PERMISSION MANAGER ");
+        return message + '\'';
     }
 
     @Override

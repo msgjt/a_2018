@@ -33,10 +33,8 @@ public class PermissionDTO {
 
     @Override
     public String toString() {
-        return "PermissionDTO{" +
-                "type='" + type + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return  type + '\'' ;
+
     }
 
     @Override
