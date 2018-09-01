@@ -46,6 +46,7 @@
     "Fixed Version": "Fixed Version",
     "Target date": "Target Date",
     "Assigned to": "Assigned to",
+    "Assignee username": "Assignee username",
     "Created by": "Created by",
     "Full description": " Full description",
     "Active": "Active",
@@ -104,6 +105,7 @@
     "You do not have the permission to access this page":"You do not have the permission to access this page",
     "Notifications":"Notifications",
     "Mark all as read":"Mark all as read",
-    "Older notifications":"Older notifications"
+    "Older notifications":"Older notifications",
+    "Username must have a minimum length of 5 characters":"Username must have a minimum length of 5 characters"
   }
 }

@@ -75,7 +75,7 @@ export class NewBugComponent implements OnInit {
     this.resetBugModel();
     this.warningMessage = {
       message: "Your file is not supported, so it wasn't added",
-      recommendation: "You can edit the bug later if you want to change the file",
+      recommendation: "Choose another file or edit the bug later if you want to change it",
       display: false
     };
 
@@ -97,6 +97,12 @@ export class NewBugComponent implements OnInit {
       }
     });
   }
+
+  validate(){
+    this.submitAddPerformed = true;
+    console.log("aaaaa");
+  }
+
 
   submitAddData(ngModel){
     this.submitAddPerformed = true;
@@ -156,6 +162,7 @@ export class NewBugComponent implements OnInit {
             this.errorOccurred = false;
             this.positiveResponse = true;
             this.submitAddPerformed = true;
+            this.resetBugModel();
             this.submitAdd();
           }
           if( internalFileSendAttempted == false)
@@ -205,7 +212,7 @@ export class NewBugComponent implements OnInit {
   }
 
   submitAdd(){
-    if(this.errorOccurred == false && this.fileSendAttempted == true) {
+    if(this.errorOccurred == false) {
       this.closeBtn.nativeElement.click();
     }
     else {
