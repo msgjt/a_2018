@@ -123,7 +123,12 @@ export class BugService {
   }
 
   isBUG_EXPORT_PDF_ON_SERVER():Observable<boolean>{
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
     let body=localStorage.getItem(LSKEY)+"   "+localStorage.getItem(TOKENKEY);
-    return this.http.post<boolean>(this.baseURL+'/isbugexportpdf',body);
+    return this.http.post<boolean>(this.baseURL+'/isbugexportpdf',body,{headers});
   }
 }
