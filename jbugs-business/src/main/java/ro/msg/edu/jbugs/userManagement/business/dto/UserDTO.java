@@ -127,19 +127,15 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", isActive=" + isActive +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", roles=" + roles +
-                ", notifications=" + notifications +
-                ", assignedBugs=" + assignedBugs +
-                '}';
+        String message="USER:"+'\n'+" FIRST NAME='" + firstName + '\'' +
+                ", LAST NAME='" + lastName + '\'' +
+                ", USERNAME='" + username + '\'' +
+                ", EMAIL='" + email + '\'' +
+                ", ACTIVE STATUS=" + isActive +
+                ", PHONE NUMBER='" + phoneNumber + '\'' +
+                ", ROLES=" + roles ;
+
+      return message;
     }
 
     @Override

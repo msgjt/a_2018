@@ -71,7 +71,7 @@ import { DetailBugComponent } from './bug-management/detail-bug/detail-bug.compo
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import {TooltipModule} from "ngx-bootstrap";
 import { CommunicationComponent } from './communication/communication.component';
-import {NgxAutoScrollModule} from "ngx-auto-scroll";
+
 
 const appRoutes: Routes = [
   {
@@ -178,7 +178,6 @@ export class MaterialModule {
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     MaterialModule,
-    NgxAutoScrollModule,
     MatNativeDateModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
