@@ -81,7 +81,7 @@ public class BugValidator extends BaseValidator {
 
         Map<DetailedExceptionCode, Boolean> validationMap = getCreateValidationMap(bugDTO);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
-        if (!validationMessageStack.empty()) {
+        if (!validationMessageStack.isEmpty()) {
             CustomLogger.logException(this.getClass(), "validateBugForCreation",
                     ExceptionCode.BUG_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, validationMessageStack);
@@ -107,7 +107,7 @@ public class BugValidator extends BaseValidator {
         Map<DetailedExceptionCode, Boolean> validationMap = getUpdateValidationMap(bugDTO);
         validationMap.put(DetailedExceptionCode.BUG_ID_NULL, bugDTO.getId() == null);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
-        if (!validationMessageStack.empty()) {
+        if (!validationMessageStack.isEmpty()) {
             CustomLogger.logException(this.getClass(), "validateBugForUpdate",
                     ExceptionCode.BUG_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.BUG_VALIDATION_EXCEPTION, validationMessageStack);
