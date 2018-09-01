@@ -65,7 +65,7 @@
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
-                     pattern="[+0-9]+"
+                     pattern="[0-9]*\/*(\+49)*[ ]*(\([0-9]+\))*([ ]*(-|–)*[ ]*[0-9]+)*"
                      id="mobileNumberInput"
                      #phone="ngModel"
                      #phoneId
@@ -107,12 +107,12 @@
 
       </span>
 
-    <label id="errorLabel1" *ngIf="firstName.errors?.minlength && firstName.touched" translate style="margin-top: 15px">demo.First name
+    <label id="errorLabel1" *ngIf="firstName.errors?.pattern && firstName.touched" translate style="margin-top: 15px">demo.First name
       is invalid.</label>
     <br>
-    <label id="errorLabel6" *ngIf="lastName.errors?.minlength && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
+    <label id="errorLabel6" *ngIf="lastName.errors?.pattern && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
     <br>
-    <label id="errorLabel5" *ngIf="phone.errors?.minlength && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
+    <label id="errorLabel5" *ngIf="phone.errors?.pattern && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
     <br>
     <label id="errorLabel4" *ngIf="email.errors?.pattern && email.touched" translate
           style="margin-top: 15px">demo.E-mail is invalid.</label>
