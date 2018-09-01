@@ -145,12 +145,31 @@ i {
   background: darkred;
 }
 
-/deep/ .mat-form-field.mat-focused .mat-form-field-label {
-  color: darkred;
+/deep/ .mat-form-field .mat-form-field-label {
+  color: white;
 }
 
+ /deep/ .mat-form-field.mat-focused .mat-form-field-label {
+   color: white;
+ }
 
-/* Table */
+ /deep/ .mat-form-field .mat-form-field-underline {
+   background-color: white;
+ }
+
+ /deep/ .mat-form-field .mat-form-field-underline .mat-form-field-ripple {
+   background-color: white;
+ }
+
+ /deep/ .mat-select-arrow {
+   color: white;
+ }
+
+ /deep/ .mat-select-placeholder {
+   color: white;
+ }
+
+ /* Table */
 
 /deep/ .table th, .table td {
   vertical-align: inherit;

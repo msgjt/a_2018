@@ -14,8 +14,8 @@
           <td>{{ role.type }}</td>
           <td>
             <mat-form-field *ngIf="isDone">
-              <mat-select  placeholder= '{{ "demo.Click to edit"| translate}}'  [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
-                <mat-select-trigger style="color: white" #formControl="">
+              <mat-select placeholder="{{ 'demo.Click to edit'| translate }}"  [formControl]="getFormControlForRole(role)" multiple (selectionChange)="updateRole(role)">
+                <mat-select-trigger style="color: white;" #formControl="">
                   <span *ngIf="getFormControlForRole(role).value.length == 1; else elseblock">
                     {{ getFormControlForRole(role).value.length }}   {{ "demo.Permission"| translate}}
                   </span>

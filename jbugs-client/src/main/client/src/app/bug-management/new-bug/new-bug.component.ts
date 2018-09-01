@@ -100,11 +100,15 @@ export class NewBugComponent implements OnInit {
 
   validate(){
     this.submitAddPerformed = true;
-    console.log("aaaaa");
   }
 
 
-  submitAddData(ngModel){
+  submitAddData(formControl){
+
+    console.log(formControl.invalid  +    "    " + formControl.invalid());
+    if( formControl.invalid == true)
+      return;
+
     this.submitAddPerformed = true;
     this.errorOccurred = false;
     this.errorMessage = "";

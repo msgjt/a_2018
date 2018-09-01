@@ -9,10 +9,6 @@
         </button>
       </div>
       <div class="modal-body" style="padding: 0; text-align: center;">
-        <mat-progress-spinner class="spinner" *ngIf="displayedAllNotifications.length==0" style="margin: 1em auto;"
-          [mode]="'indeterminate'"
-          [diameter]="24">
-        </mat-progress-spinner>
         <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
           <span style="position: absolute; float: left; left: .5em;">Latest notifications</span>
           <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">{{"demo.Mark all as read"|translate}}</a>

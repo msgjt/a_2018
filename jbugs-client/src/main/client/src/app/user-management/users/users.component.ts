@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
 import {FormControl} from "@angular/forms";
 import {UtilService} from "../../shared/util.service";
+import {Warning} from "../../communication/communication.component";
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,7 @@ export class UsersComponent implements OnInit {
   pressedAdd: boolean = false;
   userModel: User;
   activeUser: boolean;
-  errorMessage: string;
+  //errorMessage: string;
   roles: Role[];
   rolesFormControl: FormControl;
   editRolesFormControl: FormControl;
@@ -26,6 +27,9 @@ export class UsersComponent implements OnInit {
   positiveResponse: boolean;
   @ViewChild('infoDiv') infoDiv: ElementRef;
   showInfoDiv: boolean = false;
+  errorMessage: any;
+  warningMessage: Warning;
+  generalError: boolean;
 
   constructor(private userService: UserService, private router: Router,
               public utilService: UtilService) {
@@ -89,29 +93,33 @@ export class UsersComponent implements OnInit {
   }
 
   disableUser(user: any) {
+    this.errorMessage = "";
+    this.generalError = true;
     this.userService.deactivateUser(user.id).subscribe(
       (response) => {
         this.errorOccurred = false;
         this.positiveResponse = true;
         this.userList[user.id - 1].isActive = false;
         this.activeUser = false;
+        this.errorMessage = "";
       },
       (error) => {
         this.errorOccurred = true;
         this.positiveResponse = false;
         this.errorMessage = error['error'];
-        console.log(this.errorMessage);
       }
     );
   }
 
   enableUser(user: any) {
+    this.errorMessage = "";
+    this.generalError = true;
     this.userService.activateUser(user.id).subscribe(
       (response) => {
+        this.errorMessage = "";
       },
       (error) => {
         this.errorMessage = error['error'];
-        console.log(this.errorMessage);
       }
     );
     this.userList[user.id - 1].isActive = true;
@@ -119,6 +127,7 @@ export class UsersComponent implements OnInit {
   }
 
   submitEditForm() {
+    this.errorMessage = "";
     this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
       .subscribe(
         (response) => {
@@ -155,6 +164,8 @@ export class UsersComponent implements OnInit {
   }
 
   submitAddForm(){
+    this.generalError = false;
+    this.errorMessage = "";
     this.roles.forEach(role =>
     {
       if (role.selected){
