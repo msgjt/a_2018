@@ -22,6 +22,7 @@ export class EditBugComponent implements OnInit {
   oldStatus: string = null;
   formData: FormData;
   userList: User[];
+  haveToDelete: boolean;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
@@ -82,6 +83,9 @@ export class EditBugComponent implements OnInit {
             }
           );
       }
+      if(this.haveToDelete == true){
+        this.deleteAttachment(this.bug.id);
+      }
       this.errorOccurred = false;
       this.positiveResponse = true;
     },
@@ -118,6 +122,12 @@ export class EditBugComponent implements OnInit {
     return allStates.find(s => s.key == status).values;
   }
 
+  deleteTriggered(){
+    this.bug.attachment = null;
+    this.haveToDelete = true;
+    this.formData = new FormData();
+  }
+
   deleteAttachment(id) {
     this.bugService.deleteAttachment(id)
       .subscribe(
@@ -138,6 +148,7 @@ export class EditBugComponent implements OnInit {
       this.formData = new FormData();
       this.formData.append('file', files[0]);
       this.bug.attachment = files[0].name;
+      this.haveToDelete = false;
     }
   }
 }
