@@ -156,7 +156,7 @@
 
 
           <div *ngIf="submitAddPerformed">
-            <label *ngIf="errorOccurred && ! startedEditing()" class="errorLabel">
+            <label *ngIf="errorOccurred && startedEditing()" class="errorLabel">
               <app-communication [errors]="[errorMessage]"></app-communication>
             </label>
 
