@@ -162,6 +162,57 @@ public class BugManagementControllerTest {
 /*
 
     @Test
+    public void testUpdateBug_Success() {
+
+
+        UserDTO userDTO1 = new UserDTO();
+        userDTO1.setId(1L);
+        userDTO1.setFirstName("Marian");
+        userDTO1.setLastName("Belean");
+        userDTO1.setEmail("steaua@msggroup.com");
+        userDTO1.setPhoneNumber("0720512347");
+        userDTO1.setRoles(new ArrayList<>());
+
+        BugDTO bugDTO = new BugDTO();
+        bugDTO.setTitle("title");
+        bugDTO.setDescription("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia vo");
+        bugDTO.setVersion("5.1");
+        bugDTO.setTargetDate("1997-09-27");
+        bugDTO.setStatus("Open");
+        bugDTO.setSeverity("MEDIUM");
+        bugDTO.setId(1l);
+        bugDTO.setCreatedBy(userDTO1);
+        bugDTO.setAssignedTo(userDTO1);
+
+        BugDTO bugDTO1 = new BugDTO();
+        bugDTO1.setTitle("title");
+        bugDTO1.setDescription("Ssssssssssssssssssssssssssssssssssssssssssed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia vo");
+        bugDTO1.setVersion("5.1");
+        bugDTO1.setTargetDate("1997-09-27");
+        bugDTO1.setStatus("Open");
+        bugDTO1.setId(1l);
+        bugDTO1.setSeverity("MEDIUM");
+        bugDTO1.setCreatedBy(UserDTOHelper.fromEntity(user));
+        bugDTO1.setAssignedTo(UserDTOHelper.fromEntity(user));
+        when(userManagement.getOldUserFields(any(UserDTO.class)))
+                .thenReturn(user);
+
+
+
+        try {
+            BugDTO updatedBug = bugManagementController.updateBug(bugDTO1);
+            assertEquals(bugDTO1.getStatus(), updatedBug.getStatus());
+            assertEquals(bugDTO1.getSeverity(), updatedBug.getSeverity());
+            assertEquals(bugDTO1.getTitle(), updatedBug.getTitle());
+            assertEquals(bugDTO1.getDescription(), updatedBug.getDescription());
+        } catch (BusinessException e) {
+            fail("Should not reach this point");
+        }
+    }*/
+
+/*
+
+    @Test
     public void isValidVersionTest_Success(){
         boolean boolTest;
         final Pattern VALID_VERSION_REGEX =

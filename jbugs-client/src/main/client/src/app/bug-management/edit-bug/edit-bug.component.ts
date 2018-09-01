@@ -50,13 +50,17 @@ export class EditBugComponent implements OnInit {
     this.bug.status = status;
   }
 
+  validate(){
+    this.submitEditPerformed = true;
+  }
+
   submitEditForm() {
-     this.submitEditPerformed = true;
+    this.submitEditPerformed = true;
     let assignedUser: User;
     assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
     console.log(assignedUser);
 
-    if (assignedUser === undefined) {
+    if (assignedUser == null) {
       this.positiveResponse = false;
       this.errorMessage = {
         id: 5000,

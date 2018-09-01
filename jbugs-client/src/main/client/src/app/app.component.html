@@ -42,9 +42,10 @@
 
     <ul class="navbar nav ml-auto">
       <li class="nav-item">
-        <a tooltip="Notifications" data-placement="bottom" tabindex="0" data-toggle="modal" data-target="#notificationsModal" class="nav-link"
+        <a (click)="initialize()" tooltip="Notifications" data-placement="bottom" tabindex="0" data-toggle="modal" data-target="#notificationsModal" class="nav-link"
            style="margin: 0 .7em 0 0;cursor: pointer; font-size: 26px; color: #420000" *ngIf="isUserLoggedIn()"><i
-          class="fas fa-bell"></i><i class="fa fa-exclamation-circle" aria-hidden="true" style="font-size: 12px; color: white; position: absolute; margin-bottom: 1.2em; margin-left: -.5em;" *ngIf="size() > 0"></i></a>
+          class="fas fa-bell"></i><i class="fa fa-exclamation-circle" aria-hidden="true" style="font-size: 12px; color: white; position: absolute; margin-bottom: 1.2em; margin-left: -.5em;" *ngIf="size() > 0"
+        ></i></a>
       </li>
       <li class="dropdown">
         <a data-target="#" href="" data-toggle="dropdown" class="dropdown-toggle"
@@ -67,7 +68,7 @@
 
 <div id="wrap" style="overflow: hidden">
   <main role="main" id="main" class="container clear-top">>
-        <app-notification></app-notification>
+        <app-notification #notifications></app-notification>
         <router-outlet></router-outlet>
   </main>
 

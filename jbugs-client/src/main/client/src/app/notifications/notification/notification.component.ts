@@ -29,6 +29,17 @@ export class NotificationComponent implements OnInit {
     this.getOldNotifications();
   }
 
+  clear(){
+    this.oldNotifications = [];
+    this.currentNotifications = [];
+
+    this.displayedAllNotifications = [];
+    this.displayedNewNotifications = [];
+    this.notificationService.deinstantiate();
+    this.notificationService.deinstantiateForOld();
+
+  }
+
   getNewNotifications() {
     if (this.notificationService.wasInstantiated() == false) {
       this.notificationService.instantiate();
@@ -73,7 +84,10 @@ export class NotificationComponent implements OnInit {
   }
 
   getOldNotifications() {
-    if (this.notificationService.wasInstantiatedForOld() == false) {
+    console.log("INSTANTIATED FOR OLD: " + this.notificationService.wasInstantiatedForOld());
+    console.log("ALL NOTIFICATIONS LENGTH: " + this.displayedAllNotifications.length);
+    if (this.notificationService.wasInstantiatedForOld() == false &&
+        this.displayedAllNotifications.length == 0) {
       this.notificationService.instantiateForOld();
       const source = interval(500);
        let subscriber=source.subscribe(() => {
