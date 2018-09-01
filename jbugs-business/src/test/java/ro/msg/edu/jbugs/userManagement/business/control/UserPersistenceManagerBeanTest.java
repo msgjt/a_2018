@@ -17,15 +17,13 @@ import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.validator.UserValidator;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Permission;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -412,6 +410,8 @@ public class UserPersistenceManagerBeanTest {
 
         when(userPersistenceManager.getUserById(any(Long.class)))
                 .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO, new User())));
+        when(userPersistenceManager.updateUser(any(User.class)))
+                .thenReturn(UserDTOHelper.toEntity(userDTO1, new User()));
 
         try {
             UserDTO updatedUser = userManagementController.updateUser(userDTO1);
@@ -423,5 +423,47 @@ public class UserPersistenceManagerBeanTest {
         } catch (BusinessException e) {
             fail("Should not reach this point");
         }
+    }
+
+    @Test
+    public void getUsersPermissions(){
+        String username="ioani";
+        User user= new User();
+        Role role= new Role();
+        Permission permission= new Permission();
+        permission.setType2("TEST");
+        permission.setDescription("TEST");
+        List<Permission> permissionsList = new ArrayList<>();
+        permissionsList.add(permission);
+        role.setPermissions(permissionsList);
+        List<Role> rolesList= new ArrayList<>();
+        rolesList.add(role);
+        user.setRoles(rolesList);
+        Set<String> setStrings= new HashSet<>();
+        setStrings.add(permission.getType2());
+        when(userPersistenceManager.getUserByUsername(username)).thenReturn(Optional.of(user));
+        assertEquals(userManagementController.getAllUserPermission(username),setStrings);
+
+    }
+
+    @Test
+    public void getUsersPermissionsAsList(){
+        String username="ioani";
+        User user= new User();
+        Role role= new Role();
+        Permission permission= new Permission();
+        permission.setType2("TEST");
+        permission.setDescription("TEST");
+        List<Permission> permissionsList = new ArrayList<>();
+        permissionsList.add(permission);
+        role.setPermissions(permissionsList);
+        List<Role> rolesList= new ArrayList<>();
+        rolesList.add(role);
+        user.setRoles(rolesList);
+        List<Permission> listPermissions= new ArrayList<>();
+        listPermissions.add(permission);
+        when(userPersistenceManager.getUserByUsername(username)).thenReturn(Optional.of(user));
+        assertEquals(userManagementController.getAllUserPermissionAsList(username),listPermissions);
+
     }
 }

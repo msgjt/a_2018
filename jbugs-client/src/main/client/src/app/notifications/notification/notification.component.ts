@@ -75,7 +75,7 @@ export class NotificationComponent implements OnInit {
   getOldNotifications() {
     if (this.notificationService.wasInstantiatedForOld() == false) {
       this.notificationService.instantiateForOld();
-      const source = interval(this.NOTIFICATION_DELAY);
+      const source = interval(500);
        let subscriber=source.subscribe(() => {
         let id = localStorage.getItem("id");
         if( id != null ) {
@@ -87,6 +87,7 @@ export class NotificationComponent implements OnInit {
               });
               subscriber.unsubscribe();
             }
+              subscriber.unsubscribe();
           },
             (error)=>{
               if(error.status == 403){

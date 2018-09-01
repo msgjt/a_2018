@@ -64,7 +64,10 @@
         </tr>
         </tbody>
       </table>
-      <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
+      <div *ngIf="generalError" class="fade-out-bck">
+        <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
+        <!--<label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>-->
+      </div>
     </div>
   </div>
 </div>
@@ -321,14 +324,13 @@
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
-          <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
+          <div *ngIf="!generalError">
+            <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
+          <!--<label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>-->
+          </div>
           <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
         </form>
       </div>
-      <!--<div class="modal-footer">-->
-      <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="primulNume.value = ''">Close</button>-->
-      <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      <!--</div>-->
     </div>
   </div>
 </div>

@@ -108,6 +108,7 @@
     "Notifications":"Notificari",
     "Mark all as read":"Marcheaza tot ca citit",
     "Older notifications":"Notificari vechi",
-    "Username must have a minimum length of 5 characters":"Numele utilizatorului trebuie sa contina minimum 5 caractere"
+    "Username must have a minimum length of 5 characters":"Numele utilizatorului trebuie sa contina minimum 5 caractere",
+    "Assignee username": "Numele utilizatorului asignat"
   }
 }
