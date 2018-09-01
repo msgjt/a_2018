@@ -322,7 +322,7 @@
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+          <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
         </form>
       </div>
       <!--<div class="modal-footer">-->

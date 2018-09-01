@@ -37,8 +37,8 @@
                   <div class="errorLabel" *ngIf="username.errors?.required && username.touched">
                     {{ 'demo.Username is required' | translate }}
                   </div>
-                  <div class="errorLabel" *ngIf="username.errors?.pattern && username.touched" translate>
-                    demo.Username not valid.
+                  <div class="errorLabel" *ngIf="username.errors?.pattern && username.touched">
+                    {{"demo.Username not valid"|translate}}
                   </div>
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
