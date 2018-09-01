@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">Submit a bug</h5>
+        <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">{{"demo.Submit a bug"| translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" #closeBtn
                 aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -15,14 +15,14 @@
         <div #infoDiv class="alert alert-warning"
              style="left: 20%; top:25%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
              [hidden]="!showInfoDiv">
-          <strong translate>demo.Keep in mind!</strong>
-          <p translate style="color:black;">demo.KeepInMindMessageBug</p>
+          <strong >{{"demo.Keep in mind!"| translate}}</strong>
+          <p  style="color:black;">{{"demo.KeepInMindMessageBug"| translate}}</p>
         </div>
         <form class="form-signin text-center"
               (ngSubmit)="submitAddData()"
               #formControl="ngForm">
           <div class="form-group">
-            <label for="descriptionInputAdd">Description</label>
+            <label for="descriptionInputAdd">{{"demo.Description"| translate}}</label>
             <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description"
                       name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
           </div>
@@ -45,7 +45,7 @@
           </div>
           <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
-                      style="margin-top: 15px">Title is required.</span>
+                      style="margin-top: 15px">{{ "demo.Title is required"| translate}}</span>
                 <input type="text"
                        name="titleAdd"
                        id="titleInputAdd"
@@ -58,7 +58,7 @@
               </span>
           <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is required.</span>
+                      style="margin-top: 15px">{{ "demo.Version is required"| translate}}</span>
                 <input type="text"
                        name="versionAdd"
                        id="versionInputAdd"
@@ -72,7 +72,7 @@
               </span>
           <span class="form-group has-float-label">
                 <span class="help-block" *ngIf="assignedToAdd.errors?.required && assignedToAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is required.</span>
+                      style="margin-top: 15px">{{ "demo.Assigned to is required"| translate}}</span>
                 <input type="text"
                        name="assignedToAdd"
                        id="assignedToInputAdd"
@@ -81,7 +81,7 @@
                        required
                        [(ngModel)]="bugModel.assignedTo.username"
                        placeholder=" ">
-                <label for="assignedToInputAdd" translate style="margin-top: 15px">demo.Assigned to</label>
+                <label for="assignedToInputAdd" translate style="margin-top: 15px">{{ "demo.Assigned to"| translate}}</label>
               </span>
           <div class="form-group">
             <label for="attachmentInputAdd">Attachment</label>
@@ -101,14 +101,14 @@
           <label *ngIf="errorOccurred && startedEditing()" class="errorLabel">
             <app-error-message [errorMessage]="errorMessage"> </app-error-message>
           </label>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+          <label *ngIf="positiveResponse" class="successLabel">{{ "demo.Action completed successfully"| translate}}</label>
           <div class="alert alert-info" role="alert" *ngIf="fileSendAttempted==false && errorOccurred==false
            && submitAddPerformed==true">
-            Please wait while we are validating the file...
+            {{ "demo.Please wait while we are validating the file"| translate}}
           </div>
           </div>
           <div class="alert alert-info" role="alert" *ngIf="formControl.invalid">
-            Information is not valid.
+            {{ "demo.Invalid information"| translate}}
           </div>
 
         </form>

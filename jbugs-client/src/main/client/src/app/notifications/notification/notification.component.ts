@@ -47,7 +47,6 @@ export class NotificationComponent implements OnInit {
                 NotificationComponent.notifSize = this.displayedNewNotifications.length;
               })
             }
-            console.log("NEW: " + this.displayedNewNotifications);
             this.currentNotifications.forEach(n => {
               this.toastrService.info(n.type, n.message)
                 .onShown.subscribe(() => {

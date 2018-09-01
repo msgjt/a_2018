@@ -65,7 +65,7 @@
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
-                     pattern="[+0-9]+"
+                     pattern="[0-9]*\/*(\+49)*[ ]*(\([0-9]+\))*([ ]*(-|–)*[ ]*[0-9]+)*"
                      id="mobileNumberInput"
                      #phone="ngModel"
                      #phoneId
@@ -107,10 +107,13 @@
 
       </span>
 
-    <label id="errorLabel1" *ngIf="firstName.errors?.minlength && firstName.touched" translate style="margin-top: 15px">demo.First name
+    <label id="errorLabel1" *ngIf="firstName.errors?.pattern && firstName.touched" translate style="margin-top: 15px">demo.First name
       is invalid.</label>
-    <label id="errorLabel6" *ngIf="lastName.errors?.minlength && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
-    <label id="errorLabel5" *ngIf="phone.errors?.minlength && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
+    <br>
+    <label id="errorLabel6" *ngIf="lastName.errors?.pattern && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
+    <br>
+    <label id="errorLabel5" *ngIf="phone.errors?.pattern && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
+    <br>
     <label id="errorLabel4" *ngIf="email.errors?.pattern && email.touched" translate
           style="margin-top: 15px">demo.E-mail is invalid.</label>
 
@@ -156,6 +159,7 @@
 
     <label id="errorLabel3" *ngIf="password.errors?.pattern && password.touched &&(newPasswordConfirmed && newPassword)"
            class="errorLabel" translate>demo.Password is invalid.</label>
+    <br>
     <label id="errorLabel3" *ngIf="newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword"
            class="errorLabel" translate>demo.Passwords do not match</label>
 
@@ -175,7 +179,7 @@
     </button>
       </span>
     <label id="errorLabel2" *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
-    <label id="succesLabel2" *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+    <label id="succesLabel2" *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 2em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back

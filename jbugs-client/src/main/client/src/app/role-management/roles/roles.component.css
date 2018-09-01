@@ -1,4 +1,6 @@
-
+ .clickToEdit.placeholder {
+  color:red ;
+}
 
 body {
   height: 100%;

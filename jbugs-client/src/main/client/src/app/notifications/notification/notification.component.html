@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="notificationsModalTitle" style="color: whitesmoke;font-size: 20px; ">Notifications</h5>
+        <h5 class="modal-title" id="notificationsModalTitle" style="color: whitesmoke;font-size: 20px; ">{{"demo.Notifications"|translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #fff; font-size: 20px">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -15,7 +15,7 @@
         </mat-progress-spinner>
         <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
           <span style="position: absolute; float: left; left: .5em;">Latest notifications</span>
-          <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">Mark all as read</a>
+          <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">{{"demo.Mark all as read"|translate}}</a>
         </div>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedNewNotifications.reverse()">
@@ -35,7 +35,7 @@
             </div>
           </li>
         </ul>
-        <p *ngIf="displayedAllNotifications.length>0">Older notifications</p>
+        <p *ngIf="displayedAllNotifications.length>0">{{"demo.Older notifications"|translate}}</p>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedAllNotifications.reverse()">
             <div class="card text-center">

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "NotLoggedFilter",
         urlPatterns = {"/rest/notifications/*","/rest/oldnotifications/*",
-                "/rest/userprofile/*","/rest/userpermissions/*"})
+                "/rest/userprofile/*","/rest/userpermissions/*","/rest/isbugexportpdf/*"})
 public class NotLoggedFilter implements Filter {
 
     @EJB

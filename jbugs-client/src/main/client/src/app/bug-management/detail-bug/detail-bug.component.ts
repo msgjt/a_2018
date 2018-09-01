@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {toBase64String} from "@angular/compiler/src/output/source_map";
 import {BugService} from "../services/bug.service";
 import { saveAs } from 'file-saver/FileSaver';
+import {HttpClient} from "@angular/common/http";
 declare var jsPDF: any;
 
 @Component({
@@ -14,13 +15,27 @@ export class DetailBugComponent implements OnInit {
 
   @Input() detailedBug;
 
-  constructor(private bugService: BugService) { }
+  constructor(private bugService: BugService, private http:HttpClient) { }
 
   ngOnInit() {
+    this.isBUG_EXPORT_PDF_ON_SERVER()
   }
 
   isBUG_EXPORT_PDF(): boolean {
     return localStorage.getItem('BUG_EXPORT_PDF') != null;}
+
+  isBUG_EXPORT_PDF_ON_SERVER(){
+    this.bugService.isBUG_EXPORT_PDF_ON_SERVER().subscribe(response => {
+      if (response == true) {
+        if(localStorage.getItem("BUG_EXPORT_PDF")=="1"){
+        }else {
+          localStorage.setItem("BUG_EXPORT_PDF","1");
+        }
+      } else {
+        localStorage.removeItem("BUG_EXPORT_PDF");
+      }
+    })
+  }
 
   exportToPdf(description: string, fixedVersion :string, severity: string, status: string, targetDate: string,
               title :string, version :string){
