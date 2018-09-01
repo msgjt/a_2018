@@ -7,6 +7,8 @@ body {
   background-color: whitesmoke;
   align-self: center;
   margin-top: 100px;
+  margin-left: auto;
+  margin-right: 70px;
 }
 input{
   height: 30px;
