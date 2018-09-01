@@ -20,7 +20,7 @@ public class BusinessException extends RuntimeException {
      */
     public BusinessException(ExceptionCode exceptionCode, DetailedExceptionCode detailedExceptionCode) {
         super(new String("{" +
-                "\"id\":\"" + exceptionCode.id + detailedExceptionCode.id + "\"," +
+                "\"id\":\"" + Integer.sum(exceptionCode.id,detailedExceptionCode.id) + "\"," +
                 "\"type\":\"" + exceptionCode.message + "\"," +
                 "\"details\":[" +
                 "{\"detail\":\"" + detailedExceptionCode.message + "\"}" +
@@ -39,12 +39,13 @@ public class BusinessException extends RuntimeException {
      */
     public BusinessException(ExceptionCode exceptionCode, Stack<DetailedExceptionCode> detailedStack) {
         super(detailedStack.stream()
-                .map(dExc -> "{id=" + exceptionCode.id + dExc.id
+                .map(dExc -> "{id=" + Integer.sum(exceptionCode.id,dExc.id)
                         + ", type=" + exceptionCode.message
                         + ", details={" + dExc.message + "}}"
                 )
                 .collect(Collectors.toList())
                 .toString());
+
     }
 
     /**

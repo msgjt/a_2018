@@ -4,6 +4,8 @@
   <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
+
+
         <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
           <h5 class="modal-title" id="editModalTitle" style="color: whitesmoke;font-size: 20px; ">
             {{ "demo.Edit a bug"| translate}}
@@ -14,105 +16,163 @@
                   (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;">
             <span aria-hidden="true">&times;</span>
           </button>
-
         </div>
 
-          <div class="modal-body">
-            <div *ngIf="true">
-            <form class="form-signin text-center"
-                  (ngSubmit)="submitEditForm()"
-                  #formControl="ngForm">
-              <h1 class="h1 mb-3 font-weight-normal">
-                {{ "demo.Edit a bug"| translate}}
-              </h1><br>
-              <span class="form-group has-float-label">
-            <span class="help-block"
-                  *ngIf="title.errors?.required && title.touched"  style="margin-top: 15px">{{"demo.First name is required"| translate}}</span>
-                  <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
-                         class="form-control" required
-                         [(ngModel)]="bug.title" placeholder="{{bug.title}}">
-                  <label for="titleInput" translate style="margin-top: 15px">{{"demo.Ttile"| translate}}</label>
-          </span>
 
-              <div class="form-group ">
-                <label for="descriptionInput" >{{"demo.Description"| translate}}</label>
-                <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control"
-                          id="descriptionInput" rows="3" required placeholder="{{bug.description}}"></textarea>
+        <div class="modal-body">
+          <form class="form-signin text-center" #formControl="ngForm" (ngSubmit)="submitEditForm()">
+            <h1 class="h1 mb-3 font-weight-normal">
+              {{ "demo.Edit a bug"| translate}}
+            </h1>
+            <br>
+
+
+            <div class="form-group has-float-label">
+              <div *ngIf="title.touched">
+                <div class="help-block"
+                     *ngIf="title?.errors && title?.errors['required']" style="margin-top: 15px">
+                  {{ "demo.First name is required."| translate}}
+                </div>
+                <div class="help-block"
+                     *ngIf="title?.errors && title?.errors['pattern']" style="margin-top: 15px">
+                  {{ "demo.First name can contain only alphanumeric characters and spaces."| translate}}
+                </div>
+
               </div>
-
-              <span class="form-group has-float-label">
-                  <input name="version" #version="ngModel" #versionId id="versionInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.version" placeholder="{{bug.version}}" pattern="^\w+(\.\w*)*$">
-                  <label for="versionInput"  style="margin-top: 15px">{{"demo.Version"| translate}}</label>
-          </span>
-
-              <span class="form-group has-float-label">
-                  <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}" pattern="^\w+(\.\w*)*$">
-                  <label for="fixedVersionInput"  style="margin-top: 15px">{{"demo.Fixed Version"| translate}}</label>
-          </span>
-
-
-              <span class="form-group has-float-label">
-                  <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
-                         type="text" class="form-control" required
-                         [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}">
-                  <label for="assignedToInput" style="margin-top: 15px">{{"demo.Assigned to"| translate}}</label>
-          </span>
-
-              <span class="form-group has-float-label">
-            <mat-form-field>
-              <mat-select placeholder='{{ "demo.Click to edit status"| translate}}' style="color: white"
-                          [formControl]="statusFormControl"
-                          (selectionChange)="updateBugStatus(statusFormControl.value)">
-                <mat-option *ngFor="let status of getPossibleStates(bug)" [value]="status">{{ 'demo.' + status | translate}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </span>
-
-              <span class="form-group has-float-label">
-            <mat-form-field>
-              <mat-select placeholder='{{ "demo.Click to edit severity"| translate}}' style="color: white"
-                          [formControl]="severityFormControl"
-                          (selectionChange)="updateBugSeverity(severityFormControl.value)">
-                <mat-option *ngFor="let severity of possibleSeverities" [value]="severity">{{ 'demo.' + severity| translate}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </span>
-              <div *ngIf="!bug.attachment" class="form-group">
-                <label for="attachmentInputAdd">{{"demo.Attachment"| translate}}</label>
-                <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
-                       (change)="fileChange($event)">
-              </div>
-              <button *ngIf="bug.attachment" class="btn btn-lg btn-block" type="button" id="buttonDeleteAttId"
-                      style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
-                      (click)="deleteTriggered()"
-              >
-                {{'demo.Delete attachment' | translate}}
-              </button>
-              <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
-                      style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
-                      [disabled]="formControl.invalid" translate
-              >
-                demo.Submit
-              </button>
-              <label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>
-              <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"| translate}}</label>
-            </form>
-          </div>
-            <div *ngIf="false">
-              <h1 class="h1 mb-3 font-weight-normal">
-                {{ "demo.Not able to edit this bug anymore, it was closed."| translate}}
-              </h1><br>
+              <input type="text" name="title" #title="ngModel"  id="titleInput"
+                     [ngClass]="{'form-error': title.errors && title.touched}"
+                     class="form-control" required pattern="[a-zA-Z0-9\_\- ]+"
+                     [(ngModel)]="bug.title" placeholder="{{bug.title}}">
+              <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
             </div>
+
+
+            <div class="form-group ">
+              <div *ngIf="description.touched">
+                <div class="help-block"
+                     *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
+                  {{ "demo.Description is required."| translate}}
+                </div>
+                <div class="help-block"
+                     *ngIf="description?.errors && description?.errors['minlength']" style="margin-top: 15px">
+                  {{ "demo.Description must contain at least 250 characters."| translate}}
+                </div>
+              </div>
+              <label for="descriptionInput" translate>demo.Description</label>
+              <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control"
+                        id="descriptionInput" rows="3" placeholder="{{bug.description}}"
+                        required minlength="250">
+
+                </textarea>
+            </div>
+
+
+            <div class="form-group has-float-label">
+              <div *ngIf="version.touched">
+                <div class="help-block"
+                     *ngIf="version?.errors && version?.errors['required']" style="margin-top: 15px">
+                  {{ "demo.Version is required."| translate}}
+                </div>
+                <div class="help-block"
+                     *ngIf="version?.errors && version?.errors['pattern']" style="margin-top: 15px">
+                  {{ "demo.Version must contain only alphanumeric characters and a dot in-between."| translate}}
+                </div>
+              </div>
+              <input name="version" #version="ngModel" #versionId id="versionInput"
+                     type="text" class="form-control" required
+                     [(ngModel)]="bug.version" placeholder="{{bug.version}}" pattern="^\w+(\.\w*)*$">
+              <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
+            </div>
+
+
+            <div class="form-group has-float-label" *ngIf="bug.status === 'Fixed'">
+              <div *ngIf="fixedVersion.touched">
+                <div class="help-block"
+                     *ngIf="fixedVersion?.errors && fixedVersion?.errors['required']" style="margin-top: 15px">
+                  {{ "demo.Fix version is required."| translate}}
+                </div>
+                <div class="help-block"
+                     *ngIf="fixedVersion?.errors && fixedVersion?.errors['pattern']" style="margin-top: 15px">
+                  {{ "demo.Fix version must contain only alphanumeric characters and a dot in-between."| translate}}
+                </div>
+              </div>
+              <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
+                     type="text" class="form-control" required
+                     [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}" pattern="^\w+(\.\w*)*$">
+              <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
+            </div>
+
+
+            <div class="form-group has-float-label">
+              <div *ngIf="assignedTo.touched">
+                <div class="help-block"
+                     *ngIf="assignedTo?.errors && assignedTo?.errors['required']" style="margin-top: 15px">
+                  {{ "demo.Assignee username is required."| translate}}
+                </div>
+                <div class="help-block"
+                     *ngIf="assignedTo?.errors && assignedTo?.errors['pattern']" style="margin-top: 15px">
+                  {{ "demo.Assignee username must contain only alphanumeric characters."| translate}}
+                </div>
+              </div>
+              <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
+                     type="text" class="form-control" required pattern="[a-z0-9A-Z]+"
+                     [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}">
+              <label for="assignedToInput" translate style="margin-top: 15px">demo.Assignee username</label>
+            </div>
+
+
+            <div class="form-group has-float-label">
+              <mat-form-field>
+                <mat-select placeholder='{{ "demo.Click to edit status"| translate}}' style="color: white"
+                            [formControl]="statusFormControl"
+                            (selectionChange)="updateBugStatus(statusFormControl.value)">
+                  <mat-option *ngFor="let status of getPossibleStates(bug)" [value]="status">
+                    {{ 'demo.' + status | translate}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <div class="form-group has-float-label">
+              <mat-form-field>
+                <mat-select placeholder='{{ "demo.Click to edit severity"| translate}}' style="color: white"
+                            [formControl]="severityFormControl"
+                            (selectionChange)="updateBugSeverity(severityFormControl.value)">
+                  <mat-option *ngFor="let severity of possibleSeverities" [value]="severity">
+                    {{ 'demo.' + severity| translate}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <div *ngIf="!bug.attachment" class="form-group">
+              <label for="attachmentInputAdd">Attachment</label>
+              <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
+            </div>
+
+            <button *ngIf="bug.attachment" class="btn btn-lg btn-block" type="button"
+                    id="buttonDeleteAttId" style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center" (click)="deleteAttachment(bug.id)">
+              {{'demo.Delete attachment' | translate}}
+            </button>
+
+
+            <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
+                    style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
+                    [disabled]="formControl.invalid">
+              {{'demo.Submit' | translate}}
+            </button>
+
+
+          </form>
+
+
+
+          <app-communication [errors]="[errorMessage]"></app-communication>
+
         </div>
       </div>
-
     </div>
   </div>
-
-
-
 </div>

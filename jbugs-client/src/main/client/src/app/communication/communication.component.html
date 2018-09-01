@@ -1,0 +1,36 @@
+<div *ngIf="errors.length > 0">
+  <div *ngFor="let error of errors">
+    <div class="alert alert-danger fade show" role="alert" *ngIf="error?.id != null">
+      <h4 class="error-header">Error occurred [{{error?.id}}]: {{ error?.type }}</h4>
+      <span *ngIf="error?.details">
+    <div *ngFor="let d of error?.details">
+      <p class="mb-0">{{ d?.detail }}</p>
+    </div>
+  </span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="warnings.length > 0">
+  <div *ngFor="let warning of warnings">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" *ngIf="warning?.display === true">
+      <p class="mb-0"> Info: {{ warning?.message }} </p>
+      <hr>
+      <p class="mb-0" *ngIf="warning?.recommendation"> Recommendation: {{ warning?.recommendation }}</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="informations.length > 0">
+  <div *ngFor="let information of informations">
+    <div class="alert alert-info alert-dismissible fade show" role="alert" *ngIf="information.display === true">
+      <p class="mb-0"> Info: {{ information.message }} </p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>

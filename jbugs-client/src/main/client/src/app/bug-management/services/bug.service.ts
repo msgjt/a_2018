@@ -131,4 +131,14 @@ export class BugService {
     let body=localStorage.getItem(LSKEY)+"   "+localStorage.getItem(TOKENKEY);
     return this.http.post<boolean>(this.baseURL+'/isbugexportpdf',body,{headers});
   }
+
+  is_BUG_CLOSE_ON_SERVER():Observable<boolean>{
+    let currentUser = localStorage.getItem("currentUser");
+    let webtoken = localStorage.getItem("webtoken");
+    let headers = new HttpHeaders(
+      {'currentUser':currentUser,
+        'webtoken':webtoken});
+    let body=localStorage.getItem(LSKEY)+"   "+localStorage.getItem(TOKENKEY);
+    return this.http.post<boolean>(this.baseURL+'/isbugclose',body,{headers});
+  }
 }

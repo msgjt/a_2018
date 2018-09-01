@@ -3,6 +3,16 @@
   z-index: 1500;
 }
 
+.form-error{
+  background-color: rgba(240, 172, 172, .4)  !important;
+  color: black;
+}
+
+.help-block{
+  color: darkred !important;
+  font-weight: bold !important;
+  display: inline !important;
+}
 
 
 body {
