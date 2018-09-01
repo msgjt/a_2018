@@ -138,7 +138,6 @@ export class LoginComponent implements OnInit {
         let [xNew, yNew] = this.circlePoint(xCenter, yCenter, radius);
         this.parallax.nativeElement.scrollTop = yNew;
         this.parallax.nativeElement.scrollLeft = xNew;
-        console.log(this.parallax.nativeElement.scrollLeft,this.parallax.nativeElement.scrollTop);
         if (this.errorOccurred == true &&
           this.parallax.nativeElement.scrollLeft > 15 &&
           this.parallax.nativeElement.scrollLeft < 16 &&
