@@ -24,6 +24,15 @@ export class NotificationService {
     this.instantiated = true;
   }
 
+  deinstantiate() {
+    this.instantiated = false;
+  }
+
+  deinstantiateForOld(){
+    this.instantiatedForOld = false;
+  }
+
+
   wasInstantiatedForOld(): boolean {
     return this.instantiatedForOld == true;
   }

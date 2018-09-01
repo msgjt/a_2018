@@ -128,7 +128,11 @@ export class UsersComponent implements OnInit {
 
   submitEditForm() {
     this.errorMessage = "";
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
+    let roles = this.editRolesFormControl.value;
+    if(roles.length == 0){
+      roles = this.roles.find(r => r.type == 'DEV');
+    }
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, roles)
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);

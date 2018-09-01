@@ -74,8 +74,6 @@ public class UserValidator extends BaseValidator {
      * @throws BusinessException if the userDTO is null or if any of its validated fields are null
      */
     public void validateCreate(UserDTO userDTO) {
-        CustomLogger.logEnter(this.getClass(), "validateUserDTOForCreation", String.valueOf(userDTO));
-
         if (userDTO == null) {
             CustomLogger.logExit(this.getClass(), "validateUserDTOForUpdate",
                     ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_NULL);
@@ -85,11 +83,8 @@ public class UserValidator extends BaseValidator {
         Map<DetailedExceptionCode, Boolean> validationMap = getCreateValidationMap(userDTO);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
         if (!validationMessageStack.empty()) {
-            CustomLogger.logException(this.getClass(), "validateUserDTOForCreation",
-                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION, validationMessageStack);
         }
-        CustomLogger.logExit(this.getClass(), "validateUserDTOForCreation", "OK");
     }
 
     /**
@@ -109,7 +104,7 @@ public class UserValidator extends BaseValidator {
 
         Map<DetailedExceptionCode, Boolean> validationMap = getUpdateValidationMap(userDTO);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
-        if (!validationMessageStack.empty()) {
+        if (!validationMessageStack.isEmpty()) {
             CustomLogger.logException(this.getClass(), "validateUserDTOForUpdate",
                     ExceptionCode.USER_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION, validationMessageStack);

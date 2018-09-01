@@ -68,7 +68,7 @@ public class RoleValidator extends BaseValidator {
 
         Map<DetailedExceptionCode, Boolean> validationMap = getCreateValidationMap(roleDTO);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
-        if (!validationMessageStack.empty()) {
+        if (!validationMessageStack.isEmpty()) {
             CustomLogger.logException(this.getClass(), "validateRoleForCreation",
                     ExceptionCode.ROLE_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION, validationMessageStack);
@@ -94,7 +94,7 @@ public class RoleValidator extends BaseValidator {
         Map<DetailedExceptionCode, Boolean> validationMap = getUpdateValidationMap(roleDTO);
         validationMap.put(DetailedExceptionCode.ROLE_ID_NULL, roleDTO.getId() == null);
         Stack<DetailedExceptionCode> validationMessageStack = getValidationMessage(validationMap);
-        if (!validationMessageStack.empty()) {
+        if (!validationMessageStack.isEmpty()) {
             CustomLogger.logException(this.getClass(), "validateRoleForUpdate",
                     ExceptionCode.ROLE_VALIDATION_EXCEPTION + " " + validationMessageStack.toString());
             throw new BusinessException(ExceptionCode.ROLE_VALIDATION_EXCEPTION, validationMessageStack);
