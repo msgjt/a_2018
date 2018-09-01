@@ -222,7 +222,7 @@
                   <span class="help-block"
                         *ngIf="firstName.errors?.required && firstName.touched" translate style="margin-top: 15px">demo.First name is required.</span>
                   <span class="help-block"
-                        *ngIf="firstName.errors?.minlength && firstName.touched" translate style="margin-top: 15px">demo.First name is invalid.</span>
+                        *ngIf="firstName.errors?.pattern && firstName.touched" translate style="margin-top: 15px">demo.First name is invalid.</span>
                   <input type="text"
                          name="firstName"
                          minlength="2"
@@ -239,7 +239,7 @@
                 <span class="help-block"
                       *ngIf="lastName.errors?.required && lastName.touched" translate style="margin-top: 15px">demo.Last name is required.</span>
                 <span class="help-block"
-                      *ngIf="lastName.errors?.minlength && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</span>
+                      *ngIf="lastName.errors?.pattern && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</span>
                 <input type="text"
                        name="lastName"
                        minlength="2"
@@ -255,12 +255,12 @@
           <span class="form-group has-float-label">
               <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate
                     style="margin-top: 15px">demo.Phone number is required.</span>
-              <span class="help-block" *ngIf="phone.errors?.minlength && phone.touched" translate
+              <span class="help-block" *ngIf="phone.errors?.pattern && phone.touched" translate
                     style="margin-top: 15px">demo.Phone number is invalid.</span>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
-                     pattern="[+0-9]+"
+                     pattern="[0-9]*\/*(\+49)*[ ]*(\([0-9]+\))*([ ]*(-|–)*[ ]*[0-9]+)*"
                      id="mobileNumberInput"
                      #phone="ngModel"
                      class="form-control"
@@ -322,7 +322,7 @@
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+          <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
         </form>
       </div>
       <!--<div class="modal-footer">-->

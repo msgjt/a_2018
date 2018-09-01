@@ -22,6 +22,8 @@ export class NewBugComponent implements OnInit {
   showInfoDiv: boolean = false;
   submitAddPerformed: boolean = false;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  validExtensions: string[] = ['jpg','pdf','doc','odf','xlsx','xls'];
+  fileNotValid: boolean;
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
@@ -101,9 +103,9 @@ export class NewBugComponent implements OnInit {
     let currentUser = this.userList.find(user => user.username == currentUsername);
     if (currentUser === undefined){
       this.errorMessage = {id: "5001",type: "Current user could not be retrieved"};
+      this.positiveResponse = false;
       this.errorOccurred = true;
       this.submitAddPerformed = true;
-      this.resetBugModel();
       return;
     }
     this.bugModel.createdBy = currentUser;
@@ -111,9 +113,9 @@ export class NewBugComponent implements OnInit {
     let assignedUser = this.userList.find(user => user.username == assignedUsername);
     if (assignedUser === undefined){
       this.errorMessage = { id:"5002",type: "Can not find the assigned user.",details:[]};
+      this.positiveResponse = false;
       this.errorOccurred = true;
       this.submitAddPerformed = true;
-      this.resetBugModel();
       return;
     }
     this.bugModel.assignedTo = assignedUser;
@@ -138,7 +140,6 @@ export class NewBugComponent implements OnInit {
                   this.errorMessage = error['error'];
                   this.errorOccurred = true;
                   this.fileSendAttempted = true;
-                  this.resetBugModel();
                 }
               );
           }
@@ -155,7 +156,6 @@ export class NewBugComponent implements OnInit {
           this.errorMessage = error['error'];
           this.errorOccurred = true;
           this.submitAddPerformed = true;
-          this.resetBugModel();
         }
       );
   }
@@ -164,8 +164,18 @@ export class NewBugComponent implements OnInit {
     let files = event.target.files;
     if (files.length > 0) {
       this.formData = new FormData();
-      this.formData.append('file', files[0]);
-      this.bugModel.attachment = files[0].name;
+      let filename = files[0].name;
+      let splitted = filename.split(".");
+      let extension = splitted[splitted.length-1];
+      let isValidExtension = this.validExtensions.find(ext => ext == extension);
+      if (isValidExtension !== undefined) {
+        this.formData.append('file', files[0]);
+        this.bugModel.attachment = files[0].name;
+        this.fileNotValid = false;
+      }
+      else {
+        this.fileNotValid = true;
+      }
     }
   }
 

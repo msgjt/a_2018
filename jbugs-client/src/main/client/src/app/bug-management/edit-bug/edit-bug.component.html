@@ -37,6 +37,7 @@
                      *ngIf="title?.errors && title?.errors['pattern']" style="margin-top: 15px">
                   {{ "demo.First name can contain only alphanumeric characters and spaces."| translate}}
                 </div>
+
               </div>
               <input type="text" name="title" #title="ngModel"  id="titleInput"
                      [ngClass]="{'form-error': title.errors && title.touched}"

@@ -49,7 +49,8 @@ export class UserProfileComponent implements OnInit {
     });
     this.userModel.username = localStorage.getItem('currentUser');
     this.userModel.id = Number(localStorage.getItem('id'));
-    this.isLoggedInOnServer()
+    this.isLoggedInOnServer();
+    this.showInfoDiv = true;
   }
   refresh(){
     this.userList = [];

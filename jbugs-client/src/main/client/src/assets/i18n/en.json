@@ -61,6 +61,9 @@
     "Your personal data": "Your personal data",
     "Username is required": "Username is required",
     "Username not valid": "Username is not valid",
+    "Username not valid.": "Username is not valid",
+    "Username is  not valid": "Username is not valid",
+    "Username is not valid.": "Username is not valid",
     "Password is required": "Password is required",
     "Attachment": "Attachment",
     "LOW": "Low",
@@ -90,6 +93,17 @@
     "Version must contain only groups of alphanumeric characters and a dot in-between (examples: 1, 1.2, a1.2, 1.a2, 1.2.3)":
     "Version must contain only groups of alphanumeric characters and a dot in-between (examples: 1, 1.2, a1.2, 1.a2, 1.2.3)",
     "Assignee username is required": "Assignee username is required",
-    "Assignee username must contain only alphanumeric characters": "Assignee username must contain only alphanumeric characters"
+    "Assignee username must contain only alphanumeric characters": "Assignee username must contain only alphanumeric characters",
+    "Showing":"Showing",
+    "results":"results",
+    "Bug details":"Bug details",
+    "Please wait while we are validating the file":"Please wait while we are validating the file",
+    "Invalid information":"Invalid information",
+    "You are not logged in":"You are not logged in",
+    "The page you are looking for does not exist":"The page you are looking for does not exist",
+    "You do not have the permission to access this page":"You do not have the permission to access this page",
+    "Notifications":"Notifications",
+    "Mark all as read":"Mark all as read",
+    "Older notifications":"Older notifications"
   }
 }
