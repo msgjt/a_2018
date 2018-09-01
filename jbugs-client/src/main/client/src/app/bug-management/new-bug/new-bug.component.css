@@ -3,6 +3,12 @@
   z-index: 1500;
 }
 
+
+.submit-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
 .form-error{
   background-color: rgba(240, 172, 172, .4)  !important;
   color: black;

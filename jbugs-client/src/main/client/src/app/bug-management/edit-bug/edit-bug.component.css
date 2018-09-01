@@ -5,10 +5,10 @@
 
 
 
-.form-error {
-  background-color: darkred;
+.form-error{
+  background-color: rgba(240, 172, 172, .4)  !important;
+  color: black;
 }
-
 body {
   height: 100%;
   display: -ms-flexbox;
