@@ -88,6 +88,9 @@
             <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
                    (change)="fileChange($event)">
           </div>
+          <div *ngIf="fileNotValid">
+            File not valid. Bug can be submitted without the attachment.
+          </div>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
@@ -95,7 +98,7 @@
             demo.Submit
           </button>
           <div *ngIf="submitAddPerformed">
-          <label *ngIf="errorOccurred && ! startedEditing()" class="errorLabel">
+          <label *ngIf="errorOccurred && startedEditing()" class="errorLabel">
             <app-error-message [errorMessage]="errorMessage"> </app-error-message>
           </label>
           <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
