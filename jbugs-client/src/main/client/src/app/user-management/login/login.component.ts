@@ -3,6 +3,7 @@ import {LSKEY, TOKENKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
+import {Error, Information, Warning} from "../../communication/communication.component";
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,18 @@ export class LoginComponent implements OnInit {
   userModel: User;
   loggedIn = false;
   baseURL = 'http://localhost:8080/jbugs/rest';
+  RecaptchaOptions = {theme: 'clean'};
   recaptchaResponse: any;
-  RecaptchaOptions = { theme : 'clean' };
   errorOccurred: boolean;
-  errorMessage: string;
+  errorMessage: Error;
   usernameError: boolean;
-  notificationsList: Notification[];
-  oldNotificationsList: Notification[];
+  usernameInformation: Information;
+  passwordInformation: Information;
+  failedLoginWarning: Warning;
+  failedCounter: number;
+  items = ['a', 'b', 'c', 'd', 'e', 'f'];
+  @ViewChild('scrollMe') scrollContainer: ElementRef;
+  @ViewChild('parallax') parallax: ElementRef;
 
   @ViewChild('container-login-username') containerUsername: ElementRef;
 
@@ -39,55 +45,156 @@ export class LoginComponent implements OnInit {
     };
     this.loggedIn = userService.isLoggedIn();
     this.errorOccurred = false;
+    this.usernameInformation = {
+      message: "Username was generated based on your first and last names. Please contact the administrator if forgotten",
+      display: false
+    };
+    this.passwordInformation = {
+      message: "Your password was given by the administrator, please contact him if forgotten.",
+      display: false
+    };
+    this.failedLoginWarning = {
+      message: "After 5 unsuccessful logins your account will be disabled and your administrator notified.",
+      recommendation: null,
+      display: false
+    };
+    this.errorMessage = null;
+    this.failedCounter = 0;
   }
 
   ngOnInit() {
     this.usernameError = false;
+    //this.scrollDownRightEvent(5, 2,1, 200, 100);
+
+    this.parallax.nativeElement.scrollTop = 100;
+    this.parallax.nativeElement.scrollLeft = 200;
+
   }
 
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  startScrollDown(msBetween: number, heightIncrement: number, distance: number) {
+    this.delay(msBetween).then(() => {
+        this.parallax.nativeElement.scrollTop += heightIncrement;
+        if (this.parallax.nativeElement.scrollTop < distance && this.errorOccurred == false) {
+          this.startScrollDown(msBetween, heightIncrement, distance);
+        }
+      }
+    );
+  }
+
+  scrollDownRightEvent(msBetween: number, xIncrement: number,yIncrement: number, distanceX: number, distanceY: number) {
+    this.delay(msBetween).then(() => {
+      let xIndex = this.parallax.nativeElement.scrollLeft;
+      let yIndex = this.parallax.nativeElement.scrollTop;
+      if (xIndex < distanceX) {
+        this.parallax.nativeElement.scrollLeft += xIncrement;
+      }
+      if (yIndex < distanceY) {
+        this.parallax.nativeElement.scrollTop += yIncrement;
+      }
+      if (yIndex == distanceY && xIndex == distanceX) {
+        return;
+      } else {
+        this.scrollDownRightEvent(msBetween, xIncrement,yIncrement, distanceX, distanceY);
+      }
+    });
+  }
+
+
+  startScrollRight(msBetween: number, widthIncrement: number, distance: number) {
+    this.delay(msBetween).then(() => {
+        this.parallax.nativeElement.scrollLeft += widthIncrement;
+        if (this.parallax.nativeElement.scrollTop < distance && this.errorOccurred == false) {
+          this.startScrollRight(msBetween, widthIncrement, distance);
+        }
+      }
+    );
+  }
+
+
+  toDegrees(angle: number) {
+    return angle * (180 / Math.PI);
+  }
+
+  toRadians(angle) {
+    return angle * (Math.PI / 180);
+  }
+
+  angleDegrees: number = 0;
+
+  circlePoint(xCenter: number, yCenter: number, radius: number): number[] {
+    let angleRadians = this.toRadians(this.angleDegrees);
+    let xNew = Math.cos(angleRadians) * radius + xCenter;
+    let yNew = Math.sin(angleRadians) * radius + yCenter;
+    this.angleDegrees += 1;
+    return [xNew, yNew];
+  }
+
+  startCircleScroll(msBetween: number, xCenter: number, yCenter: number, radius: number) {
+    this.delay(msBetween).then(() => {
+        let [xNew, yNew] = this.circlePoint(xCenter, yCenter, radius);
+        this.parallax.nativeElement.scrollTop = yNew;
+        this.parallax.nativeElement.scrollLeft = xNew;
+        console.log(this.parallax.nativeElement.scrollLeft,this.parallax.nativeElement.scrollTop);
+        if (this.errorOccurred == true &&
+          this.parallax.nativeElement.scrollLeft > 15 &&
+          this.parallax.nativeElement.scrollLeft < 16 &&
+          this.parallax.nativeElement.scrollTop > 46 &&
+          this.parallax.nativeElement.scrollTop < 47) {
+          return;
+        }else{
+          this.startCircleScroll(msBetween, xCenter, yCenter, radius);
+        }
+      }
+    );
+  }
+
+
   submitForm() {
-   /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
-      console.log(response);
-      if(response['success'] == true) {
-        console.log('Form was submitted with the following data:' +
-          JSON.stringify(this.userModel));*/
+    this.errorOccurred = false;
+    this.loggedIn = true;
+
+    this.delay(1000).then(() => this.startCircleScroll(2, 100, 100, 100));
+    /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
+       console.log(response);
+       if(response['success'] == true) {
+         console.log('Form was submitted with the following data:' +
+           JSON.stringify(this.userModel));*/
+    this.delay(3000).then(() => {
         this.userService.validateUserCredentials(this.userModel.username,
           this.userModel.password).subscribe(
           (response) => {
-              this.login(response.token);
-              localStorage.setItem("id",response.id);
-              this.loggedIn = true;
-              this.router.navigate(['./user_profile']);
+            this.login(response.token);
+            localStorage.setItem("id", response.id);
+            this.loggedIn = true;
+            this.router.navigate(['./user_profile']);
           },
           (error) => {
-            console.log('ERROR: ' + JSON.stringify(error['error']));
-            if(error['error'] == "{id=1000206, type=USER_VALIDATION_EXCEPTION, details={USER_LOGIN_FAILED_FIVE_TIMES}}") {
-              this.errorOccurred = true;
-              this.errorMessage = 'Login failed 5 times. Your account has been disabled.';
-            }
-            else {
-              if (error['error'] == "{id=1000207, type=USER_VALIDATION_EXCEPTION, details={USER_DISABLED}}") {
-                this.errorOccurred = true;
-                this.errorMessage = 'User disabled';
-              }
-              else {
-                if( ! this.userModel.username ) {
-                  this.usernameError = true;
-                  this.errorMessage = 'Username not valid';
-                }
-                if( ! this.userModel.password) {
-                  this.errorMessage = 'Password not valid';
-                }
-              }
-            }
             this.errorOccurred = true;
+            this.errorMessage = error['error'];
+            if (this.errorMessage.id == 1404)
+              this.failedCounter++;
+
+            if (this.failedCounter > 1) {
+              this.usernameInformation.display = true;
+              this.passwordInformation.display = true;
+            }
+
+            if (this.failedCounter > 2)
+              this.failedLoginWarning.display = true;
             this.loggedIn = false;
-          });
+          }
+        );
+
+      }
+    );
   }
 
   login(token: string) {
     localStorage.setItem(LSKEY, this.userModel.username);
-    console.log('saving token: ' + token);
     localStorage.setItem(TOKENKEY, token);
     this.loggedIn = true;
     this.getUsersPermissions(this.userModel.username);
@@ -97,12 +204,11 @@ export class LoginComponent implements OnInit {
     this.recaptchaResponse = captchaResponse;
   }
 
-  getUsersPermissions(username: string){
+  getUsersPermissions(username: string) {
     this.userService.getUsersPermissions(username).subscribe(
-      (list)=>{
-        console.log(list);
-        for(let i=0; i<list.length;i++){
-          localStorage.setItem(list[i].type,"1");
+      (list) => {
+        for (let i = 0; i < list.length; i++) {
+          localStorage.setItem(list[i].type, "1");
         }
       }
     )

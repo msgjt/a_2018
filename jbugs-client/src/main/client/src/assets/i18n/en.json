@@ -80,6 +80,16 @@
     "Not able to edit this bug anymore, it was closed.": "Not able to edit this bug anymore, it was closed.",
     "Delete attachment": "Delete attachment",
     "Passwords do not match": "Passwords do not match",
-    "Action completed successfully":"Action completed successfully"
+    "Action completed successfully":"Action completed successfully",
+    "Title is required": "First name is required",
+    "Title can contain only alphanumeric characters and spaces": "First name can contain only alphanumeric characters and spaces",
+    "Target date is required": "Target date is required",
+    "Description is required": "Description is required",
+    "Description must contain at least 250 characters": "Description must contain at least 250 characters",
+    "Version is required": "Version is required",
+    "Version must contain only groups of alphanumeric characters and a dot in-between (examples: 1, 1.2, a1.2, 1.a2, 1.2.3)":
+    "Version must contain only groups of alphanumeric characters and a dot in-between (examples: 1, 1.2, a1.2, 1.a2, 1.2.3)",
+    "Assignee username is required": "Assignee username is required",
+    "Assignee username must contain only alphanumeric characters": "Assignee username must contain only alphanumeric characters"
   }
 }

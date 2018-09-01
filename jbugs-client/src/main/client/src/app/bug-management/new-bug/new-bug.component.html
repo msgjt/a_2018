@@ -10,22 +10,134 @@
         </button>
       </div>
       <div class="modal-body text-center">
+
+
         <i class="material-icons" (mouseenter)="showInfo()" (mouseleave)="hideInfo()"
-           style="cursor: help; margin: 0 auto">info</i>
+           style="cursor: help; margin: 0 auto">
+          info
+        </i>
+
+
         <div #infoDiv class="alert alert-warning"
              style="left: 20%; top:25%;width: 60%; margin: 0 auto;position:fixed;z-index: 99 !important;"
              [hidden]="!showInfoDiv">
           <strong translate>demo.Keep in mind!</strong>
           <p translate style="color:black;">demo.KeepInMindMessageBug</p>
         </div>
-        <form class="form-signin text-center"
-              (ngSubmit)="submitAddData()"
-              #formControl="ngForm">
-          <div class="form-group">
-            <label for="descriptionInputAdd">Description</label>
-            <textarea required minlength="250" #descriptionAdd="ngModel" [(ngModel)]="bugModel.description"
-                      name="descriptionAdd" class="form-control" id="descriptionInputAdd" rows="3"></textarea>
+
+
+        <form class="form-signin text-center" (ngSubmit)="submitAddData()" #formControl="ngForm"
+        >
+
+          <br>
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || title.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
+              <div class="help-block"
+                   *ngIf="title?.errors && title?.errors['required']" style="margin-top: 15px">
+                {{ "demo.Title is required"| translate}}
+              </div>
+              <div class="help-block"
+                   *ngIf="title?.errors && title?.errors['pattern']" style="margin-top: 15px">
+                {{ "demo.Title can contain only alphanumeric characters and spaces"| translate}}
+              </div>
+            </div>
+            <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
+                   class="form-control" required pattern="[a-zA-Z0-9\_\- ]+"
+                   [ngClass]="{'form-error': title?.errors &&
+                   (submitAddPerformed || title.touched || description.touched || version.touched || assignedTo.touched )}"
+                   [(ngModel)]="bugModel.title" placeholder="{{bugModel.title}}">
+            <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
           </div>
+          <br>
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || description.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
+              <div class="help-block"
+                   *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
+                {{ "demo.Target date is required"| translate}}
+              </div>
+            </div>
+              <div class="input-group">
+                <label for="targetDateInput" translate style="margin-right: 5%">demo.Target date</label>
+                <input type="date" class="form-control" placeholder="yyyy-mm-dd" id="targetDateInput"
+                       name="targetDate" #targetDate="ngModel" required
+                       [ngClass]="{'form-error': targetDate?.errors &&
+                       (submitAddPerformed || targetDate?.touched || version.touched || assignedTo.touched)}"
+                       [ngModel]="bugModel.targetDate"
+                       (ngModelChange)="bugModel.targetDate = $event">
+            </div>
+          </div>
+
+
+          <div class="form-group ">
+            <div *ngIf="submitAddPerformed || description.touched || version.touched || assignedTo.touched">
+              <div class="help-block"
+                   *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
+                {{ "demo.Description is required"| translate}}
+              </div>
+              <div class="help-block"
+                   *ngIf="description?.errors && description?.errors['minlength']" style="margin-top: 15px">
+                {{ "demo.Description must contain at least 250 characters"| translate}}
+              </div>
+            </div>
+            <label for="descriptionInput" translate>demo.Description</label>
+            <textarea #description="ngModel" [(ngModel)]="bugModel.description" name="description" class="form-control"
+                      id="descriptionInput" rows="3" placeholder="{{bugModel.description}}"
+                      [ngClass]="{'form-error': description?.errors &&
+                      (submitAddPerformed || description.touched || version.touched || assignedTo.touched)}"
+                      required minlength="250">
+            </textarea>
+          </div>
+
+
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || version.touched || assignedTo.touched">
+              <div class="help-block"
+                   *ngIf="version?.errors && version?.errors['required']" style="margin-top: 15px">
+                {{ "demo.Version is required"| translate}}
+              </div>
+              <div class="help-block"
+                   *ngIf="version?.errors && version?.errors['pattern']" style="margin-top: 15px">
+                {{ "demo.Version must contain only groups of alphanumeric characters and a dot in-between " +
+                "(examples: 1, 1.2, a1.2, 1.a2, 1.2.3) "| translate}}
+              </div>
+            </div>
+            <input name="version" #version="ngModel" #versionId id="versionInput"
+                   type="text" class="form-control" required
+                   [(ngModel)]="bugModel.version" placeholder="{{bugModel.version}}" pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
+                   [ngClass]="{'form-error': version?.errors &&
+                   (submitAddPerformed || version.touched || assignedTo.touched)}"
+            >
+            <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
+          </div>
+
+
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || assignedTo.touched">
+              <div class="help-block"
+                   *ngIf="assignedTo?.errors && assignedTo?.errors['required']" style="margin-top: 15px">
+                {{ "demo.Assignee username is required"| translate}}
+              </div>
+              <div class="help-block"
+                   *ngIf="assignedTo?.errors && assignedTo?.errors['pattern']" style="margin-top: 15px">
+                {{ "demo.Assignee username must contain only alphanumeric characters."| translate}}
+              </div>
+            </div>
+            <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
+                   type="text" class="form-control" required pattern="[a-z0-9A-Z]+"
+                   [(ngModel)]="bugModel.assignedTo.username" placeholder="{{bugModel.assignedTo.username}}"
+                   [ngClass]="{'form-error': assignedTo?.errors && (submitAddPerformed || assignedTo.touched)}"
+            >
+            <label for="assignedToInput" translate style="margin-top: 15px">demo.Assignee username</label>
+          </div>
+
+
+          <div class="form-group">
+            <label for="attachmentInputAdd">Attachment</label>
+            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
+                   (change)="fileChange($event)">
+          </div>
+          <br>
+
 
           <span class="form-group has-float-label">
             <mat-form-field>
@@ -37,77 +149,27 @@
             </mat-form-field>
           </span>
 
-          <div class="form-group">
-            <div class="input-group">
-              <input type="date" class="form-control" placeholder="yyyy-mm-dd"
-                     name="dp" [ngModel]="bugModel.targetDate" (ngModelChange)="bugModel.targetDate = $event">
-            </div>
-          </div>
-          <span class="form-group has-float-label">
-                <span class="help-block" *ngIf="titleAdd.errors?.required && titleAdd.touched" translate
-                      style="margin-top: 15px">Title is required.</span>
-                <input type="text"
-                       name="titleAdd"
-                       id="titleInputAdd"
-                       #titleAdd="ngModel"
-                       class="form-control"
-                       required
-                       [(ngModel)]="bugModel.title"
-                       placeholder=" ">
-                <label for="titleInputAdd" style="margin-top: 15px">Title</label>
-              </span>
-          <span class="form-group has-float-label">
-                <span class="help-block" *ngIf="versionAdd.errors?.required && versionAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is required.</span>
-                <input type="text"
-                       name="versionAdd"
-                       id="versionInputAdd"
-                       #versionAdd="ngModel"
-                       class="form-control"
-                       required
-                       [(ngModel)]="bugModel.version"
-                       placeholder=" "
-                       pattern="^\w+(\.\w*)*$">
-                <label for="versionInputAdd" translate style="margin-top: 15px">demo.Version</label>
-              </span>
-          <span class="form-group has-float-label">
-                <span class="help-block" *ngIf="assignedToAdd.errors?.required && assignedToAdd.touched" translate
-                      style="margin-top: 15px">demo.Version is required.</span>
-                <input type="text"
-                       name="assignedToAdd"
-                       id="assignedToInputAdd"
-                       #assignedToAdd="ngModel"
-                       class="form-control"
-                       required
-                       [(ngModel)]="bugModel.assignedTo.username"
-                       placeholder=" ">
-                <label for="assignedToInputAdd" translate style="margin-top: 15px">demo.Assigned to</label>
-              </span>
-          <div class="form-group">
-            <label for="attachmentInputAdd">Attachment</label>
-            <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
-                   (change)="fileChange($event)">
-          </div>
+
           <button class="btn btn-lg btn-block" type="submit"
-                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate
-          >
+                  style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center" translate>
             demo.Submit
           </button>
-          <div *ngIf="submitAddPerformed">
-          <label *ngIf="errorOccurred && ! startedEditing()" class="errorLabel">
-            <app-error-message [errorMessage]="errorMessage"> </app-error-message>
-          </label>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
-          <div class="alert alert-info" role="alert" *ngIf="fileSendAttempted==false && errorOccurred==false
-           && submitAddPerformed==true">
-            Please wait while we are validating the file...
-          </div>
-          </div>
-          <div class="alert alert-info" role="alert" *ngIf="formControl.invalid">
-            Information is not valid.
-          </div>
 
+
+          <div *ngIf="submitAddPerformed">
+            <label *ngIf="errorOccurred && ! startedEditing()" class="errorLabel">
+              <app-communication [errors]="[errorMessage]"></app-communication>
+            </label>
+
+
+            <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+
+            <div class="alert alert-info" role="alert"
+                 *ngIf="fileSendAttempted==false && errorOccurred==false && submitAddPerformed==true">
+              Please wait while we are validating the file...
+            </div>
+
+          </div>
         </form>
       </div>
     </div>

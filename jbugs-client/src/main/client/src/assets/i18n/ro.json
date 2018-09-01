@@ -83,6 +83,16 @@
     "Not able to edit this bug anymore, it was closed.": "Editarea acestui bug nu mai este posibila.",
     "Delete attachment": "Sterge atasament",
     "Passwords do not match": "Parolele nu corespund",
-    "Action completed successfully":"Actiune finalizata cu succes"
+    "Action completed successfully":"Actiune finalizata cu succes",
+    "Title is required": "Titlul este necesar",
+    "Title can contain only alphanumeric characters and spaces": "Titlul poate contine doar caractere alfanumerice si spatii",
+    "Target date is required": "Data tina este necesara",
+    "Description is required": "Descrierea este neceara",
+    "Description must contain at least 250 characters": "Descrierea trebuie sa contina minim 250 de caractere",
+    "Version is required": "Versiunea este necesara",
+    "Version must contain only groups of alphanumeric characters and a dot in-between (examples: 1, 1.2, a1.2, 1.a2, 1.2.3)":
+    "Versiunea trebuie sa contina doar grupuri de caractere alfanumerice despartite prin punct (exemple: 1, 1.2, a1.2, 1.a2, 1.2.3",
+    "Assignee username is required": "Numele utilizatorului asignat este necesar",
+    "Assignee username must contain only alphanumeric characters": "Numele utilizatorului asignat trebuie sa contina doar caractere alfanumerice"
   }
 }

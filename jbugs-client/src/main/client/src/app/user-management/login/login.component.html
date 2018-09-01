@@ -1,5 +1,6 @@
-<div id="container-main">
-  <div class="parallax" style="z-index: 10;">
+
+<div id="container-main" #scrollMe style="overflow: hidden;">
+  <div class="parallax" #parallax style="z-index: 10; overflow-y: scroll; overflow-x: scroll">
     <div class="parallax__layer parallax__layer__0">
       <img src="https://sam.beckham.io/images/articles/firewatch/layer_0.png"/>
     </div>
@@ -20,7 +21,7 @@
       <div class="logo">JBugger</div>
     </div>
     <div class="parallax__layer parallax__layer__6">
-      <div class="login-container" *ngIf="!loggedIn">
+      <div class="login-container" *ngIf="loggedIn == false">
 
         <div class="limiter">
           <div class="container-login100">
@@ -34,12 +35,17 @@
                          minlength="5" pattern="[a-z0-9]+" required
                          [(ngModel)]="userModel.username"
                          placeholder=" {{ 'demo.Username' | translate }}">
-                  <div class="errorLabel" *ngIf="username.errors?.required && username.touched">
+                  <span *ngIf="username.touched">
+                  <div class="errorLabel" *ngIf="username?.errors && username?.errors['required']">
                     {{ 'demo.Username is required' | translate }}
                   </div>
-                  <div class="errorLabel" *ngIf="username.errors?.pattern && username.touched" translate>
-                    demo.Username not valid.
+                  <div class="errorLabel" *ngIf="username?.errors && username?.errors['minlength']">
+                    {{ 'demo.Username must have a minimum length of 5 characters' | translate }}
                   </div>
+                    <div class="errorLabel" *ngIf="username?.errors && username?.errors['pattern']">
+                    {{ 'demo.Username can contain only alphanumerical characters' | translate }}
+                  </div>
+                    </span>
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
 							    <i class="fa fa-user"></i>
@@ -53,9 +59,11 @@
                          required
                          [(ngModel)]="userModel.password"
                          placeholder=" {{ 'demo.Password' | translate }}">
-                  <div class="errorLabel" *ngIf="password.errors?.required && password.touched">
-                    {{ 'demo.Password is required' | translate }}
-                  </div>
+                  <span *ngIf="password.touched">
+                    <div class="errorLabel" *ngIf="password?.errors && password?.errors['required']">
+                      {{ 'demo.Password is required' | translate }}
+                    </div>
+                  </span>
                   <span class="focus-input100"></span>
                   <span class="symbol-input100">
 							<i class="fa fa-lock"></i>
@@ -74,9 +82,13 @@
                     (resolved)="resolved($event)" siteKey="6LdwLWsUAAAAALRUJUOLuIzx7IjhZddT-6P55787">
                   </re-captcha>
                 </div>
-                <div class="information" *ngIf="errorOccurred" class="errorLabel" style="position: center;">
-                  {{errorMessage}}
-                </div>
+                <span class="informations">
+                <app-communication
+                  [errors]="[errorMessage]"
+                  [warnings]="[failedLoginWarning]"
+                  [informations]="[usernameInformation,passwordInformation]"
+                ></app-communication>
+                  </span>
               </form>
             </div>
           </div>
