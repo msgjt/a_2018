@@ -38,13 +38,7 @@ public class BusinessException extends RuntimeException {
      * @param detailedStack stack trace of multiple exception codes
      */
     public BusinessException(ExceptionCode exceptionCode, Stack<DetailedExceptionCode> detailedStack) {
-        super(new String("{" +
-                "\"id\":\"" + Integer.sum(exceptionCode.id,detailedStack.pop().id) + "\"," +
-                "\"type\":\"" + exceptionCode.message + "\"," +
-                "\"details\":[" +
-                "{\"detail\":\"" + detailedStack..message + "\"}" +
-                "]" +
-                "}"));
+
 
     }
 
