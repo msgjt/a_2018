@@ -203,6 +203,7 @@ public class BugResource {
         List<String> validExtensions = new ArrayList<String>() {{
             add("jpg");
             add("png");
+            add("jpeg");
             add("pdf");
             add("doc");
             add("odf");

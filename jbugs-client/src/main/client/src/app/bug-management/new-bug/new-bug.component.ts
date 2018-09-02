@@ -23,8 +23,7 @@ export class NewBugComponent implements OnInit {
   showInfoDiv: boolean = false;
   submitAddPerformed: boolean = false;
   @ViewChild('closeBtn') closeBtn: ElementRef;
-  validExtensions: string[] = ['jpg','pdf','doc','odf','xlsx','xls'];
-  fileNotValid: boolean;
+  validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
   warningMessage: Warning;
 
   constructor(private bugService: BugService, private userService: UserService) { }
