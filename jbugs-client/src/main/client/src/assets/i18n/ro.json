@@ -16,7 +16,7 @@
     "Last name is invalid.": "Nume invalid.",
     "Last name": "Nume",
     "Phone number is required.": "Numarul de telefon este necesar.",
-    "Phone number is invalid.": "Numar de telefon invalid.",
+    "Phone number is invalid.": "Numar de telefon invalid. Doar numere de romania sau germania sunt acceptate.",
     "Phone number": "Telefon",
     "Password is required.": "Parola este necesara.",
     "Password is invalid.": "Parola invalida.",

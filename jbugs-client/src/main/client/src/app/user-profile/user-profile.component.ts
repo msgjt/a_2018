@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
 import {Error} from "../communication/communication.component";
@@ -20,6 +20,8 @@ export class UserProfileComponent implements OnInit {
   showPassword: boolean;
   newPassword: string;
   newPasswordConfirmed: string;
+  submitEditPerformed: boolean = false;
+  submitEditPassPerformed: boolean = false;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -52,6 +54,7 @@ export class UserProfileComponent implements OnInit {
     this.isLoggedInOnServer();
     this.showInfoDiv = true;
   }
+
   refresh(){
     this.userList = [];
     this.userService.getAllUsersForUserProfile().subscribe((user) => {
@@ -67,6 +70,7 @@ export class UserProfileComponent implements OnInit {
     });}
 
   submitEditForm() {
+    this.submitEditPerformed = true;
     this.userModel.firstName = this.changeToEmptyString(this.userModel.firstName);
     this.userModel.lastName = this.changeToEmptyString(this.userModel.lastName);
     this.userModel.email = this.changeToEmptyString(this.userModel.email);
@@ -88,6 +92,7 @@ export class UserProfileComponent implements OnInit {
 
 
   submitEditPasswordForm() {
+    this.submitEditPassPerformed = true;
     if (this.newPassword == this.newPasswordConfirmed) {
       this.userService.updateUserPasswordForUserProfile(this.userModel.id, this.newPassword)
         .subscribe(

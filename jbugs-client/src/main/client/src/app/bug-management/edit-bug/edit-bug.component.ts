@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
-import {Error} from "../../communication/communication.component";
+import {Error, Warning} from "../../communication/communication.component";
 
 
 @Component({
@@ -25,6 +25,8 @@ export class EditBugComponent implements OnInit {
   userList: User[];
   haveToDelete: boolean;
   submitEditPerformed: boolean = false;
+  validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
+  warningMessage: any;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
@@ -37,6 +39,11 @@ export class EditBugComponent implements OnInit {
 
   ngOnInit() {
     this.isBUG_CLOSE_ON_SERVER();
+    this.warningMessage = {
+      message: "Your file is not supported, so it wasn't added",
+      recommendation: "Choose another file or edit the bug later if you want to change it",
+      display: false
+    };
   }
 
   updateBugSeverity(severity: string) {
@@ -56,7 +63,7 @@ export class EditBugComponent implements OnInit {
 
   submitEditForm() {
     this.submitEditPerformed = true;
-    let assignedUser: User;
+    let assignedUser: User = null;
     assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
     console.log(assignedUser);
 
@@ -72,45 +79,45 @@ export class EditBugComponent implements OnInit {
     }
     else {
       this.errorMessage = null;
+      this.bug.assignedTo = assignedUser;
+      this.bugService.updateBug(this.bug).subscribe(() => {
+          this.severityFormControl = new FormControl(this.bug.severity);
+          this.statusFormControl = new FormControl(this.bug.status);
+          this.oldStatus = null;
+          if (this.formData.has('file')) {
+            this.formData.append('bugId', this.bug.id.toString());
+            this.bugService.sendFile(this.formData)
+              .subscribe(
+                () => {
+                  this.errorOccurred = false;
+                  this.positiveResponse = true;
+                },
+                (error) => {
+                  this.errorMessage = error['error'];
+                  this.positiveResponse = false;
+                  this.errorOccurred = true;
+                }
+              );
+          }
+          if (this.haveToDelete == true) {
+            this.deleteAttachment(this.bug.id);
+          }
+          this.errorOccurred = false;
+          this.positiveResponse = true;
+        },
+        (error) => {
+          if (error.status == 403) {
+            localStorage.clear();
+            this.router.navigate(['/login']);
+          }
+          if (error.status == 401) {
+            this.router.navigate(['/norights']);
+          }
+          this.errorMessage = error['error'];
+          this.positiveResponse = false;
+          this.errorOccurred = true;
+        });
     }
-    this.bug.assignedTo = assignedUser;
-    this.bugService.updateBug(this.bug).subscribe(() => {
-      this.severityFormControl = new FormControl(this.bug.severity);
-      this.statusFormControl = new FormControl(this.bug.status);
-      this.oldStatus = null;
-      if (this.formData.has('file')) {
-        this.formData.append('bugId', this.bug.id.toString());
-        this.bugService.sendFile(this.formData)
-          .subscribe(
-            () => {
-              this.errorOccurred = false;
-              this.positiveResponse = true;
-            },
-            (error) => {
-              this.errorMessage = error['error'];
-              this.positiveResponse = false;
-              this.errorOccurred = true;
-            }
-          );
-      }
-      if(this.haveToDelete == true){
-        this.deleteAttachment(this.bug.id);
-      }
-      this.errorOccurred = false;
-      this.positiveResponse = true;
-    },
-      (error) => {
-        if(error.status == 403){
-          localStorage.clear();
-          this.router.navigate(['/login']);
-        }
-        if(error.status == 401){
-          this.router.navigate(['/norights']);
-        }
-        this.errorMessage = error['error'];
-        this.positiveResponse = false;
-        this.errorOccurred = true;
-      });
   }
 
   getPossibleStates(bug: Bug) {
@@ -167,12 +174,22 @@ export class EditBugComponent implements OnInit {
   }
 
   fileChange(event) {
+    this.warningMessage.display = false;
     let files = event.target.files;
     if (files.length > 0) {
       this.formData = new FormData();
-      this.formData.append('file', files[0]);
-      this.bug.attachment = files[0].name;
-      this.haveToDelete = false;
+      let filename = files[0].name;
+      let splitted = filename.split(".");
+      let extension = splitted[splitted.length-1];
+      let isValidExtension = this.validExtensions.find(ext => ext == extension);
+      if (isValidExtension !== undefined) {
+        this.formData.append('file', files[0]);
+        this.bug.attachment = files[0].name;
+        this.haveToDelete = false;
+      }
+      else{
+        this.warningMessage.display = true;
+      }
     }
   }
 
