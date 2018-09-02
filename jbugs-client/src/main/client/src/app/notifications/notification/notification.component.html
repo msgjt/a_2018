@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body" style="padding: 0; text-align: center;">
         <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
-          <span style="position: absolute; float: left; left: .5em;">Latest notifications</span>
+          <span style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.Latest notifications' | translate }}</span>
           <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">{{"demo.Mark all as read"|translate}}</a>
         </div>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
@@ -18,20 +18,22 @@
             <div class="card text-center background-tint">
               <div class="card-header">
                 {{ notification.type }}
-
                 <i class="fas fa-glasses" (click)="seeNotification(notification);" data-placement="left" tooltip="Mark as read"></i>
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{ notification.message }}</h5>
                 <p class="card-text"><a href="">{{ notification.URL }}</a></p>
               </div>
-              <div class="card-footer text-muted">
-                Date
-              </div>
+              <!--<div class="card-footer text-muted">-->
+                <!--Date-->
+              <!--</div>-->
             </div>
           </li>
         </ul>
-        <p *ngIf="displayedAllNotifications.length>0">{{"demo.Older notifications"|translate}}</p>
+        <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;">
+          <span *ngIf="displayedNewNotifications.length==0 && displayedAllNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.All notifications' | translate }}</span>
+          <span *ngIf="displayedNewNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.Older notifications' | translate }}</span>
+        </div>
         <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
           <li *ngFor="let notification of displayedAllNotifications.reverse()">
             <div class="card text-center">
@@ -42,9 +44,9 @@
                 <h5 class="card-title">{{ notification.message }}</h5>
                 <p class="card-text"><a href="">{{ notification.URL }}</a></p>
               </div>
-              <div class="card-footer text-muted">
-                Date
-              </div>
+              <!--<div class="card-footer text-muted">-->
+                <!--Date-->
+              <!--</div>-->
             </div>
           </li>
         </ul>

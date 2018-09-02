@@ -107,8 +107,10 @@
     "You do not have the permission to access this page":"Nu aveti permisiune pentru a accesa aceasta pagina",
     "Notifications":"Notificari",
     "Mark all as read":"Marcheaza tot ca citit",
-    "Older notifications":"Notificari vechi",
+    "Older notifications":"Notificari mai vechi",
     "Username must have a minimum length of 5 characters":"Numele utilizatorului trebuie sa contina minimum 5 caractere",
-    "Assignee username": "Numele utilizatorului asignat"
+    "Assignee username": "Numele utilizatorului asignat",
+    "All notifications": "Toate notificarile",
+    "Latest notifications": "Ultimele notificari"
   }
 }

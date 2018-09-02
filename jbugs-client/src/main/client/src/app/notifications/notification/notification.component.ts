@@ -5,7 +5,6 @@ import {interval} from "rxjs/internal/observable/interval";
 import {Notification} from "../entities/Notification";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {UtilService} from "../../shared/util.service";
 
 @Component({
   selector: 'app-notification',
