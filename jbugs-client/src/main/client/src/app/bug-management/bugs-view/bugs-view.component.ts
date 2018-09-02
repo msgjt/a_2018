@@ -38,8 +38,6 @@ export class BugsViewComponent implements OnInit {
   bugModel: Bug;
   formData: FormData;
   errorMessage: string;
-  errorOccurred: boolean = false;
-  positiveResponse: boolean = false;
 
   //Pagination
   public filter = { };
@@ -51,7 +49,7 @@ export class BugsViewComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,
               private excelService: ExcelService, private userService: UserService,
-              private utilService: UtilService) {
+              public utilService: UtilService) {
     this.bugList = [];
     this.bugService.getAllBugs().subscribe((bug) => {
 
