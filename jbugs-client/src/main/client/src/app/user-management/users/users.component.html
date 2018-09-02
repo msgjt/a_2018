@@ -235,9 +235,7 @@
           <p translate style="color:black;">demo.KeepInMindMessageUser</p>
         </div>
         <form class="form-signin text-center"
-              (ngSubmit)="submitAddForm()"
-              *ngIf="pressedAdd"
-              #formControl="ngForm">
+              (ngSubmit)="submitAddForm()" #formControlAdd="ngForm">
               <div class="form-group has-float-label">
                 <div *ngIf="submitAddPerformed || firstName.touched || lastName.touched || phone.touched || email.touched || password.touched ">
                   <div class="help-block"
@@ -362,9 +360,11 @@
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
           <div *ngIf="!generalError && submitAddPerformed">
-            <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
+            <app-communication [errors]="[errorMessage]"
+                               [warnings]="[warningMessage]"
+                               [successes]="[succcessMessage]"
+            ></app-communication>
           </div>
-          <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
         </form>
       </div>
     </div>

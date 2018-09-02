@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {BugService} from "../services/bug.service";
+import {Bug, BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl, FormGroup, NgForm, NgModel} from "@angular/forms";
 import {Success, Warning} from "../../communication/communication.component";
@@ -11,6 +11,7 @@ import {Success, Warning} from "../../communication/communication.component";
 })
 export class NewBugComponent implements OnInit {
 
+  @Input() bugList: Bug[];
   severityFormControl: FormControl;
   bugModel;
   errorMessage: any;
@@ -32,7 +33,6 @@ export class NewBugComponent implements OnInit {
   resetBugModel(){
 
     this.bugModel = this.getDefaultBugModel();
-
     this.severityFormControl = new FormControl(this.possibleSeverities.find(s => s === 'MEDIUM'));
     this.formData = new FormData();
 
@@ -123,6 +123,9 @@ export class NewBugComponent implements OnInit {
     this.validateInput = true;
   }
 
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 
   submitAddData(){
@@ -160,6 +163,8 @@ export class NewBugComponent implements OnInit {
                   this.resetBugModel(); // IMPORTANT !! DISPLAY INFOS AFTER RESET FORM
                   this.formControl.resetForm();
                   this.success.display = true;
+                  this.bugList.push(response);
+
                 },
                 (error) => {
                   this.errorMessage = error['error'];
@@ -172,6 +177,7 @@ export class NewBugComponent implements OnInit {
             this.formControl.resetForm(); // IMPORTANT !! DISPLAY INFOS AFTER RESET FORM
             this.success.display = true;
             this.noFileWarning.display = true;
+            this.bugList.push(response);
           }
         },
         (error) => {

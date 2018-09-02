@@ -2,9 +2,9 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {LSKEY, User, UserService} from "../services/user.service";
 import {Router} from "@angular/router";
 import {Role} from "../../role-management/entities/role";
-import {FormControl} from "@angular/forms";
+import {FormControl, NgForm} from "@angular/forms";
 import {UtilService} from "../../shared/util.service";
-import {Warning} from "../../communication/communication.component";
+import {Success, Warning} from "../../communication/communication.component";
 
 @Component({
   selector: 'app-profile',
@@ -26,12 +26,14 @@ export class UsersComponent implements OnInit {
   errorOccurred: boolean;
   positiveResponse: boolean;
   @ViewChild('infoDiv') infoDiv: ElementRef;
+  @ViewChild('formControlAdd') addFormControl: NgForm;
   showInfoDiv: boolean = false;
   errorMessage: any;
   warningMessage: Warning;
   generalError: boolean;
   submitAddPerformed: boolean = false;
   submitEditPerformed: boolean = false;
+  succcessMessage: Success;
 
   constructor(private userService: UserService, private router: Router,
               public utilService: UtilService) {
@@ -40,6 +42,18 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.refresh();
+    this.succcessMessage = {
+      message: "Action completed successfully",
+      display: false
+    };
+
+  }
+
+  resetAddUserInfos(){
+    if( (JSON.stringify(this.userModel)) != JSON.stringify(this.getDefaultUserModel()) ){
+      this.succcessMessage.display = false;
+    }
+
   }
 
   isLoggedIn() {
@@ -47,6 +61,21 @@ export class UsersComponent implements OnInit {
     if(result == false)
       this.router.navigate(['/login']);
     return result;
+  }
+
+  getDefaultUserModel() {
+    const user = {
+      id: 0,
+        firstName: '',
+      lastName: '',
+      isActive: false,
+      phoneNumber: '',
+      email: '',
+      roles: [],
+      username: '',
+      password: ''
+    };
+    return user;
   }
 
   refresh(){
@@ -62,17 +91,7 @@ export class UsersComponent implements OnInit {
         this.router.navigate(['/norights']);
       }
     });
-    this.userModel = {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      isActive: false,
-      phoneNumber: '',
-      email: '',
-      roles: [],
-      username: '',
-      password: ''
-    };
+    this.userModel = this.getDefaultUserModel();
     this.rolesFormControl = new FormControl();
     this.errorOccurred = false;
     this.positiveResponse = false;
@@ -169,12 +188,14 @@ export class UsersComponent implements OnInit {
     this.userService.getAllRoles().subscribe(
       (roles) => {this.roles = roles;}
     );
+    this.addFormControl.valueChanges.subscribe(() => this.resetAddUserInfos());
   }
 
   submitAddForm(){
     this.submitAddPerformed = true;
     this.generalError = false;
     this.errorMessage = "";
+    this.succcessMessage.display = false;
     this.roles.forEach(role =>
     {
       if (role.selected){
@@ -189,6 +210,7 @@ export class UsersComponent implements OnInit {
           this.errorOccurred = false;
           this.positiveResponse = true;
           this.clearUserModelFields();
+          this.succcessMessage.display = true;
         },
         (error) => {
           this.errorMessage = error['error'];
