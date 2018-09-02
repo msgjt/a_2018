@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {LSKEY, UserService} from "./user-management/services/user.service";
 import {Router} from "@angular/router";
 import {TranslateService} from '@ngx-translate/core';
@@ -16,6 +16,8 @@ export class AppComponent {
   title = 'JBugs';
   loggedIn = true;
   newNotificationList;
+  @ViewChild('notifications') private notificationComponent: NotificationComponent;
+
 
   constructor(private router: Router, private translate: TranslateService,
               private userService: UserService, private notificationService : NotificationService,
@@ -59,6 +61,11 @@ export class AppComponent {
       localStorage.clear();
       this.loggedIn = false;
     }
+    this.notificationComponent.clear();
+  }
+  initialize(){
+    if(this.notificationService.wasInstantiatedForOld() == false)
+      this.notificationComponent.ngOnInit();
   }
 
   useLanguage(language: string) {

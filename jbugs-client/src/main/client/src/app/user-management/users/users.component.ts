@@ -30,6 +30,8 @@ export class UsersComponent implements OnInit {
   errorMessage: any;
   warningMessage: Warning;
   generalError: boolean;
+  submitAddPerformed: boolean = false;
+  submitEditPerformed: boolean = false;
 
   constructor(private userService: UserService, private router: Router,
               public utilService: UtilService) {
@@ -127,8 +129,14 @@ export class UsersComponent implements OnInit {
   }
 
   submitEditForm() {
+    this.submitEditPerformed = true;
+    this.generalError = false;
     this.errorMessage = "";
-    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, this.editRolesFormControl.value)
+    let roles = this.editRolesFormControl.value;
+    if(roles.length == 0){
+      roles = this.roles.find(r => r.type == 'DEV');
+    }
+    this.userService.updateUser(this.userModel.id, this.userModel.firstName, this.userModel.lastName, this.userModel.email, this.userModel.phoneNumber, roles)
       .subscribe(
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
@@ -164,6 +172,7 @@ export class UsersComponent implements OnInit {
   }
 
   submitAddForm(){
+    this.submitAddPerformed = true;
     this.generalError = false;
     this.errorMessage = "";
     this.roles.forEach(role =>

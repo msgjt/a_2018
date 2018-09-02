@@ -38,14 +38,13 @@ public class BusinessException extends RuntimeException {
      * @param detailedStack stack trace of multiple exception codes
      */
     public BusinessException(ExceptionCode exceptionCode, Stack<DetailedExceptionCode> detailedStack) {
-        super(detailedStack.stream()
-                .map(dExc -> "{id=" + Integer.sum(exceptionCode.id,dExc.id)
-                        + ", type=" + exceptionCode.message
-                        + ", details={" + dExc.message + "}}"
-                )
-                .collect(Collectors.toList())
-                .toString());
-
+        super(new String("{" +
+                "\"id\":\"" + Integer.sum(exceptionCode.id,detailedStack.peek().id) + "\"," +
+                "\"type\":\"" + exceptionCode.message + "\"," +
+                "\"details\":[" +
+                "{\"detail\":\"" + detailedStack.peek().message + "\"}" +
+                "]" +
+                "}"));
     }
 
     /**
