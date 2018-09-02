@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
-import {Error, Warning} from "../../communication/communication.component";
+import {Error, Success, Warning} from "../../communication/communication.component";
 
 
 @Component({
@@ -16,17 +16,16 @@ export class EditBugComponent implements OnInit {
   @Input() bug;
   @Input() severityFormControl: FormControl;
   @Input() statusFormControl: FormControl;
-  errorOccurred: boolean;
-  positiveResponse: boolean;
   errorMessage: Error;
   possibleSeverities: string[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
   oldStatus: string = null;
   formData: FormData;
   userList: User[];
   haveToDelete: boolean;
-  submitEditPerformed: boolean = false;
+  toValidate: boolean = false;
   validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
   warningMessage: any;
+  successMessage: Success;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
@@ -44,6 +43,10 @@ export class EditBugComponent implements OnInit {
       recommendation: "Choose another file or edit the bug later if you want to change it",
       display: false
     };
+    this.successMessage = {
+      message: "Bug updated successfully",
+      display: false
+    }
   }
 
   updateBugSeverity(severity: string) {
@@ -58,23 +61,25 @@ export class EditBugComponent implements OnInit {
   }
 
   validate(){
-    this.submitEditPerformed = true;
+    this.toValidate = true;
   }
 
   submitEditForm() {
-    this.submitEditPerformed = true;
-    let assignedUser: User = null;
-    assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
-    console.log(assignedUser);
+    this.toValidate = true;
+    this.successMessage.display = false;
+    console.log(this.bug.assignedTo.username);
+    let userList: User[];
+
+
+    let assignedUser: User = this.userList.find(user => user.username == this.bug.assignedTo.username);
+    console.log("found")
 
     if (assignedUser == null) {
-      this.positiveResponse = false;
       this.errorMessage = {
         id: 5000,
         type: "BUG_VALIDATION_EXCEPTION",
         details: [{detail: "BUG_ASSIGNED_TO_NOT_FOUND", message: ""}]
       };
-      this.errorOccurred = true;
       return;
     }
     else {
@@ -88,22 +93,15 @@ export class EditBugComponent implements OnInit {
             this.formData.append('bugId', this.bug.id.toString());
             this.bugService.sendFile(this.formData)
               .subscribe(
-                () => {
-                  this.errorOccurred = false;
-                  this.positiveResponse = true;
-                },
+                () => {},
                 (error) => {
                   this.errorMessage = error['error'];
-                  this.positiveResponse = false;
-                  this.errorOccurred = true;
                 }
               );
           }
           if (this.haveToDelete == true) {
             this.deleteAttachment(this.bug.id);
           }
-          this.errorOccurred = false;
-          this.positiveResponse = true;
         },
         (error) => {
           if (error.status == 403) {
@@ -114,8 +112,6 @@ export class EditBugComponent implements OnInit {
             this.router.navigate(['/norights']);
           }
           this.errorMessage = error['error'];
-          this.positiveResponse = false;
-          this.errorOccurred = true;
         });
     }
   }
@@ -167,8 +163,6 @@ export class EditBugComponent implements OnInit {
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.positiveResponse = false;
-          this.errorOccurred = true;
         }
       );
   }

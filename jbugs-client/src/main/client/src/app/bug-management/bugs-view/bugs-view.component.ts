@@ -47,6 +47,54 @@ export class BugsViewComponent implements OnInit {
     currentPage: 1
   };
 
+  copyBugModel(bug: Bug): Bug {
+    let newBug: Bug= {
+      id: 0,
+      title: '',
+      description: '',
+      status: '',
+      severity: '',
+      fixedVersion: '',
+      targetDate: '',
+      version: '',
+      attachment: '',
+      assignedTo: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      },
+      createdBy: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      }
+    };
+    newBug.id = bug.id;
+    newBug.title = bug.title;
+    newBug.description = bug.description;
+    newBug.version = bug.version;
+    newBug.targetDate = bug.targetDate;
+    newBug.status = bug.status;
+    newBug.fixedVersion = bug.fixedVersion;
+    newBug.severity = bug.severity;
+    newBug.createdBy = bug.createdBy;
+    newBug.assignedTo = bug.assignedTo;
+    newBug.attachment = bug.attachment;
+    return newBug;
+  }
+
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,
               private excelService: ExcelService, private userService: UserService,
               public utilService: UtilService) {
@@ -381,7 +429,7 @@ export class BugsViewComponent implements OnInit {
   }
 
   passDataToEditModal(bug: Bug) {
-    this.selectedBug = bug;
+    this.selectedBug = this.copyBugModel(bug);
   }
 
   getSeverityFormControl(bug: Bug){
