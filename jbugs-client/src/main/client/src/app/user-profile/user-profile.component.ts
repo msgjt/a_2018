@@ -20,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   showPassword: boolean;
   newPassword: string;
   newPasswordConfirmed: string;
+  submitEditPerformed: boolean = false;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -67,6 +68,7 @@ export class UserProfileComponent implements OnInit {
     });}
 
   submitEditForm() {
+    this.submitEditPerformed = true;
     this.userModel.firstName = this.changeToEmptyString(this.userModel.firstName);
     this.userModel.lastName = this.changeToEmptyString(this.userModel.lastName);
     this.userModel.email = this.changeToEmptyString(this.userModel.email);

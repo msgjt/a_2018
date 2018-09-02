@@ -31,7 +31,10 @@
         (ngSubmit)="submitEditForm()"
         #formControl="ngForm"
   >
-    <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit</h1><br> <span class="form-group has-float-label">
+    <h1 class="h1 mb-3 font-weight-normal" translate>demo.Edit</h1><br>
+    <div class="form-group has-float-label">
+      <div class="help-block"
+           *ngIf="firstName.errors?.minlength || firstName.errors?.pattern"  translate style="margin-top: 15px">demo.First name is invalid.</div>
                   <input type="text"
                          name="firstName"
                          minlength="2"
@@ -40,13 +43,16 @@
                          #firstName="ngModel"
                          #firstNameId
                          class="form-control"
+                         [ngClass]="{'form-error': firstName?.errors && firstName.touched}"
                          required
                          [(ngModel)]="userModel.firstName"
                          placeholder=" ">
                   <label for="firstNameInput" translate style="margin-top: -0.5px">demo.First name</label>
-          </span>
-    <span class="form-group has-float-label">
-                <input type="text"
+          </div>
+    <div class="form-group has-float-label">
+        <div class="help-block"
+             *ngIf="lastName.errors?.minlength || lastName.errors?.pattern" translate style="margin-top: 15px">demo.Last name is invalid.</div>
+      <input type="text"
                        name="lastName"
                        minlength="2"
                        pattern="[a-zA-Z]+"
@@ -54,14 +60,19 @@
                        #lastName="ngModel"
                        #lastNameId
                        class="form-control"
+                       [ngClass]="{'form-error': lastName?.errors && lastName.touched}"
                        required
                        [(ngModel)]="userModel.lastName"
                        placeholder=" ">
                 <label for="lastNameInput" translate style="margin-top: -0.5px">demo.Last name</label>
-              </span>
+              </div>
 
 
-    <span class="form-group has-float-label">
+    <div class="form-group has-float-label">
+      <div *ngIf="submitEditPerformed || phone.touched">
+        <div class="help-block" *ngIf="phone.errors?.minlength || phone.errors?.pattern" translate
+             style="margin-top: 15px">demo.Phone number is invalid.</div>
+      </div>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
@@ -70,14 +81,19 @@
                      #phone="ngModel"
                      #phoneId
                      class="form-control"
+                     [ngClass]="{'form-error': phone?.errors && phone.touched}"
                      required
                      [(ngModel)]="userModel.phoneNumber"
                      placeholder=" ">
               <label for="mobileNumberInput" translate style="margin-top: -0.5px">demo.Phone number</label>
-            </span>
+            </div>
 
-    <span class="form-group has-float-label">
-              <input type="text"
+    <div class="form-group has-float-label">
+      <div *ngIf="submitEditPerformed || email.touched">
+        <div class="help-block" *ngIf="email.errors?.pattern" translate
+              style="margin-top: 15px">E-mail is invalid.</div>
+      </div>
+      <input type="text"
                      name="email"
                      minlength="5"
                      pattern="^[a-zA-Z0-9_.]*@msggroup.com$"
@@ -85,39 +101,18 @@
                      #email="ngModel"
                      #emailId
                      class="form-control"
+                     [ngClass]="{'form-error': email?.errors && email.touched}"
                      required
                      [(ngModel)]="userModel.email"
                      placeholder=" ">
               <label for="emailInput" style="margin-top: -0.5px">E-mail</label>
-            </span>
+            </div>
 
-    <span
-      *ngIf="!(((firstName.errors?.pattern && firstName.touched ) || (lastName.errors?.pattern && lastName.touched) || (phone.errors?.pattern && phone.touched) || (email.errors?.pattern && email.touched)) || !(userModel.firstName || userModel.email|| userModel.phoneNumber || userModel.lastName ))">
       <button class="btn btn-lg btn-block" type="submit"
-              style="background-color: darkred; color: white; margin-bottom: 1em;">
+              style="background-color: darkred; color: white; margin-bottom: 1em;"
+      [disabled]="((firstName.errors?.minlength || firstName.errors?.pattern) && firstName.touched ) || ((lastName.errors?.minlength || lastName.errors?.pattern) && lastName.touched) || (phone.errors?.pattern && phone.touched) || (email.errors?.pattern && email.touched) || !(userModel.firstName || userModel.email|| userModel.phoneNumber || userModel.lastName )">
     {{ 'demo.Edit' | translate }}
     </button>
-      </span>
-    <span
-      *ngIf="((firstName.errors?.pattern && firstName.touched ) || (lastName.errors?.pattern && lastName.touched) || (phone.errors?.pattern && phone.touched) || (email.errors?.pattern && email.touched)) || !(userModel.firstName || userModel.email|| userModel.phoneNumber || userModel.lastName )">
-    <button class="btn btn-lg btn-block" type="submit"
-            style="background-color: darkred; color: white; margin-bottom: 1em;" disabled>
-    {{ 'demo.Edit' | translate }}
-    </button>
-
-      </span>
-
-    <label id="errorLabel1" *ngIf="firstName.errors?.pattern && firstName.touched" translate style="margin-top: 15px">demo.First name
-      is invalid.</label>
-    <br>
-    <label id="errorLabel6" *ngIf="lastName.errors?.pattern && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</label>
-    <br>
-    <label id="errorLabel5" *ngIf="phone.errors?.pattern && phone.touched" translate style="margin-top: 15px">demo.Phone number is invalid.</label>
-    <br>
-    <label id="errorLabel4" *ngIf="email.errors?.pattern && email.touched" translate
-          style="margin-top: 15px">demo.E-mail is invalid.</label>
-
-    <label id="errorLabel" *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>
     <label id="succesLabel" *ngIf="positiveResponse" class="successLabel" translate="">demo.Action completed successfully</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;"
