@@ -20,7 +20,6 @@
     <li>E-mail: {{user.email}}</li>
     <li>{{"demo.Phone number"| translate}}: {{user.phoneNumber}}</li>
     <li>{{"demo.Username"| translate}}: {{user.username}}</li>
-    <li>{{"demo.Active"| translate}}: {{user.isActive}}</li>
   </ul>
 </div>
 
@@ -93,7 +92,7 @@
       <input type="text"
                      name="email"
                      minlength="5"
-                     pattern="^[a-zA-Z0-9_.]*@msggroup.com$"
+                     pattern="^[a-zA-Z0-9_.]{2,}@msggroup.com$"
                      id="emailInput"
                      #email="ngModel"
                      #emailId
@@ -110,9 +109,8 @@
     {{ 'demo.Edit' | translate }}
     </button>
     <div *ngIf="submitEditPerformed">
-      <app-communication [errors]="[errorMessage]"></app-communication>
+      <app-communication [errors]="[errorMessage]" [successes]="[successMessage]"></app-communication>
     </div>
-    <label id="succesLabel" *ngIf="positiveResponse" class="successLabel" translate="">demo.Action completed successfully</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back
@@ -138,7 +136,7 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="newPassword"
                      placeholder=" ">
-              <label for="passwordInput1" translate style="margin-top:   -0.5px">demo.Password</label>
+              <label for="passwordInput1" translate style="margin-top:   -0.5px">demo.New password</label>
             </div>
     <div class="form-group has-float-label">
       <div class="help-block"
@@ -152,7 +150,7 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="newPasswordConfirmed"
                      placeholder=" ">
-              <label for="passwordInput2" translate style="margin-top: -0.5px">demo.Password</label>
+              <label for="passwordInput2" translate style="margin-top: -0.5px">demo.Confirm new password</label>
             </div>
 
     <label id="errorLabel3" *ngIf="newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword"
@@ -174,9 +172,8 @@
     </button>
       </span>
     <div *ngIf="submitEditPassPerformed">
-      <app-communication [errors]="[errorMessage]"></app-communication>
+      <app-communication [errors]="[errorMessage]" [successes]="[successMessage]"></app-communication>
     </div>
-    <label id="succesLabel2" *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 2em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back

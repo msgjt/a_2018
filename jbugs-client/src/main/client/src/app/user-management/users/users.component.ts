@@ -165,14 +165,14 @@ export class UsersComponent implements OnInit {
         (response) => {
           this.userService.getAllUsers().subscribe((user)=>this.userList=user);
           this.errorOccurred = false;
-          this.positiveResponse = true;
+          this.succcessMessage.display = true;
           this.pressedEdit = false;
           this.succcessMessage.display = true;
         },
         (error) => {
           this.errorMessage = error['error'];
           this.errorOccurred = true;
-          this.positiveResponse = false;
+          this.succcessMessage.display = false;
         }
       );
   }
@@ -227,7 +227,7 @@ export class UsersComponent implements OnInit {
         },
         (error) => {
           this.errorMessage = error['error'];
-          this.positiveResponse = false;
+          this.succcessMessage.display = false;
           this.errorOccurred = true;
         }
       );
