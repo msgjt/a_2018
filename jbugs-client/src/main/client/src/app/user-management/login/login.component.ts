@@ -133,8 +133,11 @@ export class LoginComponent implements OnInit {
     return [xNew, yNew];
   }
 
+  circleAnimationStarted: boolean = false;
+
   startCircleScroll(msBetween: number, xCenter: number, yCenter: number, radius: number) {
     this.delay(msBetween).then(() => {
+        this.circleAnimationStarted = true;
         let [xNew, yNew] = this.circlePoint(xCenter, yCenter, radius);
         this.parallax.nativeElement.scrollTop = yNew;
         this.parallax.nativeElement.scrollLeft = xNew;
@@ -143,6 +146,7 @@ export class LoginComponent implements OnInit {
           this.parallax.nativeElement.scrollLeft < 16 &&
           this.parallax.nativeElement.scrollTop > 46 &&
           this.parallax.nativeElement.scrollTop < 47) {
+          this.circleAnimationStarted = false;
           return;
         }else{
           this.startCircleScroll(msBetween, xCenter, yCenter, radius);
@@ -156,13 +160,14 @@ export class LoginComponent implements OnInit {
     this.errorOccurred = false;
     this.loggedIn = true;
 
-    this.startCircleScroll(20, 100, 100, 100);
+    if(this.circleAnimationStarted == false)
+      this.startCircleScroll(30, 100, 100, 100);
     /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
        console.log(response);
        if(response['success'] == true) {
          console.log('Form was submitted with the following data:' +
            JSON.stringify(this.userModel));*/
-    this.delay(3000).then(() => {
+    this.delay(2000).then(() => {
         this.userService.validateUserCredentials(this.userModel.username,
           this.userModel.password).subscribe(
           (response) => {
