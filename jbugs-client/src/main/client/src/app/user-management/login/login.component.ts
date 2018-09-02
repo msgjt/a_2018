@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit {
     this.errorOccurred = false;
     this.loggedIn = true;
 
-    this.startCircleScroll(2, 100, 100, 100);
+    this.startCircleScroll(20, 100, 100, 100);
     /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
        console.log(response);
        if(response['success'] == true) {

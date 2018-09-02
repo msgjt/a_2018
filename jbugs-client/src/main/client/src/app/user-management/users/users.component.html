@@ -66,7 +66,6 @@
       </table>
       <div *ngIf="generalError" class="fade-out-bck">
         <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
-        <!--<label *ngIf="errorOccurred" class="errorLabel" style="position: center;">{{errorMessage}}</label>-->
       </div>
     </div>
   </div>
@@ -134,7 +133,7 @@
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
-                     pattern="[+0-9]+"
+                     pattern="(^(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$)|(^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$)"
                      id="mobileNumberInputUpdate"
                      #phone="ngModel"
                      #phoneId
@@ -221,11 +220,13 @@
               (ngSubmit)="submitAddForm()"
               *ngIf="pressedAdd"
               #formControl="ngForm">
-              <span class="form-group has-float-label">
-                  <span class="help-block"
-                        *ngIf="firstName.errors?.required && firstName.touched" translate style="margin-top: 15px">demo.First name is required.</span>
-                  <span class="help-block"
-                        *ngIf="firstName.errors?.pattern && firstName.touched" translate style="margin-top: 15px">demo.First name is invalid.</span>
+              <div class="form-group has-float-label">
+                <div *ngIf="submitAddPerformed || firstName.touched || lastName.touched || phone.touched || email.touched || password.touched ">
+                  <div class="help-block"
+                        *ngIf="firstName.errors?.required" translate style="margin-top: 15px">demo.First name is required.</div>
+                  <div class="help-block"
+                        *ngIf="firstName.errors?.pattern" translate style="margin-top: 15px">demo.First name is invalid.</div>
+                </div>
                   <input type="text"
                          name="firstName"
                          minlength="2"
@@ -233,50 +234,62 @@
                          id="firstNameInput"
                          #firstName="ngModel"
                          class="form-control"
+                         [ngClass]="{'form-error': firstName?.errors &&
+                         (submitAddPerformed || firstName.touched || lastName.touched || phone.touched || email.touched || password.touched)}"
                          required
                          [(ngModel)]="userModel.firstName"
                          placeholder=" ">
                   <label for="firstNameInput" translate style="margin-top: 15px">demo.First name</label>
-              </span>
-          <span class="form-group has-float-label">
-                <span class="help-block"
-                      *ngIf="lastName.errors?.required && lastName.touched" translate style="margin-top: 15px">demo.Last name is required.</span>
-                <span class="help-block"
-                      *ngIf="lastName.errors?.pattern && lastName.touched" translate style="margin-top: 15px">demo.Last name is invalid.</span>
-                <input type="text"
+              </div>
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || lastName.touched || phone.touched || email.touched || password.touched ">
+                <div class="help-block"
+                      *ngIf="lastName.errors?.required" translate style="margin-top: 15px">demo.Last name is required.</div>
+                <div class="help-block"
+                      *ngIf="lastName.errors?.pattern" translate style="margin-top: 15px">demo.Last name is invalid.</div>
+            </div>
+              <input type="text"
                        name="lastName"
                        minlength="2"
                        pattern="[a-zA-Z]+"
                        id="lastNameInput"
                        #lastName="ngModel"
                        class="form-control"
+                       [ngClass]="{'form-error': lastName?.errors &&
+                         (submitAddPerformed || lastName.touched || phone.touched || email.touched || password.touched)}"
                        required
                        [(ngModel)]="userModel.lastName"
                        placeholder=" ">
                 <label for="lastNameInput" translate style="margin-top: 15px">demo.Last name</label>
-              </span>
-          <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="phone.errors?.required && phone.touched" translate
-                    style="margin-top: 15px">demo.Phone number is required.</span>
-              <span class="help-block" *ngIf="phone.errors?.pattern && phone.touched" translate
-                    style="margin-top: 15px">demo.Phone number is invalid.</span>
+          </div>
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || phone.touched || email.touched || password.touched ">
+              <div class="help-block" *ngIf="phone.errors?.required" translate
+                    style="margin-top: 15px">demo.Phone number is required.</div>
+              <div class="help-block" *ngIf="phone.errors?.pattern" translate
+                    style="margin-top: 15px">demo.Phone number is invalid.</div>
+            </div>
               <input type="text"
                      name="mobileNumber"
                      minlength="10"
-                     pattern="[0-9]*\/*(\+49)*[ ]*(\([0-9]+\))*([ ]*(-|–)*[ ]*[0-9]+)*"
+                     pattern="(^(\+4|)?(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|\-)?([0-9]{3}(\s|\.|\-|)){2}$)|(^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$)"
                      id="mobileNumberInput"
                      #phone="ngModel"
                      class="form-control"
+                     [ngClass]="{'form-error': phone?.errors &&
+                         (submitAddPerformed || phone.touched || email.touched || password.touched)}"
                      required
                      [(ngModel)]="userModel.phoneNumber"
                      placeholder=" ">
               <label for="mobileNumberInput" translate style="margin-top: 15px">demo.Phone number</label>
-            </span>
-          <span class="form-group has-float-label">
-              <span class="help-block" *ngIf="email.errors?.required && email.touched" translate
+            </div>
+          <div class="form-group has-float-label">
+            <div *ngIf="submitAddPerformed || email.touched || password.touched ">
+              <span class="help-block" *ngIf="email.errors?.required" translate
                     style="margin-top: 15px">E-mail is required.</span>
-              <span class="help-block" *ngIf="email.errors?.pattern && email.touched" translate
+              <span class="help-block" *ngIf="email.errors?.pattern" translate
                     style="margin-top: 15px">E-mail is invalid.</span>
+            </div>
               <input type="text"
                      name="email"
                      minlength="5"
@@ -284,27 +297,33 @@
                      id="emailInput"
                      #email="ngModel"
                      class="form-control"
+                     [ngClass]="{'form-error': email?.errors &&
+                         (submitAddPerformed || email.touched || password.touched)}"
                      required
                      [(ngModel)]="userModel.email"
                      placeholder=" ">
               <label for="emailInput" style="margin-top: 15px">E-mail</label>
-            </span>
-          <span class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
-              <span class="help-block"
-                    *ngIf="password.errors?.required && password.touched" translate style="margin-top: 15px">demo.Password is required.</span>
-              <span class="help-block" *ngIf="password.errors?.pattern && password.touched" translate
-                    style="margin-top: 15px">demo.Password is invalid.</span>
+            </div>
+          <div class="form-group has-float-label" [class.has-error]="password.invalid && password.touched">
+            <div *ngIf="submitAddPerformed|| password.touched ">
+              <div class="help-block"
+                    *ngIf="password.errors?.required" translate style="margin-top: 15px">demo.Password is required.</div>
+              <div class="help-block" *ngIf="password.errors?.pattern && password.touched" translate
+                    style="margin-top: 15px">demo.Password is invalid.</div>
+            </div>
               <input type="password"
                      name="password"
                      id="passwordInput"
                      #password="ngModel"
                      class="form-control"
+                     [ngClass]="{'form-error': password?.errors &&
+                         (submitAddPerformed|| password.touched)}"
                      required
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="userModel.password"
                      placeholder=" ">
               <label for="passwordInput" translate style="margin-top: 15px">demo.Password</label>
-            </span>
+            </div>
 
 
           <span class="form-group has-float-label">
@@ -324,9 +343,8 @@
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
-          <div *ngIf="!generalError">
+          <div *ngIf="!generalError && submitAddPerformed">
             <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
-          <!--<label *ngIf="errorOccurred" class="errorLabel">{{errorMessage}}</label>-->
           </div>
           <label *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
         </form>

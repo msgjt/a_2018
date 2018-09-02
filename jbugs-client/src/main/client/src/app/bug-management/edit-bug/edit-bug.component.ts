@@ -56,7 +56,7 @@ export class EditBugComponent implements OnInit {
 
   submitEditForm() {
     this.submitEditPerformed = true;
-    let assignedUser: User;
+    let assignedUser: User = null;
     assignedUser = this.userList.find(user => user.username == this.bug.assignedTo.username);
     console.log(assignedUser);
 
@@ -72,45 +72,45 @@ export class EditBugComponent implements OnInit {
     }
     else {
       this.errorMessage = null;
+      this.bug.assignedTo = assignedUser;
+      this.bugService.updateBug(this.bug).subscribe(() => {
+          this.severityFormControl = new FormControl(this.bug.severity);
+          this.statusFormControl = new FormControl(this.bug.status);
+          this.oldStatus = null;
+          if (this.formData.has('file')) {
+            this.formData.append('bugId', this.bug.id.toString());
+            this.bugService.sendFile(this.formData)
+              .subscribe(
+                () => {
+                  this.errorOccurred = false;
+                  this.positiveResponse = true;
+                },
+                (error) => {
+                  this.errorMessage = error['error'];
+                  this.positiveResponse = false;
+                  this.errorOccurred = true;
+                }
+              );
+          }
+          if (this.haveToDelete == true) {
+            this.deleteAttachment(this.bug.id);
+          }
+          this.errorOccurred = false;
+          this.positiveResponse = true;
+        },
+        (error) => {
+          if (error.status == 403) {
+            localStorage.clear();
+            this.router.navigate(['/login']);
+          }
+          if (error.status == 401) {
+            this.router.navigate(['/norights']);
+          }
+          this.errorMessage = error['error'];
+          this.positiveResponse = false;
+          this.errorOccurred = true;
+        });
     }
-    this.bug.assignedTo = assignedUser;
-    this.bugService.updateBug(this.bug).subscribe(() => {
-      this.severityFormControl = new FormControl(this.bug.severity);
-      this.statusFormControl = new FormControl(this.bug.status);
-      this.oldStatus = null;
-      if (this.formData.has('file')) {
-        this.formData.append('bugId', this.bug.id.toString());
-        this.bugService.sendFile(this.formData)
-          .subscribe(
-            () => {
-              this.errorOccurred = false;
-              this.positiveResponse = true;
-            },
-            (error) => {
-              this.errorMessage = error['error'];
-              this.positiveResponse = false;
-              this.errorOccurred = true;
-            }
-          );
-      }
-      if(this.haveToDelete == true){
-        this.deleteAttachment(this.bug.id);
-      }
-      this.errorOccurred = false;
-      this.positiveResponse = true;
-    },
-      (error) => {
-        if(error.status == 403){
-          localStorage.clear();
-          this.router.navigate(['/login']);
-        }
-        if(error.status == 401){
-          this.router.navigate(['/norights']);
-        }
-        this.errorMessage = error['error'];
-        this.positiveResponse = false;
-        this.errorOccurred = true;
-      });
   }
 
   getPossibleStates(bug: Bug) {

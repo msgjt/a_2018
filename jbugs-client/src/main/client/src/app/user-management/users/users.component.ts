@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit {
   errorMessage: any;
   warningMessage: Warning;
   generalError: boolean;
+  submitAddPerformed: boolean = false;
 
   constructor(private userService: UserService, private router: Router,
               public utilService: UtilService) {
@@ -168,6 +169,7 @@ export class UsersComponent implements OnInit {
   }
 
   submitAddForm(){
+    this.submitAddPerformed = true;
     this.generalError = false;
     this.errorMessage = "";
     this.roles.forEach(role =>
