@@ -14,11 +14,15 @@ export class DetailBugComponent implements OnInit {
 
 
   @Input() detailedBug;
+  errorMessage: string;
+  errorOccurred: boolean;
 
   constructor(private bugService: BugService, private http:HttpClient) { }
 
   ngOnInit() {
-    this.isBUG_EXPORT_PDF_ON_SERVER()
+    this.isBUG_EXPORT_PDF_ON_SERVER();
+    this.errorMessage = "";
+    this.errorOccurred = false;
   }
 
   isBUG_EXPORT_PDF(): boolean {
@@ -94,13 +98,13 @@ export class DetailBugComponent implements OnInit {
     this.bugService.downloadAttachment(id)
       .subscribe(
         (response) => {
-          //let filename = response.headers.get('filename');
-          console.log(response);
-          //console.log(filename);
-          let filename = 'file';
+          let filename = this.detailedBug.attachment;
           saveAs(response, filename);
           },
-        (error) => {console.log(error);}
+        () => {
+          this.errorOccurred = true;
+          this.errorMessage = 'File could not be downloaded';
+        }
       );
   }
 }

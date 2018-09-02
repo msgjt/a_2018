@@ -412,6 +412,8 @@ public class UserPersistenceManagerBeanTest {
                 .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO, new User())));
         when(userPersistenceManager.updateUser(any(User.class)))
                 .thenReturn(UserDTOHelper.toEntity(userDTO1, new User()));
+        when(userPersistenceManager.getUserByEmail(any(String.class)))
+                .thenReturn(Optional.of(UserDTOHelper.toEntity(userDTO, new User())));
 
         try {
             UserDTO updatedUser = userManagementController.updateUser(userDTO1);

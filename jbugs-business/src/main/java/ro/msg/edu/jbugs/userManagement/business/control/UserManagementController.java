@@ -135,6 +135,14 @@ public class UserManagementController implements UserManagement {
                         DetailedExceptionCode.USER_NOT_FOUND)
                 );
 
+        Optional<User> userOptional = userPersistenceManager.getUserByEmail(userDTO.getEmail());
+        if (userOptional.isPresent() && !userOptional.get().getId().equals(user.getId())) {
+            CustomLogger.logException(this.getClass(), "validateUserForCreation",
+                    ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+            throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
+                    DetailedExceptionCode.USER_DUPLICATE_EMAIL);
+        }
+
         user = UserDTOHelper.toEntity(userDTO, user);
 
         if (user.getRoles() == null || user.getRoles().isEmpty()) {

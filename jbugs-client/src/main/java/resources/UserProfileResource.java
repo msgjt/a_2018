@@ -39,7 +39,7 @@ public class UserProfileResource {
         Response result = Response.status(Response.Status.OK)
                 .entity(newUser)
                 .build();
-        notificationManagement.sendNotification("USER_UPDATED", message, "", userDTO.getId(), id);
+        notificationManagement.sendNotification("USER_UPDATED", message, "", userDTO.getId());
         return result;
     }
 

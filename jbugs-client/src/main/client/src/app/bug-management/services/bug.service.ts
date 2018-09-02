@@ -119,7 +119,7 @@ export class BugService {
         'webtoken':webtoken});
     headers.append('accept', 'application/octet-stream');
     let url = `${this.baseURL}/bugs/download/${id}`;
-    return this.http.get(url,{headers: headers, responseType: 'blob', observe: "response"});
+    return this.http.get(url,{headers: headers, responseType: 'blob'});
   }
 
   isBUG_EXPORT_PDF_ON_SERVER():Observable<boolean>{

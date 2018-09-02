@@ -31,6 +31,7 @@ export class UsersComponent implements OnInit {
   warningMessage: Warning;
   generalError: boolean;
   submitAddPerformed: boolean = false;
+  submitEditPerformed: boolean = false;
 
   constructor(private userService: UserService, private router: Router,
               public utilService: UtilService) {
@@ -128,6 +129,8 @@ export class UsersComponent implements OnInit {
   }
 
   submitEditForm() {
+    this.submitEditPerformed = true;
+    this.generalError = false;
     this.errorMessage = "";
     let roles = this.editRolesFormControl.value;
     if(roles.length == 0){
