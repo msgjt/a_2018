@@ -128,4 +128,18 @@ public class BugPersistenceManagerTest {
 
     }
 
+    @Test
+    public void getBugById() {
+        Bug bug1 = new Bug();
+        bug1.setId(1l);
+
+        TypedQuery query = mock(TypedQuery.class);
+
+        when(em.createNamedQuery(Bug.GET_BUG_BY_ID, Bug.class)).thenReturn(query);
+        when(query.setParameter("id", 1l)).thenReturn(query);
+        when(query.getSingleResult()).thenReturn(bug1);
+
+    }
+
+
 }
