@@ -44,7 +44,6 @@
                          #firstNameId
                          class="form-control"
                          [ngClass]="{'form-error': firstName?.errors && firstName.touched}"
-                         required
                          [(ngModel)]="userModel.firstName"
                          placeholder=" ">
                   <label for="firstNameInput" translate style="margin-top: -0.5px">demo.First name</label>
@@ -61,7 +60,6 @@
                        #lastNameId
                        class="form-control"
                        [ngClass]="{'form-error': lastName?.errors && lastName.touched}"
-                       required
                        [(ngModel)]="userModel.lastName"
                        placeholder=" ">
                 <label for="lastNameInput" translate style="margin-top: -0.5px">demo.Last name</label>
@@ -82,7 +80,6 @@
                      #phoneId
                      class="form-control"
                      [ngClass]="{'form-error': phone?.errors && phone.touched}"
-                     required
                      [(ngModel)]="userModel.phoneNumber"
                      placeholder=" ">
               <label for="mobileNumberInput" translate style="margin-top: -0.5px">demo.Phone number</label>
@@ -102,7 +99,6 @@
                      #emailId
                      class="form-control"
                      [ngClass]="{'form-error': email?.errors && email.touched}"
-                     required
                      [(ngModel)]="userModel.email"
                      placeholder=" ">
               <label for="emailInput" style="margin-top: -0.5px">E-mail</label>

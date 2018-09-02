@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
 import {Error} from "../communication/communication.component";
+import {NgForm, NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
@@ -53,6 +54,7 @@ export class UserProfileComponent implements OnInit {
     this.isLoggedInOnServer();
     this.showInfoDiv = true;
   }
+
   refresh(){
     this.userList = [];
     this.userService.getAllUsersForUserProfile().subscribe((user) => {
