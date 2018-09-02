@@ -1,8 +1,8 @@
 import {Bug, BugService} from "../services/bug.service";
 import {Router} from "@angular/router";
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {User, UserService} from "../../user-management/services/user.service";
-import {Form, FormControl} from "@angular/forms";
+import {Form, FormControl, NgForm} from "@angular/forms";
 import {Error, Success, Warning} from "../../communication/communication.component";
 
 
@@ -16,7 +16,9 @@ export class EditBugComponent implements OnInit {
   @Input() bug;
   @Input() severityFormControl: FormControl;
   @Input() statusFormControl: FormControl;
-  errorMessage: Error;
+  @Input() bugList: Bug[];
+  @Input() errorMessage: Error;
+  @ViewChild('formControl') formControl: NgForm;
   possibleSeverities: string[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
   oldStatus: string = null;
   formData: FormData;
@@ -26,13 +28,12 @@ export class EditBugComponent implements OnInit {
   validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
   warningMessage: any;
   successMessage: Success;
+  successfullyAdded: boolean = false;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
     this.formData = new FormData();
-    this.userService.getAllUsers().subscribe(users => {
-      this.userList = users;
-    });
+
   }
 
 
@@ -46,7 +47,64 @@ export class EditBugComponent implements OnInit {
     this.successMessage = {
       message: "Bug updated successfully",
       display: false
+    };
+
+  }
+
+  resetInfos(){
+    if( true ) {
+      this.warningMessage.display = false;
+      this.successMessage.display = false;
+      this.errorMessage = null;
     }
+  }
+
+  copyBugModel(bug: Bug): Bug {
+    let newBug: Bug= {
+      id: 0,
+      title: '',
+      description: '',
+      status: '',
+      severity: '',
+      fixedVersion: '',
+      targetDate: '',
+      version: '',
+      attachment: '',
+      assignedTo: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      },
+      createdBy: {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        isActive: false,
+        phoneNumber: '',
+        email: '',
+        roles: [],
+        username: '',
+        password: ''
+      }
+    };
+    newBug.id = bug.id;
+    newBug.title = bug.title;
+    newBug.description = bug.description;
+    newBug.version = bug.version;
+    newBug.targetDate = bug.targetDate;
+    newBug.status = bug.status;
+    newBug.fixedVersion = bug.fixedVersion;
+    newBug.severity = bug.severity;
+    newBug.createdBy = bug.createdBy;
+    newBug.assignedTo = bug.assignedTo;
+    newBug.attachment = bug.attachment;
+    return newBug;
   }
 
   updateBugSeverity(severity: string) {
@@ -61,18 +119,19 @@ export class EditBugComponent implements OnInit {
   }
 
   validate(){
-    this.toValidate = true;
+    if( ! this.successMessage.display )
+      this.toValidate = true;
   }
 
   submitEditForm() {
+    this.formControl.valueChanges.subscribe(() => this.resetInfos());
+    this.errorMessage = null;
     this.toValidate = true;
     this.successMessage.display = false;
-    console.log(this.bug.assignedTo.username);
-    let userList: User[];
-
+    this.userService.getAllUsers().subscribe(users => {
+      this.userList = users;
 
     let assignedUser: User = this.userList.find(user => user.username == this.bug.assignedTo.username);
-    console.log("found")
 
     if (assignedUser == null) {
       this.errorMessage = {
@@ -102,6 +161,10 @@ export class EditBugComponent implements OnInit {
           if (this.haveToDelete == true) {
             this.deleteAttachment(this.bug.id);
           }
+          this.successMessage.display = true;
+          let index = this.bugList.findIndex( bug => bug.id == this.bug.id );
+          this.bugList[index] = this.bug;
+
         },
         (error) => {
           if (error.status == 403) {
@@ -114,6 +177,7 @@ export class EditBugComponent implements OnInit {
           this.errorMessage = error['error'];
         });
     }
+    });
   }
 
   getPossibleStates(bug: Bug) {

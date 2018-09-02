@@ -37,13 +37,9 @@
                    *ngIf="title?.errors && title?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Title is required"| translate}}
               </div>
-              <div class="help-block"
-                   *ngIf="title?.errors && title?.errors['pattern']" style="margin-top: 15px">
-                {{ "demo.Title can contain only alphanumeric characters and spaces"| translate}}
-              </div>
             </div>
             <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
-                   class="form-control" required pattern="[a-zA-Z0-9\_\- ]+"
+                   class="form-control" required
                    [ngClass]="{'form-error': title?.errors &&
                    (validateInput || title.touched || description.touched || version.touched || assignedTo.touched )}"
                    [(ngModel)]="bugModel.title" placeholder="{{bugModel.title}}">

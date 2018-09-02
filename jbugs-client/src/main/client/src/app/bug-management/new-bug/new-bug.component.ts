@@ -120,7 +120,8 @@ export class NewBugComponent implements OnInit {
   }
 
   validate(){
-    this.validateInput = true;
+    if(! this.success.display )
+      this.validateInput = true;
   }
 
   delay(ms: number) {

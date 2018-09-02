@@ -64,8 +64,7 @@ public class UserPersistenceManager {
     public List<User> getAllUsers() {
         CustomLogger.logEnter(this.getClass(), "getAllUsers", "");
 
-        List<User> result = em.createNamedQuery(User.GET_ALL_USERS, User.class)
-                .getResultList();
+        List<User> result = em.createNamedQuery(User.GET_ALL_USERS, User.class).getResultList();
 
         CustomLogger.logExit(this.getClass(), "getAllUsers", result.toString());
         return result;

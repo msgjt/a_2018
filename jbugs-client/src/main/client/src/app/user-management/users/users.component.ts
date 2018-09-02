@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
   positiveResponse: boolean;
   @ViewChild('infoDiv') infoDiv: ElementRef;
   @ViewChild('formControlAdd') addFormControl: NgForm;
+  @ViewChild('formControl') editFormControl: NgForm;
   showInfoDiv: boolean = false;
   errorMessage: any;
   warningMessage: Warning;
@@ -46,14 +47,18 @@ export class UsersComponent implements OnInit {
       message: "Action completed successfully",
       display: false
     };
+    this.addFormControl.valueChanges.subscribe(() => this.resetForm());
+    this.editFormControl.valueChanges.subscribe( () => this.resetForm());
 
   }
 
-  resetAddUserInfos(){
-    if( (JSON.stringify(this.userModel)) != JSON.stringify(this.getDefaultUserModel()) ){
+  resetForm(){
+    if( ! ( JSON.stringify(this.userModel) == JSON.stringify(this.getDefaultUserModel())) )
+    {
       this.succcessMessage.display = false;
-    }
+      this.errorMessage = null;
 
+    }
   }
 
   isLoggedIn() {
@@ -162,6 +167,7 @@ export class UsersComponent implements OnInit {
           this.errorOccurred = false;
           this.positiveResponse = true;
           this.pressedEdit = false;
+          this.succcessMessage.display = true;
         },
         (error) => {
           this.errorMessage = error['error'];
@@ -184,11 +190,15 @@ export class UsersComponent implements OnInit {
   }
 
   showAddPopup(){
+    if( this.userModel.id ) {
+      this.userModel = this.getDefaultUserModel();
+      this.addFormControl.reset();
+
+    }
     this.pressedAdd = true;
     this.userService.getAllRoles().subscribe(
       (roles) => {this.roles = roles;}
     );
-    this.addFormControl.valueChanges.subscribe(() => this.resetAddUserInfos());
   }
 
   submitAddForm(){
@@ -211,6 +221,9 @@ export class UsersComponent implements OnInit {
           this.positiveResponse = true;
           this.clearUserModelFields();
           this.succcessMessage.display = true;
+          this.userModel.roles = [];
+          this.submitAddPerformed = false;
+          this.addFormControl.resetForm();
         },
         (error) => {
           this.errorMessage = error['error'];
@@ -218,7 +231,6 @@ export class UsersComponent implements OnInit {
           this.errorOccurred = true;
         }
       );
-    this.userModel.roles = [];
   }
 
   showInfo() {

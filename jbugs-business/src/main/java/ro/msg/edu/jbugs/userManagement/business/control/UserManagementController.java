@@ -292,16 +292,17 @@ public class UserManagementController implements UserManagement {
                 .stream()
                 .map(BugDTOHelper::fromEntity)
                 .collect(Collectors.toList());
+
         for (BugDTO b : assignedBugs) {
             if (b.getStatus() != "Fixed" || b.getStatus() != "Closed" || b.getStatus() != "Rejected") {
+
                 CustomLogger.logException(this.getClass(), "deactivateUser",
                         ExceptionCode.USER_VALIDATION_EXCEPTION + " " + DetailedExceptionCode.USER_DISABLED);
                 throw new BusinessException(ExceptionCode.USER_VALIDATION_EXCEPTION,
                         DetailedExceptionCode.USER_COULD_NOT_BE_DISABLED);
-            } else {
-                setActiveStatus(id, false);
             }
         }
+        setActiveStatus(id, false);
         return userDTO;
     }
 

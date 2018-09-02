@@ -4,8 +4,10 @@
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
 <div *ngIf="selectedBug">
-  <app-edit-bug [bug]="selectedBug" [severityFormControl]="getSeverityFormControl(selectedBug)"
-                [statusFormControl]="getStatusFormControl(selectedBug)">
+  <app-edit-bug [bug]="selectedBug"  [bugList]="bugList" [severityFormControl]="getSeverityFormControl(selectedBug)"
+                [statusFormControl]="getStatusFormControl(selectedBug)"
+                [errorMessage]="getErrorMessage(selectedBug)"
+  >
   </app-edit-bug>
 </div>
 

@@ -26,7 +26,6 @@
             <br>
 
 
-
             <div class="form-group has-float-label">
               <div *ngIf="toValidate || title.touched || description.touched || version.touched || assignedTo.touched ">
                 <div class="help-block"
@@ -68,7 +67,6 @@
             </div>
 
 
-
             <div class="form-group has-float-label">
               <div *ngIf="toValidate || version.touched || assignedTo.touched">
                 <div class="help-block"
@@ -104,12 +102,12 @@
               </div>
               <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
                      type="text" class="form-control" required
-                     [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}" pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
+                     [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}"
+                     pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
                      [ngClass]="{'form-error': fixedVersion?.errors && (toValidate || fixedVersion.touched || assignedTo.touched)}"
               >
               <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
             </div>
-
 
 
             <div class="form-group has-float-label">
@@ -130,8 +128,6 @@
               >
               <label for="assignedToInput" translate style="margin-top: 15px">demo.Assignee username</label>
             </div>
-
-
 
 
             <div class="form-group has-float-label">
@@ -160,31 +156,34 @@
             </div>
 
 
-
-
             <div *ngIf="!bug.attachment" class="form-group">
               <label for="attachmentInputAdd">Attachment</label>
-              <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file" (change)="fileChange($event)">
+              <input name="attachmentAdd" id="attachmentInputAdd" type="file" class="form-control-file"
+                     (change)="fileChange($event)">
             </div>
 
             <button *ngIf="bug.attachment" class="btn btn-lg btn-block" type="button"
-                    id="buttonDeleteAttId" style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center" (click)="deleteAttachment(bug.id)">
+                    id="buttonDeleteAttId"
+                    style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
+                    (click)="deleteAttachment(bug.id)">
               {{'demo.Delete attachment' | translate}}
             </button>
 
-              <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
-                      style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                      (mouseenter)="validate()"
+            <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
+                    style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
+                    (mouseenter)="validate()"
                     [ngClass]="{'btn-disabled': formControl.invalid}"
-              >
-                {{'demo.Submit' | translate}}
-              </button>
+            >
+              {{'demo.Submit' | translate}}
+            </button>
 
           </form>
 
 
-
-          <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
+          <app-communication [errors]="[errorMessage]"
+                             [warnings]="[warningMessage]"
+                             [successes]="[successMessage]"
+          ></app-communication>
 
         </div>
       </div>

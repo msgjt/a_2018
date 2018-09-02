@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Bug, BugService} from "../services/bug.service";
 import {FormControl} from "@angular/forms";
 import {PaginationInstance} from "ngx-pagination";
@@ -8,6 +8,8 @@ import {FilterPipe} from "../../filter.pipe";
 import {ToastrService} from "ngx-toastr";
 import {User, UserService} from "../../user-management/services/user.service";
 import {UtilService} from "../../shared/util.service";
+import {Error} from "../../communication/communication.component";
+import {EditBugComponent} from "../edit-bug/edit-bug.component";
 
 @Component({
   selector: 'app-bugs-view',
@@ -38,6 +40,7 @@ export class BugsViewComponent implements OnInit {
   bugModel: Bug;
   formData: FormData;
   errorMessage: string;
+  editErrorMessage: Error = null;
 
   //Pagination
   public filter = { };
@@ -48,51 +51,7 @@ export class BugsViewComponent implements OnInit {
   };
 
   copyBugModel(bug: Bug): Bug {
-    let newBug: Bug= {
-      id: 0,
-      title: '',
-      description: '',
-      status: '',
-      severity: '',
-      fixedVersion: '',
-      targetDate: '',
-      version: '',
-      attachment: '',
-      assignedTo: {
-        id: 0,
-        firstName: '',
-        lastName: '',
-        isActive: false,
-        phoneNumber: '',
-        email: '',
-        roles: [],
-        username: '',
-        password: ''
-      },
-      createdBy: {
-        id: 0,
-        firstName: '',
-        lastName: '',
-        isActive: false,
-        phoneNumber: '',
-        email: '',
-        roles: [],
-        username: '',
-        password: ''
-      }
-    };
-    newBug.id = bug.id;
-    newBug.title = bug.title;
-    newBug.description = bug.description;
-    newBug.version = bug.version;
-    newBug.targetDate = bug.targetDate;
-    newBug.status = bug.status;
-    newBug.fixedVersion = bug.fixedVersion;
-    newBug.severity = bug.severity;
-    newBug.createdBy = bug.createdBy;
-    newBug.assignedTo = bug.assignedTo;
-    newBug.attachment = bug.attachment;
-    return newBug;
+    return JSON.parse(JSON.stringify(bug));
   }
 
   constructor(private toastr: ToastrService, private bugService: BugService, private router: Router,
@@ -103,7 +62,6 @@ export class BugsViewComponent implements OnInit {
 
         this.bugList = bug;
         this.bugListAux = bug;
-        this.selectedBug = bug[0];
       },
       (error) => {
         if (error.status == 403) {
@@ -146,6 +104,10 @@ export class BugsViewComponent implements OnInit {
         password: ''
       }
     }
+  }
+
+  getErrorMessage(selectedBug){
+    return null;
   }
 
   ngOnInit() {
