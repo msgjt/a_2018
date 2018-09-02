@@ -112,6 +112,8 @@
     "Assignee username": "Numele utilizatorului asignat",
     "All notifications": "Toate notificarile",
     "Latest notifications": "Ultimele notificari",
-    "You don't have any notifications.": "Nu ai nicio notificare."
+    "You don't have any notifications.": "Nu ai nicio notificare.",
+    "New password": "Parola noua",
+    "Confirm new password": "Confirma parola noua"
   }
 }

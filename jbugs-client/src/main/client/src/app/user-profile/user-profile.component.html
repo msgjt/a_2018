@@ -137,7 +137,7 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="newPassword"
                      placeholder=" ">
-              <label for="passwordInput1" translate style="margin-top:   -0.5px">demo.Password</label>
+              <label for="passwordInput1" translate style="margin-top:   -0.5px">demo.New password</label>
             </div>
     <div class="form-group has-float-label">
       <div class="help-block"
@@ -151,7 +151,7 @@
                      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,20}"
                      [(ngModel)]="newPasswordConfirmed"
                      placeholder=" ">
-              <label for="passwordInput2" translate style="margin-top: -0.5px">demo.Password</label>
+              <label for="passwordInput2" translate style="margin-top: -0.5px">demo.Confirm new password</label>
             </div>
 
     <label id="errorLabel3" *ngIf="newPasswordConfirmed && newPassword && newPasswordConfirmed!=newPassword"

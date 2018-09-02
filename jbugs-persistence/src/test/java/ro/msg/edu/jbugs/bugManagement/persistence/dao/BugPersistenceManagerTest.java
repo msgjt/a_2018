@@ -127,5 +127,5 @@ public class BugPersistenceManagerTest {
         when(query.getResultList()).thenReturn(result);
 
     }
-    
+
 }
