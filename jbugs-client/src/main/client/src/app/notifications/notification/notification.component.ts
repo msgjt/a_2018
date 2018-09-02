@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NotificationService} from "../services/notification.service";
 
 import {interval} from "rxjs/internal/observable/interval";
@@ -19,6 +19,7 @@ export class NotificationComponent implements OnInit {
   public displayedNewNotifications: Notification[] = [];
   public static notifSize: number = 0;
   private NOTIFICATION_DELAY: number = 5000;
+  @ViewChild('btnReadAll') btnReadAll: ElementRef;
 
   constructor(private notificationService: NotificationService, private toastrService: ToastrService, private router: Router) {
 
@@ -37,6 +38,8 @@ export class NotificationComponent implements OnInit {
     this.notificationService.deinstantiate();
     this.notificationService.deinstantiateForOld();
 
+    let clickRealAll: HTMLElement = this.btnReadAll.nativeElement as HTMLElement;
+    clickRealAll.click();
   }
 
   getNewNotifications() {

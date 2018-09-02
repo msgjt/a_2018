@@ -10,11 +10,12 @@
         </button>
       </div>
       <div class="modal-body" style="padding: 0; text-align: center;">
-        <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;" *ngIf="displayedNewNotifications.length>0">
-          <span style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.Latest notifications' | translate }}</span>
-          <a style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em;" (click)="seeAllNotifications()">{{"demo.Mark all as read"|translate}}</a>
+        <p style="text-align: center;" *ngIf="displayedAllNotifications.length==0 && displayedNewNotifications.length==0">{{ 'demo.You don\'t have any notifications.' | translate }}</p>
+        <div style="display: flex; flex-direction: row; position: relative; margin: .5em 0 1.5em 0;" *ngIf="displayedNewNotifications.length>0">
+          <span style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic; font-size: 18px;">{{ 'demo.Latest notifications' | translate }}</span>
+          <a #btnReadAll style="cursor: pointer; color: darkred; position: absolute; float: right; right: .5em; font-size: 18px;" (click)="seeAllNotifications()">{{"demo.Mark all as read"|translate}}</a>
         </div>
-        <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
+        <ul style="list-style-type: none; width: 100%; margin: .5em 0 0 0; padding: 0;">
           <li *ngFor="let notification of displayedNewNotifications.reverse()">
             <div class="card text-center background-tint">
               <div class="card-header">
@@ -31,11 +32,11 @@
             </div>
           </li>
         </ul>
-        <div style="display: flex; flex-direction: row; position: relative; margin-bottom: 1.5em;">
-          <span *ngIf="displayedNewNotifications.length==0 && displayedAllNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.All notifications' | translate }}</span>
-          <span *ngIf="displayedNewNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic;">{{ 'demo.Older notifications' | translate }}</span>
+        <div style="display: flex; flex-direction: row; position: relative; margin: .5em 0 1.5em 0;">
+          <span *ngIf="displayedNewNotifications.length==0 && displayedAllNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic; font-size: 18px;">{{ 'demo.All notifications' | translate }}</span>
+          <span *ngIf="displayedNewNotifications.length>0" style="position: absolute; float: left; left: .5em; font-weight: bold; font-style: italic; font-size: 18px;">{{ 'demo.Older notifications' | translate }}</span>
         </div>
-        <ul style="list-style-type: none; width: 100%; margin: 0; padding: 0;">
+        <ul style="list-style-type: none; width: 100%; margin: .5em 0 0 0; padding: 0;">
           <li *ngFor="let notification of displayedAllNotifications.reverse()">
             <div class="card text-center">
               <div class="card-header">
