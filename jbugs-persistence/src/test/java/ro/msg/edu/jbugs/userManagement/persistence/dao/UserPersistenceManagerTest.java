@@ -16,8 +16,7 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserPersistenceManagerTest {
@@ -31,9 +30,7 @@ public class UserPersistenceManagerTest {
 /*
     @Before
     public void before() {
-        List<User> users = userPersistenceManager.getAllUsers();
-        //NamedQuery query = mock(NamedQuery.class);
-        Query query = mock(Query.class);
+
 
     }
 */

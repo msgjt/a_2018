@@ -205,9 +205,10 @@
             demo.Back
           </button>
           <div *ngIf="!generalError && submitEditPerformed">
-            <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
+            <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"
+                               [successes]="[succcessMessage]"></app-communication>
           </div>
-          <label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>
+          <!--<label *ngIf="positiveResponse" class="successLabel">Action completed successfully</label>-->
         </form>
       </div>
     </div>

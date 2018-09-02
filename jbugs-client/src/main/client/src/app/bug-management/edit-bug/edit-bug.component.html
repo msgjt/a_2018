@@ -12,8 +12,7 @@
           </h5>
 
           <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px"
-                  aria-label="Close" #btnClose
-                  (click)="pressedEdit=false;errorOccurred=false;positiveResponse=false;">
+                  aria-label="Close" #btnClose>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -29,7 +28,7 @@
 
 
             <div class="form-group has-float-label">
-              <div *ngIf="submitEditPerformed || title.touched || description.touched || version.touched || assignedTo.touched ">
+              <div *ngIf="toValidate || title.touched || description.touched || version.touched || assignedTo.touched ">
                 <div class="help-block"
                      *ngIf="title?.errors && title?.errors['required']" style="margin-top: 15px">
                   {{ "demo.Title is required"| translate}}
@@ -42,14 +41,14 @@
               <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
                      class="form-control" required pattern="[a-zA-Z0-9\_\- ]+"
                      [ngClass]="{'form-error': title?.errors &&
-                   (submitEditPerformed || title.touched || description.touched || version.touched || assignedTo.touched )}"
+                   (toValidate || title.touched || description.touched || version.touched || assignedTo.touched )}"
                      [(ngModel)]="bug.title" placeholder="{{bug.title}}">
               <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
             </div>
 
 
             <div class="form-group ">
-              <div *ngIf="submitEditPerformed || description.touched || version.touched || assignedTo.touched">
+              <div *ngIf="toValidate || description.touched || version.touched || assignedTo.touched">
                 <div class="help-block"
                      *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
                   {{ "demo.Description is required"| translate}}
@@ -63,7 +62,7 @@
               <textarea #description="ngModel" [(ngModel)]="bug.description" name="description" class="form-control"
                         id="descriptionInput" rows="3" placeholder="{{bug.description}}"
                         [ngClass]="{'form-error': description?.errors &&
-                      (submitEditPerformed || description.touched || version.touched || assignedTo.touched)}"
+                      (toValidate || description.touched || version.touched || assignedTo.touched)}"
                         required minlength="250">
             </textarea>
             </div>
@@ -71,7 +70,7 @@
 
 
             <div class="form-group has-float-label">
-              <div *ngIf="submitEditPerformed || version.touched || assignedTo.touched">
+              <div *ngIf="toValidate || version.touched || assignedTo.touched">
                 <div class="help-block"
                      *ngIf="version?.errors && version?.errors['required']" style="margin-top: 15px">
                   {{ "demo.Version is required"| translate}}
@@ -86,14 +85,14 @@
                      type="text" class="form-control" required
                      [(ngModel)]="bug.version" placeholder="{{bug.version}}" pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
                      [ngClass]="{'form-error': version?.errors &&
-                   (submitEditPerformed || version.touched || assignedTo.touched)}"
+                   (toValidate || version.touched || assignedTo.touched)}"
               >
               <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
             </div>
 
 
             <div class="form-group has-float-label" *ngIf="bug.status === 'Fixed'">
-              <div *ngIf="submitEditPerformed || fixedVersion.touched || assignedTo.touched">
+              <div *ngIf="toValidate || fixedVersion.touched || assignedTo.touched">
                 <div class="help-block"
                      *ngIf="fixedVersion?.errors && fixedVersion?.errors['required']" style="margin-top: 15px">
                   {{ "demo.Fix version is required."| translate}}
@@ -106,7 +105,7 @@
               <input name="fixedVersion" #fixedVersion="ngModel" #fixedVersionId id="fixedVersionInput"
                      type="text" class="form-control" required
                      [(ngModel)]="bug.fixedVersion" placeholder="{{bug.fixedVersion}}" pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
-                     [ngClass]="{'form-error': fixedVersion?.errors && (submitEditPerformed || fixedVersion.touched || assignedTo.touched)}"
+                     [ngClass]="{'form-error': fixedVersion?.errors && (toValidate || fixedVersion.touched || assignedTo.touched)}"
               >
               <label for="fixedVersionInput" translate style="margin-top: 15px">demo.Fixed Version</label>
             </div>
@@ -114,7 +113,7 @@
 
 
             <div class="form-group has-float-label">
-              <div *ngIf="submitEditPerformed || assignedTo.touched">
+              <div *ngIf="toValidate || assignedTo.touched">
                 <div class="help-block"
                      *ngIf="assignedTo?.errors && assignedTo?.errors['required']" style="margin-top: 15px">
                   {{ "demo.Assignee username is required"| translate}}
@@ -127,7 +126,7 @@
               <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
                      type="text" class="form-control" required pattern="[a-z0-9A-Z]+"
                      [(ngModel)]="bug.assignedTo.username" placeholder="{{bug.assignedTo.username}}"
-                     [ngClass]="{'form-error': assignedTo?.errors && (submitEditPerformed || assignedTo.touched)}"
+                     [ngClass]="{'form-error': assignedTo?.errors && (toValidate || assignedTo.touched)}"
               >
               <label for="assignedToInput" translate style="margin-top: 15px">demo.Assignee username</label>
             </div>
