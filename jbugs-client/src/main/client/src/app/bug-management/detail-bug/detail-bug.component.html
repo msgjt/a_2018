@@ -93,6 +93,9 @@
           PDF
         </button>
       </div>
+      <div *ngIf="errorOccurred">
+        <app-communication [errors]="[errorMessage]"></app-communication>
+      </div>
     </div>
   </div>
 </div>
