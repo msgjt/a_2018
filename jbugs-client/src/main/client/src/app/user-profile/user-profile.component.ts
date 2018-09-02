@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
 import {Error, Success} from "../communication/communication.component";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
@@ -23,6 +24,7 @@ export class UserProfileComponent implements OnInit {
   submitEditPerformed: boolean = false;
   submitEditPassPerformed: boolean = false;
   successMessage: Success;
+  @ViewChild('formControl') formControl: NgForm;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -59,6 +61,7 @@ export class UserProfileComponent implements OnInit {
       display: false
     };
     this.successMessage.display = false;
+    this.formControl.valueChanges.subscribe(() => this.successMessage.display = false);
   }
 
   refresh(){
