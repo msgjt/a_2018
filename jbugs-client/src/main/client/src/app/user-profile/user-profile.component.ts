@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
-import {Error} from "../communication/communication.component";
+import {Error, Success} from "../communication/communication.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -22,6 +22,7 @@ export class UserProfileComponent implements OnInit {
   newPasswordConfirmed: string;
   submitEditPerformed: boolean = false;
   submitEditPassPerformed: boolean = false;
+  successMessage: Success;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -53,6 +54,11 @@ export class UserProfileComponent implements OnInit {
     this.userModel.id = Number(localStorage.getItem('id'));
     this.isLoggedInOnServer();
     this.showInfoDiv = true;
+    this.successMessage = {
+      message: "Action completed successfully",
+      display: false
+    };
+    this.successMessage.display = false;
   }
 
   refresh(){
@@ -80,12 +86,12 @@ export class UserProfileComponent implements OnInit {
       .subscribe(
         (response) => {
           this.errorOccurred = false;
-          this.positiveResponse = true;
+          this.successMessage.display = true;
         },
         (error) => {
           this.errorMessage = error['error'];
           this.errorOccurred = true;
-          this.positiveResponse = false;
+          this.successMessage.display = false;
         }
       );
   }
@@ -98,18 +104,18 @@ export class UserProfileComponent implements OnInit {
         .subscribe(
           (response) => {
             this.errorOccurred = false;
-            this.positiveResponse = true;
+            this.successMessage.display = true;
           },
           (error) => {
             this.errorMessage = error['error'];
             this.errorOccurred = true;
-            this.positiveResponse = false;
+            this.successMessage.display = false;
           }
         );
     }
     else {
       this.errorOccurred = true;
-      this.positiveResponse = false;
+      this.successMessage.display = false;
     }
   }
 

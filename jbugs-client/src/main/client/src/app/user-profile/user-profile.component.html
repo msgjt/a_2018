@@ -110,9 +110,8 @@
     {{ 'demo.Edit' | translate }}
     </button>
     <div *ngIf="submitEditPerformed">
-      <app-communication [errors]="[errorMessage]"></app-communication>
+      <app-communication [errors]="[errorMessage]" [successes]="[successMessage]"></app-communication>
     </div>
-    <label id="succesLabel" *ngIf="positiveResponse" class="successLabel" translate="">demo.Action completed successfully</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 1em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back
@@ -174,9 +173,8 @@
     </button>
       </span>
     <div *ngIf="submitEditPassPerformed">
-      <app-communication [errors]="[errorMessage]"></app-communication>
+      <app-communication [errors]="[errorMessage]" [successes]="[successMessage]"></app-communication>
     </div>
-    <label id="succesLabel2" *ngIf="positiveResponse" class="successLabel">{{"demo.Action completed successfully"|translate}}</label>
   </form>
   <button type="button" class="btn btn-default" style="margin-right: 2em;" (click)="pressedEdit=false;"
           *ngIf="pressedEdit" translate>demo.Back
