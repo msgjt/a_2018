@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ public class UserPersistenceManagerTest {
     @Mock
     private EntityManager em;
 
-
+/*
     @Before
     public void before() {
         List<User> users = userPersistenceManager.getAllUsers();
@@ -35,7 +36,7 @@ public class UserPersistenceManagerTest {
         Query query = mock(Query.class);
 
     }
-
+*/
     @Test
     public void getAllUsers() {
         List<User> result = new ArrayList<User>() {{

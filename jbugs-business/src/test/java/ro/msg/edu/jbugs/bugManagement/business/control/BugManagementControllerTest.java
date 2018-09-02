@@ -1,4 +1,5 @@
 package ro.msg.edu.jbugs.bugManagement.business.control;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -12,9 +13,12 @@ import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Bug;
 import ro.msg.edu.jbugs.bugsManagement.persistence.entity.Severity;
 import ro.msg.edu.jbugs.shared.business.exceptions.BusinessException;
 import ro.msg.edu.jbugs.userManagement.business.control.UserManagement;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTO;
+import ro.msg.edu.jbugs.userManagement.business.dto.RoleDTOHelper;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTO;
 import ro.msg.edu.jbugs.userManagement.business.dto.UserDTOHelper;
 import ro.msg.edu.jbugs.userManagement.persistence.dao.UserPersistenceManager;
+import ro.msg.edu.jbugs.userManagement.persistence.entity.Role;
 import ro.msg.edu.jbugs.userManagement.persistence.entity.User;
 
 import java.time.LocalDate;
@@ -37,12 +41,16 @@ public class BugManagementControllerTest {
 
     @Mock
     private BugPersistenceManager bugPersistenceManager;
+    @Mock
+    private UserPersistenceManager userPersistenceManager;
 
     @Mock
     private BugValidator bugValidator;
 
     @Mock
     private User user;
+    @Mock
+    private UserDTO userDTO;
 
     @Mock
     private UserManagement userManagement;
@@ -64,7 +72,7 @@ public class BugManagementControllerTest {
         dummyBug.setCreatedBy(new User());
         dummyBug.setAssignedTo(new User());
 
-        when(bugPersistenceManager.createBug(BugDTOHelper.toEntity(bugDTO,dummyBug)))
+        when(bugPersistenceManager.createBug(BugDTOHelper.toEntity(bugDTO, dummyBug)))
                 .thenReturn(BugDTOHelper.toEntity(bugDTO, dummyBug));
         when(userManagement.getOldUserFields(any(UserDTO.class)))
                 .thenReturn(user);
@@ -163,15 +171,28 @@ public class BugManagementControllerTest {
 
     @Test
     public void testUpdateBug_Success() {
+        Role role = new Role();
+        role.setId(1L);
+        role.setType1("DEV");
+        role.setPermissions(new ArrayList<>());
+        List<Role> dbRoles = new ArrayList<>();
+        dbRoles.add(role);
+        when(userPersistenceManager.getRoleByType(any(String.class)))
+                .thenReturn(role);
+        when(userPersistenceManager.getAllRoles())
+                .thenReturn(dbRoles);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        userDTO.setFirstName("Cristi");
+        userDTO.setLastName("Borcea");
+        userDTO.setEmail("dinamo@msggroup.com");
+        userDTO.setPhoneNumber("0720512346");
+        List<RoleDTO> roleDTOList = new ArrayList<>();
+        roleDTOList.add(RoleDTOHelper.fromEntity(role));
+        userDTO.setRoles(roleDTOList);
 
-
-        UserDTO userDTO1 = new UserDTO();
-        userDTO1.setId(1L);
-        userDTO1.setFirstName("Marian");
-        userDTO1.setLastName("Belean");
-        userDTO1.setEmail("steaua@msggroup.com");
-        userDTO1.setPhoneNumber("0720512347");
-        userDTO1.setRoles(new ArrayList<>());
+/*   when(userManagement.getOldUserFields(any(UserDTO.class)))
+                .thenReturn(user);
 
         BugDTO bugDTO = new BugDTO();
         bugDTO.setTitle("title");
@@ -181,24 +202,38 @@ public class BugManagementControllerTest {
         bugDTO.setStatus("Open");
         bugDTO.setSeverity("MEDIUM");
         bugDTO.setId(1l);
-        bugDTO.setCreatedBy(userDTO1);
-        bugDTO.setAssignedTo(userDTO1);
+        bugDTO.setCreatedBy(userDTO);
+        bugDTO.setAssignedTo(userDTO);
+
+  /*      List<BugDTO> assignedBugs = new ArrayList<>();
+        assignedBugs.add(bugDTO);
+        when(userManagement.getOldUserFields(any(UserDTO.class)))
+                .thenReturn(user);
+
+        when(bugDTO.getAssignedTo()).thenReturn(userDTO);
+        when(bugDTO.getCreatedBy()).thenReturn(userDTO);
+
+
 
         BugDTO bugDTO1 = new BugDTO();
         bugDTO1.setTitle("title");
         bugDTO1.setDescription("Ssssssssssssssssssssssssssssssssssssssssssed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia vo");
         bugDTO1.setVersion("5.1");
         bugDTO1.setTargetDate("1997-09-27");
-        bugDTO1.setStatus("Open");
+        bugDTO1.setStatus("InProgress");
         bugDTO1.setId(1l);
         bugDTO1.setSeverity("MEDIUM");
-        bugDTO1.setCreatedBy(UserDTOHelper.fromEntity(user));
-        bugDTO1.setAssignedTo(UserDTOHelper.fromEntity(user));
-        when(userManagement.getOldUserFields(any(UserDTO.class)))
-                .thenReturn(user);
+        bugDTO1.setCreatedBy(userDTO);
+        bugDTO1.setAssignedTo(userDTO);
 
-
-
+        assignedBugs.add(bugDTO1);
+        when(bugDTO.getAssignedTo()).thenReturn(userDTO);
+        when(bugDTO.getCreatedBy()).thenReturn(userDTO);
+/*
+when(BugDTOHelper.toEntityOneParam(bugDTO).getStatus()).thenReturn("Open");
+when(BugDTOHelper.toEntityOneParam(bugDTO1).getStatus()).thenReturn("InProgress");*/
+//when(.getRoles()).thenReturn(dbRoles);
+/*
         try {
             BugDTO updatedBug = bugManagementController.updateBug(bugDTO1);
             assertEquals(bugDTO1.getStatus(), updatedBug.getStatus());
@@ -209,7 +244,6 @@ public class BugManagementControllerTest {
             fail("Should not reach this point");
         }
     }*/
-
 /*
 
     @Test
