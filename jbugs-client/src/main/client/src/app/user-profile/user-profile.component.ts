@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
 import {Error} from "../communication/communication.component";
-import {NgForm, NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile',
@@ -22,6 +21,7 @@ export class UserProfileComponent implements OnInit {
   newPassword: string;
   newPasswordConfirmed: string;
   submitEditPerformed: boolean = false;
+  submitEditPassPerformed: boolean = false;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -92,6 +92,7 @@ export class UserProfileComponent implements OnInit {
 
 
   submitEditPasswordForm() {
+    this.submitEditPassPerformed = true;
     if (this.newPassword == this.newPasswordConfirmed) {
       this.userService.updateUserPasswordForUserProfile(this.userModel.id, this.newPassword)
         .subscribe(
