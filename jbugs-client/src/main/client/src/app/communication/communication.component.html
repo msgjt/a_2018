@@ -1,10 +1,10 @@
 <div *ngIf="errors.length > 0">
   <div *ngFor="let error of errors">
     <div class="alert alert-danger fade show" role="alert" *ngIf="error?.id != null">
-      <h4 class="error-header">Error occurred [{{error?.id}}]: {{ error?.type }}</h4>
+      <h4 class="error-header">Error occurred :</h4>
       <span *ngIf="error?.details">
     <div *ngFor="let d of error?.details">
-      <p class="mb-0">{{ d?.detail }}</p>
+      <p class="mb-0">{{'demo.' + d?.detail | translate}}</p>
     </div>
   </span>
     </div>
@@ -14,7 +14,7 @@
 <div *ngIf="successes.length > 0">
   <div *ngFor="let success of successes">
     <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="success.display === true">
-      <p class="mb-0"> Info: {{ success.message }} </p>
+      <p class="mb-0"> Info:  {{'demo.' + success.message | translate}}</p>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -26,7 +26,7 @@
 <div *ngIf="warnings.length > 0">
   <div *ngFor="let warning of warnings">
     <div class="alert alert-warning alert-dismissible fade show" role="alert" *ngIf="warning?.display === true">
-      <p class="mb-0"> Warning: {{ warning?.message }} </p>
+      <p class="mb-0"> Warning: {{'demo.' + warning?.message | translate }} </p>
       <hr>
       <p class="mb-0" *ngIf="warning?.recommendation"> Recommendation: {{ warning?.recommendation }}</p>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -39,7 +39,7 @@
 <div *ngIf="informations.length > 0">
   <div *ngFor="let information of informations">
     <div class="alert alert-info alert-dismissible fade show" role="alert" *ngIf="information.display === true">
-      <p class="mb-0"> Info: {{ information.message }} </p>
+      <p class="mb-0"> Info: {{'demo.' + information.message | translate}} </p>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

@@ -137,7 +137,7 @@ export class NewBugComponent implements OnInit {
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
     if( currentUser == null){
-      this.errorMessage = {id: "5001",type: "Current user could not be retrieved"};
+      this.errorMessage = {id: "5001",type: "Current user could not be retrieved", details:[{detail:"Current user could not be retrieved",message:""}]};
       return;
     }
     this.bugModel.createdBy = currentUser;
@@ -145,7 +145,7 @@ export class NewBugComponent implements OnInit {
 
     let assignedUser = this.userList.find(user => user.username == this.bugModel.assignedTo.username);
     if (assignedUser == null) {
-      this.errorMessage = { id:"5002",type: "Can not find the assigned user.",details:[]};
+      this.errorMessage = { id:"5002",type: "Can not find the assigned user.",details:[{detail:"Can not find the assigned user.",message:""}]};
       return;
     }
 
