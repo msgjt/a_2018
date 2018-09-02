@@ -1,8 +1,8 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {BugService} from "../services/bug.service";
 import {User, UserService} from "../../user-management/services/user.service";
-import {Form, FormControl, FormGroup} from "@angular/forms";
-import {Warning} from "../../communication/communication.component";
+import {Form, FormControl, FormGroup, NgForm, NgModel} from "@angular/forms";
+import {Success, Warning} from "../../communication/communication.component";
 
 @Component({
   selector: 'app-new-bug',
@@ -14,23 +14,32 @@ export class NewBugComponent implements OnInit {
   severityFormControl: FormControl;
   bugModel;
   errorMessage: any;
-  fileSendAttempted: boolean = false;
-  errorOccurred: boolean = false;
   userList: User[];
   formData: FormData;
-  positiveResponse: boolean = false;
   possibleSeverities: string[] = ['LOW','MEDIUM','HIGH','CRITICAL'];
   showInfoDiv: boolean = false;
-  submitAddPerformed: boolean = false;
+  validateInput: boolean = false;
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  wrongFileWarning: Warning;
+  noFileWarning: Warning;
+  success: Success;
+  @ViewChild('formControl') formControl: NgForm;
   validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
-  warningMessage: Warning;
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
 
   resetBugModel(){
-    this.bugModel = {
+
+    this.bugModel = this.getDefaultBugModel();
+
+    this.severityFormControl = new FormControl(this.possibleSeverities.find(s => s === 'MEDIUM'));
+    this.formData = new FormData();
+
+  }
+
+  getDefaultBugModel(){
+    const defaultBugModel  = {
       id: 0,
       title: '',
       description: '',
@@ -63,18 +72,24 @@ export class NewBugComponent implements OnInit {
         password: ''
       }
     };
-
-    this.severityFormControl = new FormControl(this.possibleSeverities.find(s => s === 'MEDIUM'));
-    this.formData = new FormData();
-
+    return defaultBugModel;
   }
 
   ngOnInit() {
 
     this.resetBugModel();
-    this.warningMessage = {
+    this.wrongFileWarning = {
       message: "Your file is not supported, so it wasn't added",
       recommendation: "Choose another file or edit the bug later if you want to change it",
+      display: false
+    };
+    this.noFileWarning = {
+      message: "You did not attach any file to the bug",
+      recommendation: null,
+      display: false
+    };
+    this.success = {
+      message: "Bug successfully added",
       display: false
     };
 
@@ -82,8 +97,15 @@ export class NewBugComponent implements OnInit {
       (users) => {this.userList = users;}
     );
 
+    this.formControl.valueChanges.subscribe(() => this.resetErrors());
   }
 
+  resetErrors(){
+    if( (JSON.stringify(this.bugModel)) != JSON.stringify(this.getDefaultBugModel()) ) {
+      this.noFileWarning.display = false;
+      this.success.display = false;
+    }
+  }
 
 
   validateAllFields(formGroup: FormGroup) {
@@ -98,41 +120,32 @@ export class NewBugComponent implements OnInit {
   }
 
   validate(){
-    this.submitAddPerformed = true;
+    this.validateInput = true;
   }
 
 
-  submitAddData(formControl){
 
-    console.log(formControl.invalid  +    "    " + formControl.invalid());
-    if( formControl.invalid == true)
-      return;
+  submitAddData(){
 
-    this.submitAddPerformed = true;
-    this.errorOccurred = false;
     this.errorMessage = "";
-    this.fileSendAttempted = false;
-    let internalFileSendAttempted = false;
+    this.validateInput = false;
+
 
     let currentUsername = localStorage.getItem("currentUser");
     let currentUser = this.userList.find(user => user.username == currentUsername);
-    if (currentUser === undefined){
+    if( currentUser == null){
       this.errorMessage = {id: "5001",type: "Current user could not be retrieved"};
-      this.positiveResponse = false;
-      this.errorOccurred = true;
-      this.submitAddPerformed = true;
       return;
     }
     this.bugModel.createdBy = currentUser;
-    let assignedUsername = this.bugModel.assignedTo.username;
-    let assignedUser = this.userList.find(user => user.username == assignedUsername);
-    if (assignedUser === undefined){
+
+
+    let assignedUser = this.userList.find(user => user.username == this.bugModel.assignedTo.username);
+    if (assignedUser == null) {
       this.errorMessage = { id:"5002",type: "Can not find the assigned user.",details:[]};
-      this.positiveResponse = false;
-      this.errorOccurred = true;
-      this.submitAddPerformed = true;
       return;
     }
+
     this.bugModel.assignedTo = assignedUser;
 
     this.bugService.createBug(this.bugModel)
@@ -143,47 +156,37 @@ export class NewBugComponent implements OnInit {
             this.bugService.sendFile(this.formData)
               .subscribe(
                 () => {
-                  this.errorOccurred = false;
-                  this.positiveResponse = true;
-                  this.fileSendAttempted = true;
-                  this.submitAddPerformed = true;
-                  this.warningMessage.display = false;
-                  internalFileSendAttempted = true;
-                  this.resetBugModel();
-                  this.submitAdd();
+                  this.wrongFileWarning.display = false;
+                  this.resetBugModel(); // IMPORTANT !! DISPLAY INFOS AFTER RESET FORM
+                  this.formControl.resetForm();
+                  this.success.display = true;
                 },
                 (error) => {
-                  this.positiveResponse = false;
                   this.errorMessage = error['error'];
-                  this.errorOccurred = true;
-                  this.fileSendAttempted = true;
-                  internalFileSendAttempted = true;
                 }
               );
           }
           else {
-            this.errorOccurred = false;
-            this.positiveResponse = true;
-            this.submitAddPerformed = true;
+            this.wrongFileWarning.display = false;
             this.resetBugModel();
-            this.submitAdd();
+            this.formControl.resetForm(); // IMPORTANT !! DISPLAY INFOS AFTER RESET FORM
+            this.success.display = true;
+            this.noFileWarning.display = true;
           }
-          if( internalFileSendAttempted == false)
-            this.fileSendAttempted = true;
         },
         (error) => {
-          this.positiveResponse = false;
+          this.wrongFileWarning.display = false;
           this.errorMessage = error['error'];
-          this.errorOccurred = true;
-          this.submitAddPerformed = true;
-          if( internalFileSendAttempted == false)
-            this.fileSendAttempted = true;
         }
       );
+
   }
 
+
+
+
   fileChange(event){
-    this.warningMessage.display = false;
+    this.wrongFileWarning.display = false;
     let files = event.target.files;
     if (files.length > 0) {
       this.formData = new FormData();
@@ -196,8 +199,7 @@ export class NewBugComponent implements OnInit {
         this.bugModel.attachment = files[0].name;
       }
       else {
-        this.warningMessage.display = true;
-        this.fileSendAttempted = true;
+        this.wrongFileWarning.display = true;
       }
     }
   }
@@ -213,19 +215,4 @@ export class NewBugComponent implements OnInit {
   hideInfo() {
     this.showInfoDiv = false;
   }
-
-  submitAdd(){
-    if(this.errorOccurred == false) {
-      this.closeBtn.nativeElement.click();
-    }
-    else {
-    }
-  }
-
-  startedEditing(): boolean {
-    return this.bugModel.title != '' || this.bugModel.fixedVersion != '' ||
-      this.bugModel.version != '' ||  this.bugModel.targetDate != '' ||
-      this.bugModel.description != '';
-  }
-
 }

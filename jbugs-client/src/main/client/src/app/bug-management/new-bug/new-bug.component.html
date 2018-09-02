@@ -3,8 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: darkred; margin-right: -0.5px; margin-top: -1px ">
-        <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">{{"demo.Submit a
-          bug"| translate}}</h5>
+        <h5 class="modal-title" id="addBugsModalTitle" style="color: whitesmoke;font-size: 20px; ">{{"demo.Submit a bug"| translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" style="color: #fff; font-size: 20px" #closeBtn
                 aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -28,12 +27,13 @@
 
 
         <form class="form-signin text-center" (ngSubmit)="submitAddData()" #formControl="ngForm"
+              #form
         >
 
           <br>
           <div class="form-group has-float-label">
             <div
-              *ngIf="submitAddPerformed || title.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
+              *ngIf="validateInput ||title.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
               <div class="help-block"
                    *ngIf="title?.errors && title?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Title is required"| translate}}
@@ -46,7 +46,7 @@
             <input type="text" name="title" #title="ngModel" #titleId id="titleInput"
                    class="form-control" required pattern="[a-zA-Z0-9\_\- ]+"
                    [ngClass]="{'form-error': title?.errors &&
-                   (submitAddPerformed || title.touched || description.touched || version.touched || assignedTo.touched )}"
+                   (validateInput || title.touched || description.touched || version.touched || assignedTo.touched )}"
                    [(ngModel)]="bugModel.title" placeholder="{{bugModel.title}}">
             <label for="titleInput" translate style="margin-top: 15px">demo.Title</label>
           </div>
@@ -55,7 +55,7 @@
           <br>
           <div class="form-group has-float-label">
             <div
-              *ngIf="submitAddPerformed || description.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
+              *ngIf="validateInput || description.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
               <div class="help-block"
                    *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Target date is required"| translate}}
@@ -66,7 +66,7 @@
               <input type="date" class="form-control" placeholder="yyyy-mm-dd" id="targetDateInput"
                      name="targetDate" #targetDate="ngModel" required
                      [ngClass]="{'form-error': targetDate?.errors &&
-                       (submitAddPerformed || description.touched || targetDate?.touched || version.touched || assignedTo.touched)}"
+                       (validateInput || description.touched || targetDate?.touched || version.touched || assignedTo.touched)}"
                      [ngModel]="bugModel.targetDate"
                      (ngModelChange)="bugModel.targetDate = $event">
             </div>
@@ -74,7 +74,7 @@
 
 
           <div class="form-group ">
-            <div *ngIf="submitAddPerformed || description.touched || version.touched || assignedTo.touched">
+            <div *ngIf="validateInput || description.touched || version.touched || assignedTo.touched">
               <div class="help-block"
                    *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Description is required"| translate}}
@@ -88,14 +88,14 @@
             <textarea #description="ngModel" [(ngModel)]="bugModel.description" name="description" class="form-control"
                       id="descriptionInput" rows="3" placeholder="{{bugModel.description}}"
                       [ngClass]="{'form-error': description?.errors &&
-                      (submitAddPerformed || description.touched || version.touched || assignedTo.touched)}"
+                      (validateInput || description.touched || version.touched || assignedTo.touched)}"
                       required minlength="250">
             </textarea>
           </div>
 
 
           <div class="form-group has-float-label">
-            <div *ngIf="submitAddPerformed || version.touched || assignedTo.touched">
+            <div *ngIf="validateInput || version.touched || assignedTo.touched">
               <div class="help-block"
                    *ngIf="version?.errors && version?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Version is required"| translate}}
@@ -111,14 +111,14 @@
                    [(ngModel)]="bugModel.version" placeholder="{{bugModel.version}}"
                    pattern="^[a-z0-9A-Z]+(\.[a-z0-9A-Z]+)*$"
                    [ngClass]="{'form-error': version?.errors &&
-                   (submitAddPerformed || version.touched || assignedTo.touched)}"
+                   (validateInput || version.touched || assignedTo.touched)}"
             >
             <label for="versionInput" translate style="margin-top: 15px">demo.Version</label>
           </div>
 
 
           <div class="form-group has-float-label">
-            <div *ngIf="submitAddPerformed || assignedTo.touched">
+            <div *ngIf="validateInput || assignedTo.touched">
               <div class="help-block"
                    *ngIf="assignedTo?.errors && assignedTo?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Assignee username is required"| translate}}
@@ -131,7 +131,7 @@
             <input name="assignedTo" #assignedTo="ngModel" #assignedToId id="assignedToInput"
                    type="text" class="form-control" required pattern="[a-z0-9A-Z]+"
                    [(ngModel)]="bugModel.assignedTo.username" placeholder="{{bugModel.assignedTo.username}}"
-                   [ngClass]="{'form-error': assignedTo?.errors && (submitAddPerformed || assignedTo.touched)}"
+                   [ngClass]="{'form-error': assignedTo?.errors && (validateInput || assignedTo.touched)}"
             >
             <label for="assignedToInput" translate style="margin-top: 15px">demo.Assignee username</label>
           </div>
@@ -157,7 +157,7 @@
 
           <div class="submit-wrapper" (mouseenter)="validate()">
             <button class="btn btn-lg btn-block" type="submit"
-                    [disabled]="formControl.invalid"
+                    [disabled]="formControl?.invalid"
                     style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                     translate>
               demo.Submit
@@ -165,11 +165,10 @@
           </div>
 
 
-          <div *ngIf="submitAddPerformed">
-            <app-communication [errors]="[errorMessage]" [warnings]="[warningMessage]"></app-communication>
-
-
-          </div>
+            <app-communication [errors]="[errorMessage]"
+                               [warnings]="[wrongFileWarning,noFileWarning]"
+                               [successes]="[success]"
+            ></app-communication>
         </form>
       </div>
     </div>

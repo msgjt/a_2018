@@ -16,6 +16,10 @@ export interface Information {
   message: string;
   display: boolean;
 }
+export interface Success {
+  message: string;
+  display: boolean;
+}
 @Component({
   selector: 'app-communication',
   templateUrl: './communication.component.html',
@@ -26,6 +30,7 @@ export class CommunicationComponent implements OnInit {
   @Input() errors: Error[] = [];
   @Input() warnings: Warning[] = [];
   @Input() informations: Information[] = [];
+  @Input() successes: Success[] = [];
 
   constructor(private router: Router) { }
 
@@ -33,13 +38,5 @@ export class CommunicationComponent implements OnInit {
 
   }
 
-  isUserLoggedIn() {
-    return localStorage.getItem('id') != null;
-  }
-
-  localStorageValidation() {
-    return localStorage.getItem('currentUser') != null &&
-      localStorage.getItem('id') != null
-  }
 
 }
