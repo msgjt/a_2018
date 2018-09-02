@@ -72,7 +72,6 @@ import { ErrorMessageComponent } from './error-message/error-message.component';
 import {TooltipModule} from "ngx-bootstrap";
 import { CommunicationComponent } from './communication/communication.component';
 
-
 const appRoutes: Routes = [
   {
     path: '', pathMatch: 'full', redirectTo: '/home'

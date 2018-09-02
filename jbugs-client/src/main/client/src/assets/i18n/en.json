@@ -106,6 +106,9 @@
     "Notifications":"Notifications",
     "Mark all as read":"Mark all as read",
     "Older notifications":"Older notifications",
-    "Username must have a minimum length of 5 characters":"Username must have a minimum length of 5 characters"
+    "Username must have a minimum length of 5 characters":"Username must have a minimum length of 5 characters",
+    "All notifications": "All notifications",
+    "Latest notifications": "Latest notifications",
+    "You don't have any notifications.": "You don't have any notifications."
   }
 }

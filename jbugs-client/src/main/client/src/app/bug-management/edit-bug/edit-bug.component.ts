@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User, UserService} from "../../user-management/services/user.service";
 import {Form, FormControl} from "@angular/forms";
-import {Error} from "../../communication/communication.component";
+import {Error, Warning} from "../../communication/communication.component";
 
 
 @Component({
@@ -25,6 +25,8 @@ export class EditBugComponent implements OnInit {
   userList: User[];
   haveToDelete: boolean;
   submitEditPerformed: boolean = false;
+  validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
+  warningMessage: any;
 
 
   constructor(private bugService: BugService, private userService: UserService, private router: Router) {
@@ -37,6 +39,11 @@ export class EditBugComponent implements OnInit {
 
   ngOnInit() {
     this.isBUG_CLOSE_ON_SERVER();
+    this.warningMessage = {
+      message: "Your file is not supported, so it wasn't added",
+      recommendation: "Choose another file or edit the bug later if you want to change it",
+      display: false
+    };
   }
 
   updateBugSeverity(severity: string) {
@@ -167,12 +174,22 @@ export class EditBugComponent implements OnInit {
   }
 
   fileChange(event) {
+    this.warningMessage.display = false;
     let files = event.target.files;
     if (files.length > 0) {
       this.formData = new FormData();
-      this.formData.append('file', files[0]);
-      this.bug.attachment = files[0].name;
-      this.haveToDelete = false;
+      let filename = files[0].name;
+      let splitted = filename.split(".");
+      let extension = splitted[splitted.length-1];
+      let isValidExtension = this.validExtensions.find(ext => ext == extension);
+      if (isValidExtension !== undefined) {
+        this.formData.append('file', files[0]);
+        this.bug.attachment = files[0].name;
+        this.haveToDelete = false;
+      }
+      else{
+        this.warningMessage.display = true;
+      }
     }
   }
 

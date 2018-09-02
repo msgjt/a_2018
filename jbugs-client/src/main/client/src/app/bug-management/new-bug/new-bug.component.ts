@@ -20,11 +20,11 @@ export class NewBugComponent implements OnInit {
   showInfoDiv: boolean = false;
   validateInput: boolean = false;
   @ViewChild('closeBtn') closeBtn: ElementRef;
-  validExtensions: string[] = ['jpg','pdf','doc','odf','xlsx','xls'];
   wrongFileWarning: Warning;
   noFileWarning: Warning;
   success: Success;
   @ViewChild('formControl') formControl: NgForm;
+  validExtensions: string[] = ['jpg','png','jpeg','pdf','doc','odf','xlsx','xls'];
 
   constructor(private bugService: BugService, private userService: UserService) { }
 
