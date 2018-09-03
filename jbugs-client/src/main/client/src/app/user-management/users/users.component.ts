@@ -47,8 +47,7 @@ export class UsersComponent implements OnInit {
       message: "Action completed successfully",
       display: false
     };
-    this.addFormControl.valueChanges.subscribe(() => this.resetForm());
-    this.editFormControl.valueChanges.subscribe( () => this.resetForm());
+
 
   }
 
@@ -153,6 +152,7 @@ export class UsersComponent implements OnInit {
   }
 
   submitEditForm() {
+    this.editFormControl.valueChanges.subscribe( () => this.resetForm());
     this.submitEditPerformed = true;
     this.generalError = false;
     this.errorMessage = "";
@@ -202,6 +202,7 @@ export class UsersComponent implements OnInit {
   }
 
   submitAddForm(){
+    this.addFormControl.valueChanges.subscribe(() => this.resetForm());
     this.submitAddPerformed = true;
     this.generalError = false;
     this.errorMessage = "";
@@ -220,10 +221,10 @@ export class UsersComponent implements OnInit {
           this.errorOccurred = false;
           this.positiveResponse = true;
           this.clearUserModelFields();
-          this.succcessMessage.display = true;
           this.userModel.roles = [];
           this.submitAddPerformed = false;
           this.addFormControl.resetForm();
+          this.succcessMessage.display = true;
         },
         (error) => {
           this.errorMessage = error['error'];

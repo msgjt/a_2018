@@ -162,39 +162,38 @@ export class LoginComponent implements OnInit {
 
     if(this.circleAnimationStarted == false)
       this.startCircleScroll(30, 100, 100, 100);
-    /* this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
-       console.log(response);
-       if(response['success'] == true) {
-         console.log('Form was submitted with the following data:' +
-           JSON.stringify(this.userModel));*/
-    this.delay(2000).then(() => {
-        this.userService.validateUserCredentials(this.userModel.username,
-          this.userModel.password).subscribe(
-          (response) => {
-            this.login(response.token);
-            localStorage.setItem("id", response.id);
-            this.loggedIn = true;
-            this.router.navigate(['./user_profile']);
-          },
-          (error) => {
-            this.errorOccurred = true;
-            this.errorMessage = error['error'];
-            if (this.errorMessage.id == 1404)
-              this.failedCounter++;
+     this.http.post(this.baseURL + '/captcha', this.recaptchaResponse).subscribe((response) => {
+       if (response['success'] == true) {
+         this.delay(2000).then(() => {
+             this.userService.validateUserCredentials(this.userModel.username,
+               this.userModel.password).subscribe(
+               (response) => {
+                 this.login(response.token);
+                 localStorage.setItem("id", response.id);
+                 this.loggedIn = true;
+                 this.router.navigate(['./user_profile']);
+               },
+               (error) => {
+                 this.errorOccurred = true;
+                 this.errorMessage = error['error'];
+                 if (this.errorMessage.id == 1404)
+                   this.failedCounter++;
 
-            if (this.failedCounter > 1) {
-              this.usernameInformation.display = true;
-              this.passwordInformation.display = true;
-            }
+                 if (this.failedCounter > 1) {
+                   this.usernameInformation.display = true;
+                   this.passwordInformation.display = true;
+                 }
 
-            if (this.failedCounter > 2)
-              this.failedLoginWarning.display = true;
-            this.loggedIn = false;
-          }
-        );
+                 if (this.failedCounter > 2)
+                   this.failedLoginWarning.display = true;
+                 this.loggedIn = false;
+               }
+             );
 
-      }
-    );
+           }
+         );
+       }
+     });
   }
 
   login(token: string) {

@@ -199,12 +199,10 @@
                   [disabled]="formControl.invalid" translate
           >demo.Submit
           </button>
-          <div *ngIf="!generalError && submitEditPerformed">
             <app-communication [errors]="[errorMessage]"
                                [warnings]="[warningMessage]"
                                [successes]="[succcessMessage]"
             ></app-communication>
-          </div>
         </form>
       </div>
     </div>
@@ -356,12 +354,10 @@
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate>demo.Submit
           </button>
-          <div *ngIf="!generalError && submitAddPerformed">
             <app-communication [errors]="[errorMessage]"
                                [warnings]="[warningMessage]"
                                [successes]="[succcessMessage]"
             ></app-communication>
-          </div>
         </form>
       </div>
     </div>

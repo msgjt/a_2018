@@ -3,6 +3,7 @@ import {User, UserService} from "../user-management/services/user.service";
 import {Router} from "@angular/router";
 import {Error, Success} from "../communication/communication.component";
 import {NgForm} from "@angular/forms";
+import {UtilService} from "../shared/util.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -27,7 +28,7 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('formControl') formControl: NgForm;
 
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private utilService: UtilService) {
     this.userModel = {
       id: 0,
       firstName: '',

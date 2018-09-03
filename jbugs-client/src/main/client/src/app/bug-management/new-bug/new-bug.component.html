@@ -52,7 +52,7 @@
             <div
               *ngIf="validateInput || description.touched || targetDate.touched || description.touched || version.touched || assignedTo.touched ">
               <div class="help-block"
-                   *ngIf="description?.errors && description?.errors['required']" style="margin-top: 15px">
+                   *ngIf="targetDate?.errors && targetDate?.errors['required']" style="margin-top: 15px">
                 {{ "demo.Target date is required"| translate}}
               </div>
             </div>
