@@ -21,6 +21,7 @@
     "Password is required.": "Parola este necesara.",
     "Password is invalid.": "Parola invalida.",
     "E-mail is required.": "E-mail necesar.",
+    "E-mail is required": "E-mail necesar.",
     "E-mail is invalid.": "E-mail invalid.",
     "Password": "Parola",
     "Username": "Utilizator",
@@ -114,6 +115,19 @@
     "Latest notifications": "Ultimele notificari",
     "You don't have any notifications.": "Nu ai nicio notificare.",
     "New password": "Parola noua",
-    "Confirm new password": "Confirma parola noua"
+    "Confirm new password": "Confirma parola noua",
+    "Submit a bug" : "Adauga un bug",
+    "Display data": "Afiseaza datele",
+    "Change data": "Editeaza datele",
+    "Change password": "Schimba parola",
+    "Welcome back":"Bine ai revenit",
+
+    "USER_UPDATED":"UTILIZATOR_MODIFICAT",
+    "WELCOME_NEW_USER":"BUN_VENIT",
+    "USER_DEACTIVATED":"UTILIZAOT_DEZACTIVAT",
+    "BUG_UPDATED":"BUG_MODIFICAT",
+    "BUG_CLOSED":"BUG_INCHIS",
+    "BUG_STATUS_UPDATED":"BUG_STATUS_MODIFICAT",
+    "USER_DELETED":"UTILIZATOR_STERS"
   }
 }

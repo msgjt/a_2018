@@ -168,6 +168,20 @@
     "NOTIFICATION_NOT_FOUND": "Notification not found",
 
     "Can not find the assigned user.": "Can not find the assigned user.",
-    "Current user could not be retrieved": "Current user could not be retrieved"
+    "Current user could not be retrieved": "Current user could not be retrieved",
+    "Submit a bug" : "Submit a bug",
+    "Display data": "Display data",
+    "Change data": "Change data",
+    "Change password": "Change password",
+    "Welcome back":"Welcome back",
+
+    "USER_UPDATED":"USER_UPDATED",
+    "WELCOME_NEW_USER":"WELCOME_NEW_USER",
+    "USER_DEACTIVATED":"USER_DEACTIVATED",
+    "BUG_UPDATED":"BUG_UPDATED",
+    "BUG_CLOSED":"BUG_CLOSED",
+    "BUG_STATUS_UPDATED":"BUG_STATUS_UPDATED",
+    "USER_DELETED":"USER_DELETED"
+
   }
 }

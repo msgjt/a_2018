@@ -4,10 +4,10 @@
       href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v3.0.1/dist/bootstrap-float-label.min.css"/>
 
 <div class="sidenav">
-  <p> Welcome back, {{userModel.username}}</p>
-  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">Display data </a>
-  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=true;showPassword=false;refresh()">Change data</a>
-  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=false;showPassword=true;refresh()">Change password</a>
+  <p> {{"demo.Welcome back"|translate}}, {{userModel.username}}</p>
+  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=true;showUpdate=false;showPassword=false;refresh()">{{"demo.Display data"|translate}}</a>
+  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=true;showPassword=false;refresh()">{{"demo.Change data"|translate}}</a>
+  <a (click)="userModel.firstName='';userModel.lastName='';userModel.password='';userModel.email='';userModel.phoneNumber='';newPassword='';newPasswordConfirmed='';positiveResponse=false;errorOccurred=false;showInfoDiv=false;showUpdate=false;showPassword=true;refresh()">{{"demo.Change password"|translate}}</a>
 </div>
 
 <div

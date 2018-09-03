@@ -54,10 +54,10 @@
               <i tooltip="Edit user" data-placement="left" class="material-icons" data-toggle="modal"
                  data-target="#editModal" (click)="passDataToModal(user)">edit</i>
               <button type="button" class="btn btn-default" style="background-color: darkred; color: white;"
-                      (click)="disableUser(user)" *ngIf="user.isActive" translate>demo.Disable
+                      (click)="disableUser(user)" *ngIf="user.isActive" >{{"demo.Disable"|translate}}
               </button>
               <button type="button" class="btn btn-default" style="background-color: limegreen; color: white;"
-                      (click)="enableUser(user)" *ngIf="!user.isActive" translate>demo.Enable
+                      (click)="enableUser(user)" *ngIf="!user.isActive" >{{"demo.Enable"|translate}}
               </button>
             </div>
           </td>
@@ -197,7 +197,7 @@
           <button class="btn btn-lg btn-block" type="submit" id="buttonEditId"
                   style="background-color: darkred;margin-top: 30px; color: white;  color: whitesmoke; font-size: 15px; position: center"
                   [disabled]="formControl.invalid" translate
-          >demo.Submit
+          >{{"demo.Submit"|translate}}
           </button>
             <app-communication [errors]="[errorMessage]"
                                [warnings]="[warningMessage]"
@@ -297,9 +297,9 @@
           <div class="form-group has-float-label">
             <div *ngIf="submitAddPerformed || email.touched || password.touched ">
               <span class="help-block" *ngIf="email.errors?.required" translate
-                    style="margin-top: 15px">E-mail is required.</span>
+                    style="margin-top: 15px">demo.E-mail is required.</span>
               <span class="help-block" *ngIf="email.errors?.pattern" translate
-                    style="margin-top: 15px">E-mail is invalid.</span>
+                    style="margin-top: 15px">demo.E-mail is invalid.</span>
             </div>
               <input type="text"
                      name="email"
@@ -352,7 +352,7 @@
             </span>
           <button class="btn btn-lg btn-block" type="submit"
                   style="background-color: darkred;margin-top: 30px; color: white; margin-bottom: 1em;  font-size: 15px; position: center"
-                  [disabled]="formControl.invalid" translate>demo.Submit
+                  [disabled]="formControl.invalid" translate>{{"demo.Submit"|translate}}
           </button>
             <app-communication [errors]="[errorMessage]"
                                [warnings]="[warningMessage]"
